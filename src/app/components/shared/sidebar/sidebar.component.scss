@@ -1,0 +1,71 @@
+@import "../../../../scss/variables";
+
+.sidebar-container {
+  position: absolute;
+  top: 0;
+}
+
+.side-link {
+  font-size: smaller;
+}
+
+#project-title {
+  padding-left: 10px;
+  background: whitesmoke;
+  padding: 10px;
+  font-size: $fontSize;
+}
+
+.icon {
+  vertical-align: middle;
+  transform: scale($sideBarIconScale);
+  margin-right: 5px;
+}
+
+.title-icon {
+  vertical-align: middle;
+  transform: scale(0.6);
+  margin-right: 5px;
+}
+
+mat-list-item {
+  border-radius: 5px;
+  font-size: $fontSize !important;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 2px 0px 2px 0px !important;
+  height: fit-content !important;
+  transition: 0.1s;
+}
+
+mat-nav-list {
+  margin: 10px;
+}
+
+.is-active {
+  color: $primary;
+  font-weight: 500;
+  background: rgba(176, 221, 176, 0.199) !important;
+}
+
+mat-list-item:hover {
+  color: $primary;
+  background: rgba(176, 221, 176, 0.137) !important;
+}
+
+.nav-title {
+  cursor: pointer;
+}
+
+#layoutsDiv {
+  display: block;
+  width: 100%;
+}
+
+#layouts {
+  all: unset;
+}
+
+#collapseBtn {
+  float: right;
+}

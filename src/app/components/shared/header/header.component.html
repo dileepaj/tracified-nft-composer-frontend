@@ -1,0 +1,22 @@
+<div class="header">
+  <div class="header-content">
+    <label>Tracified<span id="title"> | NFT Composer</span></label>
+    <button class="icon" mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu" xPosition="before">
+      <button mat-menu-item>
+        <mat-icon class="menu-icon">help</mat-icon>
+        <span class="menu-item">Help</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon class="menu-icon">lightbulb_circle</mat-icon>
+        <span class="menu-item">FAQ</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon class="menu-icon">logout</mat-icon>
+        <span class="menu-item">Log Out</span>
+      </button>
+    </mat-menu>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+@import "../../../../scss/mixins";
+@import "../../../../scss/variables";
+
+.widget-div {
+  @include widget-div;
+}
+
+#drop-area {
+  border: dotted 2px #ccc;
+  border-radius: 5px;
+  width: 100%;
+  height: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+}
+
+.btn {
+  @include btn;
+}
+
+mat-icon {
+  color: $primary;
+}

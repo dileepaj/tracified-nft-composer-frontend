@@ -1,0 +1,44 @@
+<div class="composer-div" cdkDropListGroup>
+  <mat-drawer-container class="sidebar-container">
+    <mat-drawer
+      mode="side"
+      [opened]="opened"
+      position="end"
+      class="sidebar-items"
+    >
+      <div
+        cdkDropList
+        [cdkDropListData]="availableWidgets"
+        (cdkDropListDropped)="drop($event)"
+        cdkDropListSortingDisabled
+      >
+        <app-widget-pane
+          *ngIf="opened"
+          [widgets]="availableWidgets"
+        ></app-widget-pane>
+      </div>
+    </mat-drawer>
+    <mat-drawer-content>
+      <div
+        cdkDropList
+        [cdkDropListData]="usedWidgets"
+        class="drap-and-drop-area"
+        (cdkDropListDropped)="drop($event)"
+      >
+        <div *ngFor="let widget of usedWidgets" style="cursor: move" cdkDrag>
+          <app-nft-timeline *ngIf="widget._id === 1"></app-nft-timeline>
+          <app-nft-proofbot *ngIf="widget._id === 2"></app-nft-proofbot>
+          <app-nft-carbonfootprint
+            *ngIf="widget._id === 3"
+          ></app-nft-carbonfootprint>
+          <app-nft-image *ngIf="widget._id === 4"></app-nft-image>
+          <app-nft-statistics *ngIf="widget._id === 5"></app-nft-statistics>
+        </div>
+      </div>
+      <div class="btn-container">
+        <button class="btn" mat-flat-button>Generate SVG</button>
+        <button class="btn" mat-flat-button>Generate HTML</button>
+      </div>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</div>
