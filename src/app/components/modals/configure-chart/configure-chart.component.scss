@@ -1,0 +1,112 @@
+@import "../../../../scss/mixins";
+@import "../../../../scss/variables";
+.modal-content {
+  @include modal-content;
+}
+
+.btn {
+  @include btn;
+}
+::ng-deep .mat-focused .mat-form-field-label {
+  /*change color of label*/
+  color: $primary !important;
+}
+
+::ng-deep.mat-form-field-underline {
+  /*change color of underline*/
+  background-color: $primary !important;
+}
+
+::ng-deep.mat-form-field-ripple {
+  /*change color of underline when focused*/
+  background-color: $primary !important;
+}
+.form-tile {
+  background: whitesmoke;
+}
+
+.form-div {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  padding: 20px;
+  overflow: scroll;
+  display: flex;
+  flex-direction: column;
+}
+
+.domain {
+  display: flex;
+  flex-direction: row;
+}
+
+.chart {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  overflow: auto;
+}
+.mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}
+
+.mat-form-field {
+  transform: scale(0.95);
+}
+
+.example-container .mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}
+
+.example-right-align {
+  text-align: right;
+}
+
+.field {
+  margin-top: 10px;
+}
+.field mat-form-field {
+  width: 120px !important;
+}
+
+.domain .mat-form-field {
+  width: 190px !important;
+}
+
+.colorbox {
+  height: 50px;
+  width: 50px;
+  cursor: pointer;
+  margin-left: 20px;
+}
+
+.field-set {
+  display: flex;
+  flex-direction: row;
+}
+
+.close {
+  float: right;
+  cursor: pointer;
+  border-radius: 360px;
+}
+
+.title-icon {
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+.fields-header {
+  display: flex;
+  flex-direction: row;
+}
+
+.btn-add {
+  vertical-align: middle;
+
+  color: $primary;
+}

@@ -10,6 +10,7 @@ import { MatTreeNestedDataSource } from '@angular/material/tree';
 export class SidebarComponent implements OnInit {
   title = 'project_name';
   layouts = true;
+  green = '#ccc';
   widgets = [
     {
       _id: 1,

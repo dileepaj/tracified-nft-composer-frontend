@@ -4,7 +4,11 @@
     {{ title }}
   </div>
   <mat-nav-list>
-    <mat-list-item routerLink="/composer" [routerLinkActive]="['is-active']">
+    <mat-list-item
+      routerLink="/composer"
+      disableRipple
+      [routerLinkActive]="['is-active']"
+    >
       <mat-icon mat-list-icon class="icon">app_registration</mat-icon>
       <label class="nav-title">Project Content</label>
     </mat-list-item>
@@ -31,11 +35,19 @@
         </mat-list>
       </div>
     </mat-list-item>
-    <mat-list-item routerLink="/nft-html" [routerLinkActive]="['is-active']">
+    <mat-list-item
+      routerLink="/nft-html"
+      [routerLinkActive]="['is-active']"
+      disableRipple
+    >
       <mat-icon mat-list-icon class="icon">code_off</mat-icon>
       <label class="nav-title">NFT HTML</label>
     </mat-list-item>
-    <mat-list-item routerLink="/nft-svg" [routerLinkActive]="['is-active']">
+    <mat-list-item
+      routerLink="/nft-svg"
+      [routerLinkActive]="['is-active']"
+      disableRipple
+    >
       <mat-icon mat-list-icon class="icon">wallpaper</mat-icon>
       <label class="nav-title">NFT SVG</label>
     </mat-list-item>

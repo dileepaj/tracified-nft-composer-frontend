@@ -1,4 +1,5 @@
 @import "../../../../scss/variables";
+@import "../../../../scss/mixins";
 
 .sidebar-container {
   position: absolute;
@@ -17,8 +18,8 @@
 }
 
 .icon {
+  @include icon;
   vertical-align: middle;
-  transform: scale($sideBarIconScale);
   margin-right: 5px;
 }
 
@@ -35,7 +36,7 @@ mat-list-item {
   margin-bottom: 5px;
   padding: 2px 0px 2px 0px !important;
   height: fit-content !important;
-  transition: 0.1s;
+  transition: 0.3s;
 }
 
 mat-nav-list {

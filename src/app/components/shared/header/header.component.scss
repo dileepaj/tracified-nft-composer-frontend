@@ -1,27 +1,13 @@
 @import "../../../../scss/variables";
 
 .header {
-  position: absolute;
   height: $headerHeight;
-  top: 0;
-  left: 0;
-  right: 0;
   background-color: $background;
   color: white;
-  padding-left: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  font-size: x-large;
 }
 
 #title {
   color: $primary;
-}
-
-.icon {
-  float: right;
-  margin-right: 20px;
 }
 
 logo {

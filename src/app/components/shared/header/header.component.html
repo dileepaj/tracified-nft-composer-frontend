@@ -1,7 +1,11 @@
-<div class="header">
-  <div class="header-content">
-    <label>Tracified<span id="title"> | NFT Composer</span></label>
-    <button class="icon" mat-icon-button [matMenuTriggerFor]="menu">
+<mat-toolbar class="header space-between center">
+  <div>
+    <span
+      ><label>Tracified<span id="title"> | NFT Composer</span></label></span
+    >
+  </div>
+  <div style="position: absolute; right: 40px">
+    <button mat-icon-button [matMenuTriggerFor]="menu">
       <mat-icon>account_circle</mat-icon>
     </button>
     <mat-menu #menu="matMenu" xPosition="before">
@@ -19,4 +23,4 @@
       </button>
     </mat-menu>
   </div>
-</div>
+</mat-toolbar>

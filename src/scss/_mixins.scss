@@ -20,3 +20,14 @@
   background: $background;
   font-size: smaller;
 }
+
+@mixin icon {
+  transform: scale($sideBarIconScale);
+}
+
+@mixin modal-content {
+  height: $modalHeight;
+  max-height: unset !important;
+  max-width: unset !important;
+  width: $modalWidth;
+}

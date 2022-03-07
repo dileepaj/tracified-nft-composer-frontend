@@ -1,0 +1,8 @@
+@import "../../../../scss/mixins";
+.modal-content {
+  @include modal-content;
+}
+
+.btn {
+  @include btn;
+}

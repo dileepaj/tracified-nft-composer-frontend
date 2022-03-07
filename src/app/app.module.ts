@@ -23,8 +23,23 @@ import { NftCarbonfootprintComponent } from './components/widgets/nft-carbonfoot
 import { NftStatisticsComponent } from './components/widgets/nft-statistics/nft-statistics.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTreeModule } from '@angular/material/tree';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { NftSvgComponent } from './components/views/nft-svg/nft-svg.component';
 import { NftHtmlComponent } from './components/views/nft-html/nft-html.component';
+import { SelectBatchComponent } from './components/modals/select-batch/select-batch.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ConfigureChartComponent } from './components/modals/configure-chart/configure-chart.component';
+import { WidgetContentComponent } from './components/modals/widget-content/widget-content.component';
+import { BubbleChartWidgetComponent } from './components/widgets/bubble-chart-widget/bubble-chart-widget.component';
+import { BarChartWidgetComponent } from './components/widgets/bar-chart-widget/bar-chart-widget.component';
+import { PieChartWidgetComponent } from './components/widgets/pie-chart-widget/pie-chart-widget.component';
+import { BarChartComponent } from './components/charts/bar-chart/bar-chart.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { ColorPickerModule } from 'ngx-color-picker';
+import { MatRippleModule } from '@angular/material/core';
 
 const appRoutes: Routes = [
   {
@@ -55,6 +70,14 @@ const appRoutes: Routes = [
     NftStatisticsComponent,
     NftSvgComponent,
     NftHtmlComponent,
+    SelectBatchComponent,
+
+    ConfigureChartComponent,
+    WidgetContentComponent,
+    BubbleChartWidgetComponent,
+    BarChartWidgetComponent,
+    PieChartWidgetComponent,
+    BarChartComponent,
   ],
   imports: [
     BrowserModule,
@@ -68,6 +91,14 @@ const appRoutes: Routes = [
     MatButtonModule,
     MatMenuModule,
     MatTreeModule,
+    MatToolbarModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatCardModule,
+    MatRippleModule,
+    ColorPickerModule,
     RouterModule.forRoot(appRoutes),
   ],
   providers: [],

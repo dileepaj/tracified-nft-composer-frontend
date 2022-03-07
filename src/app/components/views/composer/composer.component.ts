@@ -13,6 +13,8 @@ import {
   CdkDragMove,
 } from '@angular/cdk/drag-drop';
 import { NftCarbonfootprintComponent } from '../../widgets/nft-carbonfootprint/nft-carbonfootprint.component';
+import { ConfigureChartComponent } from '../../modals/configure-chart/configure-chart.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-composer',
@@ -51,8 +53,18 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     },
     {
       _id: 5,
-      name: 'Statistics',
-      icon: 'trending_up',
+      name: 'Bar Chart',
+      icon: 'bar_chart',
+    },
+    {
+      _id: 6,
+      name: 'Pie Chart',
+      icon: 'pie_chart',
+    },
+    {
+      _id: 7,
+      name: 'Bubble Chart',
+      icon: 'bubble_chart',
     },
   ];
   usedWidgets: any = [];
@@ -91,7 +103,21 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     console.log(this.position);
   }
 
-  constructor() {}
+  noReturnPredicate() {
+    return false;
+  }
 
-  ngOnInit(): void {}
+  constructor(public dialog: MatDialog) {}
+
+  ngOnInit(): void {
+    this.openDialog();
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(ConfigureChartComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
 }
