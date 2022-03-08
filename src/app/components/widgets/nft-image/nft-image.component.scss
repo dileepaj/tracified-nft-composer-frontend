@@ -8,8 +8,11 @@
 #drop-area {
   border: dotted 2px #ccc;
   border-radius: 5px;
-  width: 100%;
-  height: 350px;
+  position: absolute;
+  bottom: 10px;
+  top: 50px;
+  right: 10px;
+  left: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;

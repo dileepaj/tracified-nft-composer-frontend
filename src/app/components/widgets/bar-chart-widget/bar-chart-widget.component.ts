@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ConfigureChartComponent } from '../../modals/configure-chart/configure-chart.component';
+import { ConfigureBarChartComponent } from '../../modals/configure-bar-chart/configure-bar-chart.component';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
@@ -13,7 +13,7 @@ export class BarChartWidgetComponent implements OnInit {
   ngOnInit(): void {}
 
   openDialog() {
-    const dialogRef = this.dialog.open(ConfigureChartComponent);
+    const dialogRef = this.dialog.open(ConfigureBarChartComponent);
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);

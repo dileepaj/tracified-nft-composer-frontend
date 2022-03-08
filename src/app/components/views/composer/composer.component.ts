@@ -13,8 +13,9 @@ import {
   CdkDragMove,
 } from '@angular/cdk/drag-drop';
 import { NftCarbonfootprintComponent } from '../../widgets/nft-carbonfootprint/nft-carbonfootprint.component';
-import { ConfigureChartComponent } from '../../modals/configure-chart/configure-chart.component';
+import { ConfigureBarChartComponent } from '../../modals/configure-bar-chart/configure-bar-chart.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ConfigurePieChartComponent } from '../../modals/configure-pie-chart/configure-pie-chart.component';
 
 @Component({
   selector: 'app-composer',
@@ -109,12 +110,10 @@ export class ComposerComponent implements OnInit, AfterViewInit {
 
   constructor(public dialog: MatDialog) {}
 
-  ngOnInit(): void {
-    this.openDialog();
-  }
+  ngOnInit(): void {}
 
-  openDialog() {
-    const dialogRef = this.dialog.open(ConfigureChartComponent);
+  openBarChartDialog() {
+    const dialogRef = this.dialog.open(ConfigurePieChartComponent);
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);

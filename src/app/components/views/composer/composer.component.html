@@ -26,8 +26,19 @@
           [cdkDropListData]="usedWidgets"
           class="drap-and-drop-area"
           (cdkDropListDropped)="drop($event)"
+          fxLayout="row wrap"
+          fxLayoutGap="10px grid"
         >
-          <div *ngFor="let widget of usedWidgets" style="cursor: move" cdkDrag>
+          <div
+            fxFlex.lg="33%"
+            fxFlex.md="50%"
+            fxFlex.xs="100%"
+            fxFlex.s="100%"
+            fxFlex.xl="25%"
+            *ngFor="let widget of usedWidgets"
+            style="cursor: move"
+            cdkDrag
+          >
             <app-nft-timeline *ngIf="widget._id === 1"></app-nft-timeline>
             <app-nft-proofbot *ngIf="widget._id === 2"></app-nft-proofbot>
             <app-nft-carbonfootprint
