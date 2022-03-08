@@ -1,0 +1,64 @@
+.main-div mat-card{
+    padding: 0px;
+}
+
+.outline {
+    border-style: solid;
+    border-width: medium;
+    border-color: #00C853;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #00C853;
+}
+
+input.mat-input-element {
+  font-family: 'Inter', sans-serif;
+}
+
+.logo-name{
+    font-size: xx-large;
+    color: #00C853;
+    font-family: 'Inter', sans-serif;
+}
+
+.logo{
+    padding-top: 20%;
+    padding-left: 1%;
+    padding-right: 1%;
+}
+
+.green-icon{
+     color: #00C853;
+}
+
+.login-cards{
+    padding: 6%;
+}
+
+.sign-up{
+    padding-top: 5%;
+}
+
+.password-reset{
+    padding-top: 1%;
+}
+
+.sign-up-link{
+    color: black;
+}
+
+.get-help-link{
+    color: #00C853;
+}
+
+.login-button{
+    background-color: #00C853;
+    color: white;
+    width : 40%;
+}
+
+
+.button{
+    border-radius: 20%;
+}

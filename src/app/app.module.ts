@@ -3,25 +3,32 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ArtifactsComponent } from './components/artifacts/artifacts.component';
-import { LoginComponent } from './components/login/login.component';
-import { ComposerComponent } from './components/composer/composer.component';
-import { NftfileComponent } from './components/nftfile/nftfile.component';
-import { ContentComponent } from './components/content/content.component';
-import { TracabilityDataComponent } from './components/tracability-data/tracability-data.component';
+import { LoginComponent } from './components/views/login/login.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatFormFieldModule } from '@angular/material/form-field'; 
+import { MatInputModule } from '@angular/material/input'; 
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import {MatIconModule} from '@angular/material/icon';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 @NgModule({
   declarations: [
     AppComponent,
-    ArtifactsComponent,
-    LoginComponent,
-    ComposerComponent,
-    NftfileComponent,
-    ContentComponent,
-    TracabilityDataComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    FlexLayoutModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatCardModule,
+    MatIconModule,
+    FontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
