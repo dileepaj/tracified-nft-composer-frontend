@@ -40,6 +40,8 @@ import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { MatRippleModule } from '@angular/material/core';
+import { nftReducer } from './store/nft-state-store/nft.reducer';
+import { StoreModule } from '@ngrx/store'
 
 const appRoutes: Routes = [
   {
@@ -100,6 +102,7 @@ const appRoutes: Routes = [
     MatRippleModule,
     ColorPickerModule,
     RouterModule.forRoot(appRoutes),
+    StoreModule.forRoot({nft:nftReducer}),
   ],
   providers: [],
   bootstrap: [AppComponent],

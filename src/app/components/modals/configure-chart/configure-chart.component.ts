@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 import * as d3 from 'd3';
+import { addBarChart } from 'src/app/store/nft-state-store/nft.actions';
+import { selectNFT } from 'src/app/store/nft-state-store/nft.selector';
 
 @Component({
   selector: 'app-configure-chart',
@@ -30,7 +33,28 @@ export class ConfigureChartComponent implements OnInit {
   private margin = 50;
   private width = 550 - this.margin * 2;
   private height = 200 - this.margin * 2;
-  constructor() {}
+  constructor(private store:Store) {}
+
+  addtoBarcharToNFT(){
+    this.store.dispatch(addBarChart({   
+      keyTitle:"country",
+      chartId:"1",
+      valueTitle:"population",
+      data:[{"key":"Us","value":123}], 
+      color:["black","red"],
+      xAxis:'people',
+      yAxis:'country',
+      fontColor:'black',
+      fontSize:'22px',
+      xSize:`400px`,
+      ySize:`500px`,}));
+  }
+
+    showChart() {
+    console.log('-------------------------------------------');
+   let nft= this.store.select(selectNFT)
+   console.log('++++++++++++++++++++++++++-',nft);
+  }
 
   private createSvg(): void {
     this.svg = d3
