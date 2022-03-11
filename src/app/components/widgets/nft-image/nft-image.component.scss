@@ -21,9 +21,9 @@
 }
 
 .btn {
-  @include btn;
+  @include btn-primary;
 }
 
 mat-icon {
-  color: $primary;
+  color: $green;
 }

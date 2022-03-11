@@ -1,8 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as d3 from 'd3';
+import { Chart } from '../../../../models/nft-content/chart';
+import { AppState } from 'src/app/store/app.state';
 import { addBarChart } from 'src/app/store/nft-state-store/nft.actions';
-import { selectNFT } from 'src/app/store/nft-state-store/nft.selector';
+import { NFTState } from 'src/app/store/nft-state-store/nft.reducer';
+import {
+  selectNFT,
+  selectNFTContent,
+} from 'src/app/store/nft-state-store/nft.selector';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-configure-bar-chart',
@@ -10,8 +18,11 @@ import { selectNFT } from 'src/app/store/nft-state-store/nft.selector';
   styleUrls: ['./configure-bar-chart.component.scss'],
 })
 export class ConfigureBarChartComponent implements OnInit {
+  nft$: any;
+  private barChart: Chart;
+  chartId: any;
   //data that are being displayed in the bar chart
-  data: any = [
+  barChartData: any = [
     {
       name: 'Sri Lanka',
       value: 200,
@@ -39,11 +50,11 @@ export class ConfigureBarChartComponent implements OnInit {
   min: number = 0; //domain minimum value
   max: number = 1000; //domain maximum value
   counter: number = 1; //counter to count total number of values in data array
+  title: string = '';
   xName: string = 'X axis'; //x axis name
   yName: string = 'Y axis'; //y axis name
   fontSize: number = 10; //font size
   fontColor: string = '#000000'; //font color
-
   tabcolor = '#69b3a2';
 
   //other values required to generate the bar chart
@@ -52,10 +63,17 @@ export class ConfigureBarChartComponent implements OnInit {
   private width = 550 - this.margin * 2;
   private height = 200 - this.margin * 2;
 
-  constructor(private store: Store) {}
+  constructor(
+    private store: Store<AppState>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
+    this.nft$ = this.store.select(selectNFTContent);
+  }
 
   ngOnInit(): void {
-    this.updateChart();
+    //this.updateChart();
+    this.chartId = this.data.id;
+    console.log(this.data);
   }
 
   //generate bar chart
@@ -128,7 +146,7 @@ export class ConfigureBarChartComponent implements OnInit {
   //add new fields to the bar chart
   addNewField() {
     this.counter++;
-    this.data.push({
+    this.barChartData.push({
       _id: this.counter,
       name: 'Field ' + this.counter,
       value: 500,
@@ -142,37 +160,46 @@ export class ConfigureBarChartComponent implements OnInit {
   updateChart() {
     d3.select('svg').remove();
     this.createSvg();
-    this.drawBars(this.data);
+    this.drawBars(this.barChartData);
+    console.log('chart updated!');
   }
 
   //delete a field in bar chart
   deleteField(_id: number) {
-    this.data = this.data.filter((value: any) => value._id !== _id);
+    this.barChartData = this.barChartData.filter(
+      (value: any) => value._id !== _id
+    );
     this.updateChart();
   }
 
   //add barchart to redux store
-  addtoBarcharToNFT() {
-    this.store.dispatch(
-      addBarChart({
-        keyTitle: 'country',
-        chartId: '1',
-        valueTitle: 'population',
-        data: [{ key: 'Us', value: 123 }],
-        color: ['black', 'red'],
-        xAxis: 'people',
-        yAxis: 'country',
-        fontColor: 'black',
-        fontSize: '22px',
-        xSize: `400px`,
-        ySize: `500px`,
-      })
-    );
+  addtoBarCharToNFT() {
+    this.barChart = {
+      ChartId: this.chartId,
+      ChartTitle: this.title,
+      KeyTitle: 'name',
+      ChartData: this.barChartData,
+      Color: this.barColors,
+      FontColor: this.fontColor,
+      FontSize: this.fontSize,
+      XAxis: this.xName,
+      YAxis: this.yName,
+    };
+
+    this.store.dispatch(addBarChart({ chart: this.barChart }));
+
+    this.showChart();
   }
 
-  showChart() {
+  private showChart() {
     console.log('-------------------------------------------');
-    let nft = this.store.select(selectNFT);
-    console.log('++++++++++++++++++++++++++-', nft);
+    console.log('++++++++++++++++++++++++++-', this.nft$);
+  }
+
+  tabChanged(tabChangeEvent: MatTabChangeEvent): void {
+    console.log('tab changed');
+    if (tabChangeEvent.index === 1) {
+      this.updateChart();
+    }
   }
 }

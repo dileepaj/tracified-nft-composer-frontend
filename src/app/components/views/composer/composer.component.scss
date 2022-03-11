@@ -91,7 +91,7 @@
 }
 
 .btn {
-  @include btn;
+  @include btn-primary;
   margin: 5px;
 }
 
@@ -128,7 +128,7 @@ mat-list-item {
 }
 
 .add-btn {
-  @include btn;
+  @include btn-primary;
   float: right;
 }
 

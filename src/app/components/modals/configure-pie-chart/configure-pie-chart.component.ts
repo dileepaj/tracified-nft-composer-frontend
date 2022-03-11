@@ -1,8 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as d3 from 'd3';
-import { addBarChart } from 'src/app/store/nft-state-store/nft.actions';
-import { selectNFT } from 'src/app/store/nft-state-store/nft.selector';
+import { Chart } from '../../../../models/nft-content/chart';
+import { AppState } from 'src/app/store/app.state';
+import {
+  addBarChart,
+  addPieChart,
+} from 'src/app/store/nft-state-store/nft.actions';
+import {
+  selectNFT,
+  selectNFTContent,
+} from 'src/app/store/nft-state-store/nft.selector';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-configure-pie-chart',
@@ -10,8 +20,11 @@ import { selectNFT } from 'src/app/store/nft-state-store/nft.selector';
   styleUrls: ['./configure-pie-chart.component.scss'],
 })
 export class ConfigurePieChartComponent implements OnInit {
+  nft$: any;
+  private pieChart: Chart;
+  chartId: any;
   //data to be displayed in the pie chart
-  data: any = [
+  pieChartData: any = [
     {
       name: 'Sri Lanka',
       value: 200,
@@ -56,10 +69,16 @@ export class ConfigurePieChartComponent implements OnInit {
   private radius = Math.min(this.width, this.height) / 2 - this.margin;
   private colors: any;
 
-  constructor(private store: Store) {}
+  constructor(
+    private store: Store<AppState>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
+    this.nft$ = this.store.select(selectNFTContent);
+  }
 
   ngOnInit(): void {
-    this.updateChart();
+    //this.updateChart();
+    this.chartId = this.data.id;
   }
 
   //generate bar chart
@@ -79,7 +98,7 @@ export class ConfigurePieChartComponent implements OnInit {
   private createColors(): void {
     this.colors = d3
       .scaleOrdinal()
-      .domain(this.data.map((d: any) => d.value.toString()))
+      .domain(this.pieChartData.map((d: any) => d.value.toString()))
       .range(this.fieldColors);
   }
 
@@ -90,7 +109,7 @@ export class ConfigurePieChartComponent implements OnInit {
     // Build the pie chart
     this.svg
       .selectAll('pieces')
-      .data(pie(this.data))
+      .data(pie(this.pieChartData))
       .enter()
       .append('path')
       .attr('d', d3.arc().innerRadius(0).outerRadius(this.radius))
@@ -103,7 +122,7 @@ export class ConfigurePieChartComponent implements OnInit {
 
     this.svg
       .selectAll('pieces')
-      .data(pie(this.data))
+      .data(pie(this.pieChartData))
       .enter()
       .append('text')
       .text((d: any) => d.data.name)
@@ -131,30 +150,35 @@ export class ConfigurePieChartComponent implements OnInit {
     this.createSvg();
     this.createColors();
     this.drawChart();
+    console.log('chart updated!');
   }
 
   //add barchart to redux store
-  addtoBarcharToNFT() {
-    this.store.dispatch(
-      addBarChart({
-        keyTitle: 'country',
-        chartId: '1',
-        valueTitle: 'population',
-        data: [{ key: 'Us', value: 123 }],
-        color: ['black', 'red'],
-        xAxis: 'people',
-        yAxis: 'country',
-        fontColor: 'black',
-        fontSize: '22px',
-        xSize: `400px`,
-        ySize: `500px`,
-      })
-    );
+  addtoPieCharToNFT() {
+    this.pieChart = {
+      ChartId: this.chartId,
+      ChartTitle: this.title,
+      KeyTitle: 'name',
+      ChartData: this.pieChartData,
+      Color: this.fieldColors,
+      FontColor: this.fontColor,
+      FontSize: this.fontSize,
+    };
+
+    this.store.dispatch(addPieChart({ chart: this.pieChart }));
+
+    this.showChart();
   }
 
-  showChart() {
+  private showChart() {
     console.log('-------------------------------------------');
-    let nft = this.store.select(selectNFT);
-    console.log('++++++++++++++++++++++++++-', nft);
+    console.log('++++++++++++++++++++++++++-', this.nft$);
+  }
+
+  tabChanged(tabChangeEvent: MatTabChangeEvent): void {
+    console.log('tab changed');
+    if (tabChangeEvent.index === 1) {
+      this.updateChart();
+    }
   }
 }

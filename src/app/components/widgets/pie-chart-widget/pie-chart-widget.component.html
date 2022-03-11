@@ -1,3 +1,18 @@
-<div class="widget-div" (dblclick)="openDialog()">
-  <h1>Pie Chart Widget</h1>
+<div class="widget-div" (dblclick)="openDialog()" f>
+  <div>
+    <h2>Pie Chart</h2>
+  </div>
+  <div class="chart-div">
+    <figure [id]="id" class="chrt"></figure>
+  </div>
+  <div class="widget-footer">
+    <button mat-button class="btn" style="float: right">
+      <mat-icon>add_circle</mat-icon>
+      Add Data
+    </button>
+    <button mat-button class="btn" style="float: right" (click)="openDialog()">
+      <mat-icon>edit</mat-icon>
+      Configure
+    </button>
+  </div>
 </div>

@@ -45,10 +45,13 @@ import { StoreModule } from '@ngrx/store';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ConfigurePieChartComponent } from './components/modals/configure-pie-chart/configure-pie-chart.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { LdaleditorComponent } from './components/editor/ldaleditor/ldaleditor.component';
+import { ConfigureBubbleChartComponent } from './components/modals/configure-bubble-chart/configure-bubble-chart.component';
+//import { AceEditorModule } from 'ng2-ace-editor';
 
 const appRoutes: Routes = [
   {
-    path: 'composer',
+    path: 'layouts',
     component: ComposerComponent,
   },
   {
@@ -84,6 +87,8 @@ const appRoutes: Routes = [
     PieChartWidgetComponent,
     BarChartComponent,
     ConfigurePieChartComponent,
+    LdaleditorComponent,
+    ConfigureBubbleChartComponent,
   ],
   imports: [
     BrowserModule,
@@ -107,6 +112,7 @@ const appRoutes: Routes = [
     ColorPickerModule,
     MatTabsModule,
     FlexLayoutModule,
+    //AceEditorModule,
     RouterModule.forRoot(appRoutes),
     StoreModule.forRoot({ nft: nftReducer }),
   ],

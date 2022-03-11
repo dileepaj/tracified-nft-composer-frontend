@@ -1,9 +1,10 @@
 <mat-dialog-content class="mat-typography modal-content">
-  <mat-tab-group (selectedTabChange)="updateChart()">
+  <mat-tab-group (selectedTabChange)="tabChanged($event)">
     <mat-tab label="Query">
       <mat-grid-list cols="5" rowHeight="550px">
-        <!--Column that displays the bar chart-->
-        <mat-grid-tile colspan="3" style="overflow: auto"> </mat-grid-tile>
+        <mat-grid-tile colspan="5" style="overflow: auto">
+          <app-ldaleditor></app-ldaleditor
+        ></mat-grid-tile>
       </mat-grid-list>
     </mat-tab>
     <mat-tab label="Chart Configuration">
@@ -67,7 +68,7 @@
             <!--Values displayed in the bar chart-->
             <div class="bar-chart-fields">
               <h3>Bar Chart Fields</h3>
-              <div class="field" *ngFor="let field of data; index as i">
+              <div class="field" *ngFor="let field of barChartData; index as i">
                 <mat-card>
                   <label>{{ field.name }}</label>
                   <div
@@ -93,8 +94,9 @@
     [mat-dialog-close]="true"
     class="btn"
     cdkFocusInitial
-    (click)="addtoBarcharToNFT()"
+    (click)="addtoBarCharToNFT()"
   >
+    <mat-icon>save</mat-icon>
     Save
   </button>
 </mat-dialog-actions>

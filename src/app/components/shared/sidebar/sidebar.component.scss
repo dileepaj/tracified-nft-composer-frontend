@@ -44,13 +44,13 @@ mat-nav-list {
 }
 
 .is-active {
-  color: $primary;
+  color: $green;
   font-weight: 500;
   background: rgba(176, 221, 176, 0.199) !important;
 }
 
 mat-list-item:hover {
-  color: $primary;
+  color: $green;
   background: rgba(176, 221, 176, 0.137) !important;
 }
 
@@ -63,10 +63,24 @@ mat-list-item:hover {
   width: 100%;
 }
 
-#layouts {
-  all: unset;
+#layouts:hover {
+  color: $green;
+  background: rgba(176, 221, 176, 0.137) !important;
 }
 
 #collapseBtn {
   float: right;
+}
+
+#header {
+  padding-left: 10px;
+  padding: 10px;
+  padding-bottom: 0px;
+  font-size: $fontSize;
+}
+
+#project-title input {
+  all: unset;
+
+  font-size: $fontSize;
 }

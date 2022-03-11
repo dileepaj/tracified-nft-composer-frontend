@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfigureBubbleChartComponent } from '../../modals/configure-bubble-chart/configure-bubble-chart.component';
 
 @Component({
   selector: 'app-bubble-chart-widget',
@@ -6,11 +8,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./bubble-chart-widget.component.scss'],
 })
 export class BubbleChartWidgetComponent implements OnInit {
-  constructor() {}
+  @Input() id: any;
+  constructor(public dialog: MatDialog) {}
 
   ngOnInit(): void {}
 
-  onClick() {
-    alert('Bubble Chart');
+  openDialog() {
+    const dialogRef = this.dialog.open(ConfigureBubbleChartComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 }

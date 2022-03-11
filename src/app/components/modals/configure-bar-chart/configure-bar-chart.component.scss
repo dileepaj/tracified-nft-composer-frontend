@@ -5,21 +5,21 @@
 }
 
 .btn {
-  @include btn;
+  @include btn-primary;
 }
 ::ng-deep .mat-focused .mat-form-field-label {
   /*change color of label*/
-  color: $primary !important;
+  color: $green !important;
 }
 
 ::ng-deep.mat-form-field-underline {
   /*change color of underline*/
-  background-color: $primary !important;
+  background-color: $green !important;
 }
 
 ::ng-deep.mat-form-field-ripple {
   /*change color of underline when focused*/
-  background-color: $primary !important;
+  background-color: $green !important;
 }
 .form-tile {
   background: whitesmoke;
@@ -105,7 +105,7 @@
 .btn-add {
   vertical-align: middle;
 
-  color: $primary;
+  color: $green;
 }
 
 .field mat-card {

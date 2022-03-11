@@ -1,32 +1,40 @@
 import { createReducer, on } from '@ngrx/store';
-import { addBarChart } from './nft.actions';
-import { NFT} from 'src/app/entity/nft';
+import { addBarChart, addPieChart } from './nft.actions';
+import { NFTContent } from '../../../models/nft-content/nft.content';
 
 export interface NFTState {
-  nftContent: NFT;
-  error:string;
+  nftContent: NFTContent;
+  error: string;
 }
 
 export const initialNft: NFTState = {
-    nftContent: {
-    id: 0,
-    name: '',
-    userId: '',
-    creator: '',
-    barcharts: [],
-    piecharts: [],
-    stats: [],
-    tables: [],
-    images:[],
+  nftContent: {
+    Id: '',
+    Name: '',
+    UserId: '',
+    Creator: '',
+    Barcharts: [],
+    Piecharts: [],
+    Bubblecharts: [],
+    ProofBotData: [],
+    Timeline: [],
+    Stats: [],
+    Tables: [],
+    Images: [],
   },
-  error:"",
+  error: '',
 };
 
 export const nftReducer = createReducer(
   initialNft,
-  on(addBarChart, (nft, chart) => {
+  on(addBarChart, (nft, { chart }) => {
     const nftClone: NFTState = JSON.parse(JSON.stringify(nft));
-    nftClone.nftContent.barcharts.push(chart);
+    nftClone.nftContent.Barcharts.push(chart);
+    return nftClone;
+  }),
+  on(addPieChart, (nft, { chart }) => {
+    const nftClone: NFTState = JSON.parse(JSON.stringify(nft));
+    nftClone.nftContent.Piecharts.push(chart);
     return nftClone;
   })
 );

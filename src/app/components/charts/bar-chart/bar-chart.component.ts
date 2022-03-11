@@ -49,6 +49,9 @@ export class BarChartComponent implements OnInit {
     // Draw the Y-axis on the DOM
     this.svg.append('g').call(d3.axisLeft(y));
 
+    //generate colors
+    var myColor: any = d3.scaleOrdinal().domain(this.data).range(d3.schemeSet2);
+
     // Create and fill the bars
     this.svg
       .selectAll('bars')
@@ -59,7 +62,7 @@ export class BarChartComponent implements OnInit {
       .attr('y', (d: any) => y(d.value))
       .attr('width', x.bandwidth())
       .attr('height', (d: any) => this.height - y(d.value))
-      .attr('fill', (d: any, i: number) => this.barColors[i]);
+      .attr('fill', (d: any, i: number) => myColor[d]);
   }
 
   ngOnInit(): void {}

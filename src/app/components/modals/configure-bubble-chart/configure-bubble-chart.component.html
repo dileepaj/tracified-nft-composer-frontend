@@ -11,10 +11,10 @@
     <mat-tab label="Chart Configuration">
       <mat-grid-list cols="5" rowHeight="550px">
         <!--Column that displays the bar chart-->
-        <mat-grid-tile colspan="3" style="overflow: auto">
+        <mat-grid-tile colspan="3">
           <!--Bar chart-->
           <div class="chart">
-            <figure id="pie"></figure>
+            <figure id="bubble"></figure>
           </div>
         </mat-grid-tile>
 
@@ -22,7 +22,7 @@
         <mat-grid-tile colspan="2" class="form-tile">
           <div class="form-div">
             <h2><mat-icon class="title-icon">tune</mat-icon>Configure Chart</h2>
-            <div class="input-group">
+            <div class="domain">
               <!--input field for setting x axis name-->
               <mat-form-field appearance="fill" color="primary">
                 <mat-label>Title</mat-label>
@@ -35,7 +35,7 @@
               </mat-form-field>
             </div>
 
-            <div class="input-group">
+            <div class="domain">
               <mat-form-field appearance="fill">
                 <mat-label>Font size</mat-label>
                 <input
@@ -56,35 +56,30 @@
             </div>
 
             <!--Values displayed in the bar chart-->
-            <div class="pie-chart-fields">
-              <h3>Pie Chart Fields</h3>
-              <div class="field" *ngFor="let field of pieChartData; index as i">
+            <div class="bubble-chart-fields">
+              <h3>Bubble Chart Fields</h3>
+              <div class="field" *ngFor="let field of data; index as i">
                 <mat-card>
                   <label>{{ field.name }}</label>
                   <div
                     class="colorbox"
-                    [(colorPicker)]="fieldColors[i]"
-                    [style.background]="fieldColors[i]"
+                    [(colorPicker)]="bubbleColors[i]"
+                    [style.background]="bubbleColors[i]"
                     (colorPickerChange)="updateChart()"
                   ></div>
                 </mat-card>
               </div>
             </div>
           </div>
-        </mat-grid-tile> </mat-grid-list
-    ></mat-tab>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </mat-tab>
   </mat-tab-group>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>
 
-  <button
-    mat-button
-    [mat-dialog-close]="true"
-    class="btn"
-    (click)="addtoPieCharToNFT()"
-    cdkFocusInitial
-  >
+  <button mat-button [mat-dialog-close]="true" class="btn" cdkFocusInitial>
     <mat-icon>save</mat-icon>
     Save
   </button>

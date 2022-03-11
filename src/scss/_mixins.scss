@@ -14,10 +14,19 @@
     0 1px 5px 0 rgba(0, 0, 0, 0.12);
 }
 
-@mixin btn {
+@mixin btn-basic {
+  color: black;
+  background: white;
+}
+
+@mixin btn-primary {
   color: white;
   background: $background;
-  font-size: smaller;
+}
+
+@mixin btn-accent {
+  color: white;
+  background: $green;
 }
 
 @mixin icon {
