@@ -9,6 +9,7 @@ import { HeaderComponent } from './components/shared/header/header.component';
 import { SidebarComponent } from './components/shared/sidebar/sidebar.component';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule, Routes } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
@@ -41,7 +42,8 @@ import { MatCardModule } from '@angular/material/card';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { MatRippleModule } from '@angular/material/core';
 import { nftReducer } from './store/nft-state-store/nft.reducer';
-import { StoreModule } from '@ngrx/store'
+import { StoreModule } from '@ngrx/store';
+import { TestViewComponent } from './components/views/test-view/test-view.component';
 
 const appRoutes: Routes = [
   {
@@ -56,6 +58,11 @@ const appRoutes: Routes = [
     path: 'nft-html',
     component: NftHtmlComponent,
   },
+  {
+    path: 'test',
+    component: TestViewComponent,
+  }
+  
 ];
 
 @NgModule({
@@ -73,7 +80,7 @@ const appRoutes: Routes = [
     NftSvgComponent,
     NftHtmlComponent,
     SelectBatchComponent,
-
+    TestViewComponent,
     ConfigureChartComponent,
     WidgetContentComponent,
     BubbleChartWidgetComponent,
@@ -102,7 +109,8 @@ const appRoutes: Routes = [
     MatRippleModule,
     ColorPickerModule,
     RouterModule.forRoot(appRoutes),
-    StoreModule.forRoot({nft:nftReducer}),
+    StoreModule.forRoot({ nft: nftReducer }),
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
