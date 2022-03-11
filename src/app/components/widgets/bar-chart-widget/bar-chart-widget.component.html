@@ -1,9 +1,18 @@
 <div class="widget-div" (dblclick)="openDialog()" f>
   <div>
-    <h2>Bar Chart</h2>
+    <h2>
+      Bar Chart<button mat-icon-button (click)="deleteWidget()">
+        <mat-icon>clear</mat-icon>
+      </button>
+    </h2>
   </div>
   <div class="chart-div">
-    <figure [id]="id" class="chrt"></figure>
+    <label>chartId : {{ barChart.ChartId }}</label
+    ><br />
+    <label>fontSize : {{ barChart.FontSize }}</label
+    ><br />
+    <label>fontColor : {{ barChart.FontColor }}</label
+    ><br />
   </div>
   <div class="widget-footer">
     <button mat-button class="btn" style="float: right">

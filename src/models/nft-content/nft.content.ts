@@ -1,7 +1,10 @@
+import { CarbonFootprint } from './carbonFootprint';
 import { Chart } from './chart';
+import { Image } from './image';
 import { ProofBot } from './proofbot';
 import { Stat } from './stats';
 import { Table } from './table';
+import { Timeline } from './timeline';
 
 export interface NFTContent {
   Id: string;
@@ -13,7 +16,8 @@ export interface NFTContent {
   Bubblecharts: Chart[];
   Stats: Stat[];
   Tables: Table[];
-  Images: string[];
+  Images: Image[];
   ProofBotData: ProofBot[];
-  Timeline: any[];
+  Timeline: Timeline[];
+  CarbonFootprint: CarbonFootprint[];
 }

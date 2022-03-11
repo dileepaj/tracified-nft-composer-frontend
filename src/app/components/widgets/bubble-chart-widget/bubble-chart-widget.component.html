@@ -1,9 +1,18 @@
 <div class="widget-div" (dblclick)="openDialog()" f>
   <div>
-    <h2>Bubble Chart</h2>
+    <h2>
+      Bubble Chart<button mat-icon-button (click)="deleteWidget()">
+        <mat-icon>clear</mat-icon>
+      </button>
+    </h2>
   </div>
   <div class="chart-div">
-    <figure [id]="id" class="chrt"></figure>
+    <label>chartId : {{ bubbleChart.ChartId }}</label
+    ><br />
+    <label>fontSize : {{ bubbleChart.FontSize }}</label
+    ><br />
+    <label>fontColor : {{ bubbleChart.FontColor }}</label
+    ><br />
   </div>
   <div class="widget-footer">
     <button mat-button class="btn" style="float: right">

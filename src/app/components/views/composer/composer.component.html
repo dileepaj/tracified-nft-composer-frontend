@@ -39,22 +39,40 @@
             style="cursor: move"
             cdkDrag
           >
-            <app-nft-timeline *ngIf="widget.wid === 1"></app-nft-timeline>
-            <app-nft-proofbot *ngIf="widget.wid === 2"></app-nft-proofbot>
+            <app-nft-timeline
+              *ngIf="widget.wid === 1"
+              [id]="usedWidgets[i]._Id"
+              (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
+            ></app-nft-timeline>
+            <app-nft-proofbot
+              *ngIf="widget.wid === 2"
+              [id]="usedWidgets[i]._Id"
+              (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
+            ></app-nft-proofbot>
             <app-nft-carbonfootprint
               *ngIf="widget.wid === 3"
+              [id]="usedWidgets[i]._Id"
+              (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
             ></app-nft-carbonfootprint>
-            <app-nft-image *ngIf="widget.wid === 4"></app-nft-image>
+            <app-nft-image
+              *ngIf="widget.wid === 4"
+              [id]="usedWidgets[i]._Id"
+              (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
+            ></app-nft-image>
             <app-bar-chart-widget
               *ngIf="widget.wid === 5"
               [id]="usedWidgets[i]._Id"
+              (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
             ></app-bar-chart-widget>
             <app-pie-chart-widget
               *ngIf="widget.wid === 6"
               [id]="usedWidgets[i]._Id"
+              (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
             ></app-pie-chart-widget>
             <app-bubble-chart-widget
               *ngIf="widget.wid === 7"
+              [id]="usedWidgets[i]._Id"
+              (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
             ></app-bubble-chart-widget>
           </div>
         </div>

@@ -10,13 +10,12 @@
   <mat-nav-list>
     <mat-list-item
       id="layouts"
-      routerLink="/layouts"
       [routerLinkActive]="['is-active']"
       disableRipple
     >
       <div id="layoutsDiv">
         <div fxLayout="row" fxLayoutAlign="space-between center">
-          <div>
+          <div routerLink="/layouts">
             <mat-icon mat-list-icon class="icon">notes</mat-icon>
             <label class="nav-title">Layouts</label>
           </div>
@@ -37,7 +36,7 @@
         >
           <mat-list-item *ngFor="let widget of widgets">
             <mat-icon mat-list-icon class="icon">{{ widget.icon }}</mat-icon>
-            <label>{{ widget.name }}</label>
+            <label>{{ widget.name }} </label>
           </mat-list-item>
         </mat-list>
       </div>

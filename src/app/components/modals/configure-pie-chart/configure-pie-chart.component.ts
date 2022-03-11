@@ -6,10 +6,12 @@ import { AppState } from 'src/app/store/app.state';
 import {
   addBarChart,
   addPieChart,
+  updatePieChart,
 } from 'src/app/store/nft-state-store/nft.actions';
 import {
   selectNFT,
   selectNFTContent,
+  selectPieCharts,
 } from 'src/app/store/nft-state-store/nft.selector';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
@@ -23,6 +25,7 @@ export class ConfigurePieChartComponent implements OnInit {
   nft$: any;
   private pieChart: Chart;
   chartId: any;
+  keyTitle: any;
   //data to be displayed in the pie chart
   pieChartData: any = [
     {
@@ -48,13 +51,7 @@ export class ConfigurePieChartComponent implements OnInit {
   ];
 
   //pie chart field colors
-  fieldColors: string[] = [
-    '#c7d3ec',
-    '#a5b8db',
-    '#879cc4',
-    '#677795',
-    '#5a6782',
-  ];
+  fieldColors: any[] = ['#c7d3ec', '#a5b8db', '#879cc4', '#677795', '#5a6782'];
   counter: number = 1; //counter to count the number of values in data array
   title: string = 'Pie Chart Title'; //pie chart title
   fontSize: number = 12; //font size
@@ -113,7 +110,7 @@ export class ConfigurePieChartComponent implements OnInit {
       .enter()
       .append('path')
       .attr('d', d3.arc().innerRadius(0).outerRadius(this.radius))
-      .attr('fill', (d: any, i: any) => this.colors(i))
+      .attr('fill', (d: any, i: any) => this.fieldColors[i])
       .attr('stroke', '#121926')
       .style('stroke-width', '1px');
 
@@ -141,7 +138,8 @@ export class ConfigurePieChartComponent implements OnInit {
       .text(this.title)
       .style('text-anchor', 'middle')
       .style('font-size', this.fontSize + 'px')
-      .attr('stroke', this.fontColor);
+      .attr('stroke', this.fontColor)
+      .style('fill', this.fontColor);
   }
 
   //update chart with new values
@@ -178,7 +176,40 @@ export class ConfigurePieChartComponent implements OnInit {
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     console.log('tab changed');
     if (tabChangeEvent.index === 1) {
+      this.getPieChart();
       this.updateChart();
     }
+  }
+
+  updateReduxState() {
+    this.pieChart = {
+      ChartId: this.chartId,
+      ChartTitle: this.title,
+      KeyTitle: 'name',
+      ChartData: this.pieChartData,
+      Color: this.fieldColors,
+      FontColor: this.fontColor,
+      FontSize: this.fontSize,
+    };
+
+    this.store.dispatch(updatePieChart({ chart: this.pieChart }));
+  }
+
+  private getPieChart() {
+    this.store.select(selectPieCharts).subscribe((data) => {
+      data.map((chart) => {
+        if (chart.ChartId === this.chartId) {
+          this.title = chart.ChartTitle;
+          this.keyTitle = chart.KeyTitle;
+          if (chart.ChartData.length !== 0) {
+            this.pieChartData = chart.ChartData.filter((data) => data);
+          }
+          this.fieldColors = chart.Color.filter((data) => data);
+          console.log(this.fieldColors);
+          this.fontColor = chart.FontColor;
+          this.fontSize = chart.FontSize;
+        }
+      });
+    });
   }
 }

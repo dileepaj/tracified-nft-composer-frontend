@@ -3,9 +3,13 @@ import { Store } from '@ngrx/store';
 import * as d3 from 'd3';
 import { Chart } from '../../../../models/nft-content/chart';
 import { AppState } from 'src/app/store/app.state';
-import { addBarChart } from 'src/app/store/nft-state-store/nft.actions';
+import {
+  addBarChart,
+  updateBarChart,
+} from 'src/app/store/nft-state-store/nft.actions';
 import { NFTState } from 'src/app/store/nft-state-store/nft.reducer';
 import {
+  selectBarCharts,
   selectNFT,
   selectNFTContent,
 } from 'src/app/store/nft-state-store/nft.selector';
@@ -21,6 +25,7 @@ export class ConfigureBarChartComponent implements OnInit {
   nft$: any;
   private barChart: Chart;
   chartId: any;
+  keyTitle: string;
   //data that are being displayed in the bar chart
   barChartData: any = [
     {
@@ -45,14 +50,14 @@ export class ConfigureBarChartComponent implements OnInit {
     },
   ];
 
-  barColors: string[] = ['#69b3a2', '#69b3a2', '#69b3a2', '#69b3a2', '#69b3a2']; //bar colors
+  barColors: any[] = ['#69b3a2', '#69b3a2', '#69b3a2', '#69b3a2', '#69b3a2']; //bar colors
   domain: number[] = [0, 1000]; //domain of the bar chart
   min: number = 0; //domain minimum value
   max: number = 1000; //domain maximum value
   counter: number = 1; //counter to count total number of values in data array
   title: string = '';
-  xName: string = 'X axis'; //x axis name
-  yName: string = 'Y axis'; //y axis name
+  xName: any = 'X axis'; //x axis name
+  yName: any = 'Y axis'; //y axis name
   fontSize: number = 10; //font size
   fontColor: string = '#000000'; //font color
   tabcolor = '#69b3a2';
@@ -106,6 +111,7 @@ export class ConfigureBarChartComponent implements OnInit {
       .attr('x', this.width - 200)
       .attr('text-anchor', 'end')
       .attr('stroke', this.fontColor)
+      .style('fill', this.fontColor)
       .style('font-size', this.fontSize + 'px')
       .text(this.xName);
 
@@ -126,6 +132,7 @@ export class ConfigureBarChartComponent implements OnInit {
       .attr('dy', '-4.6em')
       .attr('text-anchor', 'end')
       .attr('stroke', this.fontColor)
+      .style('fill', this.fontColor)
       .style('font-size', this.fontSize + 'px')
       .text(this.yName);
 
@@ -199,7 +206,43 @@ export class ConfigureBarChartComponent implements OnInit {
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     console.log('tab changed');
     if (tabChangeEvent.index === 1) {
+      this.getBarChart();
       this.updateChart();
     }
+  }
+
+  updateReduxState() {
+    this.barChart = {
+      ChartId: this.chartId,
+      ChartTitle: this.title,
+      KeyTitle: 'name',
+      ChartData: this.barChartData,
+      Color: this.barColors,
+      FontColor: this.fontColor,
+      FontSize: this.fontSize,
+      XAxis: this.xName,
+      YAxis: this.yName,
+    };
+
+    this.store.dispatch(updateBarChart({ chart: this.barChart }));
+  }
+
+  private getBarChart() {
+    this.store.select(selectBarCharts).subscribe((data) => {
+      data.map((chart) => {
+        if (chart.ChartId === this.chartId) {
+          this.title = chart.ChartTitle;
+          this.keyTitle = chart.KeyTitle;
+          if (chart.ChartData.length !== 0) {
+            this.barChartData = chart.ChartData.filter((data) => data);
+          }
+          this.barColors = chart.Color.filter((data) => data);
+          this.fontColor = chart.FontColor;
+          this.fontSize = chart.FontSize;
+          this.xName = chart.XAxis;
+          this.yName = chart.YAxis;
+        }
+      });
+    });
   }
 }

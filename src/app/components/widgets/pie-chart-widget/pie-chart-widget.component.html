@@ -1,9 +1,19 @@
 <div class="widget-div" (dblclick)="openDialog()" f>
   <div>
-    <h2>Pie Chart</h2>
+    <h2>
+      Pie Chart
+      <button mat-icon-button (click)="deleteWidget()">
+        <mat-icon>clear</mat-icon>
+      </button>
+    </h2>
   </div>
   <div class="chart-div">
-    <figure [id]="id" class="chrt"></figure>
+    <label>chartId : {{ pieChart.ChartId }}</label
+    ><br />
+    <label>fontSize : {{ pieChart.FontSize }}</label
+    ><br />
+    <label>fontColor : {{ pieChart.FontColor }}</label
+    ><br />
   </div>
   <div class="widget-footer">
     <button mat-button class="btn" style="float: right">

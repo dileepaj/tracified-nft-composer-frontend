@@ -1,8 +1,15 @@
 <div class="widget-div">
-  <h2>NFT Image</h2>
+  <h2>
+    NFT Image
+    <button mat-icon-button (click)="deleteWidget()">
+      <mat-icon>clear</mat-icon>
+    </button>
+  </h2>
   <div id="drop-area">
     Upload or select file
     <mat-icon class="material-icons-outlined icon">cloud_upload</mat-icon>
-    <button mat-flat-button class="btn">Browse Files</button>
+    <button mat-flat-button class="btn" (click)="uploadImage()">
+      Browse Files
+    </button>
   </div>
 </div>

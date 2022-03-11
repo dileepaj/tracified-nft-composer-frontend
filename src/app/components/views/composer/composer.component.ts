@@ -11,12 +11,15 @@ import {
   moveItemInArray,
   copyArrayItem,
   CdkDragMove,
+  transferArrayItem,
 } from '@angular/cdk/drag-drop';
 import { NftCarbonfootprintComponent } from '../../widgets/nft-carbonfootprint/nft-carbonfootprint.component';
 import { ConfigureBarChartComponent } from '../../modals/configure-bar-chart/configure-bar-chart.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfigurePieChartComponent } from '../../modals/configure-pie-chart/configure-pie-chart.component';
 import { ConfigureBubbleChartComponent } from '../../modals/configure-bubble-chart/configure-bubble-chart.component';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/store/app.state';
 
 interface Widget {
   wid: number;
@@ -75,34 +78,10 @@ export class ComposerComponent implements OnInit, AfterViewInit {
       name: 'Bubble Chart',
       icon: 'bubble_chart',
     },
-    {
-      wid: 8,
-      name: 'Multiple Bar Chart',
-      icon: 'leaderboard',
-    },
   ];
-  usedWidgets: Widget[] = [
-    {
-      _Id: 'abc',
-      wid: 4,
-      name: 'NFT Image',
-      icon: 'wallpaper',
-    },
-    {
-      _Id: 'def',
-      wid: 5,
-      name: 'Bar Chart',
-      icon: 'bar_chart',
-    },
-    {
-      _Id: 'ghi',
-      wid: 6,
-      name: 'Pie Chart',
-      icon: 'pie_chart',
-    },
-  ];
+  usedWidgets: Widget[] = [];
 
-  constructor(public dialog: MatDialog) {}
+  constructor(private store: Store<AppState>, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     //this.openBarChartDialog();
@@ -132,6 +111,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
           event.currentIndex
         );
       }
+
       console.log(event.container.data);
     }
   }
@@ -164,5 +144,17 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     }
 
     this.usedWidgets.push(item);
+  }
+
+  //delete a widget
+  deleteWidget(id: any) {
+    let index: number = 0;
+    this.usedWidgets.map((widget) => {
+      if (widget._Id === id) {
+        index = this.usedWidgets.indexOf(widget);
+      }
+    });
+    transferArrayItem(this.usedWidgets, [], index, 0);
+    console.log('widget deleted - ' + index);
   }
 }

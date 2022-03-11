@@ -27,3 +27,14 @@
 mat-icon {
   color: $green;
 }
+
+h2 mat-icon {
+  color: black;
+  float: right;
+  cursor: pointer;
+}
+
+h2 button {
+  float: right;
+  vertical-align: middle;
+}

@@ -1,7 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Store } from '@ngrx/store';
 import * as d3 from 'd3';
+import { AppState } from 'src/app/store/app.state';
+import {
+  addBubbleChart,
+  updateBubbleChart,
+} from 'src/app/store/nft-state-store/nft.actions';
+import {
+  selectBubbleCharts,
+  selectNFTContent,
+} from 'src/app/store/nft-state-store/nft.selector';
+import { Chart } from 'src/models/nft-content/chart';
 
 @Component({
   selector: 'app-configure-bubble-chart',
@@ -9,8 +20,12 @@ import * as d3 from 'd3';
   styleUrls: ['./configure-bubble-chart.component.scss'],
 })
 export class ConfigureBubbleChartComponent implements OnInit {
+  nft$: any;
+  private bubbleChart: Chart;
+  chartId: any;
+  keyTitle: any;
   //data to be displayed in the pie chart
-  data: any = [
+  bubbleChartData: any = [
     { name: 'Item 1', x: 100, y: 60, val: 1350, color: '#C9D6DF' },
     { name: 'Item 2', x: 30, y: 80, val: 2500, color: '#F7EECF' },
     { name: 'Item 3', x: 50, y: 40, val: 5700, color: '#E3E1B2' },
@@ -39,10 +54,16 @@ export class ConfigureBubbleChartComponent implements OnInit {
   private width = 300 - this.margin;
   private height = 300 - this.margin;
 
-  constructor() {}
+  constructor(
+    private store: Store<AppState>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
+    this.nft$ = this.store.select(selectNFTContent);
+  }
 
   ngOnInit(): void {
-    //this.updateChart();
+    this.updateChart();
+    this.chartId = this.data.id;
   }
 
   private createSvg(): void {
@@ -107,14 +128,69 @@ export class ConfigureBubbleChartComponent implements OnInit {
   updateChart() {
     d3.select('svg').remove();
     this.createSvg();
-    this.drawBubbles(this.data, this.bubbleColors);
+    this.drawBubbles(this.bubbleChartData, this.bubbleColors);
     console.log('chart updated!');
   }
 
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     console.log('tab changed');
     if (tabChangeEvent.index === 1) {
+      this.getBubbleChart();
       this.updateChart();
     }
+  }
+
+  //add barchart to redux store
+  addtoPieCharToNFT() {
+    this.bubbleChart = {
+      ChartId: this.chartId,
+      ChartTitle: this.title,
+      KeyTitle: 'name',
+      ChartData: this.bubbleChartData,
+      Color: this.bubbleColors,
+      FontColor: this.fontColor,
+      FontSize: this.fontSize,
+    };
+
+    this.store.dispatch(addBubbleChart({ chart: this.bubbleChart }));
+
+    this.showChart();
+  }
+
+  private showChart() {
+    console.log('-------------------------------------------');
+    console.log('++++++++++++++++++++++++++-', this.nft$);
+  }
+
+  updateReduxState() {
+    this.bubbleChart = {
+      ChartId: this.chartId,
+      ChartTitle: this.title,
+      KeyTitle: 'name',
+      ChartData: this.bubbleChartData,
+      Color: this.bubbleColors,
+      FontColor: this.fontColor,
+      FontSize: this.fontSize,
+    };
+
+    this.store.dispatch(updateBubbleChart({ chart: this.bubbleChart }));
+  }
+
+  private getBubbleChart() {
+    this.store.select(selectBubbleCharts).subscribe((data) => {
+      data.map((chart) => {
+        if (chart.ChartId === this.chartId) {
+          this.title = chart.ChartTitle;
+          this.keyTitle = chart.KeyTitle;
+          if (chart.ChartData.length !== 0) {
+            this.bubbleChartData = chart.ChartData.filter((data) => data);
+          }
+          this.bubbleColors = chart.Color.filter((data) => data);
+          console.log(this.bubbleColors);
+          this.fontColor = chart.FontColor;
+          this.fontSize = chart.FontSize;
+        }
+      });
+    });
   }
 }
