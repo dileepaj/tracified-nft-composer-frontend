@@ -26,11 +26,11 @@ export class ConfigureBubbleChartComponent implements OnInit {
   keyTitle: any;
   //data to be displayed in the pie chart
   bubbleChartData: any = [
-    { name: 'Item 1', x: 100, y: 60, val: 1350, color: '#C9D6DF' },
-    { name: 'Item 2', x: 30, y: 80, val: 2500, color: '#F7EECF' },
-    { name: 'Item 3', x: 50, y: 40, val: 5700, color: '#E3E1B2' },
-    { name: 'Item 4', x: 190, y: 100, val: 30000, color: '#F9CAC8' },
-    { name: 'Item 5', x: 80, y: 170, val: 47500, color: '#D1C2E0' },
+    { name: 'Item 1', x: 100, y: 60, val: 1350 },
+    { name: 'Item 2', x: 30, y: 80, val: 2500 },
+    { name: 'Item 3', x: 50, y: 40, val: 5700 },
+    { name: 'Item 4', x: 190, y: 100, val: 30000 },
+    { name: 'Item 5', x: 80, y: 170, val: 47500 },
   ];
   bubbleColors: string[] = [
     '#69b3a2',
@@ -48,6 +48,7 @@ export class ConfigureBubbleChartComponent implements OnInit {
   yName: string = 'Y axis'; //y axis name
   fontSize: number = 10; //font size
   fontColor: string = '#000000'; //font color
+  radius: number[] = [];
 
   private svg: any;
   private margin = 5;
@@ -74,7 +75,11 @@ export class ConfigureBubbleChartComponent implements OnInit {
       .attr('height', this.height);
   }
 
-  private drawBubbles(data: any[], bubbleColors: string[]): void {
+  private drawBubbles(
+    data: any[],
+    bubbleColors: string[],
+    radius: number[]
+  ): void {
     // Initialize the circle: all located at the center of the svg area
 
     this.svg
@@ -89,7 +94,9 @@ export class ConfigureBubbleChartComponent implements OnInit {
         return d.y;
       })
       .attr('r', function (d: any) {
-        return Math.sqrt(d.val) / Math.PI;
+        let r = Math.sqrt(d.val) / Math.PI;
+        radius.push(r);
+        return r;
       })
       .attr('fill', function (d: any, i: any) {
         return bubbleColors[i];
@@ -101,7 +108,9 @@ export class ConfigureBubbleChartComponent implements OnInit {
       .enter()
       .append('text')
       .attr('x', function (d: any) {
-        return d.x + Math.sqrt(d.val) / Math.PI;
+        let r = d.x + Math.sqrt(d.val) / Math.PI;
+
+        return r;
       })
       .attr('y', function (d: any) {
         return d.y + 4;
@@ -128,7 +137,7 @@ export class ConfigureBubbleChartComponent implements OnInit {
   updateChart() {
     d3.select('svg').remove();
     this.createSvg();
-    this.drawBubbles(this.bubbleChartData, this.bubbleColors);
+    this.drawBubbles(this.bubbleChartData, this.bubbleColors, this.radius);
     console.log('chart updated!');
   }
 
@@ -140,23 +149,6 @@ export class ConfigureBubbleChartComponent implements OnInit {
     }
   }
 
-  //add barchart to redux store
-  addtoPieCharToNFT() {
-    this.bubbleChart = {
-      ChartId: this.chartId,
-      ChartTitle: this.title,
-      KeyTitle: 'name',
-      ChartData: this.bubbleChartData,
-      Color: this.bubbleColors,
-      FontColor: this.fontColor,
-      FontSize: this.fontSize,
-    };
-
-    this.store.dispatch(addBubbleChart({ chart: this.bubbleChart }));
-
-    this.showChart();
-  }
-
   private showChart() {
     console.log('-------------------------------------------');
     console.log('++++++++++++++++++++++++++-', this.nft$);
@@ -164,13 +156,17 @@ export class ConfigureBubbleChartComponent implements OnInit {
 
   updateReduxState() {
     this.bubbleChart = {
-      ChartId: this.chartId,
+      WidgetId: this.chartId,
       ChartTitle: this.title,
       KeyTitle: 'name',
+      ValueTitle: 'val',
       ChartData: this.bubbleChartData,
       Color: this.bubbleColors,
+      Radius: this.radius,
       FontColor: this.fontColor,
       FontSize: this.fontSize,
+      Height: this.height,
+      Width: this.width,
     };
 
     this.store.dispatch(updateBubbleChart({ chart: this.bubbleChart }));
@@ -179,7 +175,7 @@ export class ConfigureBubbleChartComponent implements OnInit {
   private getBubbleChart() {
     this.store.select(selectBubbleCharts).subscribe((data) => {
       data.map((chart) => {
-        if (chart.ChartId === this.chartId) {
+        if (chart.WidgetId === this.chartId) {
           this.title = chart.ChartTitle;
           this.keyTitle = chart.KeyTitle;
           if (chart.ChartData.length !== 0) {
@@ -189,6 +185,8 @@ export class ConfigureBubbleChartComponent implements OnInit {
           console.log(this.bubbleColors);
           this.fontColor = chart.FontColor;
           this.fontSize = chart.FontSize;
+          this.height = chart.Height!;
+          this.width = chart.Width!;
         }
       });
     });

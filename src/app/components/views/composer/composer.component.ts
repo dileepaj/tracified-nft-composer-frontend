@@ -78,6 +78,11 @@ export class ComposerComponent implements OnInit, AfterViewInit {
       name: 'Bubble Chart',
       icon: 'bubble_chart',
     },
+    {
+      wid: 8,
+      name: 'Table',
+      icon: 'table_view',
+    },
   ];
   usedWidgets: Widget[] = [];
 

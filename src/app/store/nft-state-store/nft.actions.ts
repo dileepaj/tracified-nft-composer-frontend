@@ -2,6 +2,7 @@ import { createAction, props } from '@ngrx/store';
 import { CarbonFootprint } from 'src/models/nft-content/carbonFootprint';
 import { Image } from 'src/models/nft-content/image';
 import { ProofBot } from 'src/models/nft-content/proofbot';
+import { Table } from 'src/models/nft-content/table';
 import { Timeline } from 'src/models/nft-content/timeline';
 import { Chart } from '../../../models/nft-content/chart';
 
@@ -40,6 +41,11 @@ export const addProofBot = createAction(
   props<{ proofBot: ProofBot }>()
 );
 
+export const addTable = createAction(
+  '[add nft-html] Add Table',
+  props<{ table: Table }>()
+);
+
 export const updateNFTImage = createAction(
   '[update nft-html] Update NFT Image',
   props<{ image: Image }>()
@@ -75,6 +81,11 @@ export const updateCarbonFootprint = createAction(
   props<{ carbonFootprint: CarbonFootprint }>()
 );
 
+export const updateTable = createAction(
+  '[update nft-html] Update Table',
+  props<{ table: Table }>()
+);
+
 export const deleteBarChart = createAction(
   '[delete nft-html] Delete Bar Chart',
   props<{ chart: Chart }>()
@@ -108,4 +119,9 @@ export const deleteCarbonFootprint = createAction(
 export const deleteProofBot = createAction(
   '[delete nft-html] Delete Proof Bot',
   props<{ proofBot: ProofBot }>()
+);
+
+export const deleteTable = createAction(
+  '[delete nft-html] Delete Table',
+  props<{ table: Table }>()
 );

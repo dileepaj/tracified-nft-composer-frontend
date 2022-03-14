@@ -23,6 +23,7 @@ import { NftCarbonfootprintComponent } from './components/widgets/nft-carbonfoot
 import { NftStatisticsComponent } from './components/widgets/nft-statistics/nft-statistics.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTreeModule } from '@angular/material/tree';
+import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { NftSvgComponent } from './components/views/nft-svg/nft-svg.component';
 import { NftHtmlComponent } from './components/views/nft-html/nft-html.component';
@@ -47,6 +48,9 @@ import { ConfigurePieChartComponent } from './components/modals/configure-pie-ch
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { LdaleditorComponent } from './components/editor/ldaleditor/ldaleditor.component';
 import { ConfigureBubbleChartComponent } from './components/modals/configure-bubble-chart/configure-bubble-chart.component';
+import { TableComponent } from './components/widgets/table/table.component';
+import { ConfigureTableComponent } from './components/modals/configure-table/configure-table.component';
+import { MatBadgeModule } from '@angular/material/badge';
 //import { AceEditorModule } from 'ng2-ace-editor';
 
 const appRoutes: Routes = [
@@ -89,6 +93,8 @@ const appRoutes: Routes = [
     ConfigurePieChartComponent,
     LdaleditorComponent,
     ConfigureBubbleChartComponent,
+    TableComponent,
+    ConfigureTableComponent,
   ],
   imports: [
     BrowserModule,
@@ -105,6 +111,8 @@ const appRoutes: Routes = [
     MatToolbarModule,
     MatDialogModule,
     MatFormFieldModule,
+    MatTableModule,
+    MatBadgeModule,
     MatInputModule,
     FormsModule,
     MatCardModule,

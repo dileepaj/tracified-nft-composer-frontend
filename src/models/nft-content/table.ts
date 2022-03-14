@@ -1,5 +1,5 @@
 export interface Table {
-  TableId: string;
+  WidgetId: string;
   TableTitle: string;
   TableContent: string;
 }

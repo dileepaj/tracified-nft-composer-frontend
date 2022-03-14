@@ -1,4 +1,4 @@
 export interface Image {
-  imageId: string;
+  WidgetId: string;
   src: string;
 }

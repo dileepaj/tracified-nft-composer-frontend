@@ -6,6 +6,7 @@ import {
   addNFTImage,
   addPieChart,
   addProofBot,
+  addTable,
   addTimeline,
   deleteBarChart,
   deleteBubbleChart,
@@ -13,6 +14,7 @@ import {
   deleteNFTImage,
   deletePieChart,
   deleteProofBot,
+  deleteTable,
   deleteTimeline,
   updateBarChart,
   updateBubbleChart,
@@ -20,6 +22,7 @@ import {
   updateNFTImage,
   updatePieChart,
   updateProofBot,
+  updateTable,
   updateTimeline,
 } from './nft.actions';
 import { NFTContent } from '../../../models/nft-content/nft.content';
@@ -106,11 +109,19 @@ export const nftReducer = createReducer(
     },
   })),
 
+  on(addTable, (nft, { table }) => ({
+    ...nft,
+    nftContent: {
+      ...nft.nftContent,
+      Tables: [...nft.nftContent.Tables, table],
+    },
+  })),
+
   on(updateBarChart, (nft, { chart }) => {
     const nftClone: NFTState = JSON.parse(JSON.stringify(nft));
     let i = 0;
     nftClone.nftContent.Barcharts.map((data) => {
-      if (data.ChartId === chart.ChartId) {
+      if (data.WidgetId === chart.WidgetId) {
         i = nftClone.nftContent.Barcharts.indexOf(data);
       }
       return data;
@@ -123,7 +134,7 @@ export const nftReducer = createReducer(
     const nftClone: NFTState = JSON.parse(JSON.stringify(nft));
     let i = 0;
     nftClone.nftContent.Piecharts.map((data) => {
-      if (data.ChartId === chart.ChartId) {
+      if (data.WidgetId === chart.WidgetId) {
         i = nftClone.nftContent.Piecharts.indexOf(data);
       }
       return data;
@@ -136,7 +147,7 @@ export const nftReducer = createReducer(
     const nftClone: NFTState = JSON.parse(JSON.stringify(nft));
     let i = 0;
     nftClone.nftContent.Bubblecharts.map((data) => {
-      if (data.ChartId === chart.ChartId) {
+      if (data.WidgetId === chart.WidgetId) {
         i = nftClone.nftContent.Bubblecharts.indexOf(data);
       }
       return data;
@@ -149,7 +160,7 @@ export const nftReducer = createReducer(
     const nftClone: NFTState = JSON.parse(JSON.stringify(nft));
     let i = 0;
     nftClone.nftContent.CarbonFootprint.map((data) => {
-      if (data.carbonFootPrintId === carbonFootprint.carbonFootPrintId) {
+      if (data.WidgetId === carbonFootprint.WidgetId) {
         i = nftClone.nftContent.CarbonFootprint.indexOf(data);
       }
       return data;
@@ -162,7 +173,7 @@ export const nftReducer = createReducer(
     const nftClone: NFTState = JSON.parse(JSON.stringify(nft));
     let i = 0;
     nftClone.nftContent.Images.map((data) => {
-      if (data.imageId === image.imageId) {
+      if (data.WidgetId === image.WidgetId) {
         i = nftClone.nftContent.Images.indexOf(data);
       }
       return data;
@@ -175,7 +186,7 @@ export const nftReducer = createReducer(
     const nftClone: NFTState = JSON.parse(JSON.stringify(nft));
     let i = 0;
     nftClone.nftContent.Timeline.map((data) => {
-      if (data.timelineId === timeline.timelineId) {
+      if (data.WidgetId === timeline.WidgetId) {
         i = nftClone.nftContent.Timeline.indexOf(data);
       }
       return data;
@@ -188,7 +199,7 @@ export const nftReducer = createReducer(
     const nftClone: NFTState = JSON.parse(JSON.stringify(nft));
     let i = 0;
     nftClone.nftContent.ProofBotData.map((data) => {
-      if (data.proofBotId === proofBot.proofBotId) {
+      if (data.WidgetId === proofBot.WidgetId) {
         i = nftClone.nftContent.ProofBotData.indexOf(data);
       }
       return data;
@@ -197,11 +208,24 @@ export const nftReducer = createReducer(
     return nftClone;
   }),
 
+  on(updateTable, (nft, { table }) => {
+    const nftClone: NFTState = JSON.parse(JSON.stringify(nft));
+    let i = 0;
+    nftClone.nftContent.Tables.map((data) => {
+      if (data.WidgetId === table.WidgetId) {
+        i = nftClone.nftContent.Tables.indexOf(data);
+      }
+      return data;
+    });
+    nftClone.nftContent.Tables[i] = table;
+    return nftClone;
+  }),
+
   on(deleteBarChart, (nft, { chart }) => {
     const nftClone: NFTState = JSON.parse(JSON.stringify(nft));
     let i = 0;
     nftClone.nftContent.Barcharts = nftClone.nftContent.Barcharts.filter(
-      (data) => data.ChartId !== chart.ChartId
+      (data) => data.WidgetId !== chart.WidgetId
     );
     return nftClone;
   }),
@@ -210,7 +234,7 @@ export const nftReducer = createReducer(
     const nftClone: NFTState = JSON.parse(JSON.stringify(nft));
     let i = 0;
     nftClone.nftContent.Piecharts = nftClone.nftContent.Piecharts.filter(
-      (data) => data.ChartId !== chart.ChartId
+      (data) => data.WidgetId !== chart.WidgetId
     );
     return nftClone;
   }),
@@ -219,7 +243,7 @@ export const nftReducer = createReducer(
     const nftClone: NFTState = JSON.parse(JSON.stringify(nft));
     let i = 0;
     nftClone.nftContent.Bubblecharts = nftClone.nftContent.Bubblecharts.filter(
-      (data) => data.ChartId !== chart.ChartId
+      (data) => data.WidgetId !== chart.WidgetId
     );
     return nftClone;
   }),
@@ -229,7 +253,7 @@ export const nftReducer = createReducer(
     let i = 0;
     nftClone.nftContent.CarbonFootprint =
       nftClone.nftContent.CarbonFootprint.filter(
-        (data) => data.carbonFootPrintId !== carbonFootPrint.carbonFootPrintId
+        (data) => data.WidgetId !== carbonFootPrint.WidgetId
       );
     return nftClone;
   }),
@@ -238,7 +262,7 @@ export const nftReducer = createReducer(
     const nftClone: NFTState = JSON.parse(JSON.stringify(nft));
     let i = 0;
     nftClone.nftContent.Images = nftClone.nftContent.Images.filter(
-      (data) => data.imageId !== image.imageId
+      (data) => data.WidgetId !== image.WidgetId
     );
     return nftClone;
   }),
@@ -247,7 +271,7 @@ export const nftReducer = createReducer(
     const nftClone: NFTState = JSON.parse(JSON.stringify(nft));
     let i = 0;
     nftClone.nftContent.ProofBotData = nftClone.nftContent.ProofBotData.filter(
-      (data) => data.proofBotId !== proofBot.proofBotId
+      (data) => data.WidgetId !== proofBot.WidgetId
     );
     return nftClone;
   }),
@@ -256,7 +280,16 @@ export const nftReducer = createReducer(
     const nftClone: NFTState = JSON.parse(JSON.stringify(nft));
     let i = 0;
     nftClone.nftContent.Timeline = nftClone.nftContent.Timeline.filter(
-      (data) => data.timelineId !== timeline.timelineId
+      (data) => data.WidgetId !== timeline.WidgetId
+    );
+    return nftClone;
+  }),
+
+  on(deleteTable, (nft, { table }) => {
+    const nftClone: NFTState = JSON.parse(JSON.stringify(nft));
+    let i = 0;
+    nftClone.nftContent.Tables = nftClone.nftContent.Tables.filter(
+      (data) => data.WidgetId !== table.WidgetId
     );
     return nftClone;
   })

@@ -1,4 +1,4 @@
 export interface Timeline {
-  timelineId: string;
+  WidgetId: string;
   data: any[];
 }

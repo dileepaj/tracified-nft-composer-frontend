@@ -30,7 +30,7 @@ export class NftTimelineComponent implements OnInit {
 
   private addTimelineToStore() {
     this.timeline = {
-      timelineId: this.id,
+      WidgetId: this.id,
       data: this.data,
     };
 

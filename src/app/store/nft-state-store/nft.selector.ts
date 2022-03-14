@@ -32,3 +32,43 @@ export const selectBubbleCharts = createSelector(
   selectNFT,
   (state: NFTState) => state.nftContent.Bubblecharts
 );
+
+export const selectTable = createSelector(
+  selectNFT,
+  (state: NFTState) => state.nftContent.Tables
+);
+
+export const selectNoOfTimelines = createSelector(
+  selectNFT,
+  (state: NFTState) => state.nftContent.Timeline.length
+);
+
+export const selectNoOfProofbots = createSelector(
+  selectNFT,
+  (state: NFTState) => state.nftContent.ProofBotData.length
+);
+
+export const selectNoOfCarbonFP = createSelector(
+  selectNFT,
+  (state: NFTState) => state.nftContent.CarbonFootprint.length
+);
+
+export const selectNoOfBarCharts = createSelector(
+  selectNFT,
+  (state: NFTState) => state.nftContent.Barcharts.length
+);
+
+export const selectNoOfPieCharts = createSelector(
+  selectNFT,
+  (state: NFTState) => state.nftContent.Piecharts.length
+);
+
+export const selectNoOfBubbleCharts = createSelector(
+  selectNFT,
+  (state: NFTState) => state.nftContent.Bubblecharts.length
+);
+
+export const selectNoOfTables = createSelector(
+  selectNFT,
+  (state: NFTState) => state.nftContent.Tables.length
+);

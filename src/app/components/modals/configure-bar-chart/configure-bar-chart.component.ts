@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as d3 from 'd3';
-import { Chart } from '../../../../models/nft-content/chart';
+import { Chart, Data } from '../../../../models/nft-content/chart';
 import { AppState } from 'src/app/store/app.state';
 import {
   addBarChart,
@@ -27,7 +27,7 @@ export class ConfigureBarChartComponent implements OnInit {
   chartId: any;
   keyTitle: string;
   //data that are being displayed in the bar chart
-  barChartData: any = [
+  barChartData: any[] = [
     {
       name: 'Sri Lanka',
       value: 200,
@@ -150,19 +150,6 @@ export class ConfigureBarChartComponent implements OnInit {
       .style('font-size', this.fontSize + 'px');
   }
 
-  //add new fields to the bar chart
-  addNewField() {
-    this.counter++;
-    this.barChartData.push({
-      _id: this.counter,
-      name: 'Field ' + this.counter,
-      value: 500,
-      color: '#69b3a2',
-    });
-    this.barColors.push('#69b3a2');
-    this.updateChart();
-  }
-
   //update chart with new values
   updateChart() {
     d3.select('svg').remove();
@@ -177,25 +164,6 @@ export class ConfigureBarChartComponent implements OnInit {
       (value: any) => value._id !== _id
     );
     this.updateChart();
-  }
-
-  //add barchart to redux store
-  addtoBarCharToNFT() {
-    this.barChart = {
-      ChartId: this.chartId,
-      ChartTitle: this.title,
-      KeyTitle: 'name',
-      ChartData: this.barChartData,
-      Color: this.barColors,
-      FontColor: this.fontColor,
-      FontSize: this.fontSize,
-      XAxis: this.xName,
-      YAxis: this.yName,
-    };
-
-    this.store.dispatch(addBarChart({ chart: this.barChart }));
-
-    this.showChart();
   }
 
   private showChart() {
@@ -213,15 +181,18 @@ export class ConfigureBarChartComponent implements OnInit {
 
   updateReduxState() {
     this.barChart = {
-      ChartId: this.chartId,
+      WidgetId: this.chartId,
       ChartTitle: this.title,
       KeyTitle: 'name',
+      ValueTitle: 'value',
       ChartData: this.barChartData,
       Color: this.barColors,
       FontColor: this.fontColor,
       FontSize: this.fontSize,
       XAxis: this.xName,
       YAxis: this.yName,
+      Height: this.height,
+      Width: this.width,
     };
 
     this.store.dispatch(updateBarChart({ chart: this.barChart }));
@@ -230,7 +201,7 @@ export class ConfigureBarChartComponent implements OnInit {
   private getBarChart() {
     this.store.select(selectBarCharts).subscribe((data) => {
       data.map((chart) => {
-        if (chart.ChartId === this.chartId) {
+        if (chart.WidgetId === this.chartId) {
           this.title = chart.ChartTitle;
           this.keyTitle = chart.KeyTitle;
           if (chart.ChartData.length !== 0) {
@@ -241,6 +212,8 @@ export class ConfigureBarChartComponent implements OnInit {
           this.fontSize = chart.FontSize;
           this.xName = chart.XAxis;
           this.yName = chart.YAxis;
+          this.height = chart.Height!;
+          this.width = chart.Width!;
         }
       });
     });

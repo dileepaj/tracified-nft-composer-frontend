@@ -37,7 +37,7 @@ export class NftProofbotComponent implements OnInit {
 
   private addProofbotToStore() {
     this.proofbot = {
-      proofBotId: this.id,
+      WidgetId: this.id,
       Title: 'Proofbot',
       Proofurls: [
         {

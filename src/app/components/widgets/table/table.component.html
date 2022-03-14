@@ -1,18 +1,18 @@
-<div class="widget-div" (dblclick)="openDialog()" f>
+<div class="widget-div" f>
   <div>
     <h2>
-      Bar Chart<button mat-icon-button (click)="deleteWidget()">
+      Table
+      <button mat-icon-button (click)="deleteWidget()">
         <mat-icon>clear</mat-icon>
       </button>
     </h2>
   </div>
-  <div class="chart-div">
-    <label>chartId : {{ barChart.WidgetId }}</label
+  <div class="content-div">
+    <label>Id : {{ table.WidgetId }}</label
     ><br />
-    <label>fontSize : {{ barChart.FontSize }}</label
+    <label>Title : {{ table.TableTitle }}</label
     ><br />
-    <label>fontColor : {{ barChart.FontColor }}</label
-    ><br />
+    <label>TableContent : </label><br />
   </div>
   <div class="widget-footer">
     <button mat-button class="btn" style="float: right">

@@ -34,9 +34,44 @@
           id="widgets"
           [ngStyle]="{ display: !layouts ? 'none' : 'block' }"
         >
-          <mat-list-item *ngFor="let widget of widgets">
-            <mat-icon mat-list-icon class="icon">{{ widget.icon }}</mat-icon>
-            <label>{{ widget.name }} </label>
+          <mat-list-item *ngIf="timelineAvailable()">
+            <mat-icon mat-list-icon class="icon">event_note</mat-icon>
+            <label>Timeline</label>
+          </mat-list-item>
+
+          <mat-list-item *ngIf="proofbotAvailable()">
+            <mat-icon mat-list-icon class="icon">ondemand_video</mat-icon>
+            <label>Proofbot</label>
+          </mat-list-item>
+
+          <mat-list-item *ngIf="carbonAvailable()">
+            <mat-icon mat-list-icon class="icon">filter_drama</mat-icon>
+            <label>Carbon Footprint</label>
+          </mat-list-item>
+
+          <mat-list-item *ngIf="imagesAvailable()">
+            <mat-icon mat-list-icon class="icon">wallpaper</mat-icon>
+            <label>NFT Image</label>
+          </mat-list-item>
+
+          <mat-list-item *ngIf="barChartAvailable()">
+            <mat-icon mat-list-icon class="icon">bar_chart</mat-icon>
+            <label>Bar Chart</label>
+          </mat-list-item>
+
+          <mat-list-item *ngIf="pieChartAvailable()">
+            <mat-icon mat-list-icon class="icon">pie_chart</mat-icon>
+            <label>Pie Chart</label>
+          </mat-list-item>
+
+          <mat-list-item *ngIf="bubbleChartAvailable()">
+            <mat-icon mat-list-icon class="icon">bubble_chart</mat-icon>
+            <label>Bubble Chart</label>
+          </mat-list-item>
+
+          <mat-list-item *ngIf="tableAvailable()">
+            <mat-icon mat-list-icon class="icon">table_view</mat-icon>
+            <label>Table</label>
           </mat-list-item>
         </mat-list>
       </div>

@@ -1,5 +1,5 @@
 export interface ProofBot {
-  proofBotId: string;
+  WidgetId: string;
   Title: string;
   Proofurls: ProofUrl[];
 }

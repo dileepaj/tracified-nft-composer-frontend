@@ -31,7 +31,7 @@ export class NftCarbonfootprintComponent implements OnInit {
 
   private addCarbonFootprintToStore() {
     this.carbonFootprint = {
-      carbonFootPrintId: this.id,
+      WidgetId: this.id,
       data: this.data,
     };
 

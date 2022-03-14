@@ -1,4 +1,4 @@
 export interface CarbonFootprint {
-  carbonFootPrintId: string;
+  WidgetId: string;
   data: any[];
 }

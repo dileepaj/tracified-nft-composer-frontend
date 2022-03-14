@@ -151,23 +151,6 @@ export class ConfigurePieChartComponent implements OnInit {
     console.log('chart updated!');
   }
 
-  //add barchart to redux store
-  addtoPieCharToNFT() {
-    this.pieChart = {
-      ChartId: this.chartId,
-      ChartTitle: this.title,
-      KeyTitle: 'name',
-      ChartData: this.pieChartData,
-      Color: this.fieldColors,
-      FontColor: this.fontColor,
-      FontSize: this.fontSize,
-    };
-
-    this.store.dispatch(addPieChart({ chart: this.pieChart }));
-
-    this.showChart();
-  }
-
   private showChart() {
     console.log('-------------------------------------------');
     console.log('++++++++++++++++++++++++++-', this.nft$);
@@ -183,13 +166,16 @@ export class ConfigurePieChartComponent implements OnInit {
 
   updateReduxState() {
     this.pieChart = {
-      ChartId: this.chartId,
+      WidgetId: this.chartId,
       ChartTitle: this.title,
       KeyTitle: 'name',
+      ValueTitle: 'value',
       ChartData: this.pieChartData,
       Color: this.fieldColors,
       FontColor: this.fontColor,
       FontSize: this.fontSize,
+      Height: this.height,
+      Width: this.width,
     };
 
     this.store.dispatch(updatePieChart({ chart: this.pieChart }));
@@ -198,7 +184,7 @@ export class ConfigurePieChartComponent implements OnInit {
   private getPieChart() {
     this.store.select(selectPieCharts).subscribe((data) => {
       data.map((chart) => {
-        if (chart.ChartId === this.chartId) {
+        if (chart.WidgetId === this.chartId) {
           this.title = chart.ChartTitle;
           this.keyTitle = chart.KeyTitle;
           if (chart.ChartData.length !== 0) {
@@ -208,6 +194,8 @@ export class ConfigurePieChartComponent implements OnInit {
           console.log(this.fieldColors);
           this.fontColor = chart.FontColor;
           this.fontSize = chart.FontSize;
+          this.height = chart.Height!;
+          this.width = chart.Width!;
         }
       });
     });

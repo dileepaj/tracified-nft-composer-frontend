@@ -1,18 +1,20 @@
 export interface Chart {
-  ChartId: string;
+  WidgetId: string;
   ChartTitle: string;
   KeyTitle: string;
-  ChartData: Data[]; //data must be key and value  object
+  ValueTitle: string;
+  ChartData: any[]; //data must be key and value  object
   Color: string[];
   FontColor: string;
   FontSize: number;
+  Radius?: number[];
   XAxis?: string;
   YAxis?: string;
-  XSize?: string;
-  YSize?: string;
+  Width: number;
+  Height: number;
 }
 
 export interface Data {
-  key: string;
-  value: number;
+  Key: string;
+  Value: number;
 }

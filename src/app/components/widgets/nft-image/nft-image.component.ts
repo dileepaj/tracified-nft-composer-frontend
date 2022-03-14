@@ -31,6 +31,8 @@ import { Image } from 'src/models/nft-content/image';
 export class NftImageComponent implements OnInit {
   @Input() id: any;
   @Output() onDeleteWidget: EventEmitter<any> = new EventEmitter();
+  @ViewChild('fileUpload') fileUpload: ElementRef<HTMLElement>;
+
   nft$: any;
   image$: Observable<Image[]>;
   private image: Image;
@@ -38,11 +40,11 @@ export class NftImageComponent implements OnInit {
 
   im: Image[] = [
     {
-      imageId: '1',
+      WidgetId: '1',
       src: 'abc',
     },
     {
-      imageId: '2',
+      WidgetId: '2',
       src: 'abc',
     },
   ];
@@ -60,14 +62,19 @@ export class NftImageComponent implements OnInit {
     console.log('++++++++++++++++++++++++++-', this.nft$);
   }
 
-  uploadImage() {
-    this.src = 'image.png';
+  uploadImage(event: Event) {
+    const element = event.currentTarget as HTMLInputElement;
+    let fileList: FileList | null = element.files;
+    if (fileList) {
+      console.log('FileUpload -> files', fileList);
+      this.src = fileList[0].name;
+    }
     this.updateImage();
   }
 
   private addImageToStore() {
     this.image = {
-      imageId: this.id,
+      WidgetId: this.id,
       src: this.src,
     };
 
@@ -78,7 +85,7 @@ export class NftImageComponent implements OnInit {
 
   private updateImage() {
     this.image = {
-      imageId: this.id,
+      WidgetId: this.id,
       src: this.src,
     };
 
@@ -89,5 +96,10 @@ export class NftImageComponent implements OnInit {
   deleteWidget() {
     this.store.dispatch(deleteNFTImage({ image: this.image }));
     this.onDeleteWidget.emit(this.id);
+  }
+
+  triggerClick() {
+    let el: HTMLElement = this.fileUpload.nativeElement;
+    el.click();
   }
 }

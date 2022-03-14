@@ -2,7 +2,10 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.state';
-import { addPieChart } from 'src/app/store/nft-state-store/nft.actions';
+import {
+  addPieChart,
+  deletePieChart,
+} from 'src/app/store/nft-state-store/nft.actions';
 import { selectPieCharts } from 'src/app/store/nft-state-store/nft.selector';
 import { Chart } from 'src/models/nft-content/chart';
 import { ConfigurePieChartComponent } from '../../modals/configure-pie-chart/configure-pie-chart.component';
@@ -36,14 +39,16 @@ export class PieChartWidgetComponent implements OnInit {
   }
 
   deleteWidget() {
+    this.store.dispatch(deletePieChart({ chart: this.pieChart }));
     this.onDeleteWidget.emit(this.id);
   }
 
   private addPieChartToStore() {
     this.pieChart = {
-      ChartId: this.id,
+      WidgetId: this.id,
       ChartTitle: 'Pie Chart',
       KeyTitle: 'name',
+      ValueTitle: 'value',
       ChartData: [],
       Color: [
         '#c7d3ec',
@@ -59,6 +64,8 @@ export class PieChartWidgetComponent implements OnInit {
       ],
       FontColor: '#000000',
       FontSize: 12,
+      Height: 500,
+      Width: 350,
     };
     this.store.dispatch(addPieChart({ chart: this.pieChart }));
     this.getPieChart();
@@ -67,7 +74,7 @@ export class PieChartWidgetComponent implements OnInit {
   private getPieChart() {
     this.store.select(selectPieCharts).subscribe((data) => {
       data.map((chart) => {
-        if (chart.ChartId === this.id) {
+        if (chart.WidgetId === this.id) {
           this.pieChart = chart;
         }
       });

@@ -65,15 +65,16 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
   }
 
   deleteWidget() {
-    // this.store.dispatch(deleteBarChart({ chart: this. }));
+    this.store.dispatch(deleteBarChart({ chart: this.barChart }));
     this.onDeleteWidget.emit(this.id);
   }
 
   private addBarChartToStore() {
     this.barChart = {
-      ChartId: this.id,
+      WidgetId: this.id,
       ChartTitle: 'Bar Chart',
       KeyTitle: 'name',
+      ValueTitle: 'value',
       ChartData: [],
       Color: [
         '#69b3a2',
@@ -91,6 +92,8 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
       FontSize: 10,
       XAxis: 'X Axis',
       YAxis: 'Y Axis',
+      Width: 450,
+      Height: 100,
     };
     this.store.dispatch(addBarChart({ chart: this.barChart }));
     this.getBarChart();
@@ -99,7 +102,7 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
   private getBarChart() {
     this.store.select(selectBarCharts).subscribe((data) => {
       data.map((chart) => {
-        if (chart.ChartId === this.id) {
+        if (chart.WidgetId === this.id) {
           this.barChart = chart;
         }
       });
