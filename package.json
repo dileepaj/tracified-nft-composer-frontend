@@ -24,6 +24,7 @@
     "@angular/platform-browser": "~13.2.0",
     "@angular/platform-browser-dynamic": "~13.2.0",
     "@angular/router": "~13.2.0",
+    "@fortawesome/free-solid-svg-icons": "^6.0.0",
     "@ngrx/store": "^13.0.2",
     "ace-builds": "^1.4.14",
     "d3": "^7.3.0",

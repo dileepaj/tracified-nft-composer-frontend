@@ -52,14 +52,19 @@ import { TableComponent } from './components/widgets/table/table.component';
 import { ConfigureTableComponent } from './components/modals/configure-table/configure-table.component';
 import { MatBadgeModule } from '@angular/material/badge';
 import { HttpClientModule } from '@angular/common/http';
+import { LoginComponent } from './components/views/login/login.component';
 
 //import { AceEditorModule } from 'ng2-ace-editor';
 
 const appRoutes: Routes = [
   {
     path: '',
-    redirectTo: 'layouts',
+    redirectTo: 'login',
     pathMatch: 'full',
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
   },
   {
     path: 'layouts',
@@ -102,6 +107,7 @@ const appRoutes: Routes = [
     ConfigureBubbleChartComponent,
     TableComponent,
     ConfigureTableComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router, RouterState} from '@angular/router';
+import {filter} from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'tracified-nft-composer-frontend';
+  authorized= false
 }

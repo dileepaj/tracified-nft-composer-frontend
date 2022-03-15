@@ -1,0 +1,61 @@
+<div fxLayoutAlign="center center" fxFill>
+    <mat-card fxFlex="80" class="mat-elevation-z0 outline">
+      <div class="login-cards">
+        <mat-card fxFlex="50" class="mat-elevation-z0">
+          <form fxLayoutAlign="stretch" fxLayout="column">
+            <mat-form-field
+              appearance="outline"
+              [hideRequiredMarker]="true"
+              class="alignment"
+            >
+              <mat-icon matPrefix class="green-icon">alternate_email</mat-icon>
+              <mat-label>Email Address</mat-label>
+              <input matInput />
+            </mat-form-field>
+  
+            <mat-form-field
+              appearance="outline"
+              [hideRequiredMarker]="true"
+              class="alignment"
+            >
+              <mat-icon matPrefix class="green-icon">lock</mat-icon>
+              <mat-label>Password</mat-label>
+              <input matInput type="password" />
+            </mat-form-field>
+  
+            <button
+              fxFlexAlign="center"
+              mat-flat-button
+              type="submit"
+              class="login-button"
+            >
+              LOGIN
+            </button>
+  
+            <div fxFlexAlign="center" class="sign-up">
+              <a href="" class="sign-up-link">Don't have an account</a>
+            </div>
+  
+            <div fxFlexAlign="center" class="password-reset">
+              <p class="md-body-2">
+                Forgot your credentials?
+                <a href="" class="get-help-link">Get help</a>
+              </p>
+            </div>
+          </form>
+        </mat-card>
+        <mat-card fxFlex="50" class="mat-elevation-z0">
+          <img
+            class="logo"
+            mat-card-image
+            src="assets\images\tracified-logo.png"
+            alt="tracified-logo"
+            fxLayoutAlign="space-evenly"
+          />
+          <div fxLayoutAlign="space-evenly">
+            <p class="logo-name">NFT Composer</p>
+          </div>
+        </mat-card>
+      </div>
+    </mat-card>
+  </div>
