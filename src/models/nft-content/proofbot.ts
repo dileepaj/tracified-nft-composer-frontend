@@ -1,7 +1,16 @@
 export interface ProofBot {
   WidgetId: string;
-  Title: string;
-  Proofurls: ProofUrl[];
+  BactchI?: string;
+  ProductName?: string;
+  TenentId?: string;
+  ProjectId?: string;
+  ProjectName?: string;
+  UserId?: string;
+  OTPType?: string;
+  Query?: string;
+  WeigetType?: string;
+  Title?: string;
+  Proofurls?: ProofUrl[];
 }
 
 export interface ProofUrl {
