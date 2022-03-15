@@ -112,7 +112,7 @@ const appRoutes: Routes = [
     MatRippleModule,
     ColorPickerModule,
     RouterModule.forRoot(appRoutes),
-    StoreModule.forRoot({ nft: nftReducer }),
+    StoreModule.forRoot({nft:nftReducer}),
   ],
   providers: [],
   bootstrap: [AppComponent],
