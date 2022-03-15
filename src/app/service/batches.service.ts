@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { environment } from 'src/environments/environment';
-import { Observable } from 'rxjs';
-import { Items } from 'src/app/entity/batch';
+import { map, Observable } from 'rxjs';
+import { Items, Workflow } from 'src/app/entity/batch';
 
 @Injectable({
   providedIn: 'root',
@@ -22,16 +22,18 @@ export class BatchesService {
    * @screen - the products view(popup screens)
    * @params - none
    */
-  public getItems() : Observable<Items[]>{
-    return this.apiService.get(this.admin + '/api/findItemByTenant');
+  public getItems(): Observable<Items[]> {
+    return this.apiService
+      .get(this.admin + '/api/findItemByTenant');
   }
 
   /**
    * @function getStages - get batches for a particular item
    * screen - the products view(popup screens)
    */
-  public getStages() {
-    return this.apiService.get(this.admin + '/api/workflow/' + this._tenantId);
+  public getStages(): Observable<Workflow[]> {
+    return this.apiService
+      .get(this.admin + '/api/workflow/' + this._tenantId);
   }
 
   /**
@@ -65,3 +67,4 @@ export class BatchesService {
     return this.apiService.get(url);
   }
 }
+

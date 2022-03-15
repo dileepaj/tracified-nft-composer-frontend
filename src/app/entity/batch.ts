@@ -1,7 +1,7 @@
 import { Data } from '@angular/router';
 
-export interface Workflow {
-  stages: Data[];
+export class Workflow {
+  stages: Array<object>;
   name: string;
   tenantId: string;
   revision: string;
@@ -10,16 +10,18 @@ export interface Workflow {
 }
 
 export class Items {
-  _itemID: string;
+  itemID: string;
   itemName: string;
-  stages: Data[];
+  stages: Array<object>;
   tenantId: string;
+
 }
 
 export interface TracibilityProfile {
-  _links: Data[];
+  _links: Array<object>;
   limit: number;
   page: number;
-  results: Data[];
+  results: Array<object>;
   totalCount: number;
 }
+
