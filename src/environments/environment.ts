@@ -3,8 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  name: 'qa',
   production: true,
+  name: 'qa',
   backendUrl: 'https://qa.api.tracified.com',
   adminUrl: 'https://qa.admin.api.tracified.com',
   domain: 'localhost',

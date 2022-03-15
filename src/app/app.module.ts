@@ -91,6 +91,7 @@ const appRoutes: Routes = [
     BarChartComponent,
   ],
   imports: [
+    HttpClientModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -112,7 +113,6 @@ const appRoutes: Routes = [
     ColorPickerModule,
     RouterModule.forRoot(appRoutes),
     StoreModule.forRoot({ nft: nftReducer }),
-    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
