@@ -8,7 +8,7 @@ export interface Table {
   UserId?: string;
   OTPType?: string;
   Query?: string;
-  WedgetType?: string;
+  WidgetType?: string;
   TableTitle?: string;
   TableContent?: string;
 }

@@ -8,7 +8,7 @@ export interface ProofBot {
   UserId?: string;
   OTPType?: string;
   Query?: string;
-  WeigetType?: string;
+  WidgetType?: string;
   Title?: string;
   Proofurls?: ProofUrl[];
 }

@@ -176,15 +176,15 @@ export class ConfigureBubbleChartComponent implements OnInit {
     this.store.select(selectBubbleCharts).subscribe((data) => {
       data.map((chart) => {
         if (chart.WidgetId === this.chartId) {
-          this.title = chart.ChartTitle;
+          this.title = chart.ChartTitle!;
           this.keyTitle = chart.KeyTitle;
-          if (chart.ChartData.length !== 0) {
-            this.bubbleChartData = chart.ChartData.filter((data) => data);
+          if (chart.ChartData!.length !== 0) {
+            this.bubbleChartData = chart.ChartData!.filter((data) => data);
           }
-          this.bubbleColors = chart.Color.filter((data) => data);
+          this.bubbleColors = chart.Color!.filter((data) => data);
           console.log(this.bubbleColors);
-          this.fontColor = chart.FontColor;
-          this.fontSize = chart.FontSize;
+          this.fontColor = chart.FontColor!;
+          this.fontSize = chart.FontSize!;
           this.height = chart.Height!;
           this.width = chart.Width!;
         }

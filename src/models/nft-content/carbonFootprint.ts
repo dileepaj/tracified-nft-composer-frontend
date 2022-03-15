@@ -8,6 +8,6 @@ export interface CarbonFootprint {
   UserId?: string;
   OTPType?: string;
   Query?: string;
-  WeigetType?: string;
-  data?: any[];
+  WidgetType?: string;
+  data: any[];
 }

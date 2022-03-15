@@ -85,7 +85,7 @@ export class ConfigureTableComponent implements OnInit {
       data.map((table) => {
         if (table.WidgetId === this.tableId) {
           this.title = table.TableTitle;
-          this.tableContent = table.TableContent;
+          this.tableContent = table.TableContent!;
         }
       });
     });

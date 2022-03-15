@@ -202,14 +202,14 @@ export class ConfigureBarChartComponent implements OnInit {
     this.store.select(selectBarCharts).subscribe((data) => {
       data.map((chart) => {
         if (chart.WidgetId === this.chartId) {
-          this.title = chart.ChartTitle;
-          this.keyTitle = chart.KeyTitle;
-          if (chart.ChartData.length !== 0) {
-            this.barChartData = chart.ChartData.filter((data) => data);
+          this.title = chart.ChartTitle!;
+          this.keyTitle = chart.KeyTitle!;
+          if (chart.ChartData!.length !== 0) {
+            this.barChartData = chart.ChartData!.filter((data) => data);
           }
-          this.barColors = chart.Color.filter((data) => data);
-          this.fontColor = chart.FontColor;
-          this.fontSize = chart.FontSize;
+          this.barColors = chart.Color!.filter((data) => data);
+          this.fontColor = chart.FontColor!;
+          this.fontSize = chart.FontSize!;
           this.xName = chart.XAxis;
           this.yName = chart.YAxis;
           this.height = chart.Height!;

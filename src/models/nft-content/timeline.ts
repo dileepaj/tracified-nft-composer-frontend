@@ -8,6 +8,6 @@ export interface Timeline {
   UserId?: string;
   OTPType?: string;
   Query?: string;
-  WeigetType?: string;
+  WidgetType?: string;
   data?: any[];
 }
