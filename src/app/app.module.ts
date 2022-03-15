@@ -28,6 +28,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { NftSvgComponent } from './components/views/nft-svg/nft-svg.component';
 import { NftHtmlComponent } from './components/views/nft-html/nft-html.component';
 import { SelectBatchComponent } from './components/modals/select-batch/select-batch.component';
+import { TestViewComponent } from './components/views/test-view/test-view.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ConfigureChartComponent } from './components/modals/configure-chart/configure-chart.component';
 import { WidgetContentComponent } from './components/modals/widget-content/widget-content.component';
@@ -42,8 +43,9 @@ import { MatCardModule } from '@angular/material/card';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { MatRippleModule } from '@angular/material/core';
 import { nftReducer } from './store/nft-state-store/nft.reducer';
-import { StoreModule } from '@ngrx/store';
-import { TestViewComponent } from './components/views/test-view/test-view.component';
+import { StoreModule } from '@ngrx/store'
+
+
 
 const appRoutes: Routes = [
   {
