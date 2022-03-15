@@ -1,3 +1,22 @@
-<div class="widget-div" (dblclick)="onClick()">
-  <h1>Bubble Chart Widget</h1>
+<div class="widget-div" (dblclick)="openDialog()" f>
+  <div>
+    <h2>
+      Bubble Chart<button mat-icon-button (click)="deleteWidget()">
+        <mat-icon>clear</mat-icon>
+      </button>
+    </h2>
+  </div>
+  <div class="chart-div">
+    <mat-icon>bubble_chart</mat-icon>
+  </div>
+  <div class="widget-footer">
+    <button mat-button class="btn" style="float: right">
+      <mat-icon>add_circle</mat-icon>
+      Add Data
+    </button>
+    <button mat-button class="btn" style="float: right" (click)="openDialog()">
+      <mat-icon>edit</mat-icon>
+      Configure
+    </button>
+  </div>
 </div>

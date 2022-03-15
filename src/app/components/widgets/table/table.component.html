@@ -1,0 +1,23 @@
+<div class="widget-div" f>
+  <div>
+    <h2>
+      Table
+      <button mat-icon-button (click)="deleteWidget()">
+        <mat-icon>clear</mat-icon>
+      </button>
+    </h2>
+  </div>
+  <div class="content-div">
+    <mat-icon>table_view</mat-icon>
+  </div>
+  <div class="widget-footer">
+    <button mat-button class="btn" style="float: right">
+      <mat-icon>add_circle</mat-icon>
+      Add Data
+    </button>
+    <button mat-button class="btn" style="float: right" (click)="openDialog()">
+      <mat-icon>edit</mat-icon>
+      Configure
+    </button>
+  </div>
+</div>

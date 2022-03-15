@@ -1,8 +1,25 @@
 <div class="widget-div">
-  <h2>NFT Image</h2>
-  <div id="drop-area">
+  <h2>
+    NFT Image
+    <button mat-icon-button (click)="deleteWidget()">
+      <mat-icon>clear</mat-icon>
+    </button>
+  </h2>
+  <div id="drop-area" *ngIf="!isUploaded()">
     Upload or select file
     <mat-icon class="material-icons-outlined icon">cloud_upload</mat-icon>
-    <button mat-flat-button class="btn">Browse Files</button>
+    <input
+      type="file"
+      accept="image/*"
+      #fileUpload
+      (change)="onChange($event)"
+      hidden
+    />
+    <button mat-flat-button class="btn" (click)="triggerClick()">
+      Browse Files
+    </button>
+  </div>
+  <div id="image" *ngIf="isUploaded()">
+    <img [src]="img" class="img" />
   </div>
 </div>

@@ -11,10 +11,22 @@ import {
   moveItemInArray,
   copyArrayItem,
   CdkDragMove,
+  transferArrayItem,
 } from '@angular/cdk/drag-drop';
 import { NftCarbonfootprintComponent } from '../../widgets/nft-carbonfootprint/nft-carbonfootprint.component';
-import { ConfigureChartComponent } from '../../modals/configure-chart/configure-chart.component';
+import { ConfigureBarChartComponent } from '../../modals/configure-bar-chart/configure-bar-chart.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ConfigurePieChartComponent } from '../../modals/configure-pie-chart/configure-pie-chart.component';
+import { ConfigureBubbleChartComponent } from '../../modals/configure-bubble-chart/configure-bubble-chart.component';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/store/app.state';
+
+interface Widget {
+  wid: number;
+  _Id?: string;
+  name: string;
+  icon: string;
+}
 
 @Component({
   selector: 'app-composer',
@@ -30,72 +42,83 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     console.log(document.getElementById('nftcontent')?.innerHTML);
   }
 
-  availableWidgets: any = [
+  availableWidgets: Widget[] = [
     {
-      _id: 1,
+      wid: 1,
       name: 'Timeline',
       icon: 'event_note',
     },
     {
-      _id: 2,
+      wid: 2,
       name: 'ProofBot',
       icon: 'ondemand_video',
     },
     {
-      _id: 3,
+      wid: 3,
       name: 'Carbon Footprint',
       icon: 'filter_drama',
     },
     {
-      _id: 4,
+      wid: 4,
       name: 'NFT Image',
       icon: 'wallpaper',
     },
     {
-      _id: 5,
+      wid: 5,
       name: 'Bar Chart',
       icon: 'bar_chart',
     },
     {
-      _id: 6,
+      wid: 6,
       name: 'Pie Chart',
       icon: 'pie_chart',
     },
     {
-      _id: 7,
+      wid: 7,
       name: 'Bubble Chart',
       icon: 'bubble_chart',
     },
+    {
+      wid: 8,
+      name: 'Table',
+      icon: 'table_view',
+    },
   ];
-  usedWidgets: any = [];
+  usedWidgets: Widget[] = [];
 
-  drop(event: CdkDragDrop<string[]>) {
+  constructor(private store: Store<AppState>, public dialog: MatDialog) {}
+
+  ngOnInit(): void {
+    //this.openBarChartDialog();
+  }
+
+  //Called when a widget is dropped to drap and drop area.
+  drop(event: CdkDragDrop<Widget[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,
         event.previousIndex,
         event.currentIndex
       );
+      console.log(event.container.data);
     } else {
-      copyArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
-    }
-  }
+      if (!(event.currentIndex <= this.usedWidgets.length - 1)) {
+        this.usedWidgets[event.currentIndex] = {
+          ...event.previousContainer.data[event.previousIndex],
+          _Id: Date.now().toString(),
+        };
+      } else {
+        this.rearrangeArray(
+          {
+            ...event.previousContainer.data[event.previousIndex],
+            _Id: Date.now().toString(),
+          },
+          event.currentIndex
+        );
+      }
 
-  isEmpty(): boolean {
-    if (this.usedWidgets.length === 0) {
-      return true;
-    } else {
-      return false;
+      console.log(event.container.data);
     }
-  }
-
-  toggleWidgetPanel() {
-    this.opened = !this.opened;
   }
 
   dragMoved(event: any) {
@@ -107,17 +130,36 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     return false;
   }
 
-  constructor(public dialog: MatDialog) {}
-
-  ngOnInit(): void {
-    this.openDialog();
-  }
-
-  openDialog() {
-    const dialogRef = this.dialog.open(ConfigureChartComponent);
+  openBarChartDialog() {
+    const dialogRef = this.dialog.open(ConfigureBarChartComponent);
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
     });
+  }
+
+  //Used to rearrange usedWidgets array when a widget is dropped to the drag and drop area
+  private rearrangeArray(item: any, index: any) {
+    let oldItem: any;
+    let i: number;
+    for (i = index; i < this.usedWidgets.length; i++) {
+      oldItem = this.usedWidgets[i];
+      this.usedWidgets[i] = item;
+      item = oldItem;
+    }
+
+    this.usedWidgets.push(item);
+  }
+
+  //delete a widget
+  deleteWidget(id: any) {
+    let index: number = 0;
+    this.usedWidgets.map((widget) => {
+      if (widget._Id === id) {
+        index = this.usedWidgets.indexOf(widget);
+      }
+    });
+    transferArrayItem(this.usedWidgets, [], index, 0);
+    console.log('widget deleted - ' + index);
   }
 }

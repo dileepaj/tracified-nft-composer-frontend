@@ -1,0 +1,31 @@
+@import "../../../../scss/variables";
+@import "../../../../scss/mixins";
+
+.ace-editor {
+  border: 2px solid #f8f9fa;
+  top: 45px;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  position: absolute;
+}
+
+.ldal-div {
+  display: flex;
+  flex-direction: column;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  position: absolute;
+}
+
+.btn {
+  @include btn-accent;
+  margin: 5px;
+  //float: right;
+}
+
+.btn mat-icon {
+  vertical-align: middle;
+}

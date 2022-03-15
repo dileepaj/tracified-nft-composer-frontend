@@ -1,0 +1,91 @@
+<mat-dialog-content class="mat-typography modal-content">
+  <mat-tab-group (selectedTabChange)="tabChanged($event)">
+    <mat-tab label="Query">
+      <mat-grid-list cols="5" rowHeight="550px">
+        <!--Column that displays the bar chart-->
+        <mat-grid-tile colspan="5" style="overflow: auto">
+          <app-ldaleditor></app-ldaleditor
+        ></mat-grid-tile>
+      </mat-grid-list>
+    </mat-tab>
+    <mat-tab label="Chart Configuration">
+      <mat-grid-list cols="5" rowHeight="550px">
+        <!--Column that displays the bar chart-->
+        <mat-grid-tile colspan="3" style="overflow: auto">
+          <!--Bar chart-->
+          <div class="chart">
+            <figure id="pie"></figure>
+          </div>
+        </mat-grid-tile>
+
+        <!--Column that displays the configuration panel-->
+        <mat-grid-tile colspan="2" class="form-tile">
+          <div class="form-div">
+            <h2><mat-icon class="title-icon">tune</mat-icon>Configure Chart</h2>
+            <div class="input-group">
+              <!--input field for setting x axis name-->
+              <mat-form-field appearance="fill" color="primary">
+                <mat-label>Title</mat-label>
+                <input
+                  matInput
+                  type="text"
+                  [(ngModel)]="title"
+                  (ngModelChange)="updateChart()"
+                />
+              </mat-form-field>
+            </div>
+
+            <div class="input-group">
+              <mat-form-field appearance="fill">
+                <mat-label>Font size</mat-label>
+                <input
+                  matInput
+                  type="number"
+                  placeholder="Ex. 12"
+                  [(ngModel)]="fontSize"
+                  (ngModelChange)="updateChart()"
+                />
+                <span matSuffix>px</span>
+              </mat-form-field>
+              <div
+                class="colorbox"
+                [(colorPicker)]="fontColor"
+                [style.background]="fontColor"
+                (colorPickerChange)="updateChart()"
+              ></div>
+            </div>
+
+            <!--Values displayed in the bar chart-->
+            <div class="pie-chart-fields">
+              <h3>Pie Chart Fields</h3>
+              <div class="field" *ngFor="let field of pieChartData; index as i">
+                <mat-card>
+                  <label>{{ field.name }}</label>
+                  <div
+                    class="colorbox"
+                    [(colorPicker)]="fieldColors[i]"
+                    [style.background]="fieldColors[i]"
+                    (colorPickerChange)="updateChart()"
+                  ></div>
+                </mat-card>
+              </div>
+            </div>
+          </div>
+        </mat-grid-tile> </mat-grid-list
+    ></mat-tab>
+  </mat-tab-group>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+
+  <button
+    mat-button
+    [mat-dialog-close]="true"
+    class="btn"
+    (click)="updateReduxState()"
+    cdkFocusInitial
+  >
+    <mat-icon>save</mat-icon>
+    Save
+  </button>
+</mat-dialog-actions>

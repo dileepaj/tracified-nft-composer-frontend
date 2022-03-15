@@ -24,13 +24,14 @@ import { NftCarbonfootprintComponent } from './components/widgets/nft-carbonfoot
 import { NftStatisticsComponent } from './components/widgets/nft-statistics/nft-statistics.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTreeModule } from '@angular/material/tree';
+import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { NftSvgComponent } from './components/views/nft-svg/nft-svg.component';
 import { NftHtmlComponent } from './components/views/nft-html/nft-html.component';
 import { SelectBatchComponent } from './components/modals/select-batch/select-batch.component';
 import { TestViewComponent } from './components/views/test-view/test-view.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { ConfigureChartComponent } from './components/modals/configure-chart/configure-chart.component';
+import { ConfigureBarChartComponent } from './components/modals/configure-bar-chart/configure-bar-chart.component';
 import { WidgetContentComponent } from './components/modals/widget-content/widget-content.component';
 import { BubbleChartWidgetComponent } from './components/widgets/bubble-chart-widget/bubble-chart-widget.component';
 import { BarChartWidgetComponent } from './components/widgets/bar-chart-widget/bar-chart-widget.component';
@@ -43,13 +44,29 @@ import { MatCardModule } from '@angular/material/card';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { MatRippleModule } from '@angular/material/core';
 import { nftReducer } from './store/nft-state-store/nft.reducer';
-import { StoreModule } from '@ngrx/store'
+import { StoreModule } from '@ngrx/store';
+import { MatTabsModule } from '@angular/material/tabs';
+import { ConfigurePieChartComponent } from './components/modals/configure-pie-chart/configure-pie-chart.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { LdaleditorComponent } from './components/editor/ldaleditor/ldaleditor.component';
+import { ConfigureBubbleChartComponent } from './components/modals/configure-bubble-chart/configure-bubble-chart.component';
+import { TableComponent } from './components/widgets/table/table.component';
+import { ConfigureTableComponent } from './components/modals/configure-table/configure-table.component';
+import { MatBadgeModule } from '@angular/material/badge';
+import { HttpClientModule } from '@angular/common/http';
+
+//import { AceEditorModule } from 'ng2-ace-editor';
 
 
 
 const appRoutes: Routes = [
   {
-    path: 'composer',
+    path: '',
+    redirectTo: 'layouts',
+    pathMatch: 'full',
+  },
+  {
+    path: 'layouts',
     component: ComposerComponent,
   },
   {
@@ -84,11 +101,17 @@ const appRoutes: Routes = [
     SelectBatchComponent,
     TestViewComponent,
     ConfigureChartComponent,
+    ConfigureBarChartComponent,
     WidgetContentComponent,
     BubbleChartWidgetComponent,
     BarChartWidgetComponent,
     PieChartWidgetComponent,
     BarChartComponent,
+    ConfigurePieChartComponent,
+    LdaleditorComponent,
+    ConfigureBubbleChartComponent,
+    TableComponent,
+    ConfigureTableComponent,
   ],
   imports: [
     HttpClientModule,
@@ -106,13 +129,19 @@ const appRoutes: Routes = [
     MatToolbarModule,
     MatDialogModule,
     MatFormFieldModule,
+    MatTableModule,
+    MatBadgeModule,
     MatInputModule,
     FormsModule,
     MatCardModule,
     MatRippleModule,
     ColorPickerModule,
+    MatTabsModule,
+    FlexLayoutModule,
+    HttpClientModule,
+    //AceEditorModule,
     RouterModule.forRoot(appRoutes),
-    StoreModule.forRoot({nft:nftReducer}),
+    StoreModule.forRoot({ nft: nftReducer }),
   ],
   providers: [],
   bootstrap: [AppComponent],

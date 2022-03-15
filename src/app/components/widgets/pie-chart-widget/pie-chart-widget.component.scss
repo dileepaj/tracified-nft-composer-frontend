@@ -1,10 +1,67 @@
 @import "../../../../scss/mixins";
+@import "../../../../scss/variables";
 
 .widget-div {
   @include widget-div;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
-.widget-div:active {
-  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
-    0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+.chart-div {
+  //border: dotted 2px #ccc;
+  border-radius: 5px;
+  position: absolute;
+  bottom: 50px;
+  top: 50px;
+  right: 10px;
+  left: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+  //background-color: #ccc;
+}
+
+.chrt {
+  margin: 10px;
+  transform: scale(0.4);
+}
+
+.btn {
+  @include btn-primary;
+  transform: scale(0.9);
+}
+
+mat-icon {
+  color: $green;
+}
+.btn mat-icon {
+  color: white;
+}
+
+.widget-footer {
+  position: absolute;
+  right: 7px;
+  left: 0;
+  bottom: 0;
+  top: 255px;
+}
+
+h2 mat-icon {
+  color: black;
+  float: right;
+  cursor: pointer;
+}
+
+h2 button {
+  float: right;
+  vertical-align: middle;
+}
+
+.chart-div mat-icon {
+  transform: scale(4);
+  color: $background;
 }
