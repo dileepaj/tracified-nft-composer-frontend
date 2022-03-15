@@ -1,4 +1,6 @@
 export interface Image {
   WidgetId: string;
-  src: string;
+  Title?: string;
+  Type: string;
+  Base64Image: string;
 }

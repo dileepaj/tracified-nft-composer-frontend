@@ -36,18 +36,12 @@ export class NftImageComponent implements OnInit {
   nft$: any;
   image$: Observable<Image[]>;
   private image: Image;
-  src: string = '';
+  file: File;
+  shortLink: string = '';
+  loading: boolean = false;
+  base64: string = '';
+  img: any = '';
 
-  im: Image[] = [
-    {
-      WidgetId: '1',
-      src: 'abc',
-    },
-    {
-      WidgetId: '2',
-      src: 'abc',
-    },
-  ];
   constructor(private store: Store<AppState>) {
     this.nft$ = this.store.select(selectNFTContent);
     this.image$ = this.store.select(selectNFTImages);
@@ -57,25 +51,38 @@ export class NftImageComponent implements OnInit {
     this.addImageToStore();
   }
 
+  //display nft state
   private showNFT() {
     console.log('-------------------------------------------');
     console.log('++++++++++++++++++++++++++-', this.nft$);
   }
 
-  uploadImage(event: Event) {
-    const element = event.currentTarget as HTMLInputElement;
-    let fileList: FileList | null = element.files;
-    if (fileList) {
-      console.log('FileUpload -> files', fileList);
-      this.src = fileList[0].name;
-    }
-    this.updateImage();
+  //called when file input change event is emitted
+  onChange(event: any) {
+    this.file = event.target.files[0];
+    this.uploadImage(event);
   }
 
+  //called when user uploads an image
+  uploadImage(event: Event) {
+    this.loading = !this.loading;
+    console.log(this.file);
+
+    const reader = new FileReader();
+    reader.readAsDataURL(this.file);
+    reader.onload = this._handleReaderLoaded.bind(this);
+    reader.readAsBinaryString(this.file);
+
+    this.loading = false; // Flag variable
+  }
+
+  //adds image to redux store
   private addImageToStore() {
     this.image = {
       WidgetId: this.id,
-      src: this.src,
+      Title: 'NFT Image',
+      Type: 'image/jpeg',
+      Base64Image: '',
     };
 
     this.store.dispatch(addNFTImage({ image: this.image }));
@@ -83,10 +90,12 @@ export class NftImageComponent implements OnInit {
     this.showNFT();
   }
 
+  //update redux state
   private updateImage() {
     this.image = {
       WidgetId: this.id,
-      src: this.src,
+      Type: this.file.type,
+      Base64Image: this.base64,
     };
 
     this.store.dispatch(updateNFTImage({ image: this.image }));
@@ -98,8 +107,30 @@ export class NftImageComponent implements OnInit {
     this.onDeleteWidget.emit(this.id);
   }
 
+  //trigger file input click event
   triggerClick() {
     let el: HTMLElement = this.fileUpload.nativeElement;
     el.click();
+  }
+
+  //check whether user has uploaded an image or not
+  isUploaded() {
+    return this.base64 !== '';
+  }
+
+  //create base64 image
+  _handleReaderLoaded(readerEvt: any) {
+    this.base64 = btoa(readerEvt.target.result);
+    this.updateImage();
+    this.updateHTML();
+  }
+
+  //update html
+  updateHTML() {
+    const reader = new FileReader();
+    reader.readAsDataURL(this.file);
+    reader.onload = (_event) => {
+      this.img = reader.result;
+    };
   }
 }

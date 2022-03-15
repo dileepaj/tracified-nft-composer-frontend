@@ -51,9 +51,16 @@ import { ConfigureBubbleChartComponent } from './components/modals/configure-bub
 import { TableComponent } from './components/widgets/table/table.component';
 import { ConfigureTableComponent } from './components/modals/configure-table/configure-table.component';
 import { MatBadgeModule } from '@angular/material/badge';
+import { HttpClientModule } from '@angular/common/http';
+
 //import { AceEditorModule } from 'ng2-ace-editor';
 
 const appRoutes: Routes = [
+  {
+    path: '',
+    redirectTo: 'layouts',
+    pathMatch: 'full',
+  },
   {
     path: 'layouts',
     component: ComposerComponent,
@@ -120,6 +127,7 @@ const appRoutes: Routes = [
     ColorPickerModule,
     MatTabsModule,
     FlexLayoutModule,
+    HttpClientModule,
     //AceEditorModule,
     RouterModule.forRoot(appRoutes),
     StoreModule.forRoot({ nft: nftReducer }),

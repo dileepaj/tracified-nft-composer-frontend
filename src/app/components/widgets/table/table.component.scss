@@ -60,3 +60,8 @@ h2 button {
   float: right;
   vertical-align: middle;
 }
+
+.content-div mat-icon {
+  transform: scale(4);
+  color: $background;
+}

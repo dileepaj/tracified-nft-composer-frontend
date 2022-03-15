@@ -38,3 +38,23 @@ h2 button {
   float: right;
   vertical-align: middle;
 }
+
+#image {
+  border: dotted 2px #ccc;
+  border-radius: 5px;
+  position: absolute;
+  bottom: 10px;
+  top: 50px;
+  right: 10px;
+  left: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.img {
+  width: 100%;
+  height: 240px;
+}
