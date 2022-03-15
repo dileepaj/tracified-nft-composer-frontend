@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import jwtDecode from 'jwt-decode';
-import { enc } from 'crypto-js';
-// import { URLSearchParams } from 'url';
 
 @Injectable({
   providedIn: 'root',

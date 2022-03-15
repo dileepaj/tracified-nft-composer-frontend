@@ -1,5 +1,5 @@
 export const environment = {
-  name: 'qa',
+  name: 'staging',
   production: false,
   domain: 'localhost',
 };

@@ -4,7 +4,7 @@
 
 export const environment = {
   name: 'qa',
-  production: false,
+  production: true,
   backendUrl: 'https://qa.api.tracified.com',
   adminUrl: 'https://qa.admin.api.tracified.com',
   domain: 'localhost',
