@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-login',
@@ -8,9 +9,13 @@ import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 export class LoginComponent implements OnInit {
   faCoffee = faCoffee;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
 
+  login(){
+    this.router.navigate(['/layouts']);
+    sessionStorage.setItem("authorized", "authorized");
+  }
 }

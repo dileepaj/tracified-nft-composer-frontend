@@ -1,5 +1,8 @@
 <div class="composer-div" cdkDropListGroup>
   <mat-drawer-container class="sidebar-container">
+    <mat-drawer class="side-nav" mode="side" position="start" opened>
+      <app-sidebar></app-sidebar>
+    </mat-drawer>
     <mat-drawer
       mode="side"
       [opened]="opened"

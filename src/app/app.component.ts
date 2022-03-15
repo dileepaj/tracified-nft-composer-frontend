@@ -9,5 +9,9 @@ import {filter} from 'rxjs/operators';
 })
 export class AppComponent {
   title = 'tracified-nft-composer-frontend';
-  authorized= false
+  authorized= "authorized";
+  OnInit(){
+this.authorized=sessionStorage.getItem("authorized")||"";
+console.log('this.authorized', this.authorized)
+  }
 }

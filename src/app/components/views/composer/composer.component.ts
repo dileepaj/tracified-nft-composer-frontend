@@ -39,7 +39,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   @ViewChild('nftcontent') myDiv: ElementRef;
 
   ngAfterViewInit() {
-    console.log(document.getElementById('nftcontent')?.innerHTML);
+    //console.log(document.getElementById('nftcontent')?.innerHTML);
   }
 
   availableWidgets: Widget[] = [
@@ -100,7 +100,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
         event.previousIndex,
         event.currentIndex
       );
-      console.log(event.container.data);
+      //console.log(event.container.data);
     } else {
       if (!(event.currentIndex <= this.usedWidgets.length - 1)) {
         this.usedWidgets[event.currentIndex] = {
@@ -117,13 +117,13 @@ export class ComposerComponent implements OnInit, AfterViewInit {
         );
       }
 
-      console.log(event.container.data);
+      //console.log(event.container.data);
     }
   }
 
   dragMoved(event: any) {
     this.position = `> Position X: ${event.pointerPosition.x} - Y: ${event.pointerPosition.y}`;
-    console.log(this.position);
+    //console.log(this.position);
   }
 
   noReturnPredicate() {
@@ -134,7 +134,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(ConfigureBarChartComponent);
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
+      //console.log(`Dialog result: ${result}`);
     });
   }
 
@@ -160,6 +160,6 @@ export class ComposerComponent implements OnInit, AfterViewInit {
       }
     });
     transferArrayItem(this.usedWidgets, [], index, 0);
-    console.log('widget deleted - ' + index);
+    //console.log('widget deleted - ' + index);
   }
 }
