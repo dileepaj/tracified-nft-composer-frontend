@@ -1,15 +1,154 @@
-<h2 mat-dialog-title>Configure Chart</h2>
+<h2 mat-dialog-title>Select Batch</h2>
 <mat-dialog-content class="mat-typography modal-content">
-  <h3>Develop across all platforms</h3>
-  <p>
-    Learn one way to build applications with Angular and reuse your code and
-    abilities to build apps for any deployment target. For web, mobile web,
-    native mobile and native desktop.
-  </p>
+  <div class="content">
+    <mat-stepper #stepper>
+      <mat-step label="Select Product">
+        <table mat-table [dataSource]="products" class="mat-elevation-z8">
+          <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+
+          <!-- Position Column -->
+          <ng-container matColumnDef="productName">
+            <th mat-header-cell *matHeaderCellDef>Product Name</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.productName }}
+            </td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="stages">
+            <th mat-header-cell *matHeaderCellDef>Stages</th>
+            <td mat-cell *matCellDef="let element">
+              <span class="stage" *ngFor="let stage of element.stages">
+                {{ stage }}
+              </span>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="productColumns"></tr>
+          <tr
+            mat-row
+            matStepperNext
+            *matRowDef="let row; columns: productColumns"
+            [class.demo-row-is-clicked]="selectedProduct === row"
+            (click)="selectProduct(row)"
+          ></tr>
+        </table>
+      </mat-step>
+      <mat-step label="Select Batch">
+        <table mat-table [dataSource]="batches" class="mat-elevation-z8">
+          <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+
+          <!-- Position Column -->
+          <ng-container matColumnDef="batchId">
+            <th mat-header-cell *matHeaderCellDef>Batch Id</th>
+            <td mat-cell *matCellDef="let element">{{ element.batchId }}</td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="createdDate">
+            <th mat-header-cell *matHeaderCellDef>Created Date</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.createdDate }}
+            </td>
+          </ng-container>
+
+          <!-- Weight Column -->
+          <ng-container matColumnDef="dateLastEntry">
+            <th mat-header-cell *matHeaderCellDef>Date of last data entry</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.dateLastEntry }}
+            </td>
+          </ng-container>
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="currentStage">
+            <th mat-header-cell *matHeaderCellDef>Current Stage</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.currentStage }}
+            </td>
+          </ng-container>
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="createdBy">
+            <th mat-header-cell *matHeaderCellDef>Created By</th>
+            <td mat-cell *matCellDef="let element">{{ element.createdBy }}</td>
+          </ng-container>
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="images">
+            <th mat-header-cell *matHeaderCellDef>Recent Images</th>
+            <td mat-cell *matCellDef="let element">
+              <div class="batch-img-list">
+                <img
+                  *ngFor="let image of element.images"
+                  class="batchImg"
+                  [src]="image"
+                />
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="batchColumns"></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: batchColumns"
+            [class.demo-row-is-clicked]="selectedBatch === row"
+            (click)="selectBatch(row)"
+          ></tr></table
+      ></mat-step>
+      <mat-step label="Traceability Data">
+        <table mat-table [dataSource]="tdp" class="mat-elevation-z8">
+          <ng-container matColumnDef="stage">
+            <th mat-header-cell *matHeaderCellDef>Stages</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.stage }}
+            </td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="stageName">
+            <th mat-header-cell *matHeaderCellDef>Stages</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.stageName }}
+            </td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="tdp">
+            <th mat-header-cell *matHeaderCellDef>Stages</th>
+            <td mat-cell *matCellDef="let element">
+              <div fxLayout="row wrap">
+                <label fxFlex="50%"
+                  >Operation : {{ element.tdp.operation }}</label
+                >
+                <label fxFlex="50%">Farm : {{ element.tdp.farm }}</label>
+                <label fxFlex="50%"
+                  >Date and Time {{ element.tdp.dateTime }}</label
+                >
+
+                <label fxFlex="50%">Auhtor : {{ element.tdp.author }}</label>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="tdpColumns"></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: tdpColumns"
+            [class.demo-row-is-clicked]="selectedTdp === row"
+            (click)="selectTdp(row)"
+          ></tr>
+        </table>
+      </mat-step>
+    </mat-stepper>
+  </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button [mat-dialog-close]="true" class="btn" cdkFocusInitial>
+  <button mat-button (click)="updateReduxState()" class="btn" cdkFocusInitial>
+    <mat-icon>save</mat-icon>
     Save
   </button>
 </mat-dialog-actions>

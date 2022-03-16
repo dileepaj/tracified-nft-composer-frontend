@@ -52,12 +52,12 @@ import { TableComponent } from './components/widgets/table/table.component';
 import { ConfigureTableComponent } from './components/modals/configure-table/configure-table.component';
 import { MatBadgeModule } from '@angular/material/badge';
 import { HttpClientModule } from '@angular/common/http';
+import { MatStepperModule } from '@angular/material/stepper';
 import { TestViewComponent } from 'src/app/components/views/test-view/test-view.component';
 import { LoginComponent } from './components/views/login/login.component';
 import { ProjectsComponent } from './components/views/projects/projects.component';
 
 //import { AceEditorModule } from 'ng2-ace-editor';
-
 const appRoutes: Routes = [
   {
     path: '',
@@ -146,6 +146,7 @@ const appRoutes: Routes = [
     MatTabsModule,
     FlexLayoutModule,
     HttpClientModule,
+    MatStepperModule,
     //AceEditorModule,
     RouterModule.forRoot(appRoutes),
     StoreModule.forRoot({ nft: nftReducer }),

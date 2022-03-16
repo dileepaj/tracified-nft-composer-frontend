@@ -26,6 +26,8 @@ export class ConfigureBarChartComponent implements OnInit {
   private barChart: Chart;
   chartId: any;
   keyTitle: string;
+  batchId: any;
+  query: string = '';
   //data that are being displayed in the bar chart
   barChartData: any[] = [
     {
@@ -78,7 +80,6 @@ export class ConfigureBarChartComponent implements OnInit {
   ngOnInit(): void {
     //this.updateChart();
     this.chartId = this.data.id;
-    console.log(this.data);
   }
 
   //generate bar chart
@@ -155,7 +156,6 @@ export class ConfigureBarChartComponent implements OnInit {
     d3.select('svg').remove();
     this.createSvg();
     this.drawBars(this.barChartData);
-    console.log('chart updated!');
   }
 
   //delete a field in bar chart
@@ -171,20 +171,22 @@ export class ConfigureBarChartComponent implements OnInit {
     console.log('++++++++++++++++++++++++++-', this.nft$);
   }
 
+  //called when user moves to a different tab
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {
-    console.log('tab changed');
     if (tabChangeEvent.index === 1) {
       this.getBarChart();
       this.updateChart();
     }
   }
 
+  //update redux store
   updateReduxState() {
     this.barChart = {
       WidgetId: this.chartId,
       ChartTitle: this.title,
       KeyTitle: 'name',
       ValueTitle: 'value',
+      Query: this.query,
       ChartData: this.barChartData,
       Color: this.barColors,
       FontColor: this.fontColor,
@@ -198,11 +200,13 @@ export class ConfigureBarChartComponent implements OnInit {
     this.store.dispatch(updateBarChart({ chart: this.barChart }));
   }
 
+  //get chart from redux store
   private getBarChart() {
     this.store.select(selectBarCharts).subscribe((data) => {
       data.map((chart) => {
         if (chart.WidgetId === this.chartId) {
           this.title = chart.ChartTitle!;
+          this.batchId = chart.BactchId!;
           this.keyTitle = chart.KeyTitle!;
           if (chart.ChartData!.length !== 0) {
             this.barChartData = chart.ChartData!.filter((data) => data);

@@ -13,17 +13,17 @@ import {
   CdkDragMove,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
-import { NftCarbonfootprintComponent } from '../../widgets/nft-carbonfootprint/nft-carbonfootprint.component';
-import { ConfigureBarChartComponent } from '../../modals/configure-bar-chart/configure-bar-chart.component';
+
 import { MatDialog } from '@angular/material/dialog';
-import { ConfigurePieChartComponent } from '../../modals/configure-pie-chart/configure-pie-chart.component';
-import { ConfigureBubbleChartComponent } from '../../modals/configure-bubble-chart/configure-bubble-chart.component';
+
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.state';
+import { DndServiceService } from 'src/app/services/dnd-service.service';
 
-interface Widget {
+export interface Widget {
   wid: number;
   _Id?: string;
+  used: boolean;
   name: string;
   icon: string;
 }
@@ -38,58 +38,68 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   position = '';
   @ViewChild('nftcontent') myDiv: ElementRef;
 
-  ngAfterViewInit() {
-    //console.log(document.getElementById('nftcontent')?.innerHTML);
-  }
+  ngAfterViewInit() {}
 
   availableWidgets: Widget[] = [
     {
       wid: 1,
+      used: false,
       name: 'Timeline',
       icon: 'event_note',
     },
     {
       wid: 2,
+      used: false,
       name: 'ProofBot',
       icon: 'ondemand_video',
     },
     {
       wid: 3,
+      used: false,
       name: 'Carbon Footprint',
       icon: 'filter_drama',
     },
     {
       wid: 4,
+      used: false,
       name: 'NFT Image',
       icon: 'wallpaper',
     },
     {
       wid: 5,
+      used: false,
       name: 'Bar Chart',
       icon: 'bar_chart',
     },
     {
       wid: 6,
+      used: false,
       name: 'Pie Chart',
       icon: 'pie_chart',
     },
     {
       wid: 7,
+      used: false,
       name: 'Bubble Chart',
       icon: 'bubble_chart',
     },
     {
       wid: 8,
+      used: false,
       name: 'Table',
       icon: 'table_view',
     },
   ];
   usedWidgets: Widget[] = [];
 
-  constructor(private store: Store<AppState>, public dialog: MatDialog) {}
+  constructor(
+    private store: Store<AppState>,
+    public dialog: MatDialog,
+    private stateService: DndServiceService
+  ) {}
 
   ngOnInit(): void {
-    //this.openBarChartDialog();
+    this.usedWidgets = this.stateService.getWidgets();
   }
 
   //Called when a widget is dropped to drap and drop area.
@@ -100,42 +110,34 @@ export class ComposerComponent implements OnInit, AfterViewInit {
         event.previousIndex,
         event.currentIndex
       );
-      //console.log(event.container.data);
     } else {
       if (!(event.currentIndex <= this.usedWidgets.length - 1)) {
         this.usedWidgets[event.currentIndex] = {
           ...event.previousContainer.data[event.previousIndex],
           _Id: Date.now().toString(),
+          used: false,
         };
       } else {
         this.rearrangeArray(
           {
             ...event.previousContainer.data[event.previousIndex],
             _Id: Date.now().toString(),
+            used: false,
           },
           event.currentIndex
         );
       }
-
-      //console.log(event.container.data);
+      this.stateService.rewriteWidgetArr(this.usedWidgets);
     }
   }
 
+  //get drag position
   dragMoved(event: any) {
     this.position = `> Position X: ${event.pointerPosition.x} - Y: ${event.pointerPosition.y}`;
-    //console.log(this.position);
   }
 
   noReturnPredicate() {
     return false;
-  }
-
-  openBarChartDialog() {
-    const dialogRef = this.dialog.open(ConfigureBarChartComponent);
-
-    dialogRef.afterClosed().subscribe((result) => {
-      //console.log(`Dialog result: ${result}`);
-    });
   }
 
   //Used to rearrange usedWidgets array when a widget is dropped to the drag and drop area
@@ -160,6 +162,8 @@ export class ComposerComponent implements OnInit, AfterViewInit {
       }
     });
     transferArrayItem(this.usedWidgets, [], index, 0);
-    //console.log('widget deleted - ' + index);
+
+    this.stateService.rewriteWidgetArr(this.usedWidgets);
+
   }
 }
