@@ -19,6 +19,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.state';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
+import { ActivatedRoute } from '@angular/router';
 
 export interface Widget {
   wid: number;
@@ -36,6 +37,8 @@ export interface Widget {
 export class ComposerComponent implements OnInit, AfterViewInit {
   opened = true;
   position = '';
+  id: string;
+  private sub: any;
   @ViewChild('nftcontent') myDiv: ElementRef;
 
   ngAfterViewInit() {}
@@ -95,11 +98,28 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   constructor(
     private store: Store<AppState>,
     public dialog: MatDialog,
-    private stateService: DndServiceService
+    private stateService: DndServiceService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
     this.usedWidgets = this.stateService.getWidgets();
+    //read the router paramter assign it to id
+    this.sub = this.route.params.subscribe((params) => {
+      this.id = params['id'];
+    });
+    if (!!this.id) {
+      this.loadExistingProjectdata(this.id);
+    }
+  }
+
+  //load the recentproject base on id
+  loadExistingProjectdata(id: string) {
+    //console.log('id', id);
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 
   //Called when a widget is dropped to drap and drop area.
@@ -164,6 +184,5 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     transferArrayItem(this.usedWidgets, [], index, 0);
 
     this.stateService.rewriteWidgetArr(this.usedWidgets);
-
   }
 }

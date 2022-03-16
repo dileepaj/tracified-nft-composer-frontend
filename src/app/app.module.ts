@@ -69,6 +69,10 @@ const appRoutes: Routes = [
     component: ProjectsComponent,
   },
   {
+    path: 'layouts/project/:id',
+    component: ComposerComponent,
+  },
+  {
     path: 'login',
     component: LoginComponent,
   },
