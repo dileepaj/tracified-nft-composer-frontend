@@ -162,6 +162,8 @@ export class ComposerComponent implements OnInit, AfterViewInit {
       }
     });
     transferArrayItem(this.usedWidgets, [], index, 0);
+
     this.stateService.rewriteWidgetArr(this.usedWidgets);
+
   }
 }

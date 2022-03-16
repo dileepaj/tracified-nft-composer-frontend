@@ -1,0 +1,38 @@
+mat-toolbar {
+    justify-content: space-between;
+}
+
+.content {
+    padding: 20px;
+}
+
+.content > mat-card {
+    margin-bottom: 16px;
+}
+
+.column-label {
+    margin-right: 8px;
+    font-size: 1rem;
+}
+
+.green-button{
+    border-radius: 35;
+    background-color: #00C853;
+    padding: 8px 26px;
+    font-size: 18px;
+}
+
+.mainView{
+    margin-top: 100px;
+}
+
+.customIcon {
+    font-size: 50px;
+    height: 50px ;
+    width: 50px ;
+    color: #00C853;
+}
+
+.green-color{
+    background-color: #00C853; 
+}

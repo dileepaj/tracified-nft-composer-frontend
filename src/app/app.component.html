@@ -1,9 +1,14 @@
 <app-header></app-header>
-<mat-drawer-container class="sidebar-container" fxLayout="column">
-  <mat-drawer class="side-nav" mode="side" position="start" opened
-    ><app-sidebar></app-sidebar>
-  </mat-drawer>
+<mat-drawer-container class="sidebar-container" fxLayout="column" *ngIf="authorized ==='authorized'" else login>
   <mat-drawer-content>
-    <router-outlet></router-outlet>
+    <router-outlet>
+    </router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>
+
+<mat-drawer-container fxLayout="column" #login>
+  <mat-drawer-content>
+    <router-outlet>
+    </router-outlet>
   </mat-drawer-content>
 </mat-drawer-container>

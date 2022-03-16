@@ -53,14 +53,24 @@ import { ConfigureTableComponent } from './components/modals/configure-table/con
 import { MatBadgeModule } from '@angular/material/badge';
 import { HttpClientModule } from '@angular/common/http';
 import { MatStepperModule } from '@angular/material/stepper';
+import { TestViewComponent } from 'src/app/components/views/test-view/test-view.component';
+import { LoginComponent } from './components/views/login/login.component';
+import { ProjectsComponent } from './components/views/projects/projects.component';
 
 //import { AceEditorModule } from 'ng2-ace-editor';
-
 const appRoutes: Routes = [
   {
     path: '',
-    redirectTo: 'layouts',
+    redirectTo: 'login',
     pathMatch: 'full',
+  },
+  {
+    path: 'projects',
+    component: ProjectsComponent,
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
   },
   {
     path: 'layouts',
@@ -73,6 +83,10 @@ const appRoutes: Routes = [
   {
     path: 'nft-html',
     component: NftHtmlComponent,
+  },
+  {
+    path: 'test',
+    component: TestViewComponent,
   },
 ];
 
@@ -103,6 +117,9 @@ const appRoutes: Routes = [
     ConfigureBubbleChartComponent,
     TableComponent,
     ConfigureTableComponent,
+    TestViewComponent,
+    LoginComponent,
+    ProjectsComponent,
   ],
   imports: [
     BrowserModule,
