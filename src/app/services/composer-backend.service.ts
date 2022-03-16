@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { RecentProject } from 'src/models/nft-content/htmlGenerator';
+//import { RecentProject } from 'src/models/nft-content/htmlGenerator';
 import { QueryExecuter } from 'src/models/nft-content/queryExecuter';
 
 let httpOptions = {

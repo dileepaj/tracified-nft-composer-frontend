@@ -18,14 +18,11 @@ export class ApiService {
    * @param none
    */
   private setHeaders(): HttpHeaders {
-    console.log(this.auth_token);
-
     const headersConfig = {
       'Content-Type': 'application/json',
       Accept: 'application/json',
       Authorization: this.sToken.toString(),
     };
-    console.log('Headers added ', headersConfig);
 
     return new HttpHeaders(headersConfig);
   }
@@ -35,7 +32,6 @@ export class ApiService {
     path: string
     // params: URLSearchParams = new URLSearchParams()
   ): Observable<any> {
-    console.log('main get');
     return this.http.get(`${this.api_url}${path}`, {
       headers: this.setHeaders(),
       // search : params,
