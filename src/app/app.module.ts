@@ -52,6 +52,7 @@ import { TableComponent } from './components/widgets/table/table.component';
 import { ConfigureTableComponent } from './components/modals/configure-table/configure-table.component';
 import { MatBadgeModule } from '@angular/material/badge';
 import { HttpClientModule } from '@angular/common/http';
+import { MatStepperModule } from '@angular/material/stepper';
 
 //import { AceEditorModule } from 'ng2-ace-editor';
 
@@ -128,6 +129,7 @@ const appRoutes: Routes = [
     MatTabsModule,
     FlexLayoutModule,
     HttpClientModule,
+    MatStepperModule,
     //AceEditorModule,
     RouterModule.forRoot(appRoutes),
     StoreModule.forRoot({ nft: nftReducer }),

@@ -1,8 +1,100 @@
 @import "../../../../scss/mixins";
+@import "../../../../scss/variables";
 .modal-content {
   @include modal-content;
 }
-
 .btn {
   @include btn-primary;
+}
+
+.content {
+  height: $modalHeight;
+}
+
+.option {
+  height: 400px;
+  width: 300px;
+  background-color: whitesmoke;
+  border-radius: 10px;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.option-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+table {
+  margin-top: 20px;
+  width: 100%;
+}
+
+#stepper {
+  width: 100%;
+}
+
+mat-step {
+  background-color: $green !important;
+}
+
+.stage {
+  background: #ccc;
+  border-radius: 50px;
+  padding: 5px;
+  margin: 5px;
+}
+
+::ng-deep .mat-focused .mat-form-field-label {
+  /*change color of label*/
+  color: $green !important;
+}
+
+::ng-deep.mat-form-field-underline {
+  /*change color of underline*/
+  background-color: $green !important;
+}
+
+::ng-deep.mat-form-field-ripple {
+  /*change color of underline when focused*/
+  background-color: $green !important;
+}
+
+.mat-row .mat-cell {
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+  cursor: pointer;
+}
+
+.mat-row:hover .mat-cell {
+  border-color: currentColor;
+}
+
+.demo-row-is-clicked {
+  font-weight: bold;
+  background: whitesmoke;
+}
+
+.batchImg {
+  width: 80px;
+  height: 80px;
+  margin: 5px;
+}
+
+.batch-img-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  overflow: hidden;
+}
+
+.option-title {
+  background: green;
+  width: 100%;
+  height: 50px;
 }

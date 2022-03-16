@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
+import { DndServiceService } from 'src/app/services/dnd-service.service';
 import { AppState } from 'src/app/store/app.state';
 import {
   addTable,
@@ -31,13 +32,20 @@ export class TableComponent implements OnInit {
   @Output() onDeleteWidget: EventEmitter<any> = new EventEmitter();
   nft$: any;
   table: Table;
-  constructor(private store: Store<AppState>, public dialog: MatDialog) {
+  constructor(
+    private store: Store<AppState>,
+    public dialog: MatDialog,
+    private service: DndServiceService
+  ) {
     this.nft$ = this.store.select(selectNFTContent);
     //this.image$ = this.store.select(selectNFTImages);
   }
 
   ngOnInit(): void {
-    this.addTableToStore();
+    //check if the widget is already in the redux store
+    if (!this.service.widgetExists(this.id)) {
+      this.addTableToStore();
+    }
   }
 
   private showNFT() {
@@ -45,28 +53,29 @@ export class TableComponent implements OnInit {
     console.log('++++++++++++++++++++++++++-', this.nft$);
   }
 
+  //add table to redux store
   private addTableToStore() {
     this.table = {
       WidgetId: this.id,
+      WidgetType: 'table',
       TableTitle: 'Table',
       TableContent: '',
     };
 
     this.store.dispatch(addTable({ table: this.table }));
-    this.showNFT();
+    //this.showNFT();
 
     this.getTable();
+    this.service.updateUsedStatus(this.id);
   }
 
-  private updateProofbot() {
-    this.showNFT();
-  }
-
+  //delete table from redux store
   deleteWidget() {
     this.store.dispatch(deleteTable({ table: this.table }));
     this.onDeleteWidget.emit(this.id);
   }
 
+  //open configuartion popup
   openDialog() {
     const dialogRef = this.dialog.open(ConfigureTableComponent, {
       data: {
@@ -74,14 +83,12 @@ export class TableComponent implements OnInit {
       },
     });
 
-    console.log('dbl click widget - ' + this.id);
-
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
       this.getTable();
     });
   }
 
+  //get table from redux store
   private getTable() {
     this.store.select(selectTable).subscribe((data) => {
       data.map((table) => {

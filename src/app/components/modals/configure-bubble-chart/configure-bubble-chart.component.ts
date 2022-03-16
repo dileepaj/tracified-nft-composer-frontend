@@ -24,6 +24,7 @@ export class ConfigureBubbleChartComponent implements OnInit {
   private bubbleChart: Chart;
   chartId: any;
   keyTitle: any;
+  query: string = '';
   //data to be displayed in the pie chart
   bubbleChartData: any = [
     { name: 'Item 1', x: 100, y: 60, val: 1350 },
@@ -138,11 +139,10 @@ export class ConfigureBubbleChartComponent implements OnInit {
     d3.select('svg').remove();
     this.createSvg();
     this.drawBubbles(this.bubbleChartData, this.bubbleColors, this.radius);
-    console.log('chart updated!');
   }
 
+  //called when user moves to a different tab
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {
-    console.log('tab changed');
     if (tabChangeEvent.index === 1) {
       this.getBubbleChart();
       this.updateChart();
@@ -154,12 +154,14 @@ export class ConfigureBubbleChartComponent implements OnInit {
     console.log('++++++++++++++++++++++++++-', this.nft$);
   }
 
+  //update redux store
   updateReduxState() {
     this.bubbleChart = {
       WidgetId: this.chartId,
       ChartTitle: this.title,
       KeyTitle: 'name',
       ValueTitle: 'val',
+      Query: this.query,
       ChartData: this.bubbleChartData,
       Color: this.bubbleColors,
       Radius: this.radius,
@@ -172,6 +174,7 @@ export class ConfigureBubbleChartComponent implements OnInit {
     this.store.dispatch(updateBubbleChart({ chart: this.bubbleChart }));
   }
 
+  //get chart from redux store
   private getBubbleChart() {
     this.store.select(selectBubbleCharts).subscribe((data) => {
       data.map((chart) => {

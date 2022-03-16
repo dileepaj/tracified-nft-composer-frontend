@@ -25,6 +25,7 @@ export class ConfigureTableComponent implements OnInit {
   private table: Table;
   tableId: any;
   title: any;
+  query: string = '';
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   dataSource = [
     { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
@@ -58,28 +59,29 @@ export class ConfigureTableComponent implements OnInit {
     console.log('++++++++++++++++++++++++++-', this.nft$);
   }
 
+  //called when user moves to a different tab
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {
-    console.log('tab changed');
     if (tabChangeEvent.index === 1) {
       this.getTable();
       this.generateTable();
     }
   }
 
+  //update redux state
   updateReduxState() {
     this.table = {
       WidgetId: this.tableId,
       TableTitle: this.title,
+      Query: this.query,
       TableContent: this.tableContent,
     };
-
-    console.log(this.table);
 
     this.store.dispatch(updateTable({ table: this.table }));
 
     this.showChart();
   }
 
+  //get table from redux
   private getTable() {
     this.store.select(selectTable).subscribe((data) => {
       data.map((table) => {
@@ -91,6 +93,7 @@ export class ConfigureTableComponent implements OnInit {
     });
   }
 
+  //generate table html
   private generateTable() {
     let tableString = '<thead><tr>';
     Object.keys(this.dataSource[0]).map((column) => {
@@ -108,8 +111,6 @@ export class ConfigureTableComponent implements OnInit {
     });
 
     tableString += '</tbody>';
-
-    console.log(tableString);
 
     this.tableContent = tableString;
     this.tableHtml = '<table>' + this.tableContent + '</table>';

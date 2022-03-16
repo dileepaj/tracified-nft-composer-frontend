@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { DndServiceService } from 'src/app/services/dnd-service.service';
 import { AppState } from 'src/app/store/app.state';
 import {
   addNFTImage,
@@ -42,13 +43,21 @@ export class NftImageComponent implements OnInit {
   base64: string = '';
   img: any = '';
 
-  constructor(private store: Store<AppState>) {
+  constructor(
+    private store: Store<AppState>,
+    private service: DndServiceService
+  ) {
     this.nft$ = this.store.select(selectNFTContent);
     this.image$ = this.store.select(selectNFTImages);
   }
 
   ngOnInit(): void {
-    this.addImageToStore();
+    //check if the widget is already in redux store
+    if (!this.service.widgetExists(this.id)) {
+      this.addImageToStore();
+    } else {
+      this.getImage();
+    }
   }
 
   //display nft state
@@ -66,7 +75,6 @@ export class NftImageComponent implements OnInit {
   //called when user uploads an image
   uploadImage(event: Event) {
     this.loading = !this.loading;
-    console.log(this.file);
 
     const reader = new FileReader();
     reader.readAsDataURL(this.file);
@@ -87,7 +95,9 @@ export class NftImageComponent implements OnInit {
 
     this.store.dispatch(addNFTImage({ image: this.image }));
 
-    this.showNFT();
+    //this.showNFT();
+
+    this.service.updateUsedStatus(this.id);
   }
 
   //update redux state
@@ -102,6 +112,7 @@ export class NftImageComponent implements OnInit {
     this.showNFT();
   }
 
+  //delete image from redux store
   deleteWidget() {
     this.store.dispatch(deleteNFTImage({ image: this.image }));
     this.onDeleteWidget.emit(this.id);
@@ -132,5 +143,15 @@ export class NftImageComponent implements OnInit {
     reader.onload = (_event) => {
       this.img = reader.result;
     };
+  }
+
+  getImage() {
+    this.store.select(selectNFTImages).subscribe((data) => {
+      data.map((img) => {
+        if (img.WidgetId === this.id) {
+          this.image = img;
+        }
+      });
+    });
   }
 }

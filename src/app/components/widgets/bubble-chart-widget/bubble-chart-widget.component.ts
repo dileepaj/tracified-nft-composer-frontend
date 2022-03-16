@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
+import { DndServiceService } from 'src/app/services/dnd-service.service';
 import { AppState } from 'src/app/store/app.state';
 import {
   addBubbleChart,
@@ -10,6 +11,7 @@ import {
 import { selectBubbleCharts } from 'src/app/store/nft-state-store/nft.selector';
 import { Chart } from 'src/models/nft-content/chart';
 import { ConfigureBubbleChartComponent } from '../../modals/configure-bubble-chart/configure-bubble-chart.component';
+import { WidgetContentComponent } from '../../modals/widget-content/widget-content.component';
 
 @Component({
   selector: 'app-bubble-chart-widget',
@@ -20,12 +22,22 @@ export class BubbleChartWidgetComponent implements OnInit {
   @Input() id: any;
   @Output() onDeleteWidget: EventEmitter<any> = new EventEmitter();
   bubbleChart: Chart;
-  constructor(private store: Store<AppState>, public dialog: MatDialog) {}
+  constructor(
+    private store: Store<AppState>,
+    public dialog: MatDialog,
+    private service: DndServiceService
+  ) {}
 
   ngOnInit(): void {
-    this.addBubbleChartToStore();
+    //check if the widget is already in redux store
+    if (!this.service.widgetExists(this.id)) {
+      this.addBubbleChartToStore();
+    } else {
+      this.getBubbleChart();
+    }
   }
 
+  //open configuration popup
   openDialog() {
     const dialogRef = this.dialog.open(ConfigureBubbleChartComponent, {
       data: {
@@ -34,18 +46,21 @@ export class BubbleChartWidgetComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
+      //
     });
   }
 
+  //delete chart from redux
   deleteWidget() {
     this.store.dispatch(deleteBubbleChart({ chart: this.bubbleChart }));
     this.onDeleteWidget.emit(this.id);
   }
 
+  //add chart to redux
   private addBubbleChartToStore() {
     this.bubbleChart = {
       WidgetId: this.id,
+      WidgetType: 'bubble',
       ChartTitle: 'Bubble Chart',
       KeyTitle: 'name',
       ValueTitle: 'val',
@@ -69,8 +84,10 @@ export class BubbleChartWidgetComponent implements OnInit {
     };
     this.store.dispatch(addBubbleChart({ chart: this.bubbleChart }));
     this.getBubbleChart();
+    this.service.updateUsedStatus(this.id);
   }
 
+  //get chart from redux
   private getBubbleChart() {
     this.store.select(selectBubbleCharts).subscribe((data) => {
       data.map((chart) => {
@@ -79,5 +96,18 @@ export class BubbleChartWidgetComponent implements OnInit {
         }
       });
     });
+  }
+
+  //open batch selection popup
+  openAddData() {
+    this.getBubbleChart();
+    const dialogRef = this.dialog.open(WidgetContentComponent, {
+      data: {
+        id: this.id,
+        widget: this.bubbleChart,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {});
   }
 }

@@ -26,6 +26,7 @@ export class ConfigurePieChartComponent implements OnInit {
   private pieChart: Chart;
   chartId: any;
   keyTitle: any;
+  query: string = '';
   //data to be displayed in the pie chart
   pieChartData: any = [
     {
@@ -148,7 +149,6 @@ export class ConfigurePieChartComponent implements OnInit {
     this.createSvg();
     this.createColors();
     this.drawChart();
-    console.log('chart updated!');
   }
 
   private showChart() {
@@ -156,20 +156,22 @@ export class ConfigurePieChartComponent implements OnInit {
     console.log('++++++++++++++++++++++++++-', this.nft$);
   }
 
+  //called when user moves to a different tab
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {
-    console.log('tab changed');
     if (tabChangeEvent.index === 1) {
       this.getPieChart();
       this.updateChart();
     }
   }
 
+  //update redux state
   updateReduxState() {
     this.pieChart = {
       WidgetId: this.chartId,
       ChartTitle: this.title,
       KeyTitle: 'name',
       ValueTitle: 'value',
+      Query: this.query,
       ChartData: this.pieChartData,
       Color: this.fieldColors,
       FontColor: this.fontColor,
@@ -181,6 +183,7 @@ export class ConfigurePieChartComponent implements OnInit {
     this.store.dispatch(updatePieChart({ chart: this.pieChart }));
   }
 
+  //get chart from redux store
   private getPieChart() {
     this.store.select(selectPieCharts).subscribe((data) => {
       data.map((chart) => {

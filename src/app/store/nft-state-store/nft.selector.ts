@@ -38,6 +38,21 @@ export const selectTable = createSelector(
   (state: NFTState) => state.nftContent.Tables
 );
 
+export const selectCarbonFP = createSelector(
+  selectNFT,
+  (state: NFTState) => state.nftContent.CarbonFootprint
+);
+
+export const selectProofBot = createSelector(
+  selectNFT,
+  (state: NFTState) => state.nftContent.ProofBotData
+);
+
+export const selectTimeline = createSelector(
+  selectNFT,
+  (state: NFTState) => state.nftContent.Timeline
+);
+
 export const selectNoOfTimelines = createSelector(
   selectNFT,
   (state: NFTState) => state.nftContent.Timeline.length
