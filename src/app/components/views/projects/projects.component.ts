@@ -17,11 +17,8 @@ export class ProjectsComponent implements OnInit {
     private apiService:ComposerBackendService) { }
 
   ngOnInit(): void {
-    console.log('hiiii')
-
     this.apiService.getRecentProjects("ABC").subscribe((result) => {
       if (result) {
-        console.log('result-------------------', result)
         this.projects=result
       }
     });

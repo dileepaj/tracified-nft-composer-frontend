@@ -27,14 +27,12 @@ export class ApiService {
     return new HttpHeaders(headersConfig);
   }
 
-  //GET requests
+  //GET request
   get(
-    path: string
-    // params: URLSearchParams = new URLSearchParams()
+    path: string 
   ): Observable<any> {
     return this.http.get(`${this.api_url}${path}`, {
       headers: this.setHeaders(),
-      // search : params,
     });
   }
 }

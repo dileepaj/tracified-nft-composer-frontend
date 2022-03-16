@@ -49,8 +49,6 @@ export class TableComponent implements OnInit {
   }
 
   private showNFT() {
-    console.log('-------------------------------------------');
-    console.log('++++++++++++++++++++++++++-', this.nft$);
   }
 
   //add table to redux store

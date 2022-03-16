@@ -62,8 +62,6 @@ export class NftImageComponent implements OnInit {
 
   //display nft state
   private showNFT() {
-    console.log('-------------------------------------------');
-    console.log('++++++++++++++++++++++++++-', this.nft$);
   }
 
   //called when file input change event is emitted

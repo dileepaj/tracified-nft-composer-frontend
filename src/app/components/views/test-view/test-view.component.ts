@@ -24,10 +24,7 @@ export class TestViewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.getItems();
-    // this.getStages();
-    // this.getArtifacts();
-    this.getArtifactDataById();
+    this.getItems();
   }
 
   getItems() {

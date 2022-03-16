@@ -12,6 +12,5 @@ export class AppComponent {
   authorized= "authorized";
   OnInit(){
 this.authorized=sessionStorage.getItem("authorized")||"";
-console.log('this.authorized', this.authorized)
   }
 }

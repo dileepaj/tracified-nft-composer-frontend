@@ -71,7 +71,6 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
   }
 
   ngOnChanges(val: any) {
-    console.log('bar chart widget - updated!');
   }
 
   //delete chart from redux
