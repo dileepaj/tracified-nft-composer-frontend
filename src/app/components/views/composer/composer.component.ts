@@ -113,10 +113,8 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     }
   }
 
-  //load the recentproject base on id
-  loadExistingProjectdata(id: string) {
-    //console.log('id', id);
-  }
+  //load the recentproject base on nft id
+  loadExistingProjectdata(id: string) {}
 
   ngOnDestroy() {
     this.sub.unsubscribe();

@@ -166,10 +166,7 @@ export class ConfigureBarChartComponent implements OnInit {
     this.updateChart();
   }
 
-  private showChart() {
-    console.log('-------------------------------------------');
-    console.log('++++++++++++++++++++++++++-', this.nft$);
-  }
+  private showChart() {}
 
   //called when user moves to a different tab
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {

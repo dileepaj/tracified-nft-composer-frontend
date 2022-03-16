@@ -17,10 +17,9 @@ export class NftHtmlComponent implements OnInit {
   constructor(private store: Store<AppState>) {
     this.nft$ = this.store.select(selectNFTContent);
   }
-
-  ngOnInit(): void {
-    this.json = JSON.stringify(this.nft$, this.getCircularReplacer());
-    console.log(this.json);
+;
+  ngOnInit(): void {';'
+    this.json = JSON.stringify(this.nft$, this.getCircularReplacer())
   }
 
   getCircularReplacer = () => {

@@ -54,10 +54,7 @@ export class ConfigureTableComponent implements OnInit {
     this.tableId = this.data.id;
   }
 
-  private showChart() {
-    console.log('-------------------------------------------');
-    console.log('++++++++++++++++++++++++++-', this.nft$);
-  }
+  private showChart() {}
 
   //called when user moves to a different tab
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {

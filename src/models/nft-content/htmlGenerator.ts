@@ -6,6 +6,7 @@ export interface HtmlGenerator {
 }
 
 export interface RecentProject {
+  Id:string;
   ProjectId: string;
   ProjectName: string;
   Timestamp: string;
