@@ -54,6 +54,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { HttpClientModule } from '@angular/common/http';
 import { TestViewComponent } from 'src/app/components/views/test-view/test-view.component';
 import { LoginComponent } from './components/views/login/login.component';
+import { ProjectsComponent } from './components/views/projects/projects.component';
 
 //import { AceEditorModule } from 'ng2-ace-editor';
 
@@ -62,6 +63,10 @@ const appRoutes: Routes = [
     path: '',
     redirectTo: 'login',
     pathMatch: 'full',
+  },
+  {
+    path: 'projects',
+    component: ProjectsComponent,
   },
   {
     path: 'login',
@@ -114,6 +119,7 @@ const appRoutes: Routes = [
     ConfigureTableComponent,
     TestViewComponent,
     LoginComponent,
+    ProjectsComponent,
   ],
   imports: [
     BrowserModule,

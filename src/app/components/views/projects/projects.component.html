@@ -1,0 +1,30 @@
+<div class="content">
+ 
+    <div fxLayout="row"  fxLayoutAlign="space-between center" layout-margin style="min-height: 100px;">
+        <section class="mat-typography">
+        <h2 class="mat-h1">Projects</h2>
+          </section>
+          <div class="example-button-container">
+            <button mat-fab color="accent" class="green-color" aria-label="new project" (click)="openNewProject()">
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div layout-margin>
+    <div fxLayout="row wrap" fxLayoutGap="16px grid" class=md-margin>
+     <div [fxFlex]="(100/gridColumns) + '%'" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let project of projects layout-margin">
+        <mat-card class="mat-elevation-z4" >
+            <mat-card-title>{{project.ProjectName}}</mat-card-title>
+          <mat-icon  class="material-icons-outlined customIcon">source</mat-icon>
+          <mat-card-content>
+              {{project.Timestamp}}
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-flat-button color="primary" class="green-button">Open</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </div>
+    </div>
+</div>
