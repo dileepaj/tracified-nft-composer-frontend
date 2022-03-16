@@ -251,7 +251,6 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
   }
 
   queryExecuter(){
-    console.log('callinggg')
    let queryObject={
       "Id":"6230d111081d260a682ea6dd",
       "Query":`$RESULT.SetCustomString(normal)\n$RESULT.SetRValue(4)\n$RESULT.GetStringVar:=RESULTSTRING\n$X.FilterSubtree($Item.GetValue.IsHavingSubstring(106)):=STAGELIST\n$STAGELIST.SeekToBegin\n$STAGELIST.GetCurrentElement:=STAGEELEM\nIf($STAGEELEM.CheckNotNull)\n$STAGEELEM.FilterSubtree($Item.GetValue.IsHavingSubstring(xportername)):=OUTERLIST\n$OUTERLIST.SeekToBegin\n$OUTERLIST.GetCurrentElement:=OUTERELEM\nIf($OUTERELEM.CheckNotNull)\n$OUTERELEM.FilterSubtree($Item.GetValue.IsStringEqualTo(name)):=LIST\n$LIST.SeekToBegin\n$LIST.GetCurrentElement:=ELEM\nIf($ELEM.CheckNotNull)\n$RESULTSTRING.AddPostFix($ELEM.GetLValue)\n$LIST.GetNextElement:=ELEM\nEndIf\nEndIf\nEndIf\n$RESULT.SetValue($RESULTSTRING)`,
@@ -259,7 +258,7 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
 
     this.apiService.executeQueryAndUpdate(queryObject).subscribe((result) => {
       if (result) {
-        console.log('result-------------------', result)
+        //get result
       }
     });
   }

@@ -149,10 +149,7 @@ export class ConfigureBubbleChartComponent implements OnInit {
     }
   }
 
-  private showChart() {
-    console.log('-------------------------------------------');
-    console.log('++++++++++++++++++++++++++-', this.nft$);
-  }
+  private showChart() {}
 
   //update redux store
   updateReduxState() {

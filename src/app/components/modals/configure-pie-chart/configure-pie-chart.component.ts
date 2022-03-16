@@ -151,10 +151,7 @@ export class ConfigurePieChartComponent implements OnInit {
     this.drawChart();
   }
 
-  private showChart() {
-    console.log('-------------------------------------------');
-    console.log('++++++++++++++++++++++++++-', this.nft$);
-  }
+  private showChart() {}
 
   //called when user moves to a different tab
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {

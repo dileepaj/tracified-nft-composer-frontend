@@ -27,4 +27,8 @@ export class ProjectsComponent implements OnInit {
   openNewProject(){
     this.router.navigate(['/layouts']);
   }
+
+  openExistingProject(id : string){
+    this.router.navigate([`/layouts/project/${id}`]);
+  }
 }
