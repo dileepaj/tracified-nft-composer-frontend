@@ -20,6 +20,8 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.state';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
 import { WidgetContentComponent } from '../../modals/widget-content/widget-content.component';
+import { ActivatedRoute } from '@angular/router';
+
 
 export interface Widget {
   type: string;
@@ -37,6 +39,8 @@ export interface Widget {
 export class ComposerComponent implements OnInit, AfterViewInit {
   opened = true;
   position = '';
+  id: string;
+  private sub: any;
   @ViewChild('nftcontent') myDiv: ElementRef;
 
   ngAfterViewInit() {}
@@ -96,13 +100,28 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   constructor(
     private store: Store<AppState>,
     public dialog: MatDialog,
-    private stateService: DndServiceService
+    private stateService: DndServiceService,
+    private route: ActivatedRoute
   ) {
     //this.openAddData();
   }
 
   ngOnInit(): void {
     this.usedWidgets = this.stateService.getWidgets();
+    //read the router paramter assign it to id
+    this.sub = this.route.params.subscribe((params) => {
+      this.id = params['id'];
+    });
+    if (!!this.id) {
+      this.loadExistingProjectdata(this.id);
+    }
+  }
+
+  //load the recentproject base on nft id
+  loadExistingProjectdata(id: string) {}
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 
   //Called when a widget is dropped to drap and drop area.
@@ -168,6 +187,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     transferArrayItem(this.usedWidgets, [], index, 0);
 
     this.stateService.rewriteWidgetArr(this.usedWidgets);
+
   }
 
   openAddData() {
@@ -180,5 +200,6 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe((result) => {
       //
     });
+
   }
 }

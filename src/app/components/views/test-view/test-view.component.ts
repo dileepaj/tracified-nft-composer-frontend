@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { BatchesService } from 'src/app/services/batches.service';
+import { ArtifactService } from 'src/app/services/artifact.service';
 import { Items, Workflow } from 'src/app/entity/batch';
+import { Template , ArtifactDetails, Data} from 'src/app/entity/artifact';
 
 @Component({
   selector: 'app-test-view',
@@ -10,27 +12,42 @@ import { Items, Workflow } from 'src/app/entity/batch';
 export class TestViewComponent implements OnInit {
   public items: Items[];
   public stages: Workflow[];
+  public template: Template[];
+  public artifactDetails: ArtifactDetails[];
+  public data : Data[];
 
-  constructor(private _batchService: BatchesService) {}
+  private id = '60cb402eb9876b7a239de6fd';
+
+  constructor(
+    private _batchService: BatchesService,
+    private _artifactService: ArtifactService
+  ) {}
 
   ngOnInit(): void {
     this.getItems();
-    this.getStages();
   }
 
   getItems() {
     this._batchService.getItems().subscribe((data) => {
       this.items = data;
-      console.log('Item data', data);
-      console.log('Items ', this.items);
     });
   }
 
   getStages() {
     this._batchService.getStages().subscribe((data) => {
       this.stages = data;
-      console.log('Stage Data', data);
-      console.log('Stages ', this.stages);
+    });
+  }
+
+  getArtifacts() {
+    this._artifactService.getArtifacts().subscribe((data) => {
+      this.template = data;
+    });
+  }
+
+  getArtifactDataById() {
+    this._artifactService.getArtifactDataById(this.id).subscribe((data) => {
+      this.artifactDetails = data;
     });
   }
 }

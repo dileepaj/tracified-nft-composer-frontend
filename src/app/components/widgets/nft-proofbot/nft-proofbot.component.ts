@@ -44,8 +44,6 @@ export class NftProofbotComponent implements OnInit {
   }
 
   private showNFT() {
-    console.log('-------------------------------------------');
-    console.log('++++++++++++++++++++++++++-', this.nft$);
   }
 
   //add proofbot bot to redux store

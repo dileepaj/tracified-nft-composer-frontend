@@ -21,7 +21,7 @@
               {{project.Timestamp}}
           </mat-card-content>
           <mat-card-actions>
-            <button mat-flat-button color="primary" class="green-button">Open</button>
+            <button mat-flat-button color="primary" class="green-button" (click)="openExistingProject(project.Id)">Open</button>
           </mat-card-actions>
         </mat-card>
       </div>

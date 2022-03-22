@@ -28,7 +28,7 @@ export class BatchesService {
 
   /**
    * @function getStages - get batches for a particular item
-   * screen - the products view(popup screens)
+   * @screen - the products view(popup screens)
    */
   public getStages(): Observable<Workflow[]> {
     return this.apiService.get(this.admin + '/api/workflow/' + this._tenantId);
@@ -37,7 +37,7 @@ export class BatchesService {
   /**
    * @function getBatch - get batches for a particular item
    * @param - itemID, limit, page, search key, fromDate, toDate
-   * screen - the products view(popup screens)
+   * @screen - the products view(popup screens)
    */
   public getBatch(
     itemID: string,

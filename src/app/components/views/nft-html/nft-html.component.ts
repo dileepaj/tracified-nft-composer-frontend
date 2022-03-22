@@ -19,10 +19,9 @@ export class NftHtmlComponent implements OnInit {
       this.nft$ = data;
     });
   }
-
-  ngOnInit(): void {
-    this.json = JSON.stringify(this.nft$, this.getCircularReplacer());
-    console.log(this.json);
+;
+  ngOnInit(): void {';'
+    this.json = JSON.stringify(this.nft$, this.getCircularReplacer())
   }
 
   getCircularReplacer = () => {
