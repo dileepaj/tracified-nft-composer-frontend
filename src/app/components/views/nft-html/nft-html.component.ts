@@ -11,11 +11,13 @@ import { NFTContent } from 'src/models/nft-content/nft.content';
   styleUrls: ['./nft-html.component.scss'],
 })
 export class NftHtmlComponent implements OnInit {
-  nft$: Observable<NFTContent>;
+  nft$: NFTContent;
   json: any;
 
   constructor(private store: Store<AppState>) {
-    this.nft$ = this.store.select(selectNFTContent);
+    this.store.select(selectNFTContent).subscribe((data) => {
+      this.nft$ = data;
+    });
   }
 
   ngOnInit(): void {

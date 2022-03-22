@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SelectBatchComponent } from '../select-batch/select-batch.component';
+import { SelectMasterDataTypeComponent } from '../select-master-data-type/select-master-data-type.component';
 
 @Component({
   selector: 'app-widget-content',
@@ -23,6 +24,19 @@ export class WidgetContentComponent implements OnInit {
   //open batch selection popup
   openBatchSelection() {
     const dialogRef = this.dialog.open(SelectBatchComponent, {
+      data: {
+        id: this.id,
+        widget: this.widget,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  openMasterDataSelection() {
+    const dialogRef = this.dialog.open(SelectMasterDataTypeComponent, {
       data: {
         id: this.id,
         widget: this.widget,

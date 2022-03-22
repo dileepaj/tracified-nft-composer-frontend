@@ -1,8 +1,30 @@
-<h2 mat-dialog-title>Select Batch</h2>
+<div fxLayout="row" fxLayoutAlign="space-between center">
+  <div class="breadcrumb">
+    <h2 mat-dialog-title>
+      <a class="previous" (click)="openWidgetContent()" mat-dialog-close
+        >Widget Content /</a
+      >
+      <a mat-dialog-close>Select Batch</a>
+    </h2>
+  </div>
+  <mat-icon style="cursor: pointer" (click)="close()">close</mat-icon>
+</div>
 <mat-dialog-content class="mat-typography modal-content">
   <div class="content">
     <mat-stepper #stepper>
       <mat-step label="Select Product">
+        <mat-form-field appearance="outline" style="float: right">
+          <mat-label>Search</mat-label>
+          <input
+            type="text"
+            matInput
+            placeholder="Search Product"
+            [(ngModel)]="productSearchText"
+            (keyup)="searchProduct()"
+          />
+          <mat-icon matPrefix>search</mat-icon>
+        </mat-form-field>
+
         <table mat-table [dataSource]="products" class="mat-elevation-z8">
           <!--- Note that these columns can be defined in any order.
               The actual rendered columns are set as a property on the row definition" -->
@@ -36,6 +58,12 @@
         </table>
       </mat-step>
       <mat-step label="Select Batch">
+        <mat-form-field appearance="outline" style="float: right">
+          <mat-label>Search</mat-label>
+          <mat-icon matPrefix>search</mat-icon>
+          <input type="text" matInput placeholder="Search Batch" />
+        </mat-form-field>
+
         <table mat-table [dataSource]="batches" class="mat-elevation-z8">
           <!--- Note that these columns can be defined in any order.
               The actual rendered columns are set as a property on the row definition" -->
@@ -99,6 +127,12 @@
           ></tr></table
       ></mat-step>
       <mat-step label="Traceability Data">
+        <mat-form-field appearance="outline" style="float: right">
+          <mat-label>Search</mat-label>
+          <mat-icon matPrefix>search</mat-icon>
+          <input type="text" matInput placeholder="Search Traceability Data" />
+        </mat-form-field>
+
         <table mat-table [dataSource]="tdp" class="mat-elevation-z8">
           <ng-container matColumnDef="stage">
             <th mat-header-cell *matHeaderCellDef>Stages</th>
@@ -146,8 +180,13 @@
   </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button (click)="updateReduxState()" class="btn" cdkFocusInitial>
+  <button
+    mat-button
+    (click)="updateReduxState()"
+    class="btn"
+    mat-dialog-close
+    cdkFocusInitial
+  >
     <mat-icon>save</mat-icon>
     Save
   </button>

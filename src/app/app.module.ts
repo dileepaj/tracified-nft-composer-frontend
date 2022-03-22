@@ -56,6 +56,9 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { TestViewComponent } from 'src/app/components/views/test-view/test-view.component';
 import { LoginComponent } from './components/views/login/login.component';
 import { ProjectsComponent } from './components/views/projects/projects.component';
+import { SelectMasterDataTypeComponent } from './components/modals/select-master-data-type/select-master-data-type.component';
+import { SelectDataComponent } from './components/modals/select-data/select-data.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 //import { AceEditorModule } from 'ng2-ace-editor';
 const appRoutes: Routes = [
@@ -120,6 +123,8 @@ const appRoutes: Routes = [
     TestViewComponent,
     LoginComponent,
     ProjectsComponent,
+    SelectMasterDataTypeComponent,
+    SelectDataComponent,
   ],
   imports: [
     BrowserModule,
@@ -139,6 +144,7 @@ const appRoutes: Routes = [
     MatTableModule,
     MatBadgeModule,
     MatInputModule,
+    MatCheckboxModule,
     FormsModule,
     MatCardModule,
     MatRippleModule,

@@ -4,18 +4,17 @@ import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
   faCoffee = faCoffee;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  login(){
+  login() {
     this.router.navigate(['/projects']);
-    sessionStorage.setItem("authorized", "authorized");
+    sessionStorage.setItem('authorized', 'authorized');
   }
 }

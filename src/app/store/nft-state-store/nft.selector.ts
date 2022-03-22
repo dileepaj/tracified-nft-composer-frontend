@@ -87,3 +87,8 @@ export const selectNoOfTables = createSelector(
   selectNFT,
   (state: NFTState) => state.nftContent.Tables.length
 );
+
+export const selectWidgetOrder = createSelector(
+  selectNFT,
+  (state: NFTState) => state.nftContent.WidgetOrder
+);

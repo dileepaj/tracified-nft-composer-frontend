@@ -23,7 +23,7 @@ export class BatchesService {
    * @params - none
    */
   public getItems(): Observable<Items[]> {
-    return this.apiService.get(this.admin + '/api/findItemByTenant');
+    return this.apiService.get(this.admin + '/api/findItemByTenant/');
   }
 
   /**

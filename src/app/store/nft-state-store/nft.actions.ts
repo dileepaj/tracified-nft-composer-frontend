@@ -125,3 +125,18 @@ export const deleteTable = createAction(
   '[delete nft-html] Delete Table',
   props<{ table: Table }>()
 );
+
+export const setWidgetOrder = createAction(
+  '[set widget order] Set Widget Order',
+  props<{ widgetOrder: any[] }>()
+);
+
+export const addToOrderArray = createAction(
+  '[add to order array] Add to Order Array',
+  props<{ widget: any }>()
+);
+
+export const removeFromOrderArray = createAction(
+  '[remove from order array] Remove From Order Array',
+  props<{ widget: any }>()
+);

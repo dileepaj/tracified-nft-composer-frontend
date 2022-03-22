@@ -8,7 +8,7 @@
 }
 
 .content {
-  height: $modalHeight;
+  height: calc($modalHeight - 50px);
 }
 
 .option {
@@ -71,12 +71,13 @@ mat-step {
 }
 
 .mat-row:hover .mat-cell {
-  border-color: currentColor;
+  border-color: $green;
 }
 
 .demo-row-is-clicked {
   font-weight: bold;
-  background: whitesmoke;
+  color: $green;
+  background: rgba(176, 221, 176, 0.199) !important;
 }
 
 .batchImg {
@@ -97,4 +98,13 @@ mat-step {
   background: green;
   width: 100%;
   height: 50px;
+}
+
+.previous {
+  color: rgb(134, 134, 134);
+}
+
+.breadcrumb a:hover {
+  text-decoration: underline;
+  cursor: pointer;
 }

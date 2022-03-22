@@ -11,6 +11,7 @@ export interface NFTContent {
   Name: string;
   UserId: string;
   Creator: string;
+  WidgetOrder: any[];
   Barcharts: Chart[];
   Piecharts: Chart[];
   Bubblecharts: Chart[];
