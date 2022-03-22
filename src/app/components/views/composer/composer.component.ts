@@ -19,10 +19,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.state';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
+import { WidgetContentComponent } from '../../modals/widget-content/widget-content.component';
 import { ActivatedRoute } from '@angular/router';
 
+
 export interface Widget {
-  wid: number;
+  type: string;
   _Id?: string;
   used: boolean;
   name: string;
@@ -45,49 +47,49 @@ export class ComposerComponent implements OnInit, AfterViewInit {
 
   availableWidgets: Widget[] = [
     {
-      wid: 1,
+      type: 'timeline',
       used: false,
       name: 'Timeline',
       icon: 'event_note',
     },
     {
-      wid: 2,
+      type: 'proofbot',
       used: false,
       name: 'ProofBot',
       icon: 'ondemand_video',
     },
     {
-      wid: 3,
+      type: 'carbonfp',
       used: false,
       name: 'Carbon Footprint',
       icon: 'filter_drama',
     },
     {
-      wid: 4,
+      type: 'nftimage',
       used: false,
       name: 'NFT Image',
       icon: 'wallpaper',
     },
     {
-      wid: 5,
+      type: 'barchart',
       used: false,
       name: 'Bar Chart',
       icon: 'bar_chart',
     },
     {
-      wid: 6,
+      type: 'piechart',
       used: false,
       name: 'Pie Chart',
       icon: 'pie_chart',
     },
     {
-      wid: 7,
+      type: 'bubblechart',
       used: false,
       name: 'Bubble Chart',
       icon: 'bubble_chart',
     },
     {
-      wid: 8,
+      type: 'table',
       used: false,
       name: 'Table',
       icon: 'table_view',
@@ -100,7 +102,9 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     public dialog: MatDialog,
     private stateService: DndServiceService,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    //this.openAddData();
+  }
 
   ngOnInit(): void {
     this.usedWidgets = this.stateService.getWidgets();
@@ -128,6 +132,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
         event.previousIndex,
         event.currentIndex
       );
+      this.stateService.rewriteWidgetArr(this.usedWidgets);
     } else {
       if (!(event.currentIndex <= this.usedWidgets.length - 1)) {
         this.usedWidgets[event.currentIndex] = {
@@ -182,5 +187,19 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     transferArrayItem(this.usedWidgets, [], index, 0);
 
     this.stateService.rewriteWidgetArr(this.usedWidgets);
+
+  }
+
+  openAddData() {
+    const dialogRef = this.dialog.open(WidgetContentComponent, {
+      data: {
+        id: 'abc123',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      //
+    });
+
   }
 }

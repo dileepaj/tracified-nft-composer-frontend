@@ -6,11 +6,12 @@ import {
   Inject,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatStepper } from '@angular/material/stepper';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngrx/store';
+import { BatchesService } from 'src/app/services/batches.service';
 import { AppState } from 'src/app/store/app.state';
 import {
   updateBarChart,
@@ -21,6 +22,7 @@ import {
   updateTable,
   updateTimeline,
 } from 'src/app/store/nft-state-store/nft.actions';
+import { WidgetContentComponent } from '../widget-content/widget-content.component';
 
 @Component({
   selector: 'app-select-batch',
@@ -136,14 +138,25 @@ export class SelectBatchComponent implements OnInit {
   batchIsSelected: boolean = false;
   tdpIsSelected: boolean = false;
 
+  //search inputs
+  productSearchText: string = '';
+
   constructor(
     private store: Store<AppState>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    public dialog: MatDialog,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private batchesService: BatchesService
   ) {}
 
   ngOnInit() {
     this.id = this.data.id;
     this.widget = this.data.widget;
+    this.products.filterPredicate = (data: any, filter: string) =>
+      data.productName.indexOf(filter) != -1;
+
+    this.batchesService.getStages().subscribe((data) => {
+      console.log(data);
+    });
   }
 
   //called when user selects a product
@@ -201,5 +214,22 @@ export class SelectBatchComponent implements OnInit {
     } else if (this.widget.WidgetType === 'table') {
       this.store.dispatch(updateTable({ table: this.widget }));
     }
+  }
+
+  openWidgetContent() {
+    const dialogRef = this.dialog.open(WidgetContentComponent, {
+      data: {
+        id: this.id,
+        widget: this.widget,
+      },
+    });
+  }
+
+  searchProduct() {
+    this.products.filter = this.productSearchText.trim().toLowerCase();
+  }
+
+  close() {
+    this.dialog.closeAll();
   }
 }

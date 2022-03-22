@@ -8,6 +8,7 @@ import {
   addProofBot,
   addTable,
   addTimeline,
+  addToOrderArray,
   deleteBarChart,
   deleteBubbleChart,
   deleteCarbonFootprint,
@@ -16,6 +17,8 @@ import {
   deleteProofBot,
   deleteTable,
   deleteTimeline,
+  removeFromOrderArray,
+  setWidgetOrder,
   updateBarChart,
   updateBubbleChart,
   updateCarbonFootprint,
@@ -38,6 +41,7 @@ export const initialNft: NFTState = {
     Name: '',
     UserId: '',
     Creator: '',
+    WidgetOrder: [],
     Barcharts: [],
     Piecharts: [],
     Bubblecharts: [],
@@ -114,6 +118,14 @@ export const nftReducer = createReducer(
     nftContent: {
       ...nft.nftContent,
       Tables: [...nft.nftContent.Tables, table],
+    },
+  })),
+
+  on(addToOrderArray, (nft, { widget }) => ({
+    ...nft,
+    nftContent: {
+      ...nft.nftContent,
+      WidgetOrder: [...nft.nftContent.WidgetOrder, widget],
     },
   })),
 
@@ -291,6 +303,21 @@ export const nftReducer = createReducer(
     nftClone.nftContent.Tables = nftClone.nftContent.Tables.filter(
       (data) => data.WidgetId !== table.WidgetId
     );
+    return nftClone;
+  }),
+
+  on(removeFromOrderArray, (nft, { widget }) => {
+    const nftClone: NFTState = JSON.parse(JSON.stringify(nft));
+    let i = 0;
+    nftClone.nftContent.WidgetOrder = nftClone.nftContent.WidgetOrder.filter(
+      (data) => data.WidgetId !== widget.WidgetId
+    );
+    return nftClone;
+  }),
+
+  on(setWidgetOrder, (nft, { widgetOrder }) => {
+    const nftClone: NFTState = JSON.parse(JSON.stringify(nft));
+    nftClone.nftContent.WidgetOrder = widgetOrder;
     return nftClone;
   })
 );
