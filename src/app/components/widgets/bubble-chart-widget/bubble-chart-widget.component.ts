@@ -39,9 +39,11 @@ export class BubbleChartWidgetComponent implements OnInit {
 
   //open configuration popup
   openDialog() {
+    this.getBubbleChart();
     const dialogRef = this.dialog.open(ConfigureBubbleChartComponent, {
       data: {
         id: this.id,
+        widget: this.bubbleChart,
       },
     });
 

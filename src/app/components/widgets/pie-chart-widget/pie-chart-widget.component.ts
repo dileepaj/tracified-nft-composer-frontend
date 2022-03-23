@@ -38,9 +38,11 @@ export class PieChartWidgetComponent implements OnInit {
 
   //open canfiguration popup
   openDialog() {
+    this.getPieChart();
     const dialogRef = this.dialog.open(ConfigurePieChartComponent, {
       data: {
         id: this.id,
+        widget: this.pieChart,
       },
     });
 
@@ -59,6 +61,7 @@ export class PieChartWidgetComponent implements OnInit {
   private addPieChartToStore() {
     this.pieChart = {
       WidgetId: this.id,
+      ProjectId: 'ABC',
       WidgetType: 'pie',
       ChartTitle: 'Pie Chart',
       KeyTitle: 'name',
@@ -91,7 +94,7 @@ export class PieChartWidgetComponent implements OnInit {
     this.store.select(selectPieCharts).subscribe((data) => {
       data.map((chart) => {
         if (chart.WidgetId === this.id) {
-          //this.pieChart = chart;
+          this.pieChart = chart;
         }
       });
     });

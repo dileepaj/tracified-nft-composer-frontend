@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as d3 from 'd3';
 import { Chart, Data } from '../../../../models/nft-content/chart';
@@ -20,13 +20,16 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
   selector: 'app-configure-bar-chart',
   templateUrl: './configure-bar-chart.component.html',
   styleUrls: ['./configure-bar-chart.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class ConfigureBarChartComponent implements OnInit {
   nft$: any;
   private barChart: Chart;
   chartId: any;
+  projectId: string = '';
   keyTitle: string;
-  batchId: any;
+  batchId: any = '';
+  productName: string = '';
   query: string = '';
   //data that are being displayed in the bar chart
   barChartData: any[] = [
@@ -80,6 +83,7 @@ export class ConfigureBarChartComponent implements OnInit {
   ngOnInit(): void {
     //this.updateChart();
     this.chartId = this.data.id;
+    this.barChart = this.data.widget;
   }
 
   //generate bar chart
@@ -171,18 +175,37 @@ export class ConfigureBarChartComponent implements OnInit {
   //called when user moves to a different tab
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     if (tabChangeEvent.index === 1) {
-      this.getBarChart();
+      //this.getBarChart();
+      this.assignValues();
       this.updateChart();
     }
   }
 
   //update redux store
   updateReduxState() {
-    this.barChart = {
+    /*this.barChart = {
       WidgetId: this.chartId,
+      WidgetType: 'bar',
       ChartTitle: this.title,
+      BactchId: this.batchId,
+      ProductName: this.productName,
+      ProjectId: this.projectId,
       KeyTitle: 'name',
       ValueTitle: 'value',
+      Query: this.query,
+      ChartData: this.barChartData,
+      Color: this.barColors,
+      FontColor: this.fontColor,
+      FontSize: this.fontSize,
+      XAxis: this.xName,
+      YAxis: this.yName,
+      Height: this.height,
+      Width: this.width,
+    };*/
+
+    this.barChart = {
+      ...this.barChart,
+      ChartTitle: this.title,
       Query: this.query,
       ChartData: this.barChartData,
       Color: this.barColors,
@@ -204,7 +227,9 @@ export class ConfigureBarChartComponent implements OnInit {
         if (chart.WidgetId === this.chartId) {
           this.title = chart.ChartTitle!;
           this.batchId = chart.BactchId!;
+          this.productName = chart.ProductName!;
           this.keyTitle = chart.KeyTitle!;
+          this.projectId = chart.ProjectId!;
           if (chart.ChartData!.length !== 0) {
             this.barChartData = chart.ChartData!.filter((data) => data);
           }
@@ -218,5 +243,23 @@ export class ConfigureBarChartComponent implements OnInit {
         }
       });
     });
+  }
+
+  private assignValues() {
+    this.title = this.barChart.ChartTitle!;
+    this.batchId = this.barChart.BactchId!;
+    this.productName = this.barChart.ProductName!;
+    this.keyTitle = this.barChart.KeyTitle!;
+    this.projectId = this.barChart.ProjectId!;
+    if (this.barChart.ChartData!.length !== 0) {
+      this.barChartData = this.barChart.ChartData!.filter((data) => data);
+    }
+    this.barColors = this.barChart.Color!.filter((data) => data);
+    this.fontColor = this.barChart.FontColor!;
+    this.fontSize = this.barChart.FontSize!;
+    this.xName = this.barChart.XAxis;
+    this.yName = this.barChart.YAxis;
+    this.height = this.barChart.Height!;
+    this.width = this.barChart.Width!;
   }
 }

@@ -48,13 +48,13 @@ export class TableComponent implements OnInit {
     }
   }
 
-  private showNFT() {
-  }
+  private showNFT() {}
 
   //add table to redux store
   private addTableToStore() {
     this.table = {
       WidgetId: this.id,
+      ProjectId: 'ABC',
       WidgetType: 'table',
       TableTitle: 'Table',
       TableContent: '',
@@ -75,9 +75,11 @@ export class TableComponent implements OnInit {
 
   //open configuartion popup
   openDialog() {
+    this.getTable();
     const dialogRef = this.dialog.open(ConfigureTableComponent, {
       data: {
         id: this.id,
+        widget: this.table,
       },
     });
 

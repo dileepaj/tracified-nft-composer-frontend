@@ -4,13 +4,20 @@ import {
   ViewChild,
   AfterViewInit,
   Inject,
+  ViewEncapsulation,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatStepper } from '@angular/material/stepper';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngrx/store';
+import { Items } from 'src/app/entity/batch';
 import { BatchesService } from 'src/app/services/batches.service';
 import { AppState } from 'src/app/store/app.state';
 import {
@@ -23,107 +30,46 @@ import {
   updateTimeline,
 } from 'src/app/store/nft-state-store/nft.actions';
 import { WidgetContentComponent } from '../widget-content/widget-content.component';
+import * as MomentAll from 'moment';
+import { PageEvent } from '@angular/material/paginator';
+import {
+  selectNFTContent,
+  selectWidgetOrder,
+} from 'src/app/store/nft-state-store/nft.selector';
 
 @Component({
   selector: 'app-select-batch',
   templateUrl: './select-batch.component.html',
   styleUrls: ['./select-batch.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class SelectBatchComponent implements OnInit {
   @ViewChild('stepper') private myStepper: MatStepper;
   id: any;
   widget: any;
   chart: any;
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = [
-    { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
-    { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
-    { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
-    { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be' },
-    { position: 5, name: 'Boron', weight: 10.811, symbol: 'B' },
-  ];
-  productColumns: string[] = ['productName', 'stages'];
-  batchColumns: string[] = [
-    'batchId',
-    'createdDate',
-    'dateLastEntry',
-    'currentStage',
-    'createdBy',
-    'images',
-  ];
+  totalBatches: number = 10;
+  page: number = 0;
+  productsLoading: boolean = true;
+  batchesLoading: boolean = true;
+  dateRange = new FormGroup({
+    start: new FormControl(),
+    end: new FormControl(),
+  });
+
+  searchKey: string = '';
+
   tdpColumns: string[] = ['stage', 'stageName', 'tdp'];
-  products: any = [
-    {
-      productName: 'Product 1',
-      stages: ['Stage', 'Stage', 'Stage', 'Stage', 'Stage'],
-    },
-    {
-      productName: 'Product 2',
-      stages: ['Stage', 'Stage', 'Stage', 'Stage', 'Stage'],
-    },
-    {
-      productName: 'Product 3',
-      stages: ['Stage', 'Stage', 'Stage', 'Stage', 'Stage'],
-    },
-  ];
-  batches: any = [
-    {
-      batchId: 'Batch01',
-      createdDate: '2022-09-09',
-      dateLastEntry: '2022-09-09',
-      currentStage: 'Stage01',
-      createdBy: 'Rathnayake',
-      images: ['', '', ''],
-    },
-    {
-      batchId: 'Batch02',
-      createdDate: '2022-09-09',
-      dateLastEntry: '2022-09-09',
-      currentStage: 'Stage01',
-      createdBy: 'Rathnayake',
-      images: ['img.png', 'img.png', 'img.png'],
-    },
-    {
-      batchId: 'Batch03',
-      createdDate: '2022-09-09',
-      dateLastEntry: '2022-09-09',
-      currentStage: 'Stage01',
-      createdBy: 'Rathnayake',
-      images: ['', '', ''],
-    },
-  ];
-  tdp: any = [
-    {
-      stage: '1',
-      stageName: 'Soil Preparation - 100',
-      tdp: {
-        operation: 'Compost',
-        dateTime: '2022/03/15 04:35PM',
-        farm: 'Mabola, Wattala',
-        author: 'John Cena',
-      },
-    },
-    {
-      stage: '2',
-      stageName: 'Soil Preparation - 100',
-      tdp: {
-        operation: 'Compost',
-        dateTime: '2022/03/15 04:35PM',
-        farm: 'Mabola, Wattala',
-        author: 'John Cena',
-      },
-    },
-    {
-      stage: '3',
-      stageName: 'Soil Preparation - 100',
-      tdp: {
-        operation: 'Compost',
-        dateTime: '2022/03/15 04:35PM',
-        farm: 'Mabola, Wattala',
-        author: 'John Cena',
-      },
-    },
-  ];
+
+  products: any = [];
+  productsFilter: any = [];
+  stages: any = {};
+  workflow: any = [];
+
+  batchesRes: any;
+  batches: any = [];
+  tdp: any = [];
+
   isLinear = false;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
@@ -151,17 +97,24 @@ export class SelectBatchComponent implements OnInit {
   ngOnInit() {
     this.id = this.data.id;
     this.widget = this.data.widget;
+    console.log(this.widget);
     this.products.filterPredicate = (data: any, filter: string) =>
       data.productName.indexOf(filter) != -1;
 
-    this.batchesService.getStages().subscribe((data) => {
-      console.log(data);
-    });
+    this.getStages();
+
+    this.getItems();
+
+    //this.rewriteStages();
   }
 
   //called when user selects a product
   selectProduct(row: any) {
     this.selectedProduct = row;
+    console.log(row);
+    this.page = 0;
+    this.searchKey = '';
+    this.getBatches(this.page, this.searchKey);
     this.productIsSelected = true;
     this.goForward();
   }
@@ -170,6 +123,7 @@ export class SelectBatchComponent implements OnInit {
   selectBatch(row: any) {
     this.selectedBatch = row;
     this.batchIsSelected = true;
+    console.log(this.selectedBatch);
     this.goForward();
   }
 
@@ -191,28 +145,34 @@ export class SelectBatchComponent implements OnInit {
 
   //update redux state
   updateReduxState() {
-    this.widget = {
-      ...this.widget,
-      BactchId: this.selectedBatch.batchId,
-      ProductName: this.selectedProduct.productName,
-    };
+    if (this.productIsSelected && this.batchIsSelected) {
+      this.widget = {
+        ...this.widget,
+        BactchId: this.selectedBatch.identifier.identifier,
+        ProductName: this.selectedProduct.itemName,
+      };
 
-    if (this.widget.WidgetType === 'bar') {
-      this.store.dispatch(updateBarChart({ chart: this.widget }));
-    } else if (this.widget.WidgetType === 'pie') {
-      this.store.dispatch(updatePieChart({ chart: this.widget }));
-    } else if (this.widget.WidgetType === 'bubble') {
-      this.store.dispatch(updateBubbleChart({ chart: this.widget }));
-    } else if (this.widget.WidgetType === 'proofbot') {
-      this.store.dispatch(updateProofBot({ proofBot: this.widget }));
-    } else if (this.widget.WidgetType === 'timeline') {
-      this.store.dispatch(updateTimeline({ timeline: this.widget }));
-    } else if (this.widget.WidgetType === 'carbon') {
-      this.store.dispatch(
-        updateCarbonFootprint({ carbonFootprint: this.widget })
-      );
-    } else if (this.widget.WidgetType === 'table') {
-      this.store.dispatch(updateTable({ table: this.widget }));
+      if (this.widget.WidgetType === 'bar') {
+        this.store.dispatch(updateBarChart({ chart: this.widget }));
+      } else if (this.widget.WidgetType === 'pie') {
+        this.store.dispatch(updatePieChart({ chart: this.widget }));
+      } else if (this.widget.WidgetType === 'bubble') {
+        this.store.dispatch(updateBubbleChart({ chart: this.widget }));
+      } else if (this.widget.WidgetType === 'proofbot') {
+        this.store.dispatch(updateProofBot({ proofBot: this.widget }));
+      } else if (this.widget.WidgetType === 'timeline') {
+        this.store.dispatch(updateTimeline({ timeline: this.widget }));
+      } else if (this.widget.WidgetType === 'carbon') {
+        this.store.dispatch(
+          updateCarbonFootprint({ carbonFootprint: this.widget })
+        );
+      } else if (this.widget.WidgetType === 'table') {
+        this.store.dispatch(updateTable({ table: this.widget }));
+      }
+
+      this.close();
+    } else {
+      alert('Please select a product and batch!');
     }
   }
 
@@ -225,11 +185,107 @@ export class SelectBatchComponent implements OnInit {
     });
   }
 
-  searchProduct() {
-    this.products.filter = this.productSearchText.trim().toLowerCase();
-  }
-
   close() {
     this.dialog.closeAll();
+  }
+
+  getItemCount(index: number) {
+    return this.page * 10 + index + 1;
+  }
+
+  public convertDate(date: any): string {
+    const stillUtc = MomentAll.utc(date).toDate();
+    // MomentAll(date).zone((new Date()).getTimezoneOffset()).format('YYYY-MM-DD hh:mm A')
+    const local = MomentAll(date)
+      .zone(new Date().getTimezoneOffset())
+      .format('YYYY-MM-DD hh:mm A');
+    // MomentAll(stillUtc).local().format('LLLL');
+    return local;
+  }
+
+  public getBatches(index: number, searchKey: string) {
+    this.batchesLoading = true;
+    this.batchesService
+      .getBatch(this.selectedProduct.itemID, 10, index, this.searchKey, '', '')
+      .subscribe((data: any) => {
+        this.batchesRes = data;
+        this.batches = this.batchesRes.results;
+        this.totalBatches = this.batchesRes.totalCount;
+        this.page = index;
+        this.batchesLoading = false;
+        console.log(this.totalBatches);
+      });
+  }
+
+  public getItems() {
+    this.productsLoading = true;
+    this.batchesService.getItems().subscribe((data) => {
+      this.products = data;
+      this.productsFilter = this.products;
+      this.productsLoading = false;
+    });
+  }
+
+  public getStages() {
+    this.batchesService.getStages().subscribe((data: any) => {
+      this.workflow = data.workflow;
+      this.workflow[this.workflow.length - 1].stages.map((stage: any) => {
+        let stg: any = {};
+        this.stages[stage.stageId] = stage.name;
+        //this.stages.push(stg);
+      });
+
+      console.log(this.stages);
+    });
+  }
+
+  public searchProduct(event: any) {
+    console.log(event.target.value);
+    this.productsFilter = this.products.filter((product: any) => {
+      if (event.target.value !== '') {
+        if (
+          product.itemName
+            .trim()
+            .toLowerCase()
+            .includes(event.target.value.trim().toLowerCase())
+        ) {
+          return product;
+        }
+      } else {
+        return product;
+      }
+    });
+  }
+
+  public searchBatch() {
+    this.page = 0;
+    this.getBatches(this.page, this.searchKey);
+  }
+
+  public onDateChange() {
+    this.page = 0;
+    console.log(
+      'date',
+      this.convertDate(this.dateRange.value.start) +
+        ' ' +
+        this.convertDate(this.dateRange.value.end)
+    );
+
+    /*this.getBatches(
+      this.page,
+      '',
+      this.dateRange.value.start,
+      this.dateRange.value.end
+    );*/
+  }
+
+  onStepChange(event: any) {
+    let index = event.selectedIndex;
+    console.log(event.selectedIndex);
+  }
+
+  public CamelcaseToWord(string: string) {
+    string = string.charAt(0).toUpperCase() + string.slice(1);
+    return string.replace(/([A-Z]+)/g, ' $1').replace(/([A-Z][a-z])/g, ' $1');
   }
 }

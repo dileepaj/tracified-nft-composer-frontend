@@ -52,6 +52,7 @@ export class ConfigureTableComponent implements OnInit {
   ngOnInit(): void {
     //this.updateChart();
     this.tableId = this.data.id;
+    this.table = this.data.widget;
   }
 
   private showChart() {}
@@ -59,15 +60,24 @@ export class ConfigureTableComponent implements OnInit {
   //called when user moves to a different tab
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     if (tabChangeEvent.index === 1) {
-      this.getTable();
+      //this.getTable();
+      this.assignValues();
       this.generateTable();
     }
   }
 
   //update redux state
   updateReduxState() {
-    this.table = {
+    /*this.table = {
       WidgetId: this.tableId,
+      WidgetType: 'table',
+      TableTitle: this.title,
+      Query: this.query,
+      TableContent: this.tableContent,
+    };*/
+
+    this.table = {
+      ...this.table,
       TableTitle: this.title,
       Query: this.query,
       TableContent: this.tableContent,
@@ -88,6 +98,11 @@ export class ConfigureTableComponent implements OnInit {
         }
       });
     });
+  }
+
+  private assignValues() {
+    this.title = this.table.TableTitle;
+    this.tableContent = this.table.TableContent!;
   }
 
   //generate table html

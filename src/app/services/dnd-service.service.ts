@@ -59,9 +59,5 @@ export class DndServiceService {
     });
 
     this.store.dispatch(setWidgetOrder({ widgetOrder: warr }));
-
-    this.store.select(selectNFTContent).subscribe((data) => {
-      console.log('redux', data);
-    });
   }
 }

@@ -59,9 +59,11 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
 
   //open configuration popup
   openDialog() {
+    this.getBarChart();
     const dialogRef = this.dialog.open(ConfigureBarChartComponent, {
       data: {
         id: this.id,
+        widget: this.barChart,
       },
     });
 
@@ -70,8 +72,7 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngOnChanges(val: any) {
-  }
+  ngOnChanges(val: any) {}
 
   //delete chart from redux
   deleteWidget() {
@@ -84,6 +85,7 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
     this.barChart = {
       WidgetId: this.id,
       WidgetType: 'bar',
+      ProjectId: 'ABC',
       ChartTitle: 'Bar Chart',
       KeyTitle: 'name',
       ValueTitle: 'value',

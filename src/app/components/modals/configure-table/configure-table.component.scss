@@ -149,3 +149,7 @@ table {
 
   border-collapse: collapse;
 }
+
+mat-tab-group.mat-primary .mat-ink-bar {
+  background-color: $background !important;
+}

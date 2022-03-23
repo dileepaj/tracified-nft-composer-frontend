@@ -22,7 +22,6 @@ import { DndServiceService } from 'src/app/services/dnd-service.service';
 import { WidgetContentComponent } from '../../modals/widget-content/widget-content.component';
 import { ActivatedRoute } from '@angular/router';
 
-
 export interface Widget {
   type: string;
   _Id?: string;
@@ -58,12 +57,12 @@ export class ComposerComponent implements OnInit, AfterViewInit {
       name: 'ProofBot',
       icon: 'ondemand_video',
     },
-    {
+    /*{
       type: 'carbonfp',
       used: false,
       name: 'Carbon Footprint',
       icon: 'filter_drama',
-    },
+    },*/
     {
       type: 'nftimage',
       used: false,
@@ -127,12 +126,14 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   //Called when a widget is dropped to drap and drop area.
   drop(event: CdkDragDrop<Widget[]>) {
     if (event.previousContainer === event.container) {
-      moveItemInArray(
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
-      this.stateService.rewriteWidgetArr(this.usedWidgets);
+      if (event.container.data === this.usedWidgets) {
+        moveItemInArray(
+          event.container.data,
+          event.previousIndex,
+          event.currentIndex
+        );
+        this.stateService.rewriteWidgetArr(this.usedWidgets);
+      }
     } else {
       if (!(event.currentIndex <= this.usedWidgets.length - 1)) {
         this.usedWidgets[event.currentIndex] = {
@@ -187,7 +188,6 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     transferArrayItem(this.usedWidgets, [], index, 0);
 
     this.stateService.rewriteWidgetArr(this.usedWidgets);
-
   }
 
   openAddData() {
@@ -200,6 +200,5 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe((result) => {
       //
     });
-
   }
 }

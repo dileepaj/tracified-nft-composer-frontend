@@ -126,3 +126,7 @@
   padding: 10px 10px 15px 10px;
   border-radius: 5px;
 }
+
+.mat-tab-group.mat-primary .mat-ink-bar {
+  background-color: $background !important;
+}

@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as d3 from 'd3';
 import { Chart } from '../../../../models/nft-content/chart';
@@ -20,6 +20,7 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
   selector: 'app-configure-pie-chart',
   templateUrl: './configure-pie-chart.component.html',
   styleUrls: ['./configure-pie-chart.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class ConfigurePieChartComponent implements OnInit {
   nft$: any;
@@ -27,6 +28,8 @@ export class ConfigurePieChartComponent implements OnInit {
   chartId: any;
   keyTitle: any;
   query: string = '';
+  batchId: any = '';
+  productName: string = '';
   //data to be displayed in the pie chart
   pieChartData: any = [
     {
@@ -77,6 +80,7 @@ export class ConfigurePieChartComponent implements OnInit {
   ngOnInit(): void {
     //this.updateChart();
     this.chartId = this.data.id;
+    this.pieChart = this.data.widget;
   }
 
   //generate bar chart
@@ -156,18 +160,34 @@ export class ConfigurePieChartComponent implements OnInit {
   //called when user moves to a different tab
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     if (tabChangeEvent.index === 1) {
-      this.getPieChart();
+      //this.getPieChart();
+      this.assignValues();
       this.updateChart();
     }
   }
 
   //update redux state
   updateReduxState() {
-    this.pieChart = {
+    /*this.pieChart = {
       WidgetId: this.chartId,
+      WidgetType: 'pie',
       ChartTitle: this.title,
+      BactchId: this.batchId,
+      ProductName: this.productName,
       KeyTitle: 'name',
       ValueTitle: 'value',
+      Query: this.query,
+      ChartData: this.pieChartData,
+      Color: this.fieldColors,
+      FontColor: this.fontColor,
+      FontSize: this.fontSize,
+      Height: this.height,
+      Width: this.width,
+    };*/
+
+    this.pieChart = {
+      ...this.pieChart,
+      ChartTitle: this.title,
       Query: this.query,
       ChartData: this.pieChartData,
       Color: this.fieldColors,
@@ -187,6 +207,8 @@ export class ConfigurePieChartComponent implements OnInit {
         if (chart.WidgetId === this.chartId) {
           this.title = chart.ChartTitle!;
           this.keyTitle = chart.KeyTitle;
+          this.batchId = chart.BactchId!;
+          this.productName = chart.ProductName!;
           if (chart.ChartData!.length !== 0) {
             this.pieChartData = chart.ChartData!.filter((data) => data);
           }
@@ -199,5 +221,21 @@ export class ConfigurePieChartComponent implements OnInit {
         }
       });
     });
+  }
+
+  private assignValues() {
+    this.title = this.pieChart.ChartTitle!;
+    this.keyTitle = this.pieChart.KeyTitle;
+    this.batchId = this.pieChart.BactchId!;
+    this.productName = this.pieChart.ProductName!;
+    if (this.pieChart.ChartData!.length !== 0) {
+      this.pieChartData = this.pieChart.ChartData!.filter((data) => data);
+    }
+    this.fieldColors = this.pieChart.Color!.filter((data) => data);
+    console.log(this.fieldColors);
+    this.fontColor = this.pieChart.FontColor!;
+    this.fontSize = this.pieChart.FontSize!;
+    this.height = this.pieChart.Height!;
+    this.width = this.pieChart.Width!;
   }
 }
