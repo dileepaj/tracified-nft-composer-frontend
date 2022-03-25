@@ -3,7 +3,7 @@
 
 .ace-editor {
   border: 2px solid #f8f9fa;
-  top: 45px;
+  top: 50px;
   bottom: 0;
   right: 0;
   left: 0;
@@ -20,7 +20,7 @@
   position: absolute;
 }
 
-.btn {
+.btn-execute {
   @include btn-accent;
   margin: 5px;
   //float: right;
@@ -28,4 +28,12 @@
 
 .btn mat-icon {
   vertical-align: middle;
+}
+
+.progressbar {
+  background-color: $green !important;
+}
+
+.loader {
+  transform: scale(0.2);
 }

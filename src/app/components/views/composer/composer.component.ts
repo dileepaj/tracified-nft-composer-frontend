@@ -21,6 +21,16 @@ import { AppState } from 'src/app/store/app.state';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
 import { WidgetContentComponent } from '../../modals/widget-content/widget-content.component';
 import { ActivatedRoute } from '@angular/router';
+import {
+  barchart,
+  bubblechart,
+  carbonFp,
+  nftimage,
+  piechart,
+  proofbot,
+  table,
+  timeline,
+} from 'src/models/nft-content/widgetTypes';
 
 export interface Widget {
   type: string;
@@ -40,19 +50,31 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   position = '';
   id: string;
   private sub: any;
+
+  widgetTypes: any = {
+    timeline: timeline,
+    proofbot: proofbot,
+    carbon: carbonFp,
+    bar: barchart,
+    pie: piechart,
+    bubble: bubblechart,
+    table: table,
+    image: nftimage,
+  };
+
   @ViewChild('nftcontent') myDiv: ElementRef;
 
   ngAfterViewInit() {}
 
   availableWidgets: Widget[] = [
     {
-      type: 'timeline',
+      type: this.widgetTypes.timeline,
       used: false,
       name: 'Timeline',
       icon: 'event_note',
     },
     {
-      type: 'proofbot',
+      type: this.widgetTypes.proofbot,
       used: false,
       name: 'ProofBot',
       icon: 'ondemand_video',
@@ -64,31 +86,31 @@ export class ComposerComponent implements OnInit, AfterViewInit {
       icon: 'filter_drama',
     },*/
     {
-      type: 'nftimage',
+      type: this.widgetTypes.image,
       used: false,
       name: 'NFT Image',
       icon: 'wallpaper',
     },
     {
-      type: 'barchart',
+      type: this.widgetTypes.bar,
       used: false,
       name: 'Bar Chart',
       icon: 'bar_chart',
     },
     {
-      type: 'piechart',
+      type: this.widgetTypes.pie,
       used: false,
       name: 'Pie Chart',
       icon: 'pie_chart',
     },
     {
-      type: 'bubblechart',
+      type: this.widgetTypes.bubble,
       used: false,
       name: 'Bubble Chart',
       icon: 'bubble_chart',
     },
     {
-      type: 'table',
+      type: this.widgetTypes.table,
       used: false,
       name: 'Table',
       icon: 'table_view',

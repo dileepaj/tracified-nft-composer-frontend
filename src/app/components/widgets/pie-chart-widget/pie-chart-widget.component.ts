@@ -9,6 +9,7 @@ import {
 } from 'src/app/store/nft-state-store/nft.actions';
 import { selectPieCharts } from 'src/app/store/nft-state-store/nft.selector';
 import { Chart } from 'src/models/nft-content/chart';
+import { piechart } from 'src/models/nft-content/widgetTypes';
 import { ConfigurePieChartComponent } from '../../modals/configure-pie-chart/configure-pie-chart.component';
 import { WidgetContentComponent } from '../../modals/widget-content/widget-content.component';
 
@@ -62,7 +63,8 @@ export class PieChartWidgetComponent implements OnInit {
     this.pieChart = {
       WidgetId: this.id,
       ProjectId: 'ABC',
-      WidgetType: 'pie',
+      ProjectName: 'project1',
+      WidgetType: piechart,
       ChartTitle: 'Pie Chart',
       KeyTitle: 'name',
       ValueTitle: 'value',

@@ -10,6 +10,7 @@ import {
 } from 'src/app/store/nft-state-store/nft.actions';
 import { selectBubbleCharts } from 'src/app/store/nft-state-store/nft.selector';
 import { Chart } from 'src/models/nft-content/chart';
+import { bubblechart } from 'src/models/nft-content/widgetTypes';
 import { ConfigureBubbleChartComponent } from '../../modals/configure-bubble-chart/configure-bubble-chart.component';
 import { WidgetContentComponent } from '../../modals/widget-content/widget-content.component';
 
@@ -62,7 +63,9 @@ export class BubbleChartWidgetComponent implements OnInit {
   private addBubbleChartToStore() {
     this.bubbleChart = {
       WidgetId: this.id,
-      WidgetType: 'bubble',
+      WidgetType: bubblechart,
+      ProjectId: 'ABC',
+      ProjectName: 'project1',
       ChartTitle: 'Bubble Chart',
       KeyTitle: 'name',
       ValueTitle: 'val',

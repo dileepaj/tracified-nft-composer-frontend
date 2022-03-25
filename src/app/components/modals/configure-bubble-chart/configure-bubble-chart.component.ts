@@ -1,8 +1,9 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Store } from '@ngrx/store';
 import * as d3 from 'd3';
+import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 import { AppState } from 'src/app/store/app.state';
 import {
   addBubbleChart,
@@ -22,7 +23,7 @@ import { Chart } from 'src/models/nft-content/chart';
 })
 export class ConfigureBubbleChartComponent implements OnInit {
   nft$: any;
-  private bubbleChart: Chart;
+  bubbleChart: Chart;
   chartId: any;
   keyTitle: any;
   query: string = '';
@@ -59,9 +60,13 @@ export class ConfigureBubbleChartComponent implements OnInit {
   private width = 300 - this.margin;
   private height = 300 - this.margin;
 
+  saving: boolean = false;
+
   constructor(
     private store: Store<AppState>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialog: MatDialog,
+    private composerService: ComposerBackendService
   ) {
     this.nft$ = this.store.select(selectNFTContent);
   }
@@ -176,6 +181,7 @@ export class ConfigureBubbleChartComponent implements OnInit {
       Width: this.width,
     };*/
 
+    this.saving = true;
     this.bubbleChart = {
       ...this.bubbleChart,
       ChartTitle: this.title,
@@ -189,6 +195,7 @@ export class ConfigureBubbleChartComponent implements OnInit {
       Width: this.width,
     };
 
+    this.saveChart(this.bubbleChart);
     this.store.dispatch(updateBubbleChart({ chart: this.bubbleChart }));
   }
 
@@ -229,5 +236,23 @@ export class ConfigureBubbleChartComponent implements OnInit {
     this.fontSize = this.bubbleChart.FontSize!;
     this.height = this.bubbleChart.Height!;
     this.width = this.bubbleChart.Width!;
+  }
+
+  private saveChart(chart: any) {
+    console.log('chart', chart);
+    chart = {
+      ...chart,
+      Type: 'BubbleChart',
+    };
+    this.composerService.saveChart(chart).subscribe((res) => {
+      console.log(res);
+      this.saving = false;
+      this.dialog.closeAll();
+    });
+  }
+
+  public addQuery(event: any) {
+    console.log(event);
+    this.query = event;
   }
 }

@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.state';
@@ -13,6 +13,7 @@ import {
 } from 'src/app/store/nft-state-store/nft.selector';
 import { Table } from 'src/models/nft-content/table';
 import { ViewEncapsulation } from '@angular/core';
+import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 
 @Component({
   selector: 'app-configure-table',
@@ -22,7 +23,7 @@ import { ViewEncapsulation } from '@angular/core';
 })
 export class ConfigureTableComponent implements OnInit {
   nft$: any;
-  private table: Table;
+  table: Table;
   tableId: any;
   title: any;
   query: string = '';
@@ -42,9 +43,13 @@ export class ConfigureTableComponent implements OnInit {
   tableContent: string;
   tableHtml: string = '';
 
+  saving: boolean = false;
+
   constructor(
     private store: Store<AppState>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialog: MatDialog,
+    private composerService: ComposerBackendService
   ) {
     this.nft$ = this.store.select(selectNFTContent);
   }
@@ -76,6 +81,7 @@ export class ConfigureTableComponent implements OnInit {
       TableContent: this.tableContent,
     };*/
 
+    this.saving = true;
     this.table = {
       ...this.table,
       TableTitle: this.title,
@@ -83,6 +89,7 @@ export class ConfigureTableComponent implements OnInit {
       TableContent: this.tableContent,
     };
 
+    this.saveTable(this.table);
     this.store.dispatch(updateTable({ table: this.table }));
 
     this.showChart();
@@ -126,5 +133,19 @@ export class ConfigureTableComponent implements OnInit {
 
     this.tableContent = tableString;
     this.tableHtml = '<table>' + this.tableContent + '</table>';
+  }
+
+  private saveTable(table: Table) {
+    console.log('table', table);
+    this.composerService.saveTable(table).subscribe((res) => {
+      console.log(res);
+      this.saving = false;
+      this.dialog.closeAll();
+    });
+  }
+
+  public addQuery(event: any) {
+    console.log(event);
+    this.query = event;
   }
 }

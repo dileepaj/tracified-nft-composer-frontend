@@ -13,8 +13,9 @@ import {
   selectNFTContent,
   selectPieCharts,
 } from 'src/app/store/nft-state-store/nft.selector';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 
 @Component({
   selector: 'app-configure-pie-chart',
@@ -24,7 +25,7 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 })
 export class ConfigurePieChartComponent implements OnInit {
   nft$: any;
-  private pieChart: Chart;
+  pieChart: Chart;
   chartId: any;
   keyTitle: any;
   query: string = '';
@@ -70,9 +71,13 @@ export class ConfigurePieChartComponent implements OnInit {
   private radius = Math.min(this.width, this.height) / 2 - this.margin;
   private colors: any;
 
+  saving: boolean = false;
+
   constructor(
     private store: Store<AppState>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialog: MatDialog,
+    private composerService: ComposerBackendService
   ) {
     this.nft$ = this.store.select(selectNFTContent);
   }
@@ -185,6 +190,8 @@ export class ConfigurePieChartComponent implements OnInit {
       Width: this.width,
     };*/
 
+    this.saving = true;
+
     this.pieChart = {
       ...this.pieChart,
       ChartTitle: this.title,
@@ -197,6 +204,7 @@ export class ConfigurePieChartComponent implements OnInit {
       Width: this.width,
     };
 
+    this.saveChart(this.pieChart);
     this.store.dispatch(updatePieChart({ chart: this.pieChart }));
   }
 
@@ -237,5 +245,23 @@ export class ConfigurePieChartComponent implements OnInit {
     this.fontSize = this.pieChart.FontSize!;
     this.height = this.pieChart.Height!;
     this.width = this.pieChart.Width!;
+  }
+
+  private saveChart(chart: any) {
+    console.log('chart', chart);
+    chart = {
+      ...chart,
+      Type: 'PieChart',
+    };
+    this.composerService.saveChart(chart).subscribe((res) => {
+      console.log(res);
+      this.saving = false;
+      this.dialog.closeAll();
+    });
+  }
+
+  public addQuery(event: any) {
+    console.log(event);
+    this.query = event;
   }
 }

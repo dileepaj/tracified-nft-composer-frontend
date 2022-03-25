@@ -13,8 +13,9 @@ import {
   selectNFT,
   selectNFTContent,
 } from 'src/app/store/nft-state-store/nft.selector';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 
 @Component({
   selector: 'app-configure-bar-chart',
@@ -24,7 +25,7 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 })
 export class ConfigureBarChartComponent implements OnInit {
   nft$: any;
-  private barChart: Chart;
+  barChart: Chart;
   chartId: any;
   projectId: string = '';
   keyTitle: string;
@@ -73,9 +74,13 @@ export class ConfigureBarChartComponent implements OnInit {
   private width = 550 - this.margin * 2;
   private height = 200 - this.margin * 2;
 
+  saving: boolean = false;
+
   constructor(
     private store: Store<AppState>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialog: MatDialog,
+    private composerService: ComposerBackendService
   ) {
     this.nft$ = this.store.select(selectNFTContent);
   }
@@ -203,6 +208,7 @@ export class ConfigureBarChartComponent implements OnInit {
       Width: this.width,
     };*/
 
+    this.saving = true;
     this.barChart = {
       ...this.barChart,
       ChartTitle: this.title,
@@ -217,6 +223,7 @@ export class ConfigureBarChartComponent implements OnInit {
       Width: this.width,
     };
 
+    this.saveChart(this.barChart);
     this.store.dispatch(updateBarChart({ chart: this.barChart }));
   }
 
@@ -261,5 +268,23 @@ export class ConfigureBarChartComponent implements OnInit {
     this.yName = this.barChart.YAxis;
     this.height = this.barChart.Height!;
     this.width = this.barChart.Width!;
+  }
+
+  private saveChart(chart: any) {
+    console.log('chart', chart);
+    chart = {
+      ...chart,
+      Type: 'BarChart',
+    };
+    this.composerService.saveChart(chart).subscribe((res) => {
+      console.log(res);
+      this.saving = false;
+      this.dialog.closeAll();
+    });
+  }
+
+  public addQuery(event: any) {
+    console.log(event);
+    this.query = event;
   }
 }

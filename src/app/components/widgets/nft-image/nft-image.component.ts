@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
 import { AppState } from 'src/app/store/app.state';
 import {
@@ -45,7 +46,8 @@ export class NftImageComponent implements OnInit {
 
   constructor(
     private store: Store<AppState>,
-    private service: DndServiceService
+    private service: DndServiceService,
+    private composerService: ComposerBackendService
   ) {
     this.nft$ = this.store.select(selectNFTContent);
     this.image$ = this.store.select(selectNFTImages);
@@ -61,8 +63,7 @@ export class NftImageComponent implements OnInit {
   }
 
   //display nft state
-  private showNFT() {
-  }
+  private showNFT() {}
 
   //called when file input change event is emitted
   onChange(event: any) {
@@ -86,8 +87,9 @@ export class NftImageComponent implements OnInit {
   private addImageToStore() {
     this.image = {
       WidgetId: this.id,
+      ProjectId: 'ABC',
       Title: 'NFT Image',
-      Type: 'image/jpeg',
+      Type: '',
       Base64Image: '',
     };
 
@@ -101,11 +103,12 @@ export class NftImageComponent implements OnInit {
   //update redux state
   private updateImage() {
     this.image = {
-      WidgetId: this.id,
+      ...this.image,
       Type: this.file.type,
       Base64Image: this.base64,
     };
 
+    this.saveImage();
     this.store.dispatch(updateNFTImage({ image: this.image }));
     this.showNFT();
   }
@@ -150,6 +153,13 @@ export class NftImageComponent implements OnInit {
           this.image = img;
         }
       });
+    });
+  }
+
+  saveImage() {
+    console.log(this.image);
+    this.composerService.saveImage(this.image).subscribe((res) => {
+      console.log(res);
     });
   }
 }

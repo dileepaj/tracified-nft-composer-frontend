@@ -25,6 +25,7 @@ import {
 import { WidgetContentComponent } from '../../modals/widget-content/widget-content.component';
 import { Widget } from '../../views/composer/composer.component';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
+import { barchart } from 'src/models/nft-content/widgetTypes';
 
 @Component({
   selector: 'app-bar-chart-widget',
@@ -84,8 +85,9 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
   private addBarChartToStore() {
     this.barChart = {
       WidgetId: this.id,
-      WidgetType: 'bar',
+      WidgetType: barchart,
       ProjectId: 'ABC',
+      ProjectName: 'project1',
       ChartTitle: 'Bar Chart',
       KeyTitle: 'name',
       ValueTitle: 'value',

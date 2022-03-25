@@ -23,3 +23,30 @@
     </tr>
   </tbody>
 </table>
+
+<table *ngIf="batchIsSelected === true" class="tdp-table">
+  <h2>Stages</h2>
+
+  <tbody>
+    <tr>
+      <td style="background: whitesmoke">
+        <div
+          *ngFor="
+            let stage of workflow[this.workflow.length - 1].stages;
+            index as i
+          "
+          fxLayout="row"
+        >
+          <div style="background: green" fxFlex="10%">
+            <label>{{ i + 1 }}</label>
+          </div>
+          <div fxFlex="90%">
+            <label>{{ stage.stageId }}</label>
+            <label>{{ stage.name }}</label>
+          </div>
+        </div>
+      </td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>

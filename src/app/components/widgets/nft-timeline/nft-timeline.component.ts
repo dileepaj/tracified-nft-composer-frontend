@@ -12,6 +12,7 @@ import {
   selectTimeline,
 } from 'src/app/store/nft-state-store/nft.selector';
 import { Timeline } from 'src/models/nft-content/timeline';
+import { timeline } from 'src/models/nft-content/widgetTypes';
 
 @Component({
   selector: 'app-nft-timeline',
@@ -46,7 +47,7 @@ export class NftTimelineComponent implements OnInit {
   private addTimelineToStore() {
     this.timeline = {
       WidgetId: this.id,
-      WidgetType: 'timeline',
+      WidgetType: timeline,
       data: this.data,
     };
 

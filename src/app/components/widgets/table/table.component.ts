@@ -20,7 +20,9 @@ import {
   selectTable,
 } from 'src/app/store/nft-state-store/nft.selector';
 import { Table } from 'src/models/nft-content/table';
+import { table } from 'src/models/nft-content/widgetTypes';
 import { ConfigureTableComponent } from '../../modals/configure-table/configure-table.component';
+import { WidgetContentComponent } from '../../modals/widget-content/widget-content.component';
 
 @Component({
   selector: 'app-table',
@@ -55,7 +57,8 @@ export class TableComponent implements OnInit {
     this.table = {
       WidgetId: this.id,
       ProjectId: 'ABC',
-      WidgetType: 'table',
+      ProjectName: 'project1',
+      WidgetType: table,
       TableTitle: 'Table',
       TableContent: '',
     };
@@ -96,6 +99,21 @@ export class TableComponent implements OnInit {
           this.table = table;
         }
       });
+    });
+  }
+
+  //open batch selection popup
+  openAddData() {
+    this.getTable();
+    const dialogRef = this.dialog.open(WidgetContentComponent, {
+      data: {
+        id: this.id,
+        widget: this.table,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      //
     });
   }
 }

@@ -36,6 +36,16 @@ import {
   selectNFTContent,
   selectWidgetOrder,
 } from 'src/app/store/nft-state-store/nft.selector';
+import { ComposerBackendService } from 'src/app/services/composer-backend.service';
+import {
+  barchart,
+  bubblechart,
+  carbonFp,
+  piechart,
+  proofbot,
+  table,
+  timeline,
+} from 'src/models/nft-content/widgetTypes';
 
 @Component({
   selector: 'app-select-batch',
@@ -56,6 +66,10 @@ export class SelectBatchComponent implements OnInit {
     start: new FormControl(),
     end: new FormControl(),
   });
+
+  saving: boolean = false;
+
+  tdpStep: number = 0;
 
   searchKey: string = '';
 
@@ -91,7 +105,8 @@ export class SelectBatchComponent implements OnInit {
     private store: Store<AppState>,
     public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private batchesService: BatchesService
+    private batchesService: BatchesService,
+    private composerService: ComposerBackendService
   ) {}
 
   ngOnInit() {
@@ -123,6 +138,7 @@ export class SelectBatchComponent implements OnInit {
   selectBatch(row: any) {
     this.selectedBatch = row;
     this.batchIsSelected = true;
+    this.tdpStep = 0;
     console.log(this.selectedBatch);
     this.goForward();
   }
@@ -146,31 +162,36 @@ export class SelectBatchComponent implements OnInit {
   //update redux state
   updateReduxState() {
     if (this.productIsSelected && this.batchIsSelected) {
-      this.widget = {
-        ...this.widget,
-        BactchId: this.selectedBatch.identifier.identifier,
-        ProductName: this.selectedProduct.itemName,
-      };
+      if (this.selectedBatch.traceabilityDataPackets.length !== 0) {
+        this.saving = true;
+        this.widget = {
+          ...this.widget,
+          BactchId: this.selectedBatch.identifier.identifier,
+          ProductName: this.selectedProduct.itemName,
+        };
 
-      if (this.widget.WidgetType === 'bar') {
-        this.store.dispatch(updateBarChart({ chart: this.widget }));
-      } else if (this.widget.WidgetType === 'pie') {
-        this.store.dispatch(updatePieChart({ chart: this.widget }));
-      } else if (this.widget.WidgetType === 'bubble') {
-        this.store.dispatch(updateBubbleChart({ chart: this.widget }));
-      } else if (this.widget.WidgetType === 'proofbot') {
-        this.store.dispatch(updateProofBot({ proofBot: this.widget }));
-      } else if (this.widget.WidgetType === 'timeline') {
-        this.store.dispatch(updateTimeline({ timeline: this.widget }));
-      } else if (this.widget.WidgetType === 'carbon') {
-        this.store.dispatch(
-          updateCarbonFootprint({ carbonFootprint: this.widget })
-        );
-      } else if (this.widget.WidgetType === 'table') {
-        this.store.dispatch(updateTable({ table: this.widget }));
+        if (this.widget.WidgetType === barchart) {
+          this.store.dispatch(updateBarChart({ chart: this.widget }));
+        } else if (this.widget.WidgetType === piechart) {
+          this.store.dispatch(updatePieChart({ chart: this.widget }));
+        } else if (this.widget.WidgetType === bubblechart) {
+          this.store.dispatch(updateBubbleChart({ chart: this.widget }));
+        } else if (this.widget.WidgetType === proofbot) {
+          this.store.dispatch(updateProofBot({ proofBot: this.widget }));
+        } else if (this.widget.WidgetType === timeline) {
+          this.store.dispatch(updateTimeline({ timeline: this.widget }));
+        } else if (this.widget.WidgetType === carbonFp) {
+          this.store.dispatch(
+            updateCarbonFootprint({ carbonFootprint: this.widget })
+          );
+        } else if (this.widget.WidgetType === table) {
+          this.store.dispatch(updateTable({ table: this.widget }));
+        }
+
+        this.saveWidget();
+      } else {
+        alert('Please select a batch that has traceability data');
       }
-
-      this.close();
     } else {
       alert('Please select a product and batch!');
     }
@@ -287,5 +308,45 @@ export class SelectBatchComponent implements OnInit {
   public CamelcaseToWord(string: string) {
     string = string.charAt(0).toUpperCase() + string.slice(1);
     return string.replace(/([A-Z]+)/g, ' $1').replace(/([A-Z][a-z])/g, ' $1');
+  }
+
+  private saveWidget() {
+    const widget = {
+      Timestamp: new Date().toISOString(),
+      ProjectId: this.widget.ProjectId,
+      ProjectName: this.widget.ProjectName,
+      WidgetId: this.widget.WidgetId,
+      BatchId: this.selectedBatch.identifier.identifier,
+      ProductId: this.selectedProduct.itemID,
+      ProductName: this.selectedProduct.itemName,
+      TenentId: this.selectedBatch.tenantId,
+      UserId: 'User1',
+      OTP: '',
+      Query: '',
+      OTPType: 'Batch',
+      WidgetType: this.widget.WidgetType,
+    };
+    //console.log(widget);
+
+    this.composerService.saveWidget(widget).subscribe((res) => {
+      this.saving = false;
+      console.log(res);
+      this.close();
+    });
+  }
+
+  setTdpStep(index: number) {
+    this.tdpStep = index;
+  }
+
+  getTraceabilityData(stageId: number) {
+    let tdArr: any = [];
+    this.selectedBatch.traceabilityDataPackets.map((data: any) => {
+      if (data.stageId === stageId) {
+        tdArr.push(data);
+      }
+    });
+
+    return tdArr;
   }
 }
