@@ -35,4 +35,14 @@ export class ApiService {
       headers: this.setHeaders(),
     });
   }
+
+  //post request
+  post(path : string, body: any): Observable<any>{
+    return this.http.post(
+      `${this.api_url}${path}`, 
+      body, 
+      {
+        headers: this.setHeaders()
+      });
+  }
 }

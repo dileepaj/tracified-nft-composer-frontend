@@ -9,7 +9,6 @@ import { HeaderComponent } from './components/shared/header/header.component';
 import { SidebarComponent } from './components/shared/sidebar/sidebar.component';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule, Routes } from '@angular/router';
-
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -37,7 +36,7 @@ import { PieChartWidgetComponent } from './components/widgets/pie-chart-widget/p
 import { BarChartComponent } from './components/charts/bar-chart/bar-chart.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { MatRippleModule } from '@angular/material/core';
@@ -146,6 +145,7 @@ const appRoutes: Routes = [
     FormsModule,
     MatCardModule,
     MatRippleModule,
+    ReactiveFormsModule,
     ColorPickerModule,
     MatTabsModule,
     FlexLayoutModule,
