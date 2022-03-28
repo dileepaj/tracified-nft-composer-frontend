@@ -1,4 +1,4 @@
-export interface QueryExecuter{
-Id:string,
-Query:string
+export interface QueryExecuter {
+  WidgetId: string;
+  Query: string;
 }

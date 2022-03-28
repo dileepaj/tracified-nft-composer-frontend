@@ -1,18 +1,38 @@
 import { query } from '@angular/animations';
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  ViewChild,
+  Input,
+  ViewEncapsulation,
+  EventEmitter,
+  Output,
+} from '@angular/core';
 import * as ace from 'ace-builds';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-ldaleditor',
   templateUrl: './ldaleditor.component.html',
   styleUrls: ['./ldaleditor.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class LdaleditorComponent implements OnInit, AfterViewInit {
   @ViewChild('editor') private editor: any;
+  @Input() id: string;
+  @Output() onQuerySuccess: EventEmitter<any> = new EventEmitter();
   text: string = '';
   staticWordCompleter: any;
   aceEditor: any;
+  loading: boolean = false;
+  horizontalPosition: MatSnackBarHorizontalPosition = 'end';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
   keyWordList2: any = [
     'If',
@@ -184,7 +204,10 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
     'AddPeriod',
   ];
 
-  constructor(private apiService:ComposerBackendService) {}
+  constructor(
+    private apiService: ComposerBackendService,
+    private _snackBar: MatSnackBar
+  ) {}
 
   ngAfterViewInit(): void {
     this.setLanguageTools();
@@ -250,17 +273,37 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
     };
   }
 
-  queryExecuter(){
-   let queryObject={
-      "Id":"6230d111081d260a682ea6dd",
-      "Query":`$RESULT.SetCustomString(normal)\n$RESULT.SetRValue(4)\n$RESULT.GetStringVar:=RESULTSTRING\n$X.FilterSubtree($Item.GetValue.IsHavingSubstring(106)):=STAGELIST\n$STAGELIST.SeekToBegin\n$STAGELIST.GetCurrentElement:=STAGEELEM\nIf($STAGEELEM.CheckNotNull)\n$STAGEELEM.FilterSubtree($Item.GetValue.IsHavingSubstring(xportername)):=OUTERLIST\n$OUTERLIST.SeekToBegin\n$OUTERLIST.GetCurrentElement:=OUTERELEM\nIf($OUTERELEM.CheckNotNull)\n$OUTERELEM.FilterSubtree($Item.GetValue.IsStringEqualTo(name)):=LIST\n$LIST.SeekToBegin\n$LIST.GetCurrentElement:=ELEM\nIf($ELEM.CheckNotNull)\n$RESULTSTRING.AddPostFix($ELEM.GetLValue)\n$LIST.GetNextElement:=ELEM\nEndIf\nEndIf\nEndIf\n$RESULT.SetValue($RESULTSTRING)`,
-    }
-
-    this.apiService.executeQueryAndUpdate(queryObject).subscribe((result) => {
-      if (result) {
-        //get result
-      }
+  openSnackBar(msg: string) {
+    this._snackBar.open(msg, 'OK', {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+      panelClass: ['snackbar'],
+      duration: 5 * 1000,
     });
   }
 
+  public queryExecuter() {
+    this.loading = true;
+    let queryObject = {
+      WidgetId: this.id,
+      Query: `$RESULT.SetCustomString(normal)\n$RESULT.SetRValue(4)\n$RESULT.GetStringVar:=RESULTSTRING\n$X.FilterSubtree($Item.GetValue.IsHavingSubstring(106)):=STAGELIST\n$STAGELIST.SeekToBegin\n$STAGELIST.GetCurrentElement:=STAGEELEM\nIf($STAGEELEM.CheckNotNull)\n$STAGEELEM.FilterSubtree($Item.GetValue.IsHavingSubstring(xportername)):=OUTERLIST\n$OUTERLIST.SeekToBegin\n$OUTERLIST.GetCurrentElement:=OUTERELEM\nIf($OUTERELEM.CheckNotNull)\n$OUTERELEM.FilterSubtree($Item.GetValue.IsStringEqualTo(name)):=LIST\n$LIST.SeekToBegin\n$LIST.GetCurrentElement:=ELEM\nIf($ELEM.CheckNotNull)\n$RESULTSTRING.AddPostFix($ELEM.GetLValue)\n$LIST.GetNextElement:=ELEM\nEndIf\nEndIf\nEndIf\n$RESULT.SetValue($RESULTSTRING)`,
+    };
+
+    console.log(queryObject);
+    this.apiService.executeQueryAndUpdate(queryObject).subscribe({
+      next: (result) => {
+        if (result) {
+          //get result
+          console.log(result);
+          this.onQuerySuccess.emit(queryObject.Query);
+          this.loading = false;
+        }
+      },
+      error: (err) => {
+        console.log(err);
+        this.loading = false;
+        alert('An unexpected error occured. Please try again later');
+      },
+    });
+  }
 }

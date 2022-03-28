@@ -1,7 +1,7 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as d3 from 'd3';
-import { Chart } from '../../../../models/nft-content/chart';
+import { Chart, Data } from '../../../../models/nft-content/chart';
 import { AppState } from 'src/app/store/app.state';
 import {
   addBarChart,
@@ -13,41 +13,46 @@ import {
   selectNFTContent,
   selectPieCharts,
 } from 'src/app/store/nft-state-store/nft.selector';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { ComposerBackendService } from 'src/app/services/composer-backend.service';
+import { piechart } from 'src/models/nft-content/widgetTypes';
 
 @Component({
   selector: 'app-configure-pie-chart',
   templateUrl: './configure-pie-chart.component.html',
   styleUrls: ['./configure-pie-chart.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class ConfigurePieChartComponent implements OnInit {
   nft$: any;
-  private pieChart: Chart;
+  pieChart: Chart;
   chartId: any;
   keyTitle: any;
   query: string = '';
+  batchId: any = '';
+  productName: string = '';
   //data to be displayed in the pie chart
-  pieChartData: any = [
+  pieChartData: Data[] = [
     {
-      name: 'Sri Lanka',
-      value: 200,
+      Name: 'Sri Lanka',
+      Value: 200,
     },
     {
-      name: 'India',
-      value: 900,
+      Name: 'India',
+      Value: 900,
     },
     {
-      name: 'Bangladesh',
-      value: 800,
+      Name: 'Bangladesh',
+      Value: 800,
     },
     {
-      name: 'Pakistan',
-      value: 600,
+      Name: 'Pakistan',
+      Value: 600,
     },
     {
-      name: 'Nepal',
-      value: 100,
+      Name: 'Nepal',
+      Value: 100,
     },
   ];
 
@@ -67,9 +72,13 @@ export class ConfigurePieChartComponent implements OnInit {
   private radius = Math.min(this.width, this.height) / 2 - this.margin;
   private colors: any;
 
+  saving: boolean = false;
+
   constructor(
     private store: Store<AppState>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialog: MatDialog,
+    private composerService: ComposerBackendService
   ) {
     this.nft$ = this.store.select(selectNFTContent);
   }
@@ -77,6 +86,7 @@ export class ConfigurePieChartComponent implements OnInit {
   ngOnInit(): void {
     //this.updateChart();
     this.chartId = this.data.id;
+    this.pieChart = this.data.widget;
   }
 
   //generate bar chart
@@ -96,13 +106,13 @@ export class ConfigurePieChartComponent implements OnInit {
   private createColors(): void {
     this.colors = d3
       .scaleOrdinal()
-      .domain(this.pieChartData.map((d: any) => d.value.toString()))
+      .domain(this.pieChartData.map((d: any) => d.Value.toString()))
       .range(this.fieldColors);
   }
 
   private drawChart(): void {
     // Compute the position of each group on the pie:
-    const pie = d3.pie<any>().value((d: any) => Number(d.value));
+    const pie = d3.pie<any>().value((d: any) => Number(d.Value));
 
     // Build the pie chart
     this.svg
@@ -123,7 +133,7 @@ export class ConfigurePieChartComponent implements OnInit {
       .data(pie(this.pieChartData))
       .enter()
       .append('text')
-      .text((d: any) => d.data.name)
+      .text((d: any) => d.data.Name)
       .attr(
         'transform',
         (d: any) => 'translate(' + labelLocation.centroid(d) + ')'
@@ -156,16 +166,20 @@ export class ConfigurePieChartComponent implements OnInit {
   //called when user moves to a different tab
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     if (tabChangeEvent.index === 1) {
-      this.getPieChart();
+      //this.getPieChart();
+      this.assignValues();
       this.updateChart();
     }
   }
 
   //update redux state
   updateReduxState() {
-    this.pieChart = {
+    /*this.pieChart = {
       WidgetId: this.chartId,
+      WidgetType: 'pie',
       ChartTitle: this.title,
+      BactchId: this.batchId,
+      ProductName: this.productName,
       KeyTitle: 'name',
       ValueTitle: 'value',
       Query: this.query,
@@ -175,8 +189,23 @@ export class ConfigurePieChartComponent implements OnInit {
       FontSize: this.fontSize,
       Height: this.height,
       Width: this.width,
+    };*/
+
+    this.saving = true;
+
+    this.pieChart = {
+      ...this.pieChart,
+      ChartTitle: this.title,
+      Query: this.query,
+      ChartData: this.pieChartData,
+      Color: this.fieldColors,
+      FontColor: this.fontColor,
+      FontSize: this.fontSize,
+      Height: 350,
+      Width: 500,
     };
 
+    this.saveChart(this.pieChart);
     this.store.dispatch(updatePieChart({ chart: this.pieChart }));
   }
 
@@ -187,6 +216,8 @@ export class ConfigurePieChartComponent implements OnInit {
         if (chart.WidgetId === this.chartId) {
           this.title = chart.ChartTitle!;
           this.keyTitle = chart.KeyTitle;
+          this.batchId = chart.BactchId!;
+          this.productName = chart.ProductName!;
           if (chart.ChartData!.length !== 0) {
             this.pieChartData = chart.ChartData!.filter((data) => data);
           }
@@ -199,5 +230,46 @@ export class ConfigurePieChartComponent implements OnInit {
         }
       });
     });
+  }
+
+  private assignValues() {
+    this.title = this.pieChart.ChartTitle!;
+    this.keyTitle = this.pieChart.KeyTitle;
+    this.batchId = this.pieChart.BactchId!;
+    this.productName = this.pieChart.ProductName!;
+    if (this.pieChart.ChartData!.length !== 0) {
+      this.pieChartData = this.pieChart.ChartData!.filter((data) => data);
+    }
+    this.fieldColors = this.pieChart.Color!.filter((data) => data);
+    console.log(this.fieldColors);
+    this.fontColor = this.pieChart.FontColor!;
+    this.fontSize = this.pieChart.FontSize!;
+    this.height = this.pieChart.Height!;
+    this.width = this.pieChart.Width!;
+  }
+
+  private saveChart(chart: any) {
+    console.log('chart', chart);
+    chart = {
+      ...chart,
+      Type: piechart,
+    };
+    this.composerService.saveChart(chart).subscribe({
+      next: (res) => {},
+      error: (err) => {
+        this.saving = false;
+        console.log(err);
+        alert('An unexpected error occured. Please try again later');
+      },
+      complete: () => {
+        this.saving = false;
+        this.dialog.closeAll();
+      },
+    });
+  }
+
+  public addQuery(event: any) {
+    console.log(event);
+    this.query = event;
   }
 }

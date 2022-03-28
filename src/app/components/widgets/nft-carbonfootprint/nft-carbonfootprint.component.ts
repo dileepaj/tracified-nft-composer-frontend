@@ -12,6 +12,7 @@ import {
   selectNFTContent,
 } from 'src/app/store/nft-state-store/nft.selector';
 import { CarbonFootprint } from 'src/models/nft-content/carbonFootprint';
+import { carbonFp } from 'src/models/nft-content/widgetTypes';
 import { WidgetContentComponent } from '../../modals/widget-content/widget-content.component';
 
 @Component({
@@ -27,12 +28,16 @@ export class NftCarbonfootprintComponent implements OnInit {
   private carbonFootprint: CarbonFootprint;
   data: any[] = [];
 
+  projectId: string;
+
   constructor(
     private store: Store<AppState>,
     private service: DndServiceService,
     public dialog: MatDialog
   ) {
-    this.nft$ = this.store.select(selectNFTContent);
+    this.store.select(selectNFTContent).subscribe((content) => {
+      this.projectId = content.ProjectId;
+    });
   }
 
   ngOnInit(): void {
@@ -48,7 +53,7 @@ export class NftCarbonfootprintComponent implements OnInit {
   private addCarbonFootprintToStore() {
     this.carbonFootprint = {
       WidgetId: this.id,
-      WidgetType: 'carbon',
+      WidgetType: carbonFp,
       data: this.data,
     };
 

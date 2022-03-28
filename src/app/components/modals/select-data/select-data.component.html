@@ -1,0 +1,40 @@
+<div fxLayout="row" fxLayoutAlign="space-between center">
+  <div class="breadcrumb">
+    <h2 mat-dialog-title>
+      <a class="previous" (click)="openWidgetContent()" mat-dialog-close
+        >Widget Content /</a
+      >
+      <a class="previous" (click)="openMasterDataSelection()" mat-dialog-close
+        >Select Master Data Type</a
+      >
+      /
+      <a>Select Master Data</a>
+    </h2>
+  </div>
+  <mat-icon style="cursor: pointer" (click)="close()">close</mat-icon>
+</div>
+<mat-dialog-content class="mat-typography modal-content">
+  <div class="content">
+    <mat-form-field appearance="outline" style="float: right">
+      <mat-label>Search</mat-label>
+      <mat-icon matPrefix>search</mat-icon>
+      <input type="text" matInput placeholder="Search Batch" />
+    </mat-form-field>
+    <table>
+      <thead>
+        <tr>
+          <td>Select for all widgets</td>
+          <td>Select Batch</td>
+          <td *ngFor="let col of columns">{{ col }}</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="data-row" *ngFor="let item of dataSource; index as i">
+          <td><input type="checkbox" /> Select for all widgets</td>
+          <td><button mat-flat-button class="btn">Select Batch</button></td>
+          <td *ngFor="let col of columns">{{ item[col] }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</mat-dialog-content>

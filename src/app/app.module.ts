@@ -39,7 +39,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { ColorPickerModule } from 'ngx-color-picker';
-import { MatRippleModule } from '@angular/material/core';
+import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { nftReducer } from './store/nft-state-store/nft.reducer';
 import { StoreModule } from '@ngrx/store';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -55,6 +55,16 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { TestViewComponent } from 'src/app/components/views/test-view/test-view.component';
 import { LoginComponent } from './components/views/login/login.component';
 import { ProjectsComponent } from './components/views/projects/projects.component';
+import { SelectMasterDataTypeComponent } from './components/modals/select-master-data-type/select-master-data-type.component';
+import { SelectDataComponent } from './components/modals/select-data/select-data.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CookieService } from 'ngx-cookie-service';
 
 //import { AceEditorModule } from 'ng2-ace-editor';
@@ -109,7 +119,6 @@ const appRoutes: Routes = [
     NftSvgComponent,
     NftHtmlComponent,
     SelectBatchComponent,
-
     ConfigureBarChartComponent,
     WidgetContentComponent,
     BubbleChartWidgetComponent,
@@ -124,6 +133,8 @@ const appRoutes: Routes = [
     TestViewComponent,
     LoginComponent,
     ProjectsComponent,
+    SelectMasterDataTypeComponent,
+    SelectDataComponent,
   ],
   imports: [
     BrowserModule,
@@ -143,7 +154,17 @@ const appRoutes: Routes = [
     MatTableModule,
     MatBadgeModule,
     MatInputModule,
+    MatSnackBarModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatCheckboxModule,
+    MatPaginatorModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
+    MatExpansionModule,
+    OverlayModule,
     FormsModule,
+    ReactiveFormsModule,
     MatCardModule,
     MatRippleModule,
     ReactiveFormsModule,

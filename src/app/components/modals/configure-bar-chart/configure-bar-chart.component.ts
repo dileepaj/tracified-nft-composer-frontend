@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as d3 from 'd3';
 import { Chart, Data } from '../../../../models/nft-content/chart';
@@ -13,42 +13,55 @@ import {
   selectNFT,
   selectNFTContent,
 } from 'src/app/store/nft-state-store/nft.selector';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { ComposerBackendService } from 'src/app/services/composer-backend.service';
+import { barchart } from 'src/models/nft-content/widgetTypes';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-configure-bar-chart',
   templateUrl: './configure-bar-chart.component.html',
   styleUrls: ['./configure-bar-chart.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class ConfigureBarChartComponent implements OnInit {
   nft$: any;
-  private barChart: Chart;
+  horizontalPosition: MatSnackBarHorizontalPosition = 'end';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+
+  barChart: Chart;
   chartId: any;
+  projectId: string = '';
   keyTitle: string;
-  batchId: any;
+  batchId: any = '';
+  productName: string = '';
   query: string = '';
   //data that are being displayed in the bar chart
-  barChartData: any[] = [
+  barChartData: Data[] = [
     {
-      name: 'Sri Lanka',
-      value: 200,
+      Name: 'Sri Lanka',
+      Value: 200,
     },
     {
-      name: 'India',
-      value: 900,
+      Name: 'India',
+      Value: 900,
     },
     {
-      name: 'Bangladesh',
-      value: 800,
+      Name: 'Bangladesh',
+      Value: 800,
     },
     {
-      name: 'Pakistan',
-      value: 600,
+      Name: 'Pakistan',
+      Value: 600,
     },
     {
-      name: 'Nepal',
-      value: 100,
+      Name: 'Nepal',
+      Value: 100,
     },
   ];
 
@@ -70,9 +83,14 @@ export class ConfigureBarChartComponent implements OnInit {
   private width = 550 - this.margin * 2;
   private height = 200 - this.margin * 2;
 
+  saving: boolean = false;
+
   constructor(
     private store: Store<AppState>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialog: MatDialog,
+    private composerService: ComposerBackendService,
+    private _snackBar: MatSnackBar
   ) {
     this.nft$ = this.store.select(selectNFTContent);
   }
@@ -80,6 +98,7 @@ export class ConfigureBarChartComponent implements OnInit {
   ngOnInit(): void {
     //this.updateChart();
     this.chartId = this.data.id;
+    this.barChart = this.data.widget;
   }
 
   //generate bar chart
@@ -98,7 +117,7 @@ export class ConfigureBarChartComponent implements OnInit {
     const x = d3
       .scaleBand()
       .range([0, this.width])
-      .domain(data.map((d) => d.name))
+      .domain(data.map((d) => d.Name))
       .padding(0.2);
 
     // Draw the X-axis on the DOM
@@ -143,10 +162,10 @@ export class ConfigureBarChartComponent implements OnInit {
       .data(data)
       .enter()
       .append('rect')
-      .attr('x', (d: any) => x(d.name))
-      .attr('y', (d: any) => y(d.value))
+      .attr('x', (d: any) => x(d.Name))
+      .attr('y', (d: any) => y(d.Value))
       .attr('width', x.bandwidth())
-      .attr('height', (d: any) => this.height - y(d.value))
+      .attr('height', (d: any) => this.height - y(d.Value))
       .attr('fill', (d: any, i: number) => this.barColors[i])
       .style('font-size', this.fontSize + 'px');
   }
@@ -171,16 +190,21 @@ export class ConfigureBarChartComponent implements OnInit {
   //called when user moves to a different tab
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     if (tabChangeEvent.index === 1) {
-      this.getBarChart();
+      //this.getBarChart();
+      this.assignValues();
       this.updateChart();
     }
   }
 
   //update redux store
   updateReduxState() {
-    this.barChart = {
+    /*this.barChart = {
       WidgetId: this.chartId,
+      WidgetType: 'bar',
       ChartTitle: this.title,
+      BactchId: this.batchId,
+      ProductName: this.productName,
+      ProjectId: this.projectId,
       KeyTitle: 'name',
       ValueTitle: 'value',
       Query: this.query,
@@ -192,8 +216,25 @@ export class ConfigureBarChartComponent implements OnInit {
       YAxis: this.yName,
       Height: this.height,
       Width: this.width,
+    };*/
+
+    this.saving = true;
+    this.barChart = {
+      ...this.barChart,
+      ChartTitle: this.title,
+      Query: this.query,
+      ChartData: this.barChartData,
+      Color: this.barColors,
+      FontColor: this.fontColor,
+      FontSize: this.fontSize,
+      XAxis: this.xName,
+      YAxis: this.yName,
+      Height: 200,
+      Width: 500,
+      Domain: this.domain,
     };
 
+    this.saveChart(this.barChart);
     this.store.dispatch(updateBarChart({ chart: this.barChart }));
   }
 
@@ -204,7 +245,9 @@ export class ConfigureBarChartComponent implements OnInit {
         if (chart.WidgetId === this.chartId) {
           this.title = chart.ChartTitle!;
           this.batchId = chart.BactchId!;
+          this.productName = chart.ProductName!;
           this.keyTitle = chart.KeyTitle!;
+          this.projectId = chart.ProjectId!;
           if (chart.ChartData!.length !== 0) {
             this.barChartData = chart.ChartData!.filter((data) => data);
           }
@@ -217,6 +260,59 @@ export class ConfigureBarChartComponent implements OnInit {
           this.width = chart.Width!;
         }
       });
+    });
+  }
+
+  private assignValues() {
+    this.title = this.barChart.ChartTitle!;
+    this.batchId = this.barChart.BactchId!;
+    this.productName = this.barChart.ProductName!;
+    this.keyTitle = this.barChart.KeyTitle!;
+    this.projectId = this.barChart.ProjectId!;
+    if (this.barChart.ChartData!.length !== 0) {
+      this.barChartData = this.barChart.ChartData!.filter((data) => data);
+    }
+    this.barColors = this.barChart.Color!.filter((data) => data);
+    this.fontColor = this.barChart.FontColor!;
+    this.fontSize = this.barChart.FontSize!;
+    this.xName = this.barChart.XAxis;
+    this.yName = this.barChart.YAxis;
+    this.height = this.barChart.Height!;
+    this.width = this.barChart.Width!;
+  }
+
+  private saveChart(chart: any) {
+    console.log('chart', chart);
+    chart = {
+      ...chart,
+      Type: barchart,
+    };
+    this.composerService.saveChart(chart).subscribe({
+      next: (res) => {},
+      error: (err) => {
+        this.saving = false;
+        console.log(err);
+        alert('An unexpected error occured. Please try again later');
+      },
+      complete: () => {
+        this.saving = false;
+        //this.openSnackBar('Saved!!');
+        this.dialog.closeAll();
+      },
+    });
+  }
+
+  public addQuery(event: any) {
+    console.log(event);
+    this.query = event;
+  }
+
+  openSnackBar(msg: string) {
+    this._snackBar.open(msg, 'OK', {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+      panelClass: ['snackbar'],
+      duration: 5 * 1000,
     });
   }
 }

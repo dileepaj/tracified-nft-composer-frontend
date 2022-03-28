@@ -1,14 +1,18 @@
 <app-header></app-header>
-<mat-drawer-container class="sidebar-container" fxLayout="column" *ngIf="authorized ==='authorized'" else login>
+<mat-drawer-container
+  class="sidebar-container"
+  fxLayout="column"
+  *ngIf="authorized === 'authorized'"
+  else
+  login
+>
   <mat-drawer-content>
-    <router-outlet>
-    </router-outlet>
+    <router-outlet> </router-outlet>
   </mat-drawer-content>
 </mat-drawer-container>
 
 <mat-drawer-container fxLayout="column" #login>
   <mat-drawer-content>
-    <router-outlet>
-    </router-outlet>
+    <router-outlet> </router-outlet>
   </mat-drawer-content>
 </mat-drawer-container>

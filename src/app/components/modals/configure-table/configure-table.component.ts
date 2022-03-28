@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.state';
@@ -13,6 +13,7 @@ import {
 } from 'src/app/store/nft-state-store/nft.selector';
 import { Table } from 'src/models/nft-content/table';
 import { ViewEncapsulation } from '@angular/core';
+import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 
 @Component({
   selector: 'app-configure-table',
@@ -22,7 +23,7 @@ import { ViewEncapsulation } from '@angular/core';
 })
 export class ConfigureTableComponent implements OnInit {
   nft$: any;
-  private table: Table;
+  table: Table;
   tableId: any;
   title: any;
   query: string = '';
@@ -42,9 +43,13 @@ export class ConfigureTableComponent implements OnInit {
   tableContent: string;
   tableHtml: string = '';
 
+  saving: boolean = false;
+
   constructor(
     private store: Store<AppState>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialog: MatDialog,
+    private composerService: ComposerBackendService
   ) {
     this.nft$ = this.store.select(selectNFTContent);
   }
@@ -52,6 +57,7 @@ export class ConfigureTableComponent implements OnInit {
   ngOnInit(): void {
     //this.updateChart();
     this.tableId = this.data.id;
+    this.table = this.data.widget;
   }
 
   private showChart() {}
@@ -59,20 +65,31 @@ export class ConfigureTableComponent implements OnInit {
   //called when user moves to a different tab
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     if (tabChangeEvent.index === 1) {
-      this.getTable();
+      //this.getTable();
+      this.assignValues();
       this.generateTable();
     }
   }
 
   //update redux state
   updateReduxState() {
-    this.table = {
+    /*this.table = {
       WidgetId: this.tableId,
+      WidgetType: 'table',
+      TableTitle: this.title,
+      Query: this.query,
+      TableContent: this.tableContent,
+    };*/
+
+    this.saving = true;
+    this.table = {
+      ...this.table,
       TableTitle: this.title,
       Query: this.query,
       TableContent: this.tableContent,
     };
 
+    this.saveTable(this.table);
     this.store.dispatch(updateTable({ table: this.table }));
 
     this.showChart();
@@ -88,6 +105,11 @@ export class ConfigureTableComponent implements OnInit {
         }
       });
     });
+  }
+
+  private assignValues() {
+    this.title = this.table.TableTitle;
+    this.tableContent = this.table.TableContent!;
   }
 
   //generate table html
@@ -111,5 +133,26 @@ export class ConfigureTableComponent implements OnInit {
 
     this.tableContent = tableString;
     this.tableHtml = '<table>' + this.tableContent + '</table>';
+  }
+
+  private saveTable(table: Table) {
+    console.log('table', table);
+    this.composerService.saveTable(table).subscribe({
+      next: (res) => {},
+      error: (err) => {
+        this.saving = false;
+        console.log(err);
+        alert('An unexpected error occured. Please try again later');
+      },
+      complete: () => {
+        this.saving = false;
+        this.dialog.closeAll();
+      },
+    });
+  }
+
+  public addQuery(event: any) {
+    console.log(event);
+    this.query = event;
   }
 }

@@ -70,5 +70,13 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/projects']);
       sessionStorage.setItem('authorized', 'authorized');
     });
+
+  constructor(private router: Router) {}
+
+  ngOnInit(): void {}
+
+  login() {
+    this.router.navigate(['/projects']);
+    sessionStorage.setItem('authorized', 'authorized');
   }
 }

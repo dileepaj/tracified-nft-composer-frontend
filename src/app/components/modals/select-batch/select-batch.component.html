@@ -1,154 +1,227 @@
-<h2 mat-dialog-title>Select Batch</h2>
+<div fxLayout="row" fxLayoutAlign="space-between center">
+  <div class="breadcrumb">
+    <h2 mat-dialog-title>
+      <a class="previous" (click)="openWidgetContent()" mat-dialog-close
+        >Widget Content /</a
+      >
+      <a mat-dialog-close>Select Batch</a>
+    </h2>
+  </div>
+  <mat-icon style="cursor: pointer" (click)="close()">close</mat-icon>
+</div>
 <mat-dialog-content class="mat-typography modal-content">
   <div class="content">
-    <mat-stepper #stepper>
+    <mat-stepper #stepper (selectionChange)="onStepChange($event)">
+      <!-- changed step icons -->
+      <ng-template matStepperIcon="edit">
+        <mat-icon>done</mat-icon>
+      </ng-template>
       <mat-step label="Select Product">
-        <table mat-table [dataSource]="products" class="mat-elevation-z8">
-          <!--- Note that these columns can be defined in any order.
-              The actual rendered columns are set as a property on the row definition" -->
-
-          <!-- Position Column -->
-          <ng-container matColumnDef="productName">
-            <th mat-header-cell *matHeaderCellDef>Product Name</th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.productName }}
-            </td>
-          </ng-container>
-
-          <!-- Name Column -->
-          <ng-container matColumnDef="stages">
-            <th mat-header-cell *matHeaderCellDef>Stages</th>
-            <td mat-cell *matCellDef="let element">
-              <span class="stage" *ngFor="let stage of element.stages">
-                {{ stage }}
-              </span>
-            </td>
-          </ng-container>
-
-          <tr mat-header-row *matHeaderRowDef="productColumns"></tr>
-          <tr
-            mat-row
-            matStepperNext
-            *matRowDef="let row; columns: productColumns"
-            [class.demo-row-is-clicked]="selectedProduct === row"
-            (click)="selectProduct(row)"
-          ></tr>
+        <mat-form-field appearance="outline" style="float: right">
+          <mat-label>Search</mat-label>
+          <input
+            type="text"
+            matInput
+            placeholder="Type here to search "
+            [(ngModel)]="productSearchText"
+            (keyup)="searchProduct($event)"
+          />
+          <mat-icon matPrefix>search</mat-icon>
+        </mat-form-field>
+        <mat-progress-bar
+          class="progressbar"
+          mode="indeterminate"
+          *ngIf="productsLoading"
+        ></mat-progress-bar>
+        <table>
+          <thead>
+            <tr>
+              <td>Product Name</td>
+              <td>Stages</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngIf="productsFilter.length === 0"
+              style="text-align: center; font-size: large"
+            >
+              No data to be displayed.
+            </tr>
+            <tr
+              *ngFor="let product of productsFilter; index as i"
+              (click)="selectProduct(product)"
+              [class.demo-row-is-clicked]="selectedProduct === product"
+            >
+              <td>
+                {{ product.itemName }}
+              </td>
+              <td fxLayout="row wrap">
+                <span class="stage" *ngFor="let stage of product.stages">
+                  {{ stages[stage] }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
         </table>
       </mat-step>
       <mat-step label="Select Batch">
-        <table mat-table [dataSource]="batches" class="mat-elevation-z8">
-          <!--- Note that these columns can be defined in any order.
-              The actual rendered columns are set as a property on the row definition" -->
+        <!--Search bar-->
+        <mat-form-field appearance="outline" style="float: right">
+          <mat-label>Search</mat-label>
+          <mat-icon matPrefix>search</mat-icon>
+          <input
+            type="text"
+            matInput
+            placeholder="Type here to search"
+            [(ngModel)]="searchKey"
+            (keyup)="searchBatch()"
+          />
+        </mat-form-field>
 
-          <!-- Position Column -->
-          <ng-container matColumnDef="batchId">
-            <th mat-header-cell *matHeaderCellDef>Batch Id</th>
-            <td mat-cell *matCellDef="let element">{{ element.batchId }}</td>
-          </ng-container>
+        <!--Date time picker-->
+        <mat-form-field
+          appearance="outline"
+          style="float: right; margin-right: 10px"
+        >
+          <mat-label>Select date range</mat-label>
+          <mat-date-range-input [rangePicker]="picker" [formGroup]="dateRange">
+            <input
+              matStartDate
+              formControlName="start"
+              placeholder="Start date"
+            />
+            <input
+              matEndDate
+              formControlName="end"
+              placeholder="End date"
+              (dateChange)="onDateChange()"
+            />
+          </mat-date-range-input>
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
 
-          <!-- Name Column -->
-          <ng-container matColumnDef="createdDate">
-            <th mat-header-cell *matHeaderCellDef>Created Date</th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.createdDate }}
-            </td>
-          </ng-container>
-
-          <!-- Weight Column -->
-          <ng-container matColumnDef="dateLastEntry">
-            <th mat-header-cell *matHeaderCellDef>Date of last data entry</th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.dateLastEntry }}
-            </td>
-          </ng-container>
-
-          <!-- Symbol Column -->
-          <ng-container matColumnDef="currentStage">
-            <th mat-header-cell *matHeaderCellDef>Current Stage</th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.currentStage }}
-            </td>
-          </ng-container>
-
-          <!-- Symbol Column -->
-          <ng-container matColumnDef="createdBy">
-            <th mat-header-cell *matHeaderCellDef>Created By</th>
-            <td mat-cell *matCellDef="let element">{{ element.createdBy }}</td>
-          </ng-container>
-
-          <!-- Symbol Column -->
-          <ng-container matColumnDef="images">
-            <th mat-header-cell *matHeaderCellDef>Recent Images</th>
-            <td mat-cell *matCellDef="let element">
-              <div class="batch-img-list">
-                <img
-                  *ngFor="let image of element.images"
-                  class="batchImg"
-                  [src]="image"
-                />
-              </div>
-            </td>
-          </ng-container>
-
-          <tr mat-header-row *matHeaderRowDef="batchColumns"></tr>
-          <tr
-            mat-row
-            *matRowDef="let row; columns: batchColumns"
-            [class.demo-row-is-clicked]="selectedBatch === row"
-            (click)="selectBatch(row)"
-          ></tr></table
-      ></mat-step>
-      <mat-step label="Traceability Data">
-        <table mat-table [dataSource]="tdp" class="mat-elevation-z8">
-          <ng-container matColumnDef="stage">
-            <th mat-header-cell *matHeaderCellDef>Stages</th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.stage }}
-            </td>
-          </ng-container>
-
-          <!-- Name Column -->
-          <ng-container matColumnDef="stageName">
-            <th mat-header-cell *matHeaderCellDef>Stages</th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.stageName }}
-            </td>
-          </ng-container>
-
-          <!-- Name Column -->
-          <ng-container matColumnDef="tdp">
-            <th mat-header-cell *matHeaderCellDef>Stages</th>
-            <td mat-cell *matCellDef="let element">
-              <div fxLayout="row wrap">
-                <label fxFlex="50%"
-                  >Operation : {{ element.tdp.operation }}</label
-                >
-                <label fxFlex="50%">Farm : {{ element.tdp.farm }}</label>
-                <label fxFlex="50%"
-                  >Date and Time {{ element.tdp.dateTime }}</label
-                >
-
-                <label fxFlex="50%">Auhtor : {{ element.tdp.author }}</label>
-              </div>
-            </td>
-          </ng-container>
-
-          <tr mat-header-row *matHeaderRowDef="tdpColumns"></tr>
-          <tr
-            mat-row
-            *matRowDef="let row; columns: tdpColumns"
-            [class.demo-row-is-clicked]="selectedTdp === row"
-            (click)="selectTdp(row)"
-          ></tr>
+        <mat-progress-bar
+          class="progressbar"
+          mode="indeterminate"
+          *ngIf="batchesLoading"
+        ></mat-progress-bar>
+        <table>
+          <thead>
+            <tr>
+              <td>#</td>
+              <td>Batch Id</td>
+              <td>Current Stage</td>
+              <td>Current Stage Name</td>
+              <td>Date and Time</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngIf="batches.length === 0"
+              style="text-align: center; font-size: large"
+            >
+              No data to be displayed.
+            </tr>
+            <tr
+              *ngFor="let batch of batches; index as i"
+              (click)="selectBatch(batch)"
+              [class.demo-row-is-clicked]="selectedBatch === batch"
+            >
+              <td>{{ getItemCount(i) }}</td>
+              <td>{{ batch.identifier.identifier }}</td>
+              <td>{{ batch.stageId }}</td>
+              <td>{{ stages[batch.stageId] }}</td>
+              <td>{{ convertDate(batch.timestamp) }}</td>
+            </tr>
+          </tbody>
         </table>
+        <mat-paginator
+          class="paginator"
+          [length]="totalBatches"
+          [pageSize]="10"
+          [pageIndex]="page"
+          (page)="getBatches($event.pageIndex, searchKey)"
+          aria-label="Select page"
+        >
+        </mat-paginator>
+      </mat-step>
+      <mat-step label="Traceability Data">
+        <div style="display: flex; flex-direction: column">
+          <div>
+            <br />
+            <!--<mat-form-field appearance="outline" style="float: right">
+              <mat-label>Search</mat-label>
+              <mat-icon matPrefix>search</mat-icon>
+              <input
+                type="text"
+                matInput
+                placeholder="Search Traceability Data"
+              />
+            </mat-form-field>
+
+          --></div>
+
+          <div>
+            <mat-accordion class="headers-align" *ngIf="batchIsSelected">
+              <mat-expansion-panel
+                *ngFor="
+                  let stage of workflow[this.workflow.length - 1].stages;
+                  index as i
+                "
+                [expanded]="tdpStep === i + 1"
+                (opened)="setTdpStep(i + 1)"
+              >
+                <mat-expansion-panel-header>
+                  <mat-panel-title> Stage {{ i + 1 }}</mat-panel-title>
+                  <mat-panel-description>
+                    {{ stage.stageId }} - {{ stage.name }}
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <mat-action-row fxLayout="column">
+                  <div
+                    *ngFor="let tdp of selectedBatch.traceabilityDataPackets"
+                    fxFlex="100%"
+                    fxLayout="row wrap"
+                  >
+                    <div
+                      fxFlex="100%"
+                      fxLayout="row wrap"
+                      *ngIf="tdp.stageId === stage.stageId"
+                      class="tdp"
+                    >
+                      <label
+                        fxFlex="50%"
+                        *ngFor="let data of tdp.traceabilityData"
+                        ><strong>{{ CamelcaseToWord(data.key) }} - </strong>
+                        {{ data.val }}</label
+                      >
+                    </div>
+
+                    <mat-divider></mat-divider>
+                  </div>
+                </mat-action-row>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+        </div>
       </mat-step>
     </mat-stepper>
   </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button (click)="updateReduxState()" class="btn" cdkFocusInitial>
+  <button
+    mat-button
+    (click)="updateReduxState()"
+    class="btn"
+    [disabled]="saving"
+    cdkFocusInitial
+  >
     <mat-icon>save</mat-icon>
+    <span [class.spinner]="saving"> </span>
     Save
   </button>
 </mat-dialog-actions>

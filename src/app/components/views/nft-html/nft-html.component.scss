@@ -1,0 +1,36 @@
+@import "../../../../scss/variables";
+
+.sidebar-container {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  top: 0;
+  background: whitesmoke;
+}
+.side-nav {
+  width: 250px;
+}
+
+.container {
+  background: white;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.content {
+  border-radius: 5px;
+  border: 1px rgb(206, 206, 206) solid;
+  position: absolute;
+  top: 50px;
+  bottom: 50px;
+  left: 50px;
+  right: 50px;
+}
