@@ -34,7 +34,6 @@ export class ProjectsComponent implements OnInit {
     this.apiService.getRecentProjects('abc123').subscribe((result) => {
       if (result) {
         this.projects = result.Response;
-        console.log(result);
       }
     });
   }

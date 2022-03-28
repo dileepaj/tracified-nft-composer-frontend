@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { Chart } from 'src/models/nft-content/chart';
 import { Image } from 'src/models/nft-content/image';
 import { NFTContent } from 'src/models/nft-content/nft.content';
@@ -8,19 +9,27 @@ import { NFTContent } from 'src/models/nft-content/nft.content';
 import { QueryExecuter } from 'src/models/nft-content/queryExecuter';
 import { Table } from 'src/models/nft-content/table';
 
-let httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json',
-  }),
-};
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class ComposerBackendService {
-  private apiUrl: string = 'http://localhost:6081/api';
+  private apiUrl: string = environment.composerBackend;
   constructor(private http: HttpClient) {}
 
+  /**
+   * @function setHeaders - set headers for an API request
+   * @param none
+   */
+  private setHeaders(): HttpHeaders {
+    const headersConfig = {
+      'Content-Type': 'application/json',
+
+      Authorization: 'Bearer ' + sessionStorage.getItem('Token') || '',
+    };
+    return new HttpHeaders(headersConfig);
+  }
   //Post Query Execute
   public executeQueryAndUpdate(
     query: QueryExecuter
@@ -28,12 +37,16 @@ export class ComposerBackendService {
     return this.http.post<QueryExecuter>(
       `${this.apiUrl}/query/execute`,
       query,
-      httpOptions
+      {
+        headers:this.setHeaders()
+      }
     );
   }
 
   public getRecentProjects(userName: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/projects/${userName}`);
+    return this.http.get(`${this.apiUrl}/projects/${userName}`, {
+      headers: this.setHeaders(),
+    });
   }
 
   /**
@@ -43,7 +56,9 @@ export class ComposerBackendService {
    */
   public saveWidget(widget: any): Observable<any> {
     console.log('request body', widget);
-    return this.http.post<any>(`${this.apiUrl}/widget`, widget, httpOptions);
+    return this.http.post<any>(`${this.apiUrl}/widget`, widget, {
+      headers: this.setHeaders(),
+    });
   }
 
   /**
@@ -53,11 +68,9 @@ export class ComposerBackendService {
    */
   public saveChart(chart: Chart): Observable<Chart> {
     console.log('request body', chart);
-    return this.http.post<Chart>(
-      `${this.apiUrl}/html/chart`,
-      chart,
-      httpOptions
-    );
+    return this.http.post<Chart>(`${this.apiUrl}/html/chart`, chart, {
+      headers: this.setHeaders(),
+    });
   }
 
   /**
@@ -67,11 +80,9 @@ export class ComposerBackendService {
    */
   public saveTable(table: Table): Observable<Table> {
     console.log('request body', table);
-    return this.http.post<Table>(
-      `${this.apiUrl}/html/table`,
-      table,
-      httpOptions
-    );
+    return this.http.post<Table>(`${this.apiUrl}/html/table`, table, {
+      headers: this.setHeaders(),
+    });
   }
 
   /**
@@ -81,11 +92,9 @@ export class ComposerBackendService {
    */
   public saveImage(image: Image): Observable<Image> {
     console.log('request body', image);
-    return this.http.post<Image>(
-      `${this.apiUrl}/html/image`,
-      image,
-      httpOptions
-    );
+    return this.http.post<Image>(`${this.apiUrl}/html/image`, image, {
+      headers: this.setHeaders(),
+    });
   }
 
   /**
@@ -94,12 +103,9 @@ export class ComposerBackendService {
    * @component - composer view
    */
   public generateHTML(nftContent: NFTContent): Observable<NFTContent> {
-    console.log(nftContent);
-    return this.http.post<NFTContent>(
-      `${this.apiUrl}/generate`,
-      nftContent,
-      httpOptions
-    );
+    return this.http.post<NFTContent>(`${this.apiUrl}/generate`, nftContent, {
+      headers: this.setHeaders(),
+    });
   }
 
   /**
@@ -108,7 +114,9 @@ export class ComposerBackendService {
    * @component - composer view
    */
   public saveProject(project: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/project`, project, httpOptions);
+    return this.http.post<any>(`${this.apiUrl}/project`, project, {
+      headers: this.setHeaders(),
+    });
   }
 
   /**
@@ -117,10 +125,14 @@ export class ComposerBackendService {
    * @component - composer view
    */
   public updateProject(project: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/project`, project, httpOptions);
+    return this.http.put<any>(`${this.apiUrl}/project`, project, {
+      headers: this.setHeaders(),
+    });
   }
 
   public openExistingProject(projectId: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/project/${projectId}`);
+    return this.http.get(`${this.apiUrl}/project/${projectId}`, {
+      headers: this.setHeaders(),
+    });
   }
 }
