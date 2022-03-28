@@ -9,7 +9,6 @@ import { HeaderComponent } from './components/shared/header/header.component';
 import { SidebarComponent } from './components/shared/sidebar/sidebar.component';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule, Routes } from '@angular/router';
-
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -66,6 +65,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { CookieService } from 'ngx-cookie-service';
 
 //import { AceEditorModule } from 'ng2-ace-editor';
 const appRoutes: Routes = [
@@ -167,6 +167,7 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     MatCardModule,
     MatRippleModule,
+    ReactiveFormsModule,
     ColorPickerModule,
     MatTabsModule,
     FlexLayoutModule,
@@ -176,7 +177,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     StoreModule.forRoot({ nft: nftReducer }),
   ],
-  providers: [],
+  providers: [CookieService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
