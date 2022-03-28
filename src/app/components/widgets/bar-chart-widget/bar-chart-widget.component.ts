@@ -37,6 +37,7 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
   @Output() onDeleteWidget: EventEmitter<any> = new EventEmitter();
   barchart$: Observable<Chart[]>;
   barChart: Chart;
+  projectId: string;
   @Input() widget: Widget;
 
   constructor(
@@ -45,6 +46,9 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
     private service: DndServiceService
   ) {
     this.barchart$ = this.store.select(selectBarCharts);
+    this.store.select(selectNFTContent).subscribe((content) => {
+      this.projectId = content.ProjectId;
+    });
   }
 
   ngAfterViewInit(): void {}
@@ -86,11 +90,11 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
     this.barChart = {
       WidgetId: this.id,
       WidgetType: barchart,
-      ProjectId: 'ABC',
+      ProjectId: this.projectId,
       ProjectName: 'project1',
       ChartTitle: 'Bar Chart',
-      KeyTitle: 'name',
-      ValueTitle: 'value',
+      KeyTitle: 'Name',
+      ValueTitle: 'Value',
       ChartData: [],
       Color: [
         '#69b3a2',

@@ -17,6 +17,11 @@ import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 import { barchart } from 'src/models/nft-content/widgetTypes';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-configure-bar-chart',
@@ -26,6 +31,9 @@ import { barchart } from 'src/models/nft-content/widgetTypes';
 })
 export class ConfigureBarChartComponent implements OnInit {
   nft$: any;
+  horizontalPosition: MatSnackBarHorizontalPosition = 'end';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+
   barChart: Chart;
   chartId: any;
   projectId: string = '';
@@ -81,7 +89,8 @@ export class ConfigureBarChartComponent implements OnInit {
     private store: Store<AppState>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialog: MatDialog,
-    private composerService: ComposerBackendService
+    private composerService: ComposerBackendService,
+    private _snackBar: MatSnackBar
   ) {
     this.nft$ = this.store.select(selectNFTContent);
   }
@@ -220,8 +229,8 @@ export class ConfigureBarChartComponent implements OnInit {
       FontSize: this.fontSize,
       XAxis: this.xName,
       YAxis: this.yName,
-      Height: this.height,
-      Width: this.width,
+      Height: 200,
+      Width: 500,
       Domain: this.domain,
     };
 
@@ -278,15 +287,32 @@ export class ConfigureBarChartComponent implements OnInit {
       ...chart,
       Type: barchart,
     };
-    this.composerService.saveChart(chart).subscribe((res) => {
-      console.log(res);
-      this.saving = false;
-      this.dialog.closeAll();
+    this.composerService.saveChart(chart).subscribe({
+      next: (res) => {},
+      error: (err) => {
+        this.saving = false;
+        console.log(err);
+        alert('An unexpected error occured. Please try again later');
+      },
+      complete: () => {
+        this.saving = false;
+        //this.openSnackBar('Saved!!');
+        this.dialog.closeAll();
+      },
     });
   }
 
   public addQuery(event: any) {
     console.log(event);
     this.query = event;
+  }
+
+  openSnackBar(msg: string) {
+    this._snackBar.open(msg, 'OK', {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+      panelClass: ['snackbar'],
+      duration: 5 * 1000,
+    });
   }
 }

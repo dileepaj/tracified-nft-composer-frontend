@@ -11,6 +11,11 @@ import {
 } from '@angular/core';
 import * as ace from 'ace-builds';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-ldaleditor',
@@ -26,6 +31,8 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
   staticWordCompleter: any;
   aceEditor: any;
   loading: boolean = false;
+  horizontalPosition: MatSnackBarHorizontalPosition = 'end';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
   keyWordList2: any = [
     'If',
@@ -197,7 +204,10 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
     'AddPeriod',
   ];
 
-  constructor(private apiService: ComposerBackendService) {}
+  constructor(
+    private apiService: ComposerBackendService,
+    private _snackBar: MatSnackBar
+  ) {}
 
   ngAfterViewInit(): void {
     this.setLanguageTools();
@@ -263,6 +273,15 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
     };
   }
 
+  openSnackBar(msg: string) {
+    this._snackBar.open(msg, 'OK', {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+      panelClass: ['snackbar'],
+      duration: 5 * 1000,
+    });
+  }
+
   public queryExecuter() {
     this.loading = true;
     let queryObject = {
@@ -271,13 +290,20 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
     };
 
     console.log(queryObject);
-    this.apiService.executeQueryAndUpdate(queryObject).subscribe((result) => {
-      if (result) {
-        //get result
-        console.log(result);
-        this.onQuerySuccess.emit(queryObject.Query);
+    this.apiService.executeQueryAndUpdate(queryObject).subscribe({
+      next: (result) => {
+        if (result) {
+          //get result
+          console.log(result);
+          this.onQuerySuccess.emit(queryObject.Query);
+          this.loading = false;
+        }
+      },
+      error: (err) => {
+        console.log(err);
         this.loading = false;
-      }
+        alert('An unexpected error occured. Please try again later');
+      },
     });
   }
 }

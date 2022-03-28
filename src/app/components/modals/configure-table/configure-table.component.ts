@@ -137,10 +137,17 @@ export class ConfigureTableComponent implements OnInit {
 
   private saveTable(table: Table) {
     console.log('table', table);
-    this.composerService.saveTable(table).subscribe((res) => {
-      console.log(res);
-      this.saving = false;
-      this.dialog.closeAll();
+    this.composerService.saveTable(table).subscribe({
+      next: (res) => {},
+      error: (err) => {
+        this.saving = false;
+        console.log(err);
+        alert('An unexpected error occured. Please try again later');
+      },
+      complete: () => {
+        this.saving = false;
+        this.dialog.closeAll();
+      },
     });
   }
 

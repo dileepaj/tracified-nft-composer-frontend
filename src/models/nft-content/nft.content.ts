@@ -7,18 +7,23 @@ import { Table } from './table';
 import { Timeline } from './timeline';
 
 export interface NFTContent {
-  Id: string;
-  Name: string;
+  ProjectId: string;
+  ProjectName: string;
+  NFTName: string;
   UserId: string;
+  TenentId: string;
+  Timestamp: string;
   Creator: string;
-  WidgetOrder: any[];
-  Barcharts: Chart[];
-  Piecharts: Chart[];
-  Bubblecharts: Chart[];
-  Stats: Stat[];
-  Tables: Table[];
-  Images: Image[];
-  ProofBotData: ProofBot[];
-  Timeline: Timeline[];
-  CarbonFootprint: CarbonFootprint[];
+  ContentOrderData: any[];
+  NFTContent: {
+    Barcharts: Chart[];
+    Piecharts: Chart[];
+    Bubblecharts: Chart[];
+    Stats: Stat[];
+    Tables: Table[];
+    Images: Image[];
+    ProofBotData: ProofBot[];
+    Timeline: Timeline[];
+    CarbonFootprint: CarbonFootprint[];
+  };
 }

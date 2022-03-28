@@ -33,6 +33,7 @@ export class TableComponent implements OnInit {
   @Input() id: any;
   @Output() onDeleteWidget: EventEmitter<any> = new EventEmitter();
   nft$: any;
+  projectId: string;
   table: Table;
   constructor(
     private store: Store<AppState>,
@@ -40,6 +41,9 @@ export class TableComponent implements OnInit {
     private service: DndServiceService
   ) {
     this.nft$ = this.store.select(selectNFTContent);
+    this.store.select(selectNFTContent).subscribe((content) => {
+      this.projectId = content.ProjectId;
+    });
     //this.image$ = this.store.select(selectNFTImages);
   }
 
@@ -56,7 +60,7 @@ export class TableComponent implements OnInit {
   private addTableToStore() {
     this.table = {
       WidgetId: this.id,
-      ProjectId: 'ABC',
+      ProjectId: this.projectId,
       ProjectName: 'project1',
       WidgetType: table,
       TableTitle: 'Table',

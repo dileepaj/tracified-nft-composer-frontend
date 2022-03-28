@@ -37,3 +37,11 @@
 .loader {
   transform: scale(0.2);
 }
+
+.snackbar {
+  background: white;
+  color: black;
+  .mat-simple-snackbar-action {
+    color: $green !important;
+  }
+}

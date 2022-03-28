@@ -43,6 +43,7 @@ export class NftImageComponent implements OnInit {
   loading: boolean = false;
   base64: string = '';
   img: any = '';
+  projectId: string;
 
   constructor(
     private store: Store<AppState>,
@@ -51,6 +52,9 @@ export class NftImageComponent implements OnInit {
   ) {
     this.nft$ = this.store.select(selectNFTContent);
     this.image$ = this.store.select(selectNFTImages);
+    this.store.select(selectNFTContent).subscribe((content) => {
+      this.projectId = content.ProjectId;
+    });
   }
 
   ngOnInit(): void {
@@ -87,7 +91,7 @@ export class NftImageComponent implements OnInit {
   private addImageToStore() {
     this.image = {
       WidgetId: this.id,
-      ProjectId: 'ABC',
+      ProjectId: this.projectId,
       Title: 'NFT Image',
       Type: '',
       Base64Image: '',

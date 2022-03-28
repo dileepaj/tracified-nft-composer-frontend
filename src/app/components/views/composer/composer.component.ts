@@ -31,6 +31,16 @@ import {
   table,
   timeline,
 } from 'src/models/nft-content/widgetTypes';
+import { NFTContent } from 'src/models/nft-content/nft.content';
+import { selectNFTContent } from 'src/app/store/nft-state-store/nft.selector';
+import { ComposerBackendService } from 'src/app/services/composer-backend.service';
+import { SidenavService } from 'src/app/services/sidenav.service';
+import { Observable } from 'rxjs';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 
 export interface Widget {
   type: string;
@@ -46,10 +56,15 @@ export interface Widget {
   styleUrls: ['./composer.component.scss'],
 })
 export class ComposerComponent implements OnInit, AfterViewInit {
+  nftContent: NFTContent;
   opened = true;
+  sidenav: boolean = true;
   position = '';
   id: string;
   private sub: any;
+  saving: boolean = false;
+  horizontalPosition: MatSnackBarHorizontalPosition = 'end';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
   widgetTypes: any = {
     timeline: timeline,
@@ -122,9 +137,15 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     private store: Store<AppState>,
     public dialog: MatDialog,
     private stateService: DndServiceService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private composerService: ComposerBackendService,
+    private sidebarService: SidenavService,
+    private _snackBar: MatSnackBar
   ) {
     //this.openAddData();
+    this.sidebarService.getStatus().subscribe((val) => {
+      this.sidenav = val;
+    });
   }
 
   ngOnInit(): void {
@@ -221,6 +242,81 @@ export class ComposerComponent implements OnInit, AfterViewInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       //
+    });
+  }
+
+  private getNftContent() {
+    this.store.select(selectNFTContent).subscribe((data) => {
+      this.nftContent = data;
+      console.log(this.nftContent);
+    });
+  }
+
+  public downloadFile(content: any, name: string, type: string) {
+    var a = document.createElement('a');
+    var blob = new Blob([content], { type: type });
+    a.href = window.URL.createObjectURL(blob);
+    a.download = name;
+    a.click();
+  }
+
+  public generateHTML() {
+    this.getNftContent();
+    this.composerService.generateHTML(this.nftContent).subscribe({
+      next: (data: any) => {
+        const decodedRes = atob(data.Response);
+        this.downloadFile(decodedRes, this.nftContent.NFTName, 'html');
+      },
+      error: (err) => {
+        console.log(err);
+        alert('An unexpected error occured. Please try again later');
+      },
+    });
+  }
+
+  public saveProject() {
+    this.saving = true;
+    let widgetArr: any = [];
+    this.getNftContent();
+    this.usedWidgets.map((widget) => {
+      widgetArr.push({ WidgetId: widget._Id, Type: widget.type });
+    });
+    const project = {
+      ProjectName: this.nftContent.ProjectName,
+      ProjectId: this.nftContent.ProjectId,
+      Timestamp: this.nftContent.Timestamp,
+      NFTName: this.nftContent.NFTName,
+      UserId: this.nftContent.UserId,
+      CreatorName: this.nftContent.Creator,
+      TenentId: this.nftContent.TenentId,
+      TenentName: '',
+      ContentOrderData: widgetArr,
+    };
+
+    console.log(project);
+
+    this.composerService.saveProject(project).subscribe({
+      next: (res) => {
+        console.log(res);
+      },
+      error: (err) => {
+        alert('An unexpected error occured. Please try again later');
+        console.log(err);
+        this.saving = false;
+      },
+      complete: () => {
+        this.openSnackBar('Project Saved!!');
+        this.saving = false;
+      },
+    });
+  }
+
+  openSnackBar(msg: string) {
+    this._snackBar.open(msg, 'OK', {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+      panelClass: ['snackbar'],
+      duration: 5 * 1000,
     });
   }
 }

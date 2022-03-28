@@ -192,8 +192,8 @@ export class ConfigureBubbleChartComponent implements OnInit {
       Radius: this.radius,
       FontColor: this.fontColor,
       FontSize: this.fontSize,
-      Height: this.height,
-      Width: this.width,
+      Height: 300,
+      Width: 500,
     };
 
     this.saveChart(this.bubbleChart);
@@ -245,10 +245,17 @@ export class ConfigureBubbleChartComponent implements OnInit {
       ...chart,
       Type: bubblechart,
     };
-    this.composerService.saveChart(chart).subscribe((res) => {
-      console.log(res);
-      this.saving = false;
-      this.dialog.closeAll();
+    this.composerService.saveChart(chart).subscribe({
+      next: (res) => {},
+      error: (err) => {
+        this.saving = false;
+        console.log(err);
+        alert('An unexpected error occured. Please try again later');
+      },
+      complete: () => {
+        this.saving = false;
+        this.dialog.closeAll();
+      },
     });
   }
 

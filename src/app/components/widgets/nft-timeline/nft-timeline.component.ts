@@ -26,12 +26,16 @@ export class NftTimelineComponent implements OnInit {
   nft$: any;
   private timeline: Timeline;
   data: any[];
+  projectId: string;
 
   constructor(
     private store: Store<AppState>,
     private service: DndServiceService
   ) {
     this.nft$ = this.store.select(selectNFTContent);
+    this.store.select(selectNFTContent).subscribe((content) => {
+      this.projectId = content.ProjectId;
+    });
   }
 
   ngOnInit(): void {
@@ -48,6 +52,7 @@ export class NftTimelineComponent implements OnInit {
     this.timeline = {
       WidgetId: this.id,
       WidgetType: timeline,
+      ProjectId: this.projectId,
       data: this.data,
     };
 

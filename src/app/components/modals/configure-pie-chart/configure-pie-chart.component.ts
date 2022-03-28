@@ -201,8 +201,8 @@ export class ConfigurePieChartComponent implements OnInit {
       Color: this.fieldColors,
       FontColor: this.fontColor,
       FontSize: this.fontSize,
-      Height: this.height,
-      Width: this.width,
+      Height: 350,
+      Width: 500,
     };
 
     this.saveChart(this.pieChart);
@@ -254,10 +254,17 @@ export class ConfigurePieChartComponent implements OnInit {
       ...chart,
       Type: piechart,
     };
-    this.composerService.saveChart(chart).subscribe((res) => {
-      console.log(res);
-      this.saving = false;
-      this.dialog.closeAll();
+    this.composerService.saveChart(chart).subscribe({
+      next: (res) => {},
+      error: (err) => {
+        this.saving = false;
+        console.log(err);
+        alert('An unexpected error occured. Please try again later');
+      },
+      complete: () => {
+        this.saving = false;
+        this.dialog.closeAll();
+      },
     });
   }
 

@@ -28,12 +28,16 @@ export class NftCarbonfootprintComponent implements OnInit {
   private carbonFootprint: CarbonFootprint;
   data: any[] = [];
 
+  projectId: string;
+
   constructor(
     private store: Store<AppState>,
     private service: DndServiceService,
     public dialog: MatDialog
   ) {
-    this.nft$ = this.store.select(selectNFTContent);
+    this.store.select(selectNFTContent).subscribe((content) => {
+      this.projectId = content.ProjectId;
+    });
   }
 
   ngOnInit(): void {

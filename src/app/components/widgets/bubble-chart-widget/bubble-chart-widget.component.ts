@@ -8,7 +8,10 @@ import {
   deleteBarChart,
   deleteBubbleChart,
 } from 'src/app/store/nft-state-store/nft.actions';
-import { selectBubbleCharts } from 'src/app/store/nft-state-store/nft.selector';
+import {
+  selectBubbleCharts,
+  selectNFTContent,
+} from 'src/app/store/nft-state-store/nft.selector';
 import { Chart } from 'src/models/nft-content/chart';
 import { bubblechart } from 'src/models/nft-content/widgetTypes';
 import { ConfigureBubbleChartComponent } from '../../modals/configure-bubble-chart/configure-bubble-chart.component';
@@ -23,11 +26,16 @@ export class BubbleChartWidgetComponent implements OnInit {
   @Input() id: any;
   @Output() onDeleteWidget: EventEmitter<any> = new EventEmitter();
   bubbleChart: Chart;
+  projectId: string;
   constructor(
     private store: Store<AppState>,
     public dialog: MatDialog,
     private service: DndServiceService
-  ) {}
+  ) {
+    this.store.select(selectNFTContent).subscribe((content) => {
+      this.projectId = content.ProjectId;
+    });
+  }
 
   ngOnInit(): void {
     //check if the widget is already in redux store
@@ -64,11 +72,11 @@ export class BubbleChartWidgetComponent implements OnInit {
     this.bubbleChart = {
       WidgetId: this.id,
       WidgetType: bubblechart,
-      ProjectId: 'ABC',
+      ProjectId: this.projectId,
       ProjectName: 'project1',
       ChartTitle: 'Bubble Chart',
-      KeyTitle: 'name',
-      ValueTitle: 'val',
+      KeyTitle: 'Name',
+      ValueTitle: 'Value',
       ChartData: [],
       Color: [
         '#c7d3ec',

@@ -228,35 +228,57 @@ export class SelectBatchComponent implements OnInit {
     this.batchesLoading = true;
     this.batchesService
       .getBatch(this.selectedProduct.itemID, 10, index, this.searchKey, '', '')
-      .subscribe((data: any) => {
-        this.batchesRes = data;
-        this.batches = this.batchesRes.results;
-        this.totalBatches = this.batchesRes.totalCount;
-        this.page = index;
-        this.batchesLoading = false;
-        console.log(this.totalBatches);
+      .subscribe({
+        next: (data: any) => {
+          this.batchesRes = data;
+          this.batches = this.batchesRes.results;
+          this.totalBatches = this.batchesRes.totalCount;
+          this.page = index;
+        },
+        error: (err) => {
+          console.log(err);
+          alert('An unexpected error occured. Please try again later');
+        },
+        complete: () => {
+          this.batchesLoading = false;
+          console.log(this.totalBatches);
+        },
       });
   }
 
   public getItems() {
     this.productsLoading = true;
-    this.batchesService.getItems().subscribe((data) => {
-      this.products = data;
-      this.productsFilter = this.products;
-      this.productsLoading = false;
+    this.batchesService.getItems().subscribe({
+      next: (data: any) => {
+        this.products = data;
+        this.productsFilter = this.products;
+      },
+      error: (err) => {
+        console.log(err);
+        alert('An unexpected error occured. Please try again later');
+      },
+      complete: () => {
+        this.productsLoading = false;
+      },
     });
   }
 
   public getStages() {
-    this.batchesService.getStages().subscribe((data: any) => {
-      this.workflow = data.workflow;
-      this.workflow[this.workflow.length - 1].stages.map((stage: any) => {
-        let stg: any = {};
-        this.stages[stage.stageId] = stage.name;
-        //this.stages.push(stg);
-      });
+    this.batchesService.getStages().subscribe({
+      next: (data: any) => {
+        this.workflow = data.workflow;
+        this.workflow[this.workflow.length - 1].stages.map((stage: any) => {
+          let stg: any = {};
+          this.stages[stage.stageId] = stage.name;
+          //this.stages.push(stg);
+        });
 
-      console.log(this.stages);
+        console.log(this.stages);
+      },
+      error: (err) => {
+        console.log(err);
+        alert('An unexpected error occured. Please try again later');
+      },
     });
   }
 
@@ -328,10 +350,18 @@ export class SelectBatchComponent implements OnInit {
     };
     //console.log(widget);
 
-    this.composerService.saveWidget(widget).subscribe((res) => {
-      this.saving = false;
-      console.log(res);
-      this.close();
+    this.composerService.saveWidget(widget).subscribe({
+      next: (res) => {},
+      error: (err) => {
+        this.saving = false;
+        console.log(err);
+        alert('An unexpected error occured. Please try again later');
+      },
+      complete: () => {
+        this.saving = false;
+
+        this.close();
+      },
     });
   }
 

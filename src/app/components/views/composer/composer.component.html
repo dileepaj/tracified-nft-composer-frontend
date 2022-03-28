@@ -1,6 +1,11 @@
 <div class="composer-div" cdkDropListGroup>
   <mat-drawer-container class="sidebar-container">
-    <mat-drawer class="side-nav" mode="side" position="start" opened>
+    <mat-drawer
+      class="side-nav"
+      mode="side"
+      position="start"
+      [opened]="sidenav"
+    >
       <app-sidebar></app-sidebar>
     </mat-drawer>
     <mat-drawer
@@ -86,11 +91,20 @@
         </div>
       </div>
       <div class="btn-container">
-        <button class="btn" mat-flat-button>
-          <mat-icon class="icon">visibility</mat-icon>Preview SVG
+        <button
+          class="btn"
+          mat-flat-button
+          (click)="saveProject()"
+          [disabled]="saving"
+        >
+          <mat-icon class="icon">save</mat-icon>
+          <span [class.spinner]="saving"> </span>Save Project
         </button>
         <button class="btn" mat-flat-button>
-          <mat-icon class="icon">visibility</mat-icon>Preview HTML
+          <mat-icon class="icon">visibility</mat-icon>Generate SVG
+        </button>
+        <button class="btn" mat-flat-button (click)="generateHTML()">
+          <mat-icon class="icon">visibility</mat-icon>Generate HTML
         </button>
       </div>
     </mat-drawer-content>

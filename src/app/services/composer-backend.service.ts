@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Chart } from 'src/models/nft-content/chart';
 import { Image } from 'src/models/nft-content/image';
+import { NFTContent } from 'src/models/nft-content/nft.content';
 //import { RecentProject } from 'src/models/nft-content/htmlGenerator';
 import { QueryExecuter } from 'src/models/nft-content/queryExecuter';
 import { Table } from 'src/models/nft-content/table';
@@ -32,7 +33,7 @@ export class ComposerBackendService {
   }
 
   public getRecentProjects(userName: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/composer/projcts/ABC`);
+    return this.http.get(`${this.apiUrl}/composer/projcts/abc123`);
   }
 
   /**
@@ -85,5 +86,28 @@ export class ComposerBackendService {
       image,
       httpOptions
     );
+  }
+
+  /**
+   * @function generateHTML - generate HTML code
+   * @param - nftContent
+   * @component - composer view
+   */
+  public generateHTML(nftContent: NFTContent): Observable<NFTContent> {
+    console.log(nftContent);
+    return this.http.post<NFTContent>(
+      `${this.apiUrl}/generate`,
+      nftContent,
+      httpOptions
+    );
+  }
+
+  /**
+   * @function saveProject - save NFT project
+   * @param - project
+   * @component - composer view
+   */
+  public saveProject(project: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/project`, project, httpOptions);
   }
 }
