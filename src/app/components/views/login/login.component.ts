@@ -46,11 +46,6 @@ export class LoginComponent implements OnInit {
   public onSubmit(data: any) {
     const key: any = new Key();
     const user: UserLogin = new UserLogin();
-    // user.newPassword = 'U2FsdGVkX1+v3OvBPP3ZxZtCXtV8SsJGT6iku3cGTFc=';
-    // user.password = 'U2FsdGVkX180nnyBaMdxC8D2S+QqpQQ16Xl7SEwH0qA=';
-    // user.username =
-    //   'U2FsdGVkX19rOQabUkIIQBv7e6voslG3hb76eJ8EUgFTP9ngqPq5o5mmLv2t8aBQ';
-
     console.log('Entered username: ', data.email);
     console.log('Entered password: ', data.password);
 
@@ -70,13 +65,5 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/projects']);
       sessionStorage.setItem('authorized', 'authorized');
     });
-
-  constructor(private router: Router) {}
-
-  ngOnInit(): void {}
-
-  login() {
-    this.router.navigate(['/projects']);
-    sessionStorage.setItem('authorized', 'authorized');
   }
 }
