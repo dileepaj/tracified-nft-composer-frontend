@@ -104,6 +104,7 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
         '#69b3a2',
         '#69b3a2',
       ],
+
       FontColor: '#000000',
       FontSize: 10,
       XAxis: 'X Axis',

@@ -16,6 +16,7 @@ import {
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
+import { barchart } from 'src/models/nft-content/widgetTypes';
 
 @Component({
   selector: 'app-configure-bar-chart',
@@ -33,26 +34,26 @@ export class ConfigureBarChartComponent implements OnInit {
   productName: string = '';
   query: string = '';
   //data that are being displayed in the bar chart
-  barChartData: any[] = [
+  barChartData: Data[] = [
     {
-      name: 'Sri Lanka',
-      value: 200,
+      Name: 'Sri Lanka',
+      Value: 200,
     },
     {
-      name: 'India',
-      value: 900,
+      Name: 'India',
+      Value: 900,
     },
     {
-      name: 'Bangladesh',
-      value: 800,
+      Name: 'Bangladesh',
+      Value: 800,
     },
     {
-      name: 'Pakistan',
-      value: 600,
+      Name: 'Pakistan',
+      Value: 600,
     },
     {
-      name: 'Nepal',
-      value: 100,
+      Name: 'Nepal',
+      Value: 100,
     },
   ];
 
@@ -107,7 +108,7 @@ export class ConfigureBarChartComponent implements OnInit {
     const x = d3
       .scaleBand()
       .range([0, this.width])
-      .domain(data.map((d) => d.name))
+      .domain(data.map((d) => d.Name))
       .padding(0.2);
 
     // Draw the X-axis on the DOM
@@ -152,10 +153,10 @@ export class ConfigureBarChartComponent implements OnInit {
       .data(data)
       .enter()
       .append('rect')
-      .attr('x', (d: any) => x(d.name))
-      .attr('y', (d: any) => y(d.value))
+      .attr('x', (d: any) => x(d.Name))
+      .attr('y', (d: any) => y(d.Value))
       .attr('width', x.bandwidth())
-      .attr('height', (d: any) => this.height - y(d.value))
+      .attr('height', (d: any) => this.height - y(d.Value))
       .attr('fill', (d: any, i: number) => this.barColors[i])
       .style('font-size', this.fontSize + 'px');
   }
@@ -221,6 +222,7 @@ export class ConfigureBarChartComponent implements OnInit {
       YAxis: this.yName,
       Height: this.height,
       Width: this.width,
+      Domain: this.domain,
     };
 
     this.saveChart(this.barChart);
@@ -274,7 +276,7 @@ export class ConfigureBarChartComponent implements OnInit {
     console.log('chart', chart);
     chart = {
       ...chart,
-      Type: 'BarChart',
+      Type: barchart,
     };
     this.composerService.saveChart(chart).subscribe((res) => {
       console.log(res);

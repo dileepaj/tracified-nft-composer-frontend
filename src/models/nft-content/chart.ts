@@ -12,7 +12,8 @@ export interface Chart {
   ChartTitle?: string;
   KeyTitle?: string;
   ValueTitle?: string;
-  ChartData?: any[];
+  ChartData?: Data[];
+  Domain?: number[];
   Color?: string[];
   FontColor?: string;
   FontSize?: number;
@@ -24,6 +25,8 @@ export interface Chart {
 }
 
 export interface Data {
-  Key: string;
+  Name: string;
   Value: number;
+  X?: number;
+  Y?: number;
 }

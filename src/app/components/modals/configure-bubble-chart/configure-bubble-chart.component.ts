@@ -13,7 +13,8 @@ import {
   selectBubbleCharts,
   selectNFTContent,
 } from 'src/app/store/nft-state-store/nft.selector';
-import { Chart } from 'src/models/nft-content/chart';
+import { Chart, Data } from 'src/models/nft-content/chart';
+import { bubblechart } from 'src/models/nft-content/widgetTypes';
 
 @Component({
   selector: 'app-configure-bubble-chart',
@@ -30,12 +31,12 @@ export class ConfigureBubbleChartComponent implements OnInit {
   batchId: any = '';
   productName: string = '';
   //data to be displayed in the pie chart
-  bubbleChartData: any = [
-    { name: 'Item 1', x: 100, y: 60, val: 1350 },
-    { name: 'Item 2', x: 30, y: 80, val: 2500 },
-    { name: 'Item 3', x: 50, y: 40, val: 5700 },
-    { name: 'Item 4', x: 190, y: 100, val: 30000 },
-    { name: 'Item 5', x: 80, y: 170, val: 47500 },
+  bubbleChartData: Data[] = [
+    { Name: 'Item 1', X: 100, Y: 60, Value: 1350 },
+    { Name: 'Item 2', X: 30, Y: 80, Value: 2500 },
+    { Name: 'Item 3', X: 50, Y: 40, Value: 5700 },
+    { Name: 'Item 4', X: 190, Y: 100, Value: 30000 },
+    { Name: 'Item 5', X: 80, Y: 170, Value: 47500 },
   ];
   bubbleColors: string[] = [
     '#69b3a2',
@@ -98,13 +99,13 @@ export class ConfigureBubbleChartComponent implements OnInit {
       .enter()
       .append('circle')
       .attr('cx', function (d: any) {
-        return d.x;
+        return d.X;
       })
       .attr('cy', function (d: any) {
-        return d.y;
+        return d.Y;
       })
       .attr('r', function (d: any) {
-        let r = Math.sqrt(d.val) / Math.PI;
+        let r = Math.sqrt(d.Value) / Math.PI;
         radius.push(r);
         return r;
       })
@@ -118,15 +119,15 @@ export class ConfigureBubbleChartComponent implements OnInit {
       .enter()
       .append('text')
       .attr('x', function (d: any) {
-        let r = d.x + Math.sqrt(d.val) / Math.PI;
+        let r = d.X + Math.sqrt(d.Value) / Math.PI;
 
         return r;
       })
       .attr('y', function (d: any) {
-        return d.y + 4;
+        return d.Y + 4;
       })
       .text(function (d: any) {
-        return d.name;
+        return d.Name;
       })
       .style('font-size', this.fontSize + 'px')
       .style('fill', this.fontColor);
@@ -242,7 +243,7 @@ export class ConfigureBubbleChartComponent implements OnInit {
     console.log('chart', chart);
     chart = {
       ...chart,
-      Type: 'BubbleChart',
+      Type: bubblechart,
     };
     this.composerService.saveChart(chart).subscribe((res) => {
       console.log(res);

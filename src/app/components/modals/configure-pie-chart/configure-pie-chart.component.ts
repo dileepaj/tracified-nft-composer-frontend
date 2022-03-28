@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as d3 from 'd3';
-import { Chart } from '../../../../models/nft-content/chart';
+import { Chart, Data } from '../../../../models/nft-content/chart';
 import { AppState } from 'src/app/store/app.state';
 import {
   addBarChart,
@@ -16,6 +16,7 @@ import {
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
+import { piechart } from 'src/models/nft-content/widgetTypes';
 
 @Component({
   selector: 'app-configure-pie-chart',
@@ -32,26 +33,26 @@ export class ConfigurePieChartComponent implements OnInit {
   batchId: any = '';
   productName: string = '';
   //data to be displayed in the pie chart
-  pieChartData: any = [
+  pieChartData: Data[] = [
     {
-      name: 'Sri Lanka',
-      value: 200,
+      Name: 'Sri Lanka',
+      Value: 200,
     },
     {
-      name: 'India',
-      value: 900,
+      Name: 'India',
+      Value: 900,
     },
     {
-      name: 'Bangladesh',
-      value: 800,
+      Name: 'Bangladesh',
+      Value: 800,
     },
     {
-      name: 'Pakistan',
-      value: 600,
+      Name: 'Pakistan',
+      Value: 600,
     },
     {
-      name: 'Nepal',
-      value: 100,
+      Name: 'Nepal',
+      Value: 100,
     },
   ];
 
@@ -105,13 +106,13 @@ export class ConfigurePieChartComponent implements OnInit {
   private createColors(): void {
     this.colors = d3
       .scaleOrdinal()
-      .domain(this.pieChartData.map((d: any) => d.value.toString()))
+      .domain(this.pieChartData.map((d: any) => d.Value.toString()))
       .range(this.fieldColors);
   }
 
   private drawChart(): void {
     // Compute the position of each group on the pie:
-    const pie = d3.pie<any>().value((d: any) => Number(d.value));
+    const pie = d3.pie<any>().value((d: any) => Number(d.Value));
 
     // Build the pie chart
     this.svg
@@ -132,7 +133,7 @@ export class ConfigurePieChartComponent implements OnInit {
       .data(pie(this.pieChartData))
       .enter()
       .append('text')
-      .text((d: any) => d.data.name)
+      .text((d: any) => d.data.Name)
       .attr(
         'transform',
         (d: any) => 'translate(' + labelLocation.centroid(d) + ')'
@@ -251,7 +252,7 @@ export class ConfigurePieChartComponent implements OnInit {
     console.log('chart', chart);
     chart = {
       ...chart,
-      Type: 'PieChart',
+      Type: piechart,
     };
     this.composerService.saveChart(chart).subscribe((res) => {
       console.log(res);
