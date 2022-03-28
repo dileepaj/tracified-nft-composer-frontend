@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
-import { User } from '../entity/artifact';
+import { BToken } from '../entity/artifact';
 
 @Injectable({
   providedIn: 'root',

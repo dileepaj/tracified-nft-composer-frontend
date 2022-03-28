@@ -5,6 +5,8 @@ import { AES } from 'crypto-js';
 import { UserserviceService } from 'src/app/services/userservice.service';
 import { Key } from 'src/app/entity/Variables';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { CookieService } from 'ngx-cookie-service';
+import { BToken } from 'src/app/entity/artifact';
 // import { ExpService } from 'src/app/services/exp.service';
 // import { JwtserviceService } from 'src/app/services/jwtservice.service';
 @Component({
@@ -13,27 +15,35 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  email : String;
-  password : String;
+  email: String;
+  password: String;
   public newPassword = 'none';
   public loginForm: FormGroup;
+  sKey = 'hackerkaidagalbanisbaby'.split('').reverse().join('');
+  public userToken :string;
 
   constructor(
     private router: Router,
     // private jwtService: JwtserviceService,
     // private expService: ExpService,
-    private _userService: UserserviceService
+    private _userService: UserserviceService,
+    private cookieService: CookieService
   ) {}
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
-      username: new FormControl('', [Validators.required, Validators.minLength(6)]),
-      password: new FormControl('', [Validators.required, Validators.minLength(8)]),
+      username: new FormControl('', [
+        Validators.required,
+        Validators.minLength(6),
+      ]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(8),
+      ]),
     });
-
   }
 
-  public onSubmit(data : any) {
+  public onSubmit(data: any) {
     const key: any = new Key();
     const user: UserLogin = new UserLogin();
     // user.newPassword = 'U2FsdGVkX1+v3OvBPP3ZxZtCXtV8SsJGT6iku3cGTFc=';
@@ -41,15 +51,22 @@ export class LoginComponent implements OnInit {
     // user.username =
     //   'U2FsdGVkX19rOQabUkIIQBv7e6voslG3hb76eJ8EUgFTP9ngqPq5o5mmLv2t8aBQ';
 
-    user.username = AES.encrypt(data.email, key).toString();
-    user.password = AES.encrypt(data.password, key).toString();
-    user.newPassword = AES.encrypt(this.newPassword, key).toString();
+    console.log('Entered username: ', data.email);
+    console.log('Entered password: ', data.password);
 
-    console.log('Username ', user.username);
-    console.log('Password ', user.password);
+    user.username = AES.encrypt(data.email, this.sKey).toString();
+    user.password = AES.encrypt(data.password, this.sKey).toString();
+    user.newPassword = AES.encrypt(
+      this.newPassword.toString(),
+      this.sKey
+    ).toString();
 
-    this._userService.login(user).subscribe((data: any) => {
-      console.log(data);
+    console.log('Encrypted Username ', user.username);
+    console.log('Encrypted Password ', user.password);
+
+    this._userService.login(user).subscribe((data) => {
+      this.cookieService.set('Token', data.Token);
+      
       this.router.navigate(['/projects']);
       sessionStorage.setItem('authorized', 'authorized');
     });

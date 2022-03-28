@@ -55,6 +55,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { TestViewComponent } from 'src/app/components/views/test-view/test-view.component';
 import { LoginComponent } from './components/views/login/login.component';
 import { ProjectsComponent } from './components/views/projects/projects.component';
+import { CookieService } from 'ngx-cookie-service';
 
 //import { AceEditorModule } from 'ng2-ace-editor';
 const appRoutes: Routes = [
@@ -155,7 +156,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     StoreModule.forRoot({ nft: nftReducer }),
   ],
-  providers: [],
+  providers: [CookieService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
