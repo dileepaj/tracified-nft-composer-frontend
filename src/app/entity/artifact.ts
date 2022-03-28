@@ -46,3 +46,7 @@ export class User {
   name: string;
   publicKey : string;
 }
+
+export class BToken{
+  token: string;
+}
