@@ -20,7 +20,9 @@ import {
   selectTable,
 } from 'src/app/store/nft-state-store/nft.selector';
 import { Table } from 'src/models/nft-content/table';
+import { table } from 'src/models/nft-content/widgetTypes';
 import { ConfigureTableComponent } from '../../modals/configure-table/configure-table.component';
+import { WidgetContentComponent } from '../../modals/widget-content/widget-content.component';
 
 @Component({
   selector: 'app-table',
@@ -31,6 +33,7 @@ export class TableComponent implements OnInit {
   @Input() id: any;
   @Output() onDeleteWidget: EventEmitter<any> = new EventEmitter();
   nft$: any;
+  projectId: string;
   table: Table;
   constructor(
     private store: Store<AppState>,
@@ -38,6 +41,9 @@ export class TableComponent implements OnInit {
     private service: DndServiceService
   ) {
     this.nft$ = this.store.select(selectNFTContent);
+    this.store.select(selectNFTContent).subscribe((content) => {
+      this.projectId = content.ProjectId;
+    });
     //this.image$ = this.store.select(selectNFTImages);
   }
 
@@ -54,8 +60,9 @@ export class TableComponent implements OnInit {
   private addTableToStore() {
     this.table = {
       WidgetId: this.id,
-      ProjectId: 'ABC',
-      WidgetType: 'table',
+      ProjectId: this.projectId,
+      ProjectName: 'project1',
+      WidgetType: table,
       TableTitle: 'Table',
       TableContent: '',
     };
@@ -96,6 +103,21 @@ export class TableComponent implements OnInit {
           this.table = table;
         }
       });
+    });
+  }
+
+  //open batch selection popup
+  openAddData() {
+    this.getTable();
+    const dialogRef = this.dialog.open(WidgetContentComponent, {
+      data: {
+        id: this.id,
+        widget: this.table,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      //
     });
   }
 }

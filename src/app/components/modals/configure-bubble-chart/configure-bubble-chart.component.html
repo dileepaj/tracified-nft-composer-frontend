@@ -1,10 +1,13 @@
-<mat-dialog-content class="mat-typography modal-content">
-  <mat-tab-group (selectedTabChange)="tabChanged($event)">
+<mat-dialog-content class="mat-typography modal-content" fxLayout.="row">
+  <mat-tab-group (selectedTabChange)="tabChanged($event)" fxFlex="100%">
     <mat-tab label="Query">
       <mat-grid-list cols="5" rowHeight="550px">
         <!--Column that displays the bar chart-->
         <mat-grid-tile colspan="5" style="overflow: auto">
-          <app-ldaleditor></app-ldaleditor
+          <app-ldaleditor
+            [id]="bubbleChart.WidgetId"
+            (onQuerySuccess)="addQuery($event)"
+          ></app-ldaleditor
         ></mat-grid-tile>
       </mat-grid-list>
     </mat-tab>
@@ -63,7 +66,7 @@
                 *ngFor="let field of bubbleChartData; index as i"
               >
                 <mat-card>
-                  <label>{{ field.name }}</label>
+                  <label>{{ field.Name }}</label>
                   <div
                     class="colorbox"
                     [(colorPicker)]="bubbleColors[i]"
@@ -84,11 +87,12 @@
 
   <button
     mat-button
-    [mat-dialog-close]="true"
+    [disabled]="saving"
     class="btn"
     (click)="updateReduxState()"
   >
     <mat-icon>save</mat-icon>
+    <span [class.spinner]="saving"> </span>
     Save
   </button>
 </mat-dialog-actions>

@@ -25,6 +25,7 @@ import {
 import { WidgetContentComponent } from '../../modals/widget-content/widget-content.component';
 import { Widget } from '../../views/composer/composer.component';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
+import { barchart } from 'src/models/nft-content/widgetTypes';
 
 @Component({
   selector: 'app-bar-chart-widget',
@@ -36,6 +37,7 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
   @Output() onDeleteWidget: EventEmitter<any> = new EventEmitter();
   barchart$: Observable<Chart[]>;
   barChart: Chart;
+  projectId: string;
   @Input() widget: Widget;
 
   constructor(
@@ -44,6 +46,9 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
     private service: DndServiceService
   ) {
     this.barchart$ = this.store.select(selectBarCharts);
+    this.store.select(selectNFTContent).subscribe((content) => {
+      this.projectId = content.ProjectId;
+    });
   }
 
   ngAfterViewInit(): void {}
@@ -84,11 +89,12 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
   private addBarChartToStore() {
     this.barChart = {
       WidgetId: this.id,
-      WidgetType: 'bar',
-      ProjectId: 'ABC',
+      WidgetType: barchart,
+      ProjectId: this.projectId,
+      ProjectName: 'project1',
       ChartTitle: 'Bar Chart',
-      KeyTitle: 'name',
-      ValueTitle: 'value',
+      KeyTitle: 'Name',
+      ValueTitle: 'Value',
       ChartData: [],
       Color: [
         '#69b3a2',
@@ -102,6 +108,7 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
         '#69b3a2',
         '#69b3a2',
       ],
+
       FontColor: '#000000',
       FontSize: 10,
       XAxis: 'X Axis',

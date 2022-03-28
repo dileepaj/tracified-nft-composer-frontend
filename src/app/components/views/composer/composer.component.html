@@ -1,6 +1,11 @@
 <div class="composer-div" cdkDropListGroup>
   <mat-drawer-container class="sidebar-container">
-    <mat-drawer class="side-nav" mode="side" position="start" opened>
+    <mat-drawer
+      class="side-nav"
+      mode="side"
+      position="start"
+      [opened]="sidenav"
+    >
       <app-sidebar></app-sidebar>
     </mat-drawer>
     <mat-drawer
@@ -42,42 +47,42 @@
               cdkDrag
             >
               <app-nft-timeline
-                *ngIf="widget.type === 'timeline'"
+                *ngIf="widget.type === widgetTypes.timeline"
                 [id]="usedWidgets[i]._Id"
                 (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
               ></app-nft-timeline>
               <app-nft-proofbot
-                *ngIf="widget.type === 'proofbot'"
+                *ngIf="widget.type === widgetTypes.proofbot"
                 [id]="usedWidgets[i]._Id"
                 (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
               ></app-nft-proofbot>
               <app-nft-carbonfootprint
-                *ngIf="widget.type === 'carbonfp'"
+                *ngIf="widget.type === widgetTypes.carbon"
                 [id]="usedWidgets[i]._Id"
                 (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
               ></app-nft-carbonfootprint>
               <app-nft-image
-                *ngIf="widget.type === 'nftimage'"
+                *ngIf="widget.type === widgetTypes.image"
                 [id]="usedWidgets[i]._Id"
                 (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
               ></app-nft-image>
               <app-bar-chart-widget
-                *ngIf="widget.type === 'barchart'"
+                *ngIf="widget.type === widgetTypes.bar"
                 [id]="usedWidgets[i]._Id"
                 (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
               ></app-bar-chart-widget>
               <app-pie-chart-widget
-                *ngIf="widget.type === 'piechart'"
+                *ngIf="widget.type === widgetTypes.pie"
                 [id]="usedWidgets[i]._Id"
                 (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
               ></app-pie-chart-widget>
               <app-bubble-chart-widget
-                *ngIf="widget.type === 'bubblechart'"
+                *ngIf="widget.type === widgetTypes.bubble"
                 [id]="usedWidgets[i]._Id"
                 (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
               ></app-bubble-chart-widget>
               <app-table
-                *ngIf="widget.type === 'table'"
+                *ngIf="widget.type === widgetTypes.table"
                 [id]="usedWidgets[i]._Id"
                 (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
               ></app-table>
@@ -86,11 +91,20 @@
         </div>
       </div>
       <div class="btn-container">
-        <button class="btn" mat-flat-button>
-          <mat-icon class="icon">visibility</mat-icon>Preview SVG
+        <button
+          class="btn"
+          mat-flat-button
+          (click)="saveOrUpdateProject()"
+          [disabled]="saving"
+        >
+          <mat-icon class="icon">save</mat-icon>
+          <span [class.spinner]="saving"> </span>Save Project
         </button>
         <button class="btn" mat-flat-button>
-          <mat-icon class="icon">visibility</mat-icon>Preview HTML
+          <mat-icon class="icon">visibility</mat-icon>Generate SVG
+        </button>
+        <button class="btn" mat-flat-button (click)="generateHTML()">
+          <mat-icon class="icon">visibility</mat-icon>Generate HTML
         </button>
       </div>
     </mat-drawer-content>

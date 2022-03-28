@@ -13,6 +13,7 @@ import {
   selectTimeline,
 } from 'src/app/store/nft-state-store/nft.selector';
 import { ProofBot } from 'src/models/nft-content/proofbot';
+import { proofbot } from 'src/models/nft-content/widgetTypes';
 
 @Component({
   selector: 'app-nft-proofbot',
@@ -43,14 +44,13 @@ export class NftProofbotComponent implements OnInit {
     }
   }
 
-  private showNFT() {
-  }
+  private showNFT() {}
 
   //add proofbot bot to redux store
   private addProofbotToStore() {
     this.proofbot = {
       WidgetId: this.id,
-      WidgetType: 'proofbot',
+      WidgetType: proofbot,
       Title: 'Proofbot',
       Proofurls: [
         {

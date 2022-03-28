@@ -1,8 +1,9 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Store } from '@ngrx/store';
 import * as d3 from 'd3';
+import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 import { AppState } from 'src/app/store/app.state';
 import {
   addBubbleChart,
@@ -12,7 +13,8 @@ import {
   selectBubbleCharts,
   selectNFTContent,
 } from 'src/app/store/nft-state-store/nft.selector';
-import { Chart } from 'src/models/nft-content/chart';
+import { Chart, Data } from 'src/models/nft-content/chart';
+import { bubblechart } from 'src/models/nft-content/widgetTypes';
 
 @Component({
   selector: 'app-configure-bubble-chart',
@@ -22,19 +24,19 @@ import { Chart } from 'src/models/nft-content/chart';
 })
 export class ConfigureBubbleChartComponent implements OnInit {
   nft$: any;
-  private bubbleChart: Chart;
+  bubbleChart: Chart;
   chartId: any;
   keyTitle: any;
   query: string = '';
   batchId: any = '';
   productName: string = '';
   //data to be displayed in the pie chart
-  bubbleChartData: any = [
-    { name: 'Item 1', x: 100, y: 60, val: 1350 },
-    { name: 'Item 2', x: 30, y: 80, val: 2500 },
-    { name: 'Item 3', x: 50, y: 40, val: 5700 },
-    { name: 'Item 4', x: 190, y: 100, val: 30000 },
-    { name: 'Item 5', x: 80, y: 170, val: 47500 },
+  bubbleChartData: Data[] = [
+    { Name: 'Item 1', X: 100, Y: 60, Value: 1350 },
+    { Name: 'Item 2', X: 30, Y: 80, Value: 2500 },
+    { Name: 'Item 3', X: 50, Y: 40, Value: 5700 },
+    { Name: 'Item 4', X: 190, Y: 100, Value: 30000 },
+    { Name: 'Item 5', X: 80, Y: 170, Value: 47500 },
   ];
   bubbleColors: string[] = [
     '#69b3a2',
@@ -59,9 +61,13 @@ export class ConfigureBubbleChartComponent implements OnInit {
   private width = 300 - this.margin;
   private height = 300 - this.margin;
 
+  saving: boolean = false;
+
   constructor(
     private store: Store<AppState>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialog: MatDialog,
+    private composerService: ComposerBackendService
   ) {
     this.nft$ = this.store.select(selectNFTContent);
   }
@@ -93,13 +99,13 @@ export class ConfigureBubbleChartComponent implements OnInit {
       .enter()
       .append('circle')
       .attr('cx', function (d: any) {
-        return d.x;
+        return d.X;
       })
       .attr('cy', function (d: any) {
-        return d.y;
+        return d.Y;
       })
       .attr('r', function (d: any) {
-        let r = Math.sqrt(d.val) / Math.PI;
+        let r = Math.sqrt(d.Value) / Math.PI;
         radius.push(r);
         return r;
       })
@@ -113,15 +119,15 @@ export class ConfigureBubbleChartComponent implements OnInit {
       .enter()
       .append('text')
       .attr('x', function (d: any) {
-        let r = d.x + Math.sqrt(d.val) / Math.PI;
+        let r = d.X + Math.sqrt(d.Value) / Math.PI;
 
         return r;
       })
       .attr('y', function (d: any) {
-        return d.y + 4;
+        return d.Y + 4;
       })
       .text(function (d: any) {
-        return d.name;
+        return d.Name;
       })
       .style('font-size', this.fontSize + 'px')
       .style('fill', this.fontColor);
@@ -176,6 +182,7 @@ export class ConfigureBubbleChartComponent implements OnInit {
       Width: this.width,
     };*/
 
+    this.saving = true;
     this.bubbleChart = {
       ...this.bubbleChart,
       ChartTitle: this.title,
@@ -185,10 +192,11 @@ export class ConfigureBubbleChartComponent implements OnInit {
       Radius: this.radius,
       FontColor: this.fontColor,
       FontSize: this.fontSize,
-      Height: this.height,
-      Width: this.width,
+      Height: 300,
+      Width: 500,
     };
 
+    this.saveChart(this.bubbleChart);
     this.store.dispatch(updateBubbleChart({ chart: this.bubbleChart }));
   }
 
@@ -229,5 +237,30 @@ export class ConfigureBubbleChartComponent implements OnInit {
     this.fontSize = this.bubbleChart.FontSize!;
     this.height = this.bubbleChart.Height!;
     this.width = this.bubbleChart.Width!;
+  }
+
+  private saveChart(chart: any) {
+    console.log('chart', chart);
+    chart = {
+      ...chart,
+      Type: bubblechart,
+    };
+    this.composerService.saveChart(chart).subscribe({
+      next: (res) => {},
+      error: (err) => {
+        this.saving = false;
+        console.log(err);
+        alert('An unexpected error occured. Please try again later');
+      },
+      complete: () => {
+        this.saving = false;
+        this.dialog.closeAll();
+      },
+    });
+  }
+
+  public addQuery(event: any) {
+    console.log(event);
+    this.query = event;
   }
 }

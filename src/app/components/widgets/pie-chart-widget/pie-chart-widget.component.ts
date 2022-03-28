@@ -7,8 +7,12 @@ import {
   addPieChart,
   deletePieChart,
 } from 'src/app/store/nft-state-store/nft.actions';
-import { selectPieCharts } from 'src/app/store/nft-state-store/nft.selector';
+import {
+  selectNFTContent,
+  selectPieCharts,
+} from 'src/app/store/nft-state-store/nft.selector';
 import { Chart } from 'src/models/nft-content/chart';
+import { piechart } from 'src/models/nft-content/widgetTypes';
 import { ConfigurePieChartComponent } from '../../modals/configure-pie-chart/configure-pie-chart.component';
 import { WidgetContentComponent } from '../../modals/widget-content/widget-content.component';
 
@@ -21,12 +25,17 @@ export class PieChartWidgetComponent implements OnInit {
   @Input() id: any;
   @Output() onDeleteWidget: EventEmitter<any> = new EventEmitter();
   pieChart: Chart;
+  projectId: string;
 
   constructor(
     private store: Store<AppState>,
     public dialog: MatDialog,
     private service: DndServiceService
-  ) {}
+  ) {
+    this.store.select(selectNFTContent).subscribe((content) => {
+      this.projectId = content.ProjectId;
+    });
+  }
 
   ngOnInit(): void {
     if (!this.service.widgetExists(this.id)) {
@@ -61,11 +70,12 @@ export class PieChartWidgetComponent implements OnInit {
   private addPieChartToStore() {
     this.pieChart = {
       WidgetId: this.id,
-      ProjectId: 'ABC',
-      WidgetType: 'pie',
+      ProjectId: this.projectId,
+      ProjectName: 'project1',
+      WidgetType: piechart,
       ChartTitle: 'Pie Chart',
-      KeyTitle: 'name',
-      ValueTitle: 'value',
+      KeyTitle: 'Name',
+      ValueTitle: 'Value',
       ChartData: [],
       Color: [
         '#c7d3ec',

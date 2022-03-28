@@ -63,6 +63,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 //import { AceEditorModule } from 'ng2-ace-editor';
 const appRoutes: Routes = [
@@ -151,12 +154,15 @@ const appRoutes: Routes = [
     MatTableModule,
     MatBadgeModule,
     MatInputModule,
+    MatSnackBarModule,
     MatDatepickerModule,
     MatNativeDateModule,
     MatCheckboxModule,
     MatPaginatorModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
+    MatExpansionModule,
+    OverlayModule,
     FormsModule,
     ReactiveFormsModule,
     MatCardModule,

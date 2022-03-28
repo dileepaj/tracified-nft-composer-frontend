@@ -150,39 +150,78 @@
         </mat-paginator>
       </mat-step>
       <mat-step label="Traceability Data">
-        <mat-form-field appearance="outline" style="float: right">
-          <mat-label>Search</mat-label>
-          <mat-icon matPrefix>search</mat-icon>
-          <input type="text" matInput placeholder="Search Traceability Data" />
-        </mat-form-field>
+        <div style="display: flex; flex-direction: column">
+          <div>
+            <br />
+            <!--<mat-form-field appearance="outline" style="float: right">
+              <mat-label>Search</mat-label>
+              <mat-icon matPrefix>search</mat-icon>
+              <input
+                type="text"
+                matInput
+                placeholder="Search Traceability Data"
+              />
+            </mat-form-field>
 
-        <table *ngIf="batchIsSelected === true" class="tdp-table">
-          <h2>Stages</h2>
+          --></div>
 
-          <tbody>
-            <tr *ngFor="let tdp of selectedBatch.traceabilityDataPackets">
-              <td class="stage-stageName">
-                {{ stages[tdp.stageId] }} -
-                {{ tdp.stageId }}
-              </td>
-              <td fxLayout="row wrap">
-                <div class="tdp" fxFlex="100%" fxLayout="row wrap">
-                  <label *ngFor="let data of tdp.traceabilityData" fxFlex="50%"
-                    ><strong>{{ CamelcaseToWord(data.key) }} - </strong>
-                    {{ data.val }}</label
+          <div>
+            <mat-accordion class="headers-align" *ngIf="batchIsSelected">
+              <mat-expansion-panel
+                *ngFor="
+                  let stage of workflow[this.workflow.length - 1].stages;
+                  index as i
+                "
+                [expanded]="tdpStep === i + 1"
+                (opened)="setTdpStep(i + 1)"
+              >
+                <mat-expansion-panel-header>
+                  <mat-panel-title> Stage {{ i + 1 }}</mat-panel-title>
+                  <mat-panel-description>
+                    {{ stage.stageId }} - {{ stage.name }}
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <mat-action-row fxLayout="column">
+                  <div
+                    *ngFor="let tdp of selectedBatch.traceabilityDataPackets"
+                    fxFlex="100%"
+                    fxLayout="row wrap"
                   >
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                    <div
+                      fxFlex="100%"
+                      fxLayout="row wrap"
+                      *ngIf="tdp.stageId === stage.stageId"
+                      class="tdp"
+                    >
+                      <label
+                        fxFlex="50%"
+                        *ngFor="let data of tdp.traceabilityData"
+                        ><strong>{{ CamelcaseToWord(data.key) }} - </strong>
+                        {{ data.val }}</label
+                      >
+                    </div>
+
+                    <mat-divider></mat-divider>
+                  </div>
+                </mat-action-row>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+        </div>
       </mat-step>
     </mat-stepper>
   </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button (click)="updateReduxState()" class="btn" cdkFocusInitial>
+  <button
+    mat-button
+    (click)="updateReduxState()"
+    class="btn"
+    [disabled]="saving"
+    cdkFocusInitial
+  >
     <mat-icon>save</mat-icon>
+    <span [class.spinner]="saving"> </span>
     Save
   </button>
 </mat-dialog-actions>

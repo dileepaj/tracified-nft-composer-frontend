@@ -170,7 +170,7 @@ mat-step {
 .tdp {
   width: 100%;
   border-radius: 5px;
-  border: 1px solid grey;
+  border: 1px solid whitesmoke;
   padding: 10px;
   margin-bottom: 10px;
 }
@@ -222,4 +222,53 @@ mat-step {
   width: 70%;
   border-left: none;
   height: 300px;
+}
+
+.headers-align .mat-expansion-panel-header-title,
+.headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
+.headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.headers-align .mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}
+
+.exp-panel-head {
+  background: $background;
+  color: white;
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner:before {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  margin-left: -10px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  border-top-color: #000000;
+  animation: spinner 0.8s linear infinite;
+}
+
+.snackbar {
+  background: white;
+  color: black;
+  .mat-simple-snackbar-action {
+    color: $green !important;
+  }
 }
