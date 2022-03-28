@@ -10,7 +10,7 @@ export const selectNFTContent = createSelector(
 
 export const selectBarCharts = createSelector(
   selectNFT,
-  (state: NFTState) => state.nftContent.NFTContent.Barcharts
+  (state: NFTState) => state.nftContent.NFTContent.BarCharts
 );
 
 export const selectNFTImages = createSelector(
@@ -25,12 +25,12 @@ export const selectNoOfImages = createSelector(
 
 export const selectPieCharts = createSelector(
   selectNFT,
-  (state: NFTState) => state.nftContent.NFTContent.Piecharts
+  (state: NFTState) => state.nftContent.NFTContent.PieCharts
 );
 
 export const selectBubbleCharts = createSelector(
   selectNFT,
-  (state: NFTState) => state.nftContent.NFTContent.Bubblecharts
+  (state: NFTState) => state.nftContent.NFTContent.BubbleCharts
 );
 
 export const selectTable = createSelector(
@@ -70,17 +70,17 @@ export const selectNoOfCarbonFP = createSelector(
 
 export const selectNoOfBarCharts = createSelector(
   selectNFT,
-  (state: NFTState) => state.nftContent.NFTContent.Barcharts.length
+  (state: NFTState) => state.nftContent.NFTContent.BarCharts.length
 );
 
 export const selectNoOfPieCharts = createSelector(
   selectNFT,
-  (state: NFTState) => state.nftContent.NFTContent.Piecharts.length
+  (state: NFTState) => state.nftContent.NFTContent.PieCharts.length
 );
 
 export const selectNoOfBubbleCharts = createSelector(
   selectNFT,
-  (state: NFTState) => state.nftContent.NFTContent.Bubblecharts.length
+  (state: NFTState) => state.nftContent.NFTContent.BubbleCharts.length
 );
 
 export const selectNoOfTables = createSelector(
@@ -91,4 +91,9 @@ export const selectNoOfTables = createSelector(
 export const selectWidgetOrder = createSelector(
   selectNFT,
   (state: NFTState) => state.nftContent.ContentOrderData
+);
+
+export const selectProjectStatus = createSelector(
+  selectNFT,
+  (state: NFTState) => state.newProj
 );

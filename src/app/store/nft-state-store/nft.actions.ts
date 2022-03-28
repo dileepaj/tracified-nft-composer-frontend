@@ -1,6 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { CarbonFootprint } from 'src/models/nft-content/carbonFootprint';
 import { Image } from 'src/models/nft-content/image';
+import { NFTContent } from 'src/models/nft-content/nft.content';
 import { ProofBot } from 'src/models/nft-content/proofbot';
 import { Table } from 'src/models/nft-content/table';
 import { Timeline } from 'src/models/nft-content/timeline';
@@ -139,4 +140,14 @@ export const addToOrderArray = createAction(
 export const removeFromOrderArray = createAction(
   '[remove from order array] Remove From Order Array',
   props<{ widget: any }>()
+);
+
+export const loadProject = createAction(
+  '[load project] Load Project',
+  props<{ nftContent: NFTContent }>()
+);
+
+export const projectStatus = createAction(
+  '[set project status] Set Project Status',
+  props<{ status: boolean }>()
 );

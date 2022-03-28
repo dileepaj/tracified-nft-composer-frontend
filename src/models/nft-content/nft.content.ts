@@ -13,12 +13,12 @@ export interface NFTContent {
   UserId: string;
   TenentId: string;
   Timestamp: string;
-  Creator: string;
+  CreatorName: string;
   ContentOrderData: any[];
   NFTContent: {
-    Barcharts: Chart[];
-    Piecharts: Chart[];
-    Bubblecharts: Chart[];
+    BarCharts: Chart[];
+    PieCharts: Chart[];
+    BubbleCharts: Chart[];
     Stats: Stat[];
     Tables: Table[];
     Images: Image[];

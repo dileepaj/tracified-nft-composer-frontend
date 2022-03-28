@@ -32,7 +32,10 @@ import {
   timeline,
 } from 'src/models/nft-content/widgetTypes';
 import { NFTContent } from 'src/models/nft-content/nft.content';
-import { selectNFTContent } from 'src/app/store/nft-state-store/nft.selector';
+import {
+  selectNFTContent,
+  selectProjectStatus,
+} from 'src/app/store/nft-state-store/nft.selector';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 import { SidenavService } from 'src/app/services/sidenav.service';
 import { Observable } from 'rxjs';
@@ -46,8 +49,8 @@ export interface Widget {
   type: string;
   _Id?: string;
   used: boolean;
-  name: string;
-  icon: string;
+  name?: string;
+  icon?: string;
 }
 
 @Component({
@@ -287,7 +290,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
       Timestamp: this.nftContent.Timestamp,
       NFTName: this.nftContent.NFTName,
       UserId: this.nftContent.UserId,
-      CreatorName: this.nftContent.Creator,
+      CreatorName: this.nftContent.CreatorName,
       TenentId: this.nftContent.TenentId,
       TenentName: '',
       ContentOrderData: widgetArr,
@@ -309,6 +312,56 @@ export class ComposerComponent implements OnInit, AfterViewInit {
         this.saving = false;
       },
     });
+  }
+
+  updateProject() {
+    this.saving = true;
+    let widgetArr: any = [];
+    this.getNftContent();
+    this.usedWidgets.map((widget) => {
+      widgetArr.push({ WidgetId: widget._Id, Type: widget.type });
+    });
+    const project = {
+      ProjectName: this.nftContent.ProjectName,
+      ProjectId: this.nftContent.ProjectId,
+      Timestamp: this.nftContent.Timestamp,
+      NFTName: this.nftContent.NFTName,
+      UserId: this.nftContent.UserId,
+      CreatorName: this.nftContent.CreatorName,
+      TenentId: this.nftContent.TenentId,
+      TenentName: '',
+      ContentOrderData: widgetArr,
+    };
+
+    console.log(project);
+
+    this.composerService.updateProject(project).subscribe({
+      next: (res) => {
+        console.log(res);
+      },
+      error: (err) => {
+        alert('An unexpected error occured. Please try again later');
+        console.log(err);
+        this.saving = false;
+      },
+      complete: () => {
+        this.openSnackBar('Project Updated!!');
+        this.saving = false;
+      },
+    });
+  }
+
+  saveOrUpdateProject() {
+    let status = true;
+    this.store.select(selectProjectStatus).subscribe((s) => {
+      status = s;
+    });
+
+    if (status === true) {
+      this.saveProject();
+    } else {
+      this.updateProject();
+    }
   }
 
   openSnackBar(msg: string) {

@@ -17,6 +17,7 @@ import {
   deleteProofBot,
   deleteTable,
   deleteTimeline,
+  loadProject,
   removeFromOrderArray,
   setWidgetOrder,
   updateBarChart,
@@ -32,6 +33,7 @@ import { NFTContent } from '../../../models/nft-content/nft.content';
 
 export interface NFTState {
   nftContent: NFTContent;
+  newProj: boolean;
   error: string;
 }
 
@@ -41,14 +43,14 @@ export const initialNft: NFTState = {
     ProjectName: 'project1',
     NFTName: 'NFT1',
     UserId: 'abc123',
-    Creator: '',
+    CreatorName: '',
     TenentId: '784b5070-8248-11eb-bcac-339454a996be',
     Timestamp: new Date().toISOString(),
     ContentOrderData: [],
     NFTContent: {
-      Barcharts: [],
-      Piecharts: [],
-      Bubblecharts: [],
+      BarCharts: [],
+      PieCharts: [],
+      BubbleCharts: [],
       ProofBotData: [],
       Timeline: [],
       Stats: [],
@@ -57,18 +59,25 @@ export const initialNft: NFTState = {
       CarbonFootprint: [],
     },
   },
+  newProj: true,
   error: '',
 };
 
 export const nftReducer = createReducer(
   initialNft,
+  on(loadProject, (nft, { nftContent }) => ({
+    ...nft,
+    nftContent: nftContent,
+    newProj: false,
+  })),
+
   on(addBarChart, (nft, { chart }) => ({
     ...nft,
     nftContent: {
       ...nft.nftContent,
       NFTContent: {
         ...nft.nftContent.NFTContent,
-        Barcharts: [...nft.nftContent.NFTContent.Barcharts, chart],
+        Barcharts: [...nft.nftContent.NFTContent.BarCharts, chart],
       },
     },
   })),
@@ -79,7 +88,7 @@ export const nftReducer = createReducer(
       ...nft.nftContent,
       NFTContent: {
         ...nft.nftContent.NFTContent,
-        Piecharts: [...nft.nftContent.NFTContent.Piecharts, chart],
+        Piecharts: [...nft.nftContent.NFTContent.PieCharts, chart],
       },
     },
   })),
@@ -90,7 +99,7 @@ export const nftReducer = createReducer(
       ...nft.nftContent,
       NFTContent: {
         ...nft.nftContent.NFTContent,
-        Bubblecharts: [...nft.nftContent.NFTContent.Bubblecharts, chart],
+        Bubblecharts: [...nft.nftContent.NFTContent.BubbleCharts, chart],
       },
     },
   })),
@@ -167,39 +176,39 @@ export const nftReducer = createReducer(
   on(updateBarChart, (nft, { chart }) => {
     const nftClone: NFTState = JSON.parse(JSON.stringify(nft));
     let i = 0;
-    nftClone.nftContent.NFTContent.Barcharts.map((data) => {
+    nftClone.nftContent.NFTContent.BarCharts.map((data) => {
       if (data.WidgetId === chart.WidgetId) {
-        i = nftClone.nftContent.NFTContent.Barcharts.indexOf(data);
+        i = nftClone.nftContent.NFTContent.BarCharts.indexOf(data);
       }
       return data;
     });
-    nftClone.nftContent.NFTContent.Barcharts[i] = chart;
+    nftClone.nftContent.NFTContent.BarCharts[i] = chart;
     return nftClone;
   }),
 
   on(updatePieChart, (nft, { chart }) => {
     const nftClone: NFTState = JSON.parse(JSON.stringify(nft));
     let i = 0;
-    nftClone.nftContent.NFTContent.Piecharts.map((data) => {
+    nftClone.nftContent.NFTContent.PieCharts.map((data) => {
       if (data.WidgetId === chart.WidgetId) {
-        i = nftClone.nftContent.NFTContent.Piecharts.indexOf(data);
+        i = nftClone.nftContent.NFTContent.PieCharts.indexOf(data);
       }
       return data;
     });
-    nftClone.nftContent.NFTContent.Piecharts[i] = chart;
+    nftClone.nftContent.NFTContent.PieCharts[i] = chart;
     return nftClone;
   }),
 
   on(updateBubbleChart, (nft, { chart }) => {
     const nftClone: NFTState = JSON.parse(JSON.stringify(nft));
     let i = 0;
-    nftClone.nftContent.NFTContent.Bubblecharts.map((data) => {
+    nftClone.nftContent.NFTContent.BubbleCharts.map((data) => {
       if (data.WidgetId === chart.WidgetId) {
-        i = nftClone.nftContent.NFTContent.Bubblecharts.indexOf(data);
+        i = nftClone.nftContent.NFTContent.BubbleCharts.indexOf(data);
       }
       return data;
     });
-    nftClone.nftContent.NFTContent.Bubblecharts[i] = chart;
+    nftClone.nftContent.NFTContent.BubbleCharts[i] = chart;
     return nftClone;
   }),
 
@@ -271,8 +280,8 @@ export const nftReducer = createReducer(
   on(deleteBarChart, (nft, { chart }) => {
     const nftClone: NFTState = JSON.parse(JSON.stringify(nft));
     let i = 0;
-    nftClone.nftContent.NFTContent.Barcharts =
-      nftClone.nftContent.NFTContent.Barcharts.filter(
+    nftClone.nftContent.NFTContent.BarCharts =
+      nftClone.nftContent.NFTContent.BarCharts.filter(
         (data) => data.WidgetId !== chart.WidgetId
       );
     return nftClone;
@@ -281,8 +290,8 @@ export const nftReducer = createReducer(
   on(deletePieChart, (nft, { chart }) => {
     const nftClone: NFTState = JSON.parse(JSON.stringify(nft));
     let i = 0;
-    nftClone.nftContent.NFTContent.Piecharts =
-      nftClone.nftContent.NFTContent.Piecharts.filter(
+    nftClone.nftContent.NFTContent.PieCharts =
+      nftClone.nftContent.NFTContent.PieCharts.filter(
         (data) => data.WidgetId !== chart.WidgetId
       );
     return nftClone;
@@ -291,8 +300,8 @@ export const nftReducer = createReducer(
   on(deleteBubbleChart, (nft, { chart }) => {
     const nftClone: NFTState = JSON.parse(JSON.stringify(nft));
     let i = 0;
-    nftClone.nftContent.NFTContent.Bubblecharts =
-      nftClone.nftContent.NFTContent.Bubblecharts.filter(
+    nftClone.nftContent.NFTContent.BubbleCharts =
+      nftClone.nftContent.NFTContent.BubbleCharts.filter(
         (data) => data.WidgetId !== chart.WidgetId
       );
     return nftClone;

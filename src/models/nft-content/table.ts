@@ -7,6 +7,7 @@ export interface Table {
   ProjectName?: string;
   UserId?: string;
   OTPType?: string;
+  OTP?: string;
   Query?: string;
   WidgetType?: string;
   TableTitle?: string;

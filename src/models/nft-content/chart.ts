@@ -7,6 +7,7 @@ export interface Chart {
   ProjectName?: string;
   UserId?: string;
   OTPType?: string;
+  OTP?: string;
   Query?: string;
   WidgetType?: string;
   ChartTitle?: string;

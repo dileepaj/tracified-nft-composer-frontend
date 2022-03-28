@@ -33,7 +33,7 @@ export class ComposerBackendService {
   }
 
   public getRecentProjects(userName: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/composer/projcts/abc123`);
+    return this.http.get(`${this.apiUrl}/projects/${userName}`);
   }
 
   /**
@@ -109,5 +109,18 @@ export class ComposerBackendService {
    */
   public saveProject(project: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/project`, project, httpOptions);
+  }
+
+  /**
+   * @function updateProject - update existing NFT project
+   * @param - project
+   * @component - composer view
+   */
+  public updateProject(project: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/project`, project, httpOptions);
+  }
+
+  public openExistingProject(projectId: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/project/${projectId}`);
   }
 }
