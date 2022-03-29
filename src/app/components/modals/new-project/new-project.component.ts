@@ -55,7 +55,7 @@ export class NewProjectComponent implements OnInit {
 
       this.store.dispatch(newProject({ nftContent: project }));
       this.dndService.rewriteWidgetArr([]);
-      this.router.navigate(['/layouts']);
+      this.router.navigate([`/layouts/project/${project.ProjectId}`]);
       this.dialog.closeAll();
     } else {
       alert('Please give a project name and nft name');

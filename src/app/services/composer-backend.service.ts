@@ -9,8 +9,6 @@ import { NFTContent } from 'src/models/nft-content/nft.content';
 import { QueryExecuter } from 'src/models/nft-content/queryExecuter';
 import { Table } from 'src/models/nft-content/table';
 
-
-
 @Injectable({
   providedIn: 'root',
 })
@@ -26,7 +24,7 @@ export class ComposerBackendService {
     const headersConfig = {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization:'Bearer '+ sessionStorage.getItem('Token')||'',
+      Authorization: 'Bearer ' + sessionStorage.getItem('Token') || '',
     };
     return new HttpHeaders(headersConfig);
   }
@@ -38,7 +36,7 @@ export class ComposerBackendService {
       `${this.apiUrl}/query/execute`,
       query,
       {
-        headers:this.setHeaders()
+        headers: this.setHeaders(),
       }
     );
   }
@@ -126,7 +124,9 @@ export class ComposerBackendService {
    */
   public updateWidget(widget: any): Observable<any> {
     console.log('request body', widget);
-    return this.http.put<any>(`${this.apiUrl}/widget`, widget, httpOptions);
+    return this.http.put<any>(`${this.apiUrl}/widget`, widget, {
+      headers: this.setHeaders(),
+    });
   }
 
   /**
@@ -147,11 +147,9 @@ export class ComposerBackendService {
    */
   public updateChart(chart: Chart): Observable<Chart> {
     console.log('request body', chart);
-    return this.http.put<Chart>(
-      `${this.apiUrl}/html/chart`,
-      chart,
-      httpOptions
-    );
+    return this.http.put<Chart>(`${this.apiUrl}/html/chart`, chart, {
+      headers: this.setHeaders(),
+    });
   }
 
   /**
@@ -161,11 +159,9 @@ export class ComposerBackendService {
    */
   public updateTable(table: Table): Observable<Table> {
     console.log('request body', table);
-    return this.http.put<Table>(
-      `${this.apiUrl}/html/table`,
-      table,
-      httpOptions
-    );
+    return this.http.put<Table>(`${this.apiUrl}/html/table`, table, {
+      headers: this.setHeaders(),
+    });
   }
 
   public openExistingProject(projectId: string): Observable<any> {

@@ -55,26 +55,25 @@ export class LoginComponent implements OnInit {
     ).toString();
 
     this._userService.login(user).subscribe((data) => {
-     
-        sessionStorage.setItem('Token', data.Token);
-        let decoded:ComposerUser = jwt_decode(data.Token, { header: true });
-        let user1 = {
-          UserID: 'qqqqq',
-          UserName: 'aaaaa',
-          Email: '',
-          TenentId: '',
-          displayImage: '',
-          Company: '',
-          Type: '',
-          Country: '',
-          Domain: '',
-        };
-        this.store.dispatch(addUser({ userDetails: user1 }));
-        this.router.navigate(['/projects']).then(() => {
-          window.location.reload();
-        });
-        sessionStorage.setItem('authorized', 'authorized');
-      
+      sessionStorage.setItem('Token', data.Token);
+      let decoded: ComposerUser = jwt_decode(data.Token, { header: true });
+      let user1: ComposerUser = {
+        UserID: 'qqqqq',
+        UserName: 'aaaaa',
+        Email: '',
+        TenentId: '',
+        displayImage: '',
+        Company: '',
+        Type: '',
+        Country: '',
+        Domain: '',
+      };
+      console.log(user1);
+      this.store.dispatch(addUser({ userDetails: user1 }));
+      this.router.navigate(['/projects']).then(() => {
+        window.location.reload();
+      });
+      sessionStorage.setItem('authorized', 'authorized');
     });
   }
 }

@@ -67,6 +67,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CookieService } from 'ngx-cookie-service';
 import { NewProjectComponent } from './components/modals/new-project/new-project.component';
+import { userReducer } from './store/user-state-store/user.reducer';
 
 //import { AceEditorModule } from 'ng2-ace-editor';
 const appRoutes: Routes = [
@@ -177,7 +178,7 @@ const appRoutes: Routes = [
     MatStepperModule,
     //AceEditorModule,
     RouterModule.forRoot(appRoutes),
-    StoreModule.forRoot({ nft: nftReducer }),
+    StoreModule.forRoot({ nft: nftReducer, user: userReducer }),
   ],
   providers: [CookieService],
   bootstrap: [AppComponent],

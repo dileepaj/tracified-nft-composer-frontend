@@ -22,7 +22,7 @@ export const initialUser: UserState = {
   error: '',
 };
 
-export const nftReducer = createReducer(
+export const userReducer = createReducer(
   initialUser,
   on(addUser, (userState, { userDetails }) => ({
     ...userState,

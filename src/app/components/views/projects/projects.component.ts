@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import {  NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
@@ -9,7 +8,10 @@ import { ComposerBackendService } from 'src/app/services/composer-backend.servic
 import { DndServiceService } from 'src/app/services/dnd-service.service';
 import { AppState } from 'src/app/store/app.state';
 import { loadProject } from 'src/app/store/nft-state-store/nft.actions';
-import { selectUser } from 'src/app/store/user-state-store/user.selector';
+import {
+  selectUser,
+  selectUserDetail,
+} from 'src/app/store/user-state-store/user.selector';
 import { Chart } from 'src/models/nft-content/chart';
 import { RecentProject } from 'src/models/nft-content/htmlGenerator';
 import { Image } from 'src/models/nft-content/image';
@@ -19,6 +21,9 @@ import { Table } from 'src/models/nft-content/table';
 import { Timeline } from 'src/models/nft-content/timeline';
 import { NewProjectComponent } from '../../modals/new-project/new-project.component';
 import { Widget } from '../composer/composer.component';
+import { User } from 'src/app/entity/artifact';
+import { UserState } from 'src/app/store/user-state-store/user.reducer';
+import { ComposerUser } from 'src/models/user';
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
@@ -29,6 +34,7 @@ export class ProjectsComponent implements OnInit {
   loadedProject: NFTContent;
   subscription: Subscription;
   gridColumns = 4;
+  user: ComposerUser;
   constructor(
     private store: Store<AppState>,
     private router: Router,
@@ -42,6 +48,10 @@ export class ProjectsComponent implements OnInit {
       if (result) {
         this.projects = result.Response;
       }
+    });
+
+    this.store.select(selectUserDetail).subscribe((user) => {
+      console.log(user);
     });
   }
 
