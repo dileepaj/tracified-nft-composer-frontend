@@ -5,4 +5,4 @@ export const table = 'Table';
 export const timeline = 'Timeline';
 export const carbonFp = 'CarbonFootPrint';
 export const proofbot = 'ProofBot';
-export const nftimage = 'NFTImage';
+export const nftimage = 'Image';
