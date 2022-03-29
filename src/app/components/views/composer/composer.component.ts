@@ -276,7 +276,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     var a = document.createElement('a');
     var blob = new Blob([content], { type: type });
     a.href = window.URL.createObjectURL(blob);
-    a.download = name;
+    a.download = name + '.html';
     a.click();
   }
 

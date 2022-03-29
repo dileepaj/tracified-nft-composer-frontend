@@ -15,6 +15,7 @@ export class HeaderComponent implements OnInit {
   logout() {
     this.router.navigate(['/login']);
     sessionStorage.setItem('authorized', 'NOT');
+    sessionStorage.setItem('Token', '');
   }
 
   toggleSideBar() {

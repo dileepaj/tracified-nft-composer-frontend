@@ -5,10 +5,12 @@ import { AES } from 'crypto-js';
 import { UserserviceService } from 'src/app/services/userservice.service';
 import { Key } from 'src/app/entity/Variables';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { CookieService } from 'ngx-cookie-service';
-import { BToken } from 'src/app/entity/artifact';
-// import { ExpService } from 'src/app/services/exp.service';
-// import { JwtserviceService } from 'src/app/services/jwtservice.service';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/store/app.state';
+import { addUser } from 'src/app/store/user-state-store/user.action';
+import jwt_decode from 'jwt-decode';
+import { ComposerUser } from 'src/models/user';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -20,14 +22,12 @@ export class LoginComponent implements OnInit {
   public newPassword = 'none';
   public loginForm: FormGroup;
   sKey = 'hackerkaidagalbanisbaby'.split('').reverse().join('');
-  public userToken :string;
+  public userToken: string;
 
   constructor(
     private router: Router,
-    // private jwtService: JwtserviceService,
-    // private expService: ExpService,
     private _userService: UserserviceService,
-    private cookieService: CookieService
+    private store: Store<AppState>
   ) {}
 
   ngOnInit(): void {
@@ -46,8 +46,6 @@ export class LoginComponent implements OnInit {
   public onSubmit(data: any) {
     const key: any = new Key();
     const user: UserLogin = new UserLogin();
-    console.log('Entered username: ', data.email);
-    console.log('Entered password: ', data.password);
 
     user.username = AES.encrypt(data.email, this.sKey).toString();
     user.password = AES.encrypt(data.password, this.sKey).toString();
@@ -56,14 +54,27 @@ export class LoginComponent implements OnInit {
       this.sKey
     ).toString();
 
-    console.log('Encrypted Username ', user.username);
-    console.log('Encrypted Password ', user.password);
-
     this._userService.login(user).subscribe((data) => {
-      this.cookieService.set('Token', data.Token);
+     
+        sessionStorage.setItem('Token', data.Token);
+        let decoded:ComposerUser = jwt_decode(data.Token, { header: true });
+        let user1 = {
+          UserID: 'qqqqq',
+          UserName: 'aaaaa',
+          Email: '',
+          TenentId: '',
+          displayImage: '',
+          Company: '',
+          Type: '',
+          Country: '',
+          Domain: '',
+        };
+        this.store.dispatch(addUser({ userDetails: user1 }));
+        this.router.navigate(['/projects']).then(() => {
+          window.location.reload();
+        });
+        sessionStorage.setItem('authorized', 'authorized');
       
-      this.router.navigate(['/projects']);
-      sessionStorage.setItem('authorized', 'authorized');
     });
   }
 }
