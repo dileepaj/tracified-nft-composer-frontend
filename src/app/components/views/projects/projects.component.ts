@@ -24,6 +24,12 @@ import { Widget } from '../composer/composer.component';
 import { User } from 'src/app/entity/artifact';
 import { UserState } from 'src/app/store/user-state-store/user.reducer';
 import { ComposerUser } from 'src/models/user';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
+import { UserserviceService } from 'src/app/services/userservice.service';
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
@@ -35,23 +41,34 @@ export class ProjectsComponent implements OnInit {
   subscription: Subscription;
   gridColumns = 4;
   user: ComposerUser;
+  loading: boolean = false;
+  projToBeLoaded: string = '';
+
+  horizontalPosition: MatSnackBarHorizontalPosition = 'end';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+
   constructor(
     private store: Store<AppState>,
     private router: Router,
     private apiService: ComposerBackendService,
     private dndService: DndServiceService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private _snackBar: MatSnackBar,
+    private userService: UserserviceService
   ) {}
 
   ngOnInit(): void {
-    this.apiService.getRecentProjects('abc123').subscribe((result) => {
-      if (result) {
-        this.projects = result.Response;
-      }
-    });
-
+    this.loading = true;
     this.store.select(selectUserDetail).subscribe((user) => {
-      console.log(user);
+      this.user = user;
+      this.apiService
+        .getRecentProjects(this.user.UserID)
+        .subscribe((result) => {
+          if (result) {
+            this.projects = result.Response;
+          }
+          this.loading = false;
+        });
     });
   }
 
@@ -72,7 +89,11 @@ export class ProjectsComponent implements OnInit {
   }
 
   openNewProject() {
-    const dialogRef = this.dialog.open(NewProjectComponent);
+    const dialogRef = this.dialog.open(NewProjectComponent, {
+      data: {
+        user: this.user,
+      },
+    });
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log(result);
@@ -80,6 +101,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   openExistingProject(id: string) {
+    this.projToBeLoaded = id;
     this.apiService.openExistingProject(id).subscribe({
       next: (data) => {
         const proj = data.Response;
@@ -205,12 +227,25 @@ export class ProjectsComponent implements OnInit {
 
         this.store.dispatch(loadProject({ nftContent: this.loadedProject }));
         this.addDragAndDropArray(this.loadedProject.ContentOrderData);
+
+        this.projToBeLoaded = '';
         this.router.navigate([`/layouts/project/${proj.Project.ProjectId}`]);
       },
       error: (err) => {
         console.log(err);
-        alert('An unexpected error occured. Please try again later.');
+        this.openSnackBar(
+          'An unexpected error occured. Please try again later.'
+        );
       },
+    });
+  }
+
+  openSnackBar(msg: string) {
+    this._snackBar.open(msg, 'OK', {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+      panelClass: ['snackbar'],
+      duration: 5 * 1000,
     });
   }
 }

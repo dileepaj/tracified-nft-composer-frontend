@@ -33,6 +33,8 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
   loading: boolean = false;
   horizontalPosition: MatSnackBarHorizontalPosition = 'end';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+  queryRes = false;
+  res: any;
 
   keyWordList2: any = [
     'If',
@@ -291,18 +293,25 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
 
     console.log(queryObject);
     this.apiService.executeQueryAndUpdate(queryObject).subscribe({
-      next: (result) => {
+      next: (result: any) => {
         if (result) {
           //get result
           console.log(result);
-          this.onQuerySuccess.emit(queryObject.Query);
+          this.onQuerySuccess.emit({
+            query: queryObject.Query,
+            result: result,
+          });
           this.loading = false;
+          this.res = result;
         }
       },
       error: (err) => {
         console.log(err);
         this.loading = false;
         alert('An unexpected error occured. Please try again later');
+      },
+      complete: () => {
+        this.queryRes = true;
       },
     });
   }

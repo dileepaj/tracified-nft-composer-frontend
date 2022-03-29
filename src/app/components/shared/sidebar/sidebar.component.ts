@@ -160,7 +160,6 @@ export class SidebarComponent implements OnInit {
     let bool = false;
     this.barChartCount.subscribe((count) => {
       c = count;
-      console.log(c);
     });
 
     if (c > 0) {

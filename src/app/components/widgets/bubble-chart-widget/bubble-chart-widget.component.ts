@@ -13,6 +13,7 @@ import {
   selectNFTContent,
 } from 'src/app/store/nft-state-store/nft.selector';
 import { Chart } from 'src/models/nft-content/chart';
+import { NFTContent } from 'src/models/nft-content/nft.content';
 import { bubblechart } from 'src/models/nft-content/widgetTypes';
 import { ConfigureBubbleChartComponent } from '../../modals/configure-bubble-chart/configure-bubble-chart.component';
 import { WidgetContentComponent } from '../../modals/widget-content/widget-content.component';
@@ -26,14 +27,14 @@ export class BubbleChartWidgetComponent implements OnInit {
   @Input() id: any;
   @Output() onDeleteWidget: EventEmitter<any> = new EventEmitter();
   bubbleChart: Chart;
-  projectId: string;
+  nftContent: NFTContent;
   constructor(
     private store: Store<AppState>,
     public dialog: MatDialog,
     private service: DndServiceService
   ) {
     this.store.select(selectNFTContent).subscribe((content) => {
-      this.projectId = content.ProjectId;
+      this.nftContent = content;
     });
   }
 
@@ -72,8 +73,8 @@ export class BubbleChartWidgetComponent implements OnInit {
     this.bubbleChart = {
       WidgetId: this.id,
       WidgetType: bubblechart,
-      ProjectId: this.projectId,
-      ProjectName: 'project1',
+      ProjectId: this.nftContent.ProjectId,
+      ProjectName: this.nftContent.ProjectName,
       ChartTitle: 'Bubble Chart',
       KeyTitle: 'Name',
       ValueTitle: 'Value',
@@ -117,6 +118,7 @@ export class BubbleChartWidgetComponent implements OnInit {
     const dialogRef = this.dialog.open(WidgetContentComponent, {
       data: {
         id: this.id,
+        userId: this.nftContent.UserId,
         widget: this.bubbleChart,
       },
     });

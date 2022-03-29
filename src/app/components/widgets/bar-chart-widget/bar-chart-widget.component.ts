@@ -26,6 +26,7 @@ import { WidgetContentComponent } from '../../modals/widget-content/widget-conte
 import { Widget } from '../../views/composer/composer.component';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
 import { barchart } from 'src/models/nft-content/widgetTypes';
+import { NFTContent } from 'src/models/nft-content/nft.content';
 
 @Component({
   selector: 'app-bar-chart-widget',
@@ -37,7 +38,8 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
   @Output() onDeleteWidget: EventEmitter<any> = new EventEmitter();
   barchart$: Observable<Chart[]>;
   barChart: Chart;
-  projectId: string;
+
+  nftContent: NFTContent;
   @Input() widget: Widget;
 
   constructor(
@@ -47,7 +49,7 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
   ) {
     this.barchart$ = this.store.select(selectBarCharts);
     this.store.select(selectNFTContent).subscribe((content) => {
-      this.projectId = content.ProjectId;
+      this.nftContent = content;
     });
   }
 
@@ -90,8 +92,8 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
     this.barChart = {
       WidgetId: this.id,
       WidgetType: barchart,
-      ProjectId: this.projectId,
-      ProjectName: 'project1',
+      ProjectId: this.nftContent.ProjectId,
+      ProjectName: this.nftContent.ProjectName,
       ChartTitle: 'Bar Chart',
       KeyTitle: 'Name',
       ValueTitle: 'Value',
@@ -119,6 +121,7 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
     this.store.dispatch(addBarChart({ chart: this.barChart }));
     this.getBarChart();
     this.service.updateUsedStatus(this.id);
+    console.log(this.nftContent.UserId);
   }
 
   //get chart from redux
@@ -138,6 +141,7 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(WidgetContentComponent, {
       data: {
         id: this.id,
+        userId: this.nftContent.UserId,
         widget: this.barChart,
       },
     });

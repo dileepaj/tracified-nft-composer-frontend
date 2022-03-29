@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
@@ -9,6 +9,7 @@ import {
   newProject,
 } from 'src/app/store/nft-state-store/nft.actions';
 import { NFTContent } from 'src/models/nft-content/nft.content';
+import { ComposerUser } from 'src/models/user';
 
 @Component({
   selector: 'app-new-project',
@@ -18,14 +19,18 @@ import { NFTContent } from 'src/models/nft-content/nft.content';
 export class NewProjectComponent implements OnInit {
   projectName: string = '';
   nftName: string = '';
+  user: ComposerUser;
   constructor(
     private store: Store<AppState>,
     private dialog: MatDialog,
     private dndService: DndServiceService,
-    private router: Router
+    private router: Router,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.user = this.data.user;
+  }
 
   createProject() {
     if (this.projectName !== '' && this.nftName !== '') {
@@ -33,8 +38,8 @@ export class NewProjectComponent implements OnInit {
         ProjectId: Date.now().toString(),
         ProjectName: this.projectName,
         NFTName: this.nftName,
-        UserId: 'abc123',
-        TenentId: '784b5070-8248-11eb-bcac-339454a996be',
+        UserId: this.user.UserID,
+        TenentId: this.user.TenentId,
         Timestamp: new Date().toISOString(),
         CreatorName: '',
         ContentOrderData: [],

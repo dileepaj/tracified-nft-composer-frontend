@@ -10,6 +10,7 @@ import { SelectMasterDataTypeComponent } from '../select-master-data-type/select
 })
 export class WidgetContentComponent implements OnInit {
   id: any;
+  userId: string;
   widget: any;
   constructor(
     public dialog: MatDialog,
@@ -18,6 +19,7 @@ export class WidgetContentComponent implements OnInit {
 
   ngOnInit(): void {
     this.id = this.data.id;
+    this.userId = this.data.userId;
     this.widget = this.data.widget;
   }
 
@@ -26,18 +28,19 @@ export class WidgetContentComponent implements OnInit {
     const dialogRef = this.dialog.open(SelectBatchComponent, {
       data: {
         id: this.id,
+        userId: this.userId,
         widget: this.widget,
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-    });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
 
   openMasterDataSelection() {
     const dialogRef = this.dialog.open(SelectMasterDataTypeComponent, {
       data: {
         id: this.id,
+        userId: this.userId,
         widget: this.widget,
       },
     });

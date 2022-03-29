@@ -47,6 +47,11 @@ import {
   timeline,
 } from 'src/models/nft-content/widgetTypes';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-select-batch',
@@ -57,10 +62,13 @@ import { DndServiceService } from 'src/app/services/dnd-service.service';
 export class SelectBatchComponent implements OnInit {
   @ViewChild('stepper') private myStepper: MatStepper;
   id: any;
+  userId: string = '';
   widget: any;
   chart: any;
   totalBatches: number = 10;
   page: number = 0;
+  horizontalPosition: MatSnackBarHorizontalPosition = 'end';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   productsLoading: boolean = true;
   batchesLoading: boolean = true;
   dateRange = new FormGroup({
@@ -108,11 +116,13 @@ export class SelectBatchComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private batchesService: BatchesService,
     private composerService: ComposerBackendService,
-    private dndService: DndServiceService
+    private dndService: DndServiceService,
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
     this.id = this.data.id;
+    this.userId = this.data.userId;
     this.widget = this.data.widget;
     console.log(this.widget);
     this.products.filterPredicate = (data: any, filter: string) =>
@@ -335,6 +345,7 @@ export class SelectBatchComponent implements OnInit {
   }
 
   private saveWidget() {
+    console.log(this.userId);
     const widget = {
       Timestamp: new Date().toISOString(),
       ProjectId: this.widget.ProjectId,
@@ -344,7 +355,7 @@ export class SelectBatchComponent implements OnInit {
       ProductId: this.selectedProduct.itemID,
       ProductName: this.selectedProduct.itemName,
       TenentId: this.selectedBatch.tenantId,
-      UserId: 'User1',
+      UserId: this.userId,
       OTP: '',
       Query: '',
       OTPType: 'Batch',
@@ -358,10 +369,13 @@ export class SelectBatchComponent implements OnInit {
         error: (err) => {
           this.saving = false;
           console.log(err);
-          alert('An unexpected error occured. Please try again later');
+          this.openSnackBar(
+            'An unexpected error occured. Please try again later'
+          );
         },
         complete: () => {
           this.saving = false;
+          this.openSnackBar('Saved!!');
           this.dndService.setBatchStatus(widget.WidgetId);
           this.close();
         },
@@ -372,11 +386,13 @@ export class SelectBatchComponent implements OnInit {
         error: (err) => {
           this.saving = false;
           console.log(err);
-          alert('An unexpected error occured. Please try again later');
+          this.openSnackBar(
+            'An unexpected error occured. Please try again later'
+          );
         },
         complete: () => {
           this.saving = false;
-
+          this.openSnackBar('Saved!!');
           this.close();
         },
       });
@@ -396,5 +412,14 @@ export class SelectBatchComponent implements OnInit {
     });
 
     return tdArr;
+  }
+
+  openSnackBar(msg: string) {
+    this._snackBar.open(msg, 'OK', {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+      panelClass: ['snackbar'],
+      duration: 5 * 1000,
+    });
   }
 }

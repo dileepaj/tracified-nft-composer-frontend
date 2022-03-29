@@ -9,8 +9,8 @@ export interface UserState {
 
 export const initialUser: UserState = {
   userDetails: {
-    UserID: 'qaa',
-    UserName: 'dddd',
+    UserID: '',
+    UserName: '',
     Email: '',
     TenentId: '',
     displayImage: '',

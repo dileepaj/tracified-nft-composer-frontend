@@ -21,6 +21,7 @@
     </div>
   </div>
   <mat-divider></mat-divider>
+  <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
   <div layout-margin>
     <div fxLayout="row wrap" fxLayoutGap="16px grid" class="md-margin">
       <div
@@ -40,8 +41,11 @@
               mat-flat-button
               color="primary"
               class="green-button"
+              [disabled]="projToBeLoaded === project.ProjectId"
               (click)="openExistingProject(project.ProjectId)"
             >
+              <span [class.spinner]="projToBeLoaded === project.ProjectId">
+              </span>
               Open
             </button>
           </mat-card-actions>

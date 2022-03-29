@@ -19,6 +19,7 @@ import {
   selectNFTContent,
   selectTable,
 } from 'src/app/store/nft-state-store/nft.selector';
+import { NFTContent } from 'src/models/nft-content/nft.content';
 import { Table } from 'src/models/nft-content/table';
 import { table } from 'src/models/nft-content/widgetTypes';
 import { ConfigureTableComponent } from '../../modals/configure-table/configure-table.component';
@@ -35,6 +36,9 @@ export class TableComponent implements OnInit {
   nft$: any;
   projectId: string;
   table: Table;
+  projectName: string;
+
+  nftContent: NFTContent;
   constructor(
     private store: Store<AppState>,
     public dialog: MatDialog,
@@ -42,7 +46,7 @@ export class TableComponent implements OnInit {
   ) {
     this.nft$ = this.store.select(selectNFTContent);
     this.store.select(selectNFTContent).subscribe((content) => {
-      this.projectId = content.ProjectId;
+      this.nftContent = content;
     });
     //this.image$ = this.store.select(selectNFTImages);
   }
@@ -60,8 +64,8 @@ export class TableComponent implements OnInit {
   private addTableToStore() {
     this.table = {
       WidgetId: this.id,
-      ProjectId: this.projectId,
-      ProjectName: 'project1',
+      ProjectId: this.nftContent.ProjectId,
+      ProjectName: this.nftContent.ProjectName,
       WidgetType: table,
       TableTitle: 'Table',
       TableContent: '',
@@ -112,6 +116,7 @@ export class TableComponent implements OnInit {
     const dialogRef = this.dialog.open(WidgetContentComponent, {
       data: {
         id: this.id,
+        userId: this.nftContent.UserId,
         widget: this.table,
       },
     });

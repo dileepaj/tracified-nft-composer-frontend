@@ -216,11 +216,11 @@ export class ConfigureBarChartComponent implements OnInit {
     };
 
     this.saveChart(this.barChart);
-    this.barChart = {
+    /*this.barChart = {
       ...this.barChart,
       Height: this.height,
       Width: this.width,
-    };
+    };*/
     this.store.dispatch(updateBarChart({ chart: this.barChart }));
   }
 
@@ -282,12 +282,14 @@ export class ConfigureBarChartComponent implements OnInit {
         error: (err) => {
           this.saving = false;
           console.log(err);
-          alert('An unexpected error occured. Please try again later');
+          this.openSnackBar(
+            'An unexpected error occured. Please try again later'
+          );
         },
         complete: () => {
           this.saving = false;
           this.dndService.setSavedStatus(chart.WidgetId);
-          //this.openSnackBar('Saved!!');
+          this.openSnackBar('Saved!!');
           this.dialog.closeAll();
         },
       });
@@ -297,20 +299,22 @@ export class ConfigureBarChartComponent implements OnInit {
         error: (err) => {
           this.saving = false;
           console.log(err);
-          alert('An unexpected error occured. Please try again later');
+          this.openSnackBar(
+            'An unexpected error occured. Please try again later'
+          );
         },
         complete: () => {
           this.saving = false;
-          //this.openSnackBar('Saved!!');
+          this.openSnackBar('Saved!!');
           this.dialog.closeAll();
         },
       });
     }
   }
 
-  public addQuery(event: any) {
+  public onQuerySuccess(event: any) {
     console.log(event);
-    this.query = event;
+    this.query = event.query;
   }
 
   openSnackBar(msg: string) {

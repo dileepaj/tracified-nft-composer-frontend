@@ -1,5 +1,10 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Store } from '@ngrx/store';
 import * as d3 from 'd3';
@@ -64,12 +69,16 @@ export class ConfigureBubbleChartComponent implements OnInit {
 
   saving: boolean = false;
 
+  horizontalPosition: MatSnackBarHorizontalPosition = 'end';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+
   constructor(
     private store: Store<AppState>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialog: MatDialog,
     private composerService: ComposerBackendService,
-    private dndService: DndServiceService
+    private dndService: DndServiceService,
+    private _snackBar: MatSnackBar
   ) {
     this.nft$ = this.store.select(selectNFTContent);
   }
@@ -242,10 +251,13 @@ export class ConfigureBubbleChartComponent implements OnInit {
         error: (err) => {
           this.saving = false;
           console.log(err);
-          alert('An unexpected error occured. Please try again later');
+          this.openSnackBar(
+            'An unexpected error occured. Please try again later'
+          );
         },
         complete: () => {
           this.saving = false;
+          this.openSnackBar('Saved!!');
           this.dndService.setSavedStatus(chart.WidgetId);
           this.dialog.closeAll();
         },
@@ -256,10 +268,13 @@ export class ConfigureBubbleChartComponent implements OnInit {
         error: (err) => {
           this.saving = false;
           console.log(err);
-          alert('An unexpected error occured. Please try again later');
+          this.openSnackBar(
+            'An unexpected error occured. Please try again later'
+          );
         },
         complete: () => {
           this.saving = false;
+          this.openSnackBar('Saved!!');
           this.dialog.closeAll();
         },
       });
@@ -269,5 +284,14 @@ export class ConfigureBubbleChartComponent implements OnInit {
   public addQuery(event: any) {
     console.log(event);
     this.query = event;
+  }
+
+  openSnackBar(msg: string) {
+    this._snackBar.open(msg, 'OK', {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+      panelClass: ['snackbar'],
+      duration: 5 * 1000,
+    });
   }
 }

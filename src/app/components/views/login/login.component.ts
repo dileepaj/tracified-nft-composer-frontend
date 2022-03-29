@@ -54,26 +54,33 @@ export class LoginComponent implements OnInit {
       this.sKey
     ).toString();
 
-    this._userService.login(user).subscribe((data) => {
-      sessionStorage.setItem('Token', data.Token);
-      let decoded: ComposerUser = jwt_decode(data.Token, { header: true });
-      let user1: ComposerUser = {
-        UserID: 'qqqqq',
-        UserName: 'aaaaa',
-        Email: '',
-        TenentId: '',
-        displayImage: '',
-        Company: '',
-        Type: '',
-        Country: '',
-        Domain: '',
-      };
-      console.log(user1);
-      this.store.dispatch(addUser({ userDetails: user1 }));
-      this.router.navigate(['/projects']).then(() => {
-        window.location.reload();
-      });
-      sessionStorage.setItem('authorized', 'authorized');
+    this._userService.login(user).subscribe({
+      next: (data) => {
+        sessionStorage.setItem('Token', data.Token);
+        let decoded: any = jwt_decode(data.Token, { header: false });
+        let user1: ComposerUser = {
+          UserID: decoded.userID,
+          UserName: decoded.username,
+          Email: decoded.email,
+          TenentId: decoded.tenantID,
+          displayImage: decoded.displayImage,
+          Company: decoded.company,
+          Type: decoded.type,
+          Country: decoded.locale,
+          Domain: decoded.domain,
+        };
+        console.log('deocded', decoded);
+        sessionStorage.setItem('UserId', decoded.userID);
+        this.store.dispatch(addUser({ userDetails: user1 }));
+        sessionStorage.setItem('authorized', 'authorized');
+      },
+      error: (err) => {
+        console.log(err);
+        alert('Error!');
+      },
+      complete: () => {
+        this.router.navigate(['/projects']);
+      },
     });
   }
 }

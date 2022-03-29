@@ -11,6 +11,10 @@
     mode="indeterminate"
     *ngIf="loading"
   ></mat-progress-bar>
-
-  <div class="ace-editor" #editor></div>
+  <div class="query-area">
+    <div class="ace-editor" #editor></div>
+    <div class="results" *ngIf="queryRes">
+      {{ res }}
+    </div>
+  </div>
 </div>
