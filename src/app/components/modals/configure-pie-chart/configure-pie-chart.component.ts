@@ -176,23 +176,6 @@ export class ConfigurePieChartComponent implements OnInit {
 
   //update redux state
   updateReduxState() {
-    /*this.pieChart = {
-      WidgetId: this.chartId,
-      WidgetType: 'pie',
-      ChartTitle: this.title,
-      BactchId: this.batchId,
-      ProductName: this.productName,
-      KeyTitle: 'name',
-      ValueTitle: 'value',
-      Query: this.query,
-      ChartData: this.pieChartData,
-      Color: this.fieldColors,
-      FontColor: this.fontColor,
-      FontSize: this.fontSize,
-      Height: this.height,
-      Width: this.width,
-    };*/
-
     this.saving = true;
 
     this.pieChart = {
@@ -208,6 +191,13 @@ export class ConfigurePieChartComponent implements OnInit {
     };
 
     this.saveChart(this.pieChart);
+
+    this.pieChart = {
+      ...this.pieChart,
+      Height: this.height,
+      Width: this.width,
+    };
+
     this.store.dispatch(updatePieChart({ chart: this.pieChart }));
   }
 

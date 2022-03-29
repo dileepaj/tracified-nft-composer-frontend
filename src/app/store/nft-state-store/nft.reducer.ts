@@ -84,7 +84,7 @@ export const nftReducer = createReducer(
       ...nft.nftContent,
       NFTContent: {
         ...nft.nftContent.NFTContent,
-        Barcharts: [...nft.nftContent.NFTContent.BarCharts, chart],
+        BarCharts: [...nft.nftContent.NFTContent.BarCharts, chart],
       },
     },
   })),
@@ -95,7 +95,7 @@ export const nftReducer = createReducer(
       ...nft.nftContent,
       NFTContent: {
         ...nft.nftContent.NFTContent,
-        Piecharts: [...nft.nftContent.NFTContent.PieCharts, chart],
+        PieCharts: [...nft.nftContent.NFTContent.PieCharts, chart],
       },
     },
   })),
@@ -106,7 +106,7 @@ export const nftReducer = createReducer(
       ...nft.nftContent,
       NFTContent: {
         ...nft.nftContent.NFTContent,
-        Bubblecharts: [...nft.nftContent.NFTContent.BubbleCharts, chart],
+        BubbleCharts: [...nft.nftContent.NFTContent.BubbleCharts, chart],
       },
     },
   })),

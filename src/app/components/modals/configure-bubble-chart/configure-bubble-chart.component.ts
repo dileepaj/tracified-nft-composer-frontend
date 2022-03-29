@@ -166,24 +166,6 @@ export class ConfigureBubbleChartComponent implements OnInit {
 
   //update redux store
   updateReduxState() {
-    /*this.bubbleChart = {
-      WidgetId: this.chartId,
-      WidgetType: 'bubble',
-      ChartTitle: this.title,
-      BactchId: this.batchId,
-      ProductName: this.productName,
-      KeyTitle: 'name',
-      ValueTitle: 'val',
-      Query: this.query,
-      ChartData: this.bubbleChartData,
-      Color: this.bubbleColors,
-      Radius: this.radius,
-      FontColor: this.fontColor,
-      FontSize: this.fontSize,
-      Height: this.height,
-      Width: this.width,
-    };*/
-
     this.saving = true;
     this.bubbleChart = {
       ...this.bubbleChart,
@@ -199,6 +181,11 @@ export class ConfigureBubbleChartComponent implements OnInit {
     };
 
     this.saveChart(this.bubbleChart);
+    this.bubbleChart = {
+      ...this.bubbleChart,
+      Height: this.height,
+      Width: this.width,
+    };
     this.store.dispatch(updateBubbleChart({ chart: this.bubbleChart }));
   }
 

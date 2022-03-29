@@ -188,8 +188,6 @@ export class ConfigureBarChartComponent implements OnInit {
     this.updateChart();
   }
 
-  private showChart() {}
-
   //called when user moves to a different tab
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     if (tabChangeEvent.index === 1) {
@@ -201,26 +199,6 @@ export class ConfigureBarChartComponent implements OnInit {
 
   //update redux store
   updateReduxState() {
-    /*this.barChart = {
-      WidgetId: this.chartId,
-      WidgetType: 'bar',
-      ChartTitle: this.title,
-      BactchId: this.batchId,
-      ProductName: this.productName,
-      ProjectId: this.projectId,
-      KeyTitle: 'name',
-      ValueTitle: 'value',
-      Query: this.query,
-      ChartData: this.barChartData,
-      Color: this.barColors,
-      FontColor: this.fontColor,
-      FontSize: this.fontSize,
-      XAxis: this.xName,
-      YAxis: this.yName,
-      Height: this.height,
-      Width: this.width,
-    };*/
-
     this.saving = true;
     this.barChart = {
       ...this.barChart,
@@ -238,6 +216,11 @@ export class ConfigureBarChartComponent implements OnInit {
     };
 
     this.saveChart(this.barChart);
+    this.barChart = {
+      ...this.barChart,
+      Height: this.height,
+      Width: this.width,
+    };
     this.store.dispatch(updateBarChart({ chart: this.barChart }));
   }
 
