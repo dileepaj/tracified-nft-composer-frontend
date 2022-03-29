@@ -21,9 +21,8 @@ export class ApiService {
     const headersConfig = {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: this.sToken.toString(),
+      Authorization: 'Bearer ' + sessionStorage.getItem('Token') || '',
     };
-
     return new HttpHeaders(headersConfig);
   }
 
@@ -35,12 +34,9 @@ export class ApiService {
   }
 
   //post request
-  post(path : string, body: any): Observable<any>{
-    return this.http.post(
-      `${this.api_url}${path}`, 
-      body, 
-      {
-        headers: this.setHeaders()
-      });
+  post(path: string, body: any): Observable<any> {
+    return this.http.post(`${this.api_url}${path}`, body, {
+      headers: this.setHeaders(),
+    });
   }
 }
