@@ -12,6 +12,7 @@ import {
   selectBarCharts,
   selectNFT,
   selectNFTContent,
+  selectProjectStatus,
 } from 'src/app/store/nft-state-store/nft.selector';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
@@ -22,6 +23,7 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
+import { DndServiceService } from 'src/app/services/dnd-service.service';
 
 @Component({
   selector: 'app-configure-bar-chart',
@@ -90,7 +92,8 @@ export class ConfigureBarChartComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialog: MatDialog,
     private composerService: ComposerBackendService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private dndService: DndServiceService
   ) {
     this.nft$ = this.store.select(selectNFTContent);
   }
@@ -287,19 +290,39 @@ export class ConfigureBarChartComponent implements OnInit {
       ...chart,
       Type: barchart,
     };
-    this.composerService.saveChart(chart).subscribe({
-      next: (res) => {},
-      error: (err) => {
-        this.saving = false;
-        console.log(err);
-        alert('An unexpected error occured. Please try again later');
-      },
-      complete: () => {
-        this.saving = false;
-        //this.openSnackBar('Saved!!');
-        this.dialog.closeAll();
-      },
-    });
+    let status = this.dndService.getSavedStatus(chart.WidgetId);
+    console.log(status);
+
+    if (status === false) {
+      this.composerService.saveChart(chart).subscribe({
+        next: (res) => {},
+        error: (err) => {
+          this.saving = false;
+          console.log(err);
+          alert('An unexpected error occured. Please try again later');
+        },
+        complete: () => {
+          this.saving = false;
+          this.dndService.setSavedStatus(chart.WidgetId);
+          //this.openSnackBar('Saved!!');
+          this.dialog.closeAll();
+        },
+      });
+    } else {
+      this.composerService.updateChart(chart).subscribe({
+        next: (res) => {},
+        error: (err) => {
+          this.saving = false;
+          console.log(err);
+          alert('An unexpected error occured. Please try again later');
+        },
+        complete: () => {
+          this.saving = false;
+          //this.openSnackBar('Saved!!');
+          this.dialog.closeAll();
+        },
+      });
+    }
   }
 
   public addQuery(event: any) {

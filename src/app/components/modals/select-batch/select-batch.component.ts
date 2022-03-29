@@ -46,6 +46,7 @@ import {
   table,
   timeline,
 } from 'src/models/nft-content/widgetTypes';
+import { DndServiceService } from 'src/app/services/dnd-service.service';
 
 @Component({
   selector: 'app-select-batch',
@@ -106,7 +107,8 @@ export class SelectBatchComponent implements OnInit {
     public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private batchesService: BatchesService,
-    private composerService: ComposerBackendService
+    private composerService: ComposerBackendService,
+    private dndService: DndServiceService
   ) {}
 
   ngOnInit() {
@@ -349,20 +351,36 @@ export class SelectBatchComponent implements OnInit {
       WidgetType: this.widget.WidgetType,
     };
     //console.log(widget);
+    let status = this.dndService.getBatchStatus(widget.WidgetId);
+    if (status === false) {
+      this.composerService.saveWidget(widget).subscribe({
+        next: (res) => {},
+        error: (err) => {
+          this.saving = false;
+          console.log(err);
+          alert('An unexpected error occured. Please try again later');
+        },
+        complete: () => {
+          this.saving = false;
+          this.dndService.setBatchStatus(widget.WidgetId);
+          this.close();
+        },
+      });
+    } else {
+      this.composerService.updateWidget(widget).subscribe({
+        next: (res) => {},
+        error: (err) => {
+          this.saving = false;
+          console.log(err);
+          alert('An unexpected error occured. Please try again later');
+        },
+        complete: () => {
+          this.saving = false;
 
-    this.composerService.saveWidget(widget).subscribe({
-      next: (res) => {},
-      error: (err) => {
-        this.saving = false;
-        console.log(err);
-        alert('An unexpected error occured. Please try again later');
-      },
-      complete: () => {
-        this.saving = false;
-
-        this.close();
-      },
-    });
+          this.close();
+        },
+      });
+    }
   }
 
   setTdpStep(index: number) {

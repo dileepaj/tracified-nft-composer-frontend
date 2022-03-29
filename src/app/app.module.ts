@@ -66,6 +66,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CookieService } from 'ngx-cookie-service';
+import { NewProjectComponent } from './components/modals/new-project/new-project.component';
 
 //import { AceEditorModule } from 'ng2-ace-editor';
 const appRoutes: Routes = [
@@ -135,6 +136,7 @@ const appRoutes: Routes = [
     ProjectsComponent,
     SelectMasterDataTypeComponent,
     SelectDataComponent,
+    NewProjectComponent,
   ],
   imports: [
     BrowserModule,

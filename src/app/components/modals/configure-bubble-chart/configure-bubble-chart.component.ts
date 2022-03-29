@@ -4,6 +4,7 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Store } from '@ngrx/store';
 import * as d3 from 'd3';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
+import { DndServiceService } from 'src/app/services/dnd-service.service';
 import { AppState } from 'src/app/store/app.state';
 import {
   addBubbleChart,
@@ -67,7 +68,8 @@ export class ConfigureBubbleChartComponent implements OnInit {
     private store: Store<AppState>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialog: MatDialog,
-    private composerService: ComposerBackendService
+    private composerService: ComposerBackendService,
+    private dndService: DndServiceService
   ) {
     this.nft$ = this.store.select(selectNFTContent);
   }
@@ -245,18 +247,36 @@ export class ConfigureBubbleChartComponent implements OnInit {
       ...chart,
       Type: bubblechart,
     };
-    this.composerService.saveChart(chart).subscribe({
-      next: (res) => {},
-      error: (err) => {
-        this.saving = false;
-        console.log(err);
-        alert('An unexpected error occured. Please try again later');
-      },
-      complete: () => {
-        this.saving = false;
-        this.dialog.closeAll();
-      },
-    });
+
+    let status = this.dndService.getSavedStatus(chart.WidgetId);
+    if (status === false) {
+      this.composerService.saveChart(chart).subscribe({
+        next: (res) => {},
+        error: (err) => {
+          this.saving = false;
+          console.log(err);
+          alert('An unexpected error occured. Please try again later');
+        },
+        complete: () => {
+          this.saving = false;
+          this.dndService.setSavedStatus(chart.WidgetId);
+          this.dialog.closeAll();
+        },
+      });
+    } else {
+      this.composerService.updateChart(chart).subscribe({
+        next: (res) => {},
+        error: (err) => {
+          this.saving = false;
+          console.log(err);
+          alert('An unexpected error occured. Please try again later');
+        },
+        complete: () => {
+          this.saving = false;
+          this.dialog.closeAll();
+        },
+      });
+    }
   }
 
   public addQuery(event: any) {

@@ -112,12 +112,50 @@ export class ComposerBackendService {
   }
 
   /**
+   * @function updateWidget - update widget with the details of selected batch
+   * @param - widget
+   * @component - select-batch modal
+   */
+  public updateWidget(widget: any): Observable<any> {
+    console.log('request body', widget);
+    return this.http.put<any>(`${this.apiUrl}/widget`, widget, httpOptions);
+  }
+
+  /**
    * @function updateProject - update existing NFT project
    * @param - project
    * @component - composer view
    */
   public updateProject(project: any): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/project`, project, httpOptions);
+  }
+
+  /**
+   * @function updateChart - update chart that resulted after running the query
+   * @param - chart
+   * @component - configure-bar-chart, configure-bubble-chart and configure-pie-chart modals
+   */
+  public updateChart(chart: Chart): Observable<Chart> {
+    console.log('request body', chart);
+    return this.http.put<Chart>(
+      `${this.apiUrl}/html/chart`,
+      chart,
+      httpOptions
+    );
+  }
+
+  /**
+   * @function updateTable - udpate table that resulted after running the query
+   * @param - table
+   * @component - configure-table modal
+   */
+  public updateTable(table: Table): Observable<Table> {
+    console.log('request body', table);
+    return this.http.put<Table>(
+      `${this.apiUrl}/html/table`,
+      table,
+      httpOptions
+    );
   }
 
   public openExistingProject(projectId: string): Observable<any> {

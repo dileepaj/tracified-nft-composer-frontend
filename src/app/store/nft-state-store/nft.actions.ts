@@ -142,6 +142,11 @@ export const removeFromOrderArray = createAction(
   props<{ widget: any }>()
 );
 
+export const newProject = createAction(
+  '[new project] New Project',
+  props<{ nftContent: NFTContent }>()
+);
+
 export const loadProject = createAction(
   '[load project] Load Project',
   props<{ nftContent: NFTContent }>()

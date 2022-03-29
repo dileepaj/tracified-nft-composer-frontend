@@ -14,6 +14,7 @@ import {
 import { Table } from 'src/models/nft-content/table';
 import { ViewEncapsulation } from '@angular/core';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
+import { DndServiceService } from 'src/app/services/dnd-service.service';
 
 @Component({
   selector: 'app-configure-table',
@@ -49,7 +50,8 @@ export class ConfigureTableComponent implements OnInit {
     private store: Store<AppState>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialog: MatDialog,
-    private composerService: ComposerBackendService
+    private composerService: ComposerBackendService,
+    private dndService: DndServiceService
   ) {
     this.nft$ = this.store.select(selectNFTContent);
   }
@@ -137,18 +139,35 @@ export class ConfigureTableComponent implements OnInit {
 
   private saveTable(table: Table) {
     console.log('table', table);
-    this.composerService.saveTable(table).subscribe({
-      next: (res) => {},
-      error: (err) => {
-        this.saving = false;
-        console.log(err);
-        alert('An unexpected error occured. Please try again later');
-      },
-      complete: () => {
-        this.saving = false;
-        this.dialog.closeAll();
-      },
-    });
+    let status = this.dndService.getSavedStatus(table.WidgetId);
+    if (status === false) {
+      this.composerService.saveTable(table).subscribe({
+        next: (res) => {},
+        error: (err) => {
+          this.saving = false;
+          console.log(err);
+          alert('An unexpected error occured. Please try again later');
+        },
+        complete: () => {
+          this.saving = false;
+          this.dndService.setSavedStatus(table.WidgetId);
+          this.dialog.closeAll();
+        },
+      });
+    } else {
+      this.composerService.updateTable(table).subscribe({
+        next: (res) => {},
+        error: (err) => {
+          this.saving = false;
+          console.log(err);
+          alert('An unexpected error occured. Please try again later');
+        },
+        complete: () => {
+          this.saving = false;
+          this.dialog.closeAll();
+        },
+      });
+    }
   }
 
   public addQuery(event: any) {
