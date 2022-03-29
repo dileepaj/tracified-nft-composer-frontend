@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import {  NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { filter } from 'rxjs/operators';
@@ -15,6 +17,7 @@ import { NFTContent } from 'src/models/nft-content/nft.content';
 import { ProofBot } from 'src/models/nft-content/proofbot';
 import { Table } from 'src/models/nft-content/table';
 import { Timeline } from 'src/models/nft-content/timeline';
+import { NewProjectComponent } from '../../modals/new-project/new-project.component';
 import { Widget } from '../composer/composer.component';
 @Component({
   selector: 'app-projects',
@@ -30,7 +33,8 @@ export class ProjectsComponent implements OnInit {
     private store: Store<AppState>,
     private router: Router,
     private apiService: ComposerBackendService,
-    private dndService: DndServiceService
+    private dndService: DndServiceService,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -45,14 +49,24 @@ export class ProjectsComponent implements OnInit {
     let warr: Widget[] = [];
 
     widgets.map((widget) => {
-      warr.push({ _Id: widget.WidgetId, used: true, type: widget.Type });
+      warr.push({
+        _Id: widget.WidgetId,
+        used: true,
+        saved: true,
+        batch: true,
+        type: widget.Type,
+      });
     });
 
     this.dndService.rewriteWidgetArr(warr);
   }
 
   openNewProject() {
-    this.router.navigate(['/layouts']);
+    const dialogRef = this.dialog.open(NewProjectComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result);
+    });
   }
 
   openExistingProject(id: string) {

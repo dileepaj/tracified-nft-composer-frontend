@@ -44,11 +44,14 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
+import { NewProjectComponent } from '../../modals/new-project/new-project.component';
 
 export interface Widget {
   type: string;
   _Id?: string;
   used: boolean;
+  saved: boolean;
+  batch: boolean;
   name?: string;
   icon?: string;
 }
@@ -88,12 +91,16 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     {
       type: this.widgetTypes.timeline,
       used: false,
+      saved: false,
+      batch: false,
       name: 'Timeline',
       icon: 'event_note',
     },
     {
       type: this.widgetTypes.proofbot,
       used: false,
+      saved: false,
+      batch: false,
       name: 'ProofBot',
       icon: 'ondemand_video',
     },
@@ -106,30 +113,40 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     {
       type: this.widgetTypes.image,
       used: false,
+      saved: false,
+      batch: false,
       name: 'NFT Image',
       icon: 'wallpaper',
     },
     {
       type: this.widgetTypes.bar,
       used: false,
+      saved: false,
+      batch: false,
       name: 'Bar Chart',
       icon: 'bar_chart',
     },
     {
       type: this.widgetTypes.pie,
       used: false,
+      saved: false,
+      batch: false,
       name: 'Pie Chart',
       icon: 'pie_chart',
     },
     {
       type: this.widgetTypes.bubble,
       used: false,
+      saved: false,
+      batch: false,
       name: 'Bubble Chart',
       icon: 'bubble_chart',
     },
     {
       type: this.widgetTypes.table,
       used: false,
+      saved: false,
+      batch: false,
       name: 'Table',
       icon: 'table_view',
     },
@@ -237,7 +254,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   }
 
   openAddData() {
-    const dialogRef = this.dialog.open(WidgetContentComponent, {
+    const dialogRef = this.dialog.open(NewProjectComponent, {
       data: {
         id: 'abc123',
       },

@@ -60,4 +60,40 @@ export class DndServiceService {
 
     this.store.dispatch(setWidgetOrder({ widgetOrder: warr }));
   }
+
+  setSavedStatus(id: string) {
+    this.usedWidget$.map((widget) => {
+      if (widget._Id === id) {
+        widget.saved = true;
+      }
+    });
+  }
+
+  getSavedStatus(id: string): boolean {
+    let status = false;
+    this.usedWidget$.map((widget) => {
+      if (widget._Id === id) {
+        status = widget.saved;
+      }
+    });
+    return status;
+  }
+
+  setBatchStatus(id: string) {
+    this.usedWidget$.map((widget) => {
+      if (widget._Id === id) {
+        widget.batch = true;
+      }
+    });
+  }
+
+  getBatchStatus(id: string): boolean {
+    let status = false;
+    this.usedWidget$.map((widget) => {
+      if (widget._Id === id) {
+        status = widget.batch;
+      }
+    });
+    return status;
+  }
 }

@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { Image } from 'src/models/nft-content/image';
 import {
   selectBarCharts,
+  selectNFTContent,
   selectNFTImages,
   selectNoOfBarCharts,
   selectNoOfBubbleCharts,
@@ -17,6 +18,7 @@ import {
   selectNoOfTimelines,
 } from 'src/app/store/nft-state-store/nft.selector';
 import { Store } from '@ngrx/store';
+import { NFTContent } from 'src/models/nft-content/nft.content';
 
 @Component({
   selector: 'app-sidebar',
@@ -37,6 +39,7 @@ export class SidebarComponent implements OnInit {
   tableCount: Observable<number>;
   image$: Observable<Image[]>;
   timeline = false;
+  nft$: Observable<NFTContent>;
 
   widgets = [
     {
@@ -85,6 +88,9 @@ export class SidebarComponent implements OnInit {
     this.pieChartCount = this.store.select(selectNoOfPieCharts);
     this.bubbleChartCount = this.store.select(selectNoOfBubbleCharts);
     this.tableCount = this.store.select(selectNoOfTables);
+    this.store.select(selectNFTContent).subscribe((nft) => {
+      this.title = nft.ProjectName;
+    });
   }
 
   ngOnInit(): void {}
