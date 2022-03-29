@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import {  NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { filter } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
 import { AppState } from 'src/app/store/app.state';
 import { loadProject } from 'src/app/store/nft-state-store/nft.actions';
+import { selectUser } from 'src/app/store/user-state-store/user.selector';
 import { Chart } from 'src/models/nft-content/chart';
 import { RecentProject } from 'src/models/nft-content/htmlGenerator';
 import { Image } from 'src/models/nft-content/image';
@@ -13,7 +16,6 @@ import { ProofBot } from 'src/models/nft-content/proofbot';
 import { Table } from 'src/models/nft-content/table';
 import { Timeline } from 'src/models/nft-content/timeline';
 import { Widget } from '../composer/composer.component';
-
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
@@ -22,6 +24,7 @@ import { Widget } from '../composer/composer.component';
 export class ProjectsComponent implements OnInit {
   projects: RecentProject[];
   loadedProject: NFTContent;
+  subscription: Subscription;
   gridColumns = 4;
   constructor(
     private store: Store<AppState>,
@@ -38,7 +41,7 @@ export class ProjectsComponent implements OnInit {
     });
   }
 
-  addDrapAndDropArray(widgets: any[]) {
+  addDragAndDropArray(widgets: any[]) {
     let warr: Widget[] = [];
 
     widgets.map((widget) => {
@@ -177,8 +180,8 @@ export class ProjectsComponent implements OnInit {
         console.log(this.loadedProject);
 
         this.store.dispatch(loadProject({ nftContent: this.loadedProject }));
-        this.addDrapAndDropArray(this.loadedProject.ContentOrderData);
-        this.router.navigate([`/layouts`]);
+        this.addDragAndDropArray(this.loadedProject.ContentOrderData);
+        this.router.navigate([`/layouts/project/${proj.Project.ProjectId}`]);
       },
       error: (err) => {
         console.log(err);

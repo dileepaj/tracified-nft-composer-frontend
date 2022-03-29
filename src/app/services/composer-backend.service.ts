@@ -25,8 +25,8 @@ export class ComposerBackendService {
   private setHeaders(): HttpHeaders {
     const headersConfig = {
       'Content-Type': 'application/json',
-
-      Authorization: 'Bearer ' + sessionStorage.getItem('Token') || '',
+      Accept: 'application/json',
+      Authorization:'Bearer '+ sessionStorage.getItem('Token')||'',
     };
     return new HttpHeaders(headersConfig);
   }

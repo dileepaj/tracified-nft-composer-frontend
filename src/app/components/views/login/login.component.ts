@@ -5,6 +5,12 @@ import { AES } from 'crypto-js';
 import { UserserviceService } from 'src/app/services/userservice.service';
 import { Key } from 'src/app/entity/Variables';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/store/app.state';
+import { addUser } from 'src/app/store/user-state-store/user.action';
+import jwt_decode from 'jwt-decode';
+import { ComposerUser } from 'src/models/user';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -20,7 +26,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private _userService: UserserviceService
+    private _userService: UserserviceService,
+    private store: Store<AppState>
   ) {}
 
   ngOnInit(): void {
@@ -48,9 +55,26 @@ export class LoginComponent implements OnInit {
     ).toString();
 
     this._userService.login(user).subscribe((data) => {
-      sessionStorage.setItem('Token', data.Token);
-      this.router.navigate(['/projects']);
-      sessionStorage.setItem('authorized', 'authorized');
+     
+        sessionStorage.setItem('Token', data.Token);
+        let decoded:ComposerUser = jwt_decode(data.Token, { header: true });
+        let user1 = {
+          UserID: 'qqqqq',
+          UserName: 'aaaaa',
+          Email: '',
+          TenentId: '',
+          displayImage: '',
+          Company: '',
+          Type: '',
+          Country: '',
+          Domain: '',
+        };
+        this.store.dispatch(addUser({ userDetails: user1 }));
+        this.router.navigate(['/projects']).then(() => {
+          window.location.reload();
+        });
+        sessionStorage.setItem('authorized', 'authorized');
+      
     });
   }
 }
