@@ -136,7 +136,7 @@ export class NftImageComponent implements OnInit {
 
   //create base64 image
   _handleReaderLoaded(readerEvt: any) {
-    this.base64 = btoa(readerEvt.target.result);
+    this.base64 =readerEvt.target.result
     this.updateImage();
     this.updateHTML();
   }

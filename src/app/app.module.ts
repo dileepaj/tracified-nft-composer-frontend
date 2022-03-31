@@ -104,6 +104,8 @@ const appRoutes: Routes = [
     path: 'test',
     component: TestViewComponent,
   },
+  { path: '**', 
+  redirectTo: '/login', pathMatch: 'full' },
 ];
 
 @NgModule({
