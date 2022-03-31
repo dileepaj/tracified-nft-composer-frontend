@@ -1,17 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
 import { AppState } from 'src/app/store/app.state';
-import { loadProject } from 'src/app/store/nft-state-store/nft.actions';
 import {
-  selectUser,
-  selectUserDetail,
-} from 'src/app/store/user-state-store/user.selector';
+  loadProject,
+  newProject,
+} from 'src/app/store/nft-state-store/nft.actions';
 import { Chart } from 'src/models/nft-content/chart';
 import { RecentProject } from 'src/models/nft-content/htmlGenerator';
 import { Image } from 'src/models/nft-content/image';
@@ -21,15 +20,12 @@ import { Table } from 'src/models/nft-content/table';
 import { Timeline } from 'src/models/nft-content/timeline';
 import { NewProjectComponent } from '../../modals/new-project/new-project.component';
 import { Widget } from '../composer/composer.component';
-import { User } from 'src/app/entity/artifact';
-import { UserState } from 'src/app/store/user-state-store/user.reducer';
 import { ComposerUser } from 'src/models/user';
 import {
   MatSnackBar,
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
-import { UserserviceService } from 'src/app/services/userservice.service';
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
@@ -41,34 +37,36 @@ export class ProjectsComponent implements OnInit {
   subscription: Subscription;
   gridColumns = 4;
   user: ComposerUser;
+  userId: string = '';
   loading: boolean = false;
   projToBeLoaded: string = '';
-
   horizontalPosition: MatSnackBarHorizontalPosition = 'end';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
   constructor(
     private store: Store<AppState>,
     private router: Router,
+    private route: ActivatedRoute,
     private apiService: ComposerBackendService,
     private dndService: DndServiceService,
     public dialog: MatDialog,
-    private _snackBar: MatSnackBar,
-    private userService: UserserviceService
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
     this.loading = true;
-    this.store.select(selectUserDetail).subscribe((user) => {
-      this.user = user;
-      this.apiService
-        .getRecentProjects(this.user.UserID)
-        .subscribe((result) => {
-          if (result) {
-            this.projects = result.Response;
-          }
-          this.loading = false;
-        });
+    let user: string = sessionStorage.getItem('User') || '';
+    if (user !== '') {
+      this.user = JSON.parse(user);
+    }
+    this.route.paramMap.subscribe((params) => {
+      this.userId = params.get('userId') || '';
+    });
+    this.apiService.getRecentProjects(this.userId).subscribe((result) => {
+      if (result) {
+        this.projects = result.Response;
+      }
+      this.loading = false;
     });
   }
 

@@ -21,6 +21,7 @@ import { Items } from 'src/app/entity/batch';
 import { BatchesService } from 'src/app/services/batches.service';
 import { AppState } from 'src/app/store/app.state';
 import {
+  addCardtStatus,
   updateBarChart,
   updateBubbleChart,
   updateCarbonFootprint,
@@ -31,11 +32,6 @@ import {
 } from 'src/app/store/nft-state-store/nft.actions';
 import { WidgetContentComponent } from '../widget-content/widget-content.component';
 import * as MomentAll from 'moment';
-import { PageEvent } from '@angular/material/paginator';
-import {
-  selectNFTContent,
-  selectWidgetOrder,
-} from 'src/app/store/nft-state-store/nft.selector';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 import {
   barchart,
@@ -122,9 +118,9 @@ export class SelectBatchComponent implements OnInit {
 
   ngOnInit() {
     this.id = this.data.id;
-    this.userId = this.data.userId;
+
+    this.userId = JSON.parse(sessionStorage.getItem('User') || '').UserID;
     this.widget = this.data.widget;
-    console.log(this.widget);
     this.products.filterPredicate = (data: any, filter: string) =>
       data.productName.indexOf(filter) != -1;
 
@@ -138,7 +134,6 @@ export class SelectBatchComponent implements OnInit {
   //called when user selects a product
   selectProduct(row: any) {
     this.selectedProduct = row;
-    console.log(row);
     this.page = 0;
     this.searchKey = '';
     this.getBatches(this.page, this.searchKey);
@@ -151,7 +146,6 @@ export class SelectBatchComponent implements OnInit {
     this.selectedBatch = row;
     this.batchIsSelected = true;
     this.tdpStep = 0;
-    console.log(this.selectedBatch);
     this.goForward();
   }
 
@@ -248,12 +242,10 @@ export class SelectBatchComponent implements OnInit {
           this.page = index;
         },
         error: (err) => {
-          console.log(err);
           alert('An unexpected error occured. Please try again later');
         },
         complete: () => {
           this.batchesLoading = false;
-          console.log(this.totalBatches);
         },
       });
   }
@@ -266,7 +258,6 @@ export class SelectBatchComponent implements OnInit {
         this.productsFilter = this.products;
       },
       error: (err) => {
-        console.log(err);
         alert('An unexpected error occured. Please try again later');
       },
       complete: () => {
@@ -284,18 +275,14 @@ export class SelectBatchComponent implements OnInit {
           this.stages[stage.stageId] = stage.name;
           //this.stages.push(stg);
         });
-
-        console.log(this.stages);
       },
       error: (err) => {
-        console.log(err);
         alert('An unexpected error occured. Please try again later');
       },
     });
   }
 
   public searchProduct(event: any) {
-    console.log(event.target.value);
     this.productsFilter = this.products.filter((product: any) => {
       if (event.target.value !== '') {
         if (
@@ -319,13 +306,6 @@ export class SelectBatchComponent implements OnInit {
 
   public onDateChange() {
     this.page = 0;
-    console.log(
-      'date',
-      this.convertDate(this.dateRange.value.start) +
-        ' ' +
-        this.convertDate(this.dateRange.value.end)
-    );
-
     /*this.getBatches(
       this.page,
       '',
@@ -336,7 +316,6 @@ export class SelectBatchComponent implements OnInit {
 
   onStepChange(event: any) {
     let index = event.selectedIndex;
-    console.log(event.selectedIndex);
   }
 
   public CamelcaseToWord(string: string) {
@@ -345,7 +324,6 @@ export class SelectBatchComponent implements OnInit {
   }
 
   private saveWidget() {
-    console.log(this.userId);
     const widget = {
       Timestamp: new Date().toISOString(),
       ProjectId: this.widget.ProjectId,
@@ -361,14 +339,13 @@ export class SelectBatchComponent implements OnInit {
       OTPType: 'Batch',
       WidgetType: this.widget.WidgetType,
     };
-    //console.log(widget);
+
     let status = this.dndService.getBatchStatus(widget.WidgetId);
     if (status === false) {
       this.composerService.saveWidget(widget).subscribe({
         next: (res) => {},
         error: (err) => {
           this.saving = false;
-          console.log(err);
           this.openSnackBar(
             'An unexpected error occured. Please try again later'
           );
@@ -376,6 +353,16 @@ export class SelectBatchComponent implements OnInit {
         complete: () => {
           this.saving = false;
           this.openSnackBar('Saved!!');
+          //put the Data save status to sti
+          this.store.dispatch(
+            addCardtStatus({
+              cardStatus: {
+                WidgetId: widget.WidgetId,
+                WidgetType: widget.WidgetType,
+                DataSelected: true,
+              },
+            })
+          );
           this.dndService.setBatchStatus(widget.WidgetId);
           this.close();
         },
@@ -385,7 +372,6 @@ export class SelectBatchComponent implements OnInit {
         next: (res) => {},
         error: (err) => {
           this.saving = false;
-          console.log(err);
           this.openSnackBar(
             'An unexpected error occured. Please try again later'
           );

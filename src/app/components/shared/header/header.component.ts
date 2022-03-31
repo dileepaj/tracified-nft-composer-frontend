@@ -8,9 +8,15 @@ import { SidenavService } from 'src/app/services/sidenav.service';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
+  userName: string = '';
   constructor(private router: Router, private sidenav: SidenavService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (!!sessionStorage.getItem('User')) {
+      let user = JSON.parse(sessionStorage.getItem('User') || '');
+      this.userName = user.UserName;
+    }
+  }
 
   logout() {
     this.router.navigate(['/login']);

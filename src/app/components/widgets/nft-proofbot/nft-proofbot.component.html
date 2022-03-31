@@ -13,7 +13,7 @@
       <mat-icon>add_circle</mat-icon>
       Add Data
     </button>
-    <button mat-button class="btn" style="float: right">
+    <button mat-button *ngIf="otpAdded" class="btn" style="float: right">
       <mat-icon>edit</mat-icon>
       Configure
     </button>

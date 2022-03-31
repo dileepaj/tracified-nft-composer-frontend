@@ -10,6 +10,7 @@ import {
 } from 'src/app/store/nft-state-store/nft.actions';
 import {
   selectBubbleCharts,
+  selectCardStatus,
   selectNFTContent,
 } from 'src/app/store/nft-state-store/nft.selector';
 import { Chart } from 'src/models/nft-content/chart';
@@ -28,6 +29,7 @@ export class BubbleChartWidgetComponent implements OnInit {
   @Output() onDeleteWidget: EventEmitter<any> = new EventEmitter();
   bubbleChart: Chart;
   nftContent: NFTContent;
+
   constructor(
     private store: Store<AppState>,
     public dialog: MatDialog,
@@ -45,6 +47,16 @@ export class BubbleChartWidgetComponent implements OnInit {
     } else {
       this.getBubbleChart();
     }
+  }
+
+  otpAdded(): boolean {
+    let buttonState = false;
+    this.store.select(selectCardStatus).subscribe((data) => {
+      if (data.some((e) => e.WidgetId === this.id)) {
+        buttonState = true;
+      }
+    });
+    return buttonState;
   }
 
   //open configuration popup

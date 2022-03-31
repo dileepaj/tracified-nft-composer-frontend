@@ -268,7 +268,6 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   private getNftContent() {
     this.store.select(selectNFTContent).subscribe((data) => {
       this.nftContent = data;
-      console.log(this.nftContent);
     });
   }
 
@@ -288,7 +287,6 @@ export class ComposerComponent implements OnInit, AfterViewInit {
         this.downloadFile(decodedRes, this.nftContent.NFTName, 'html');
       },
       error: (err) => {
-        console.log(err);
         alert('An unexpected error occured. Please try again later');
       },
     });
@@ -313,15 +311,11 @@ export class ComposerComponent implements OnInit, AfterViewInit {
       ContentOrderData: widgetArr,
     };
 
-    console.log(project);
-
     this.composerService.saveProject(project).subscribe({
       next: (res) => {
-        console.log(res);
       },
       error: (err) => {
         alert('An unexpected error occured. Please try again later');
-        console.log(err);
         this.saving = false;
       },
       complete: () => {
@@ -350,15 +344,11 @@ export class ComposerComponent implements OnInit, AfterViewInit {
       ContentOrderData: widgetArr,
     };
 
-    console.log(project);
-
     this.composerService.updateProject(project).subscribe({
       next: (res) => {
-        console.log(res);
       },
       error: (err) => {
         alert('An unexpected error occured. Please try again later');
-        console.log(err);
         this.saving = false;
       },
       complete: () => {

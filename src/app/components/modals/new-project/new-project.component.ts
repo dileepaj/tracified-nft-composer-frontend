@@ -29,7 +29,10 @@ export class NewProjectComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.user = this.data.user;
+       let user: string = sessionStorage.getItem('User') || '';
+       if (user !== '') {
+         this.user = JSON.parse(user);
+       }
   }
 
   createProject() {
@@ -55,9 +58,7 @@ export class NewProjectComponent implements OnInit {
           CarbonFootprint: [],
         },
       };
-
-      console.log(project);
-
+      sessionStorage.setItem('NFTCom',JSON.stringify(project))
       this.store.dispatch(newProject({ nftContent: project }));
       this.dndService.rewriteWidgetArr([]);
       this.router.navigate([`/layouts/project/${project.ProjectId}`]);

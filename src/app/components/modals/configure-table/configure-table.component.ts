@@ -9,6 +9,7 @@ import {
 } from 'src/app/store/nft-state-store/nft.actions';
 import {
   selectNFTContent,
+  selectQueryResult,
   selectTable,
 } from 'src/app/store/nft-state-store/nft.selector';
 import { Table } from 'src/models/nft-content/table';
@@ -71,6 +72,17 @@ export class ConfigureTableComponent implements OnInit {
   }
 
   private showChart() {}
+
+  //check , executed query save or not  use this function for show the congigure button
+  CheckQuerySavingStatus(): boolean {
+    let buttonState = false;
+    this.store.select(selectQueryResult).subscribe((data) => {
+      if (data.some((e) => e.WidgetId === this.data.id)) {
+        buttonState = true;
+      }
+    });
+    return buttonState;
+  }
 
   //called when user moves to a different tab
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {

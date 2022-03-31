@@ -18,6 +18,7 @@ import {
 import {
   selectBubbleCharts,
   selectNFTContent,
+  selectQueryResult,
 } from 'src/app/store/nft-state-store/nft.selector';
 import { Chart, Data } from 'src/models/nft-content/chart';
 import { bubblechart } from 'src/models/nft-content/widgetTypes';
@@ -87,6 +88,17 @@ export class ConfigureBubbleChartComponent implements OnInit {
     //this.updateChart();
     this.chartId = this.data.id;
     this.bubbleChart = this.data.widget;
+  }
+
+  //check , executed query save or not  use this function for show the congigure button
+  CheckQuerySavingStatus(): boolean {
+    let buttonState = false;
+    this.store.select(selectQueryResult).subscribe((data) => {
+      if (data.some((e) => e.WidgetId === this.data.id)) {
+        buttonState = true;
+      }
+    });
+    return buttonState;
   }
 
   private createSvg(): void {

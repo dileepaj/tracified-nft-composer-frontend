@@ -8,6 +8,7 @@ import {
   deletePieChart,
 } from 'src/app/store/nft-state-store/nft.actions';
 import {
+  selectCardStatus,
   selectNFTContent,
   selectPieCharts,
 } from 'src/app/store/nft-state-store/nft.selector';
@@ -61,6 +62,16 @@ export class PieChartWidgetComponent implements OnInit {
     });
   }
 
+  otpAdded(): boolean {
+    let buttonState = false;
+    this.store.select(selectCardStatus).subscribe((data) => {
+      if (data.some((e) => e.WidgetId === this.id)) {
+        buttonState = true;
+      }
+    });
+    return buttonState;
+  }
+  
   //delete pie chart
   deleteWidget() {
     this.store.dispatch(deletePieChart({ chart: this.pieChart }));

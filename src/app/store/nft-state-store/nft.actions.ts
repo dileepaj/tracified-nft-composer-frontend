@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { CarbonFootprint } from 'src/models/nft-content/carbonFootprint';
+import { CardStatus, QueryResult } from 'src/models/nft-content/cardStatus';
 import { Image } from 'src/models/nft-content/image';
 import { NFTContent } from 'src/models/nft-content/nft.content';
 import { ProofBot } from 'src/models/nft-content/proofbot';
@@ -155,4 +156,14 @@ export const loadProject = createAction(
 export const projectStatus = createAction(
   '[set project status] Set Project Status',
   props<{ status: boolean }>()
+);
+
+export const addCardtStatus = createAction(
+  '[set card status] Set card Status',
+  props<{ cardStatus: CardStatus }>()
+);
+
+export const addQueryResult = createAction(
+  '[set card query Result] Set card Query Result',
+  props<{ queryResult: QueryResult }>()
 );

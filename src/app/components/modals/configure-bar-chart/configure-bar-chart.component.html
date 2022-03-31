@@ -10,7 +10,7 @@
         ></mat-grid-tile>
       </mat-grid-list>
     </mat-tab>
-    <mat-tab label="Chart Configuration">
+    <mat-tab label="Chart Configuration" *ngIf="CheckQuerySavingStatus()">
       <mat-grid-list cols="5" rowHeight="550px">
         <!--Column that displays the bar chart-->
         <mat-grid-tile colspan="3">

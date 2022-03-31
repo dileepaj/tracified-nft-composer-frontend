@@ -16,6 +16,7 @@ import {
   deleteTable,
 } from 'src/app/store/nft-state-store/nft.actions';
 import {
+  selectCardStatus,
   selectNFTContent,
   selectTable,
 } from 'src/app/store/nft-state-store/nft.selector';
@@ -37,8 +38,8 @@ export class TableComponent implements OnInit {
   projectId: string;
   table: Table;
   projectName: string;
-
   nftContent: NFTContent;
+
   constructor(
     private store: Store<AppState>,
     public dialog: MatDialog,
@@ -58,6 +59,16 @@ export class TableComponent implements OnInit {
     }
   }
 
+  otpAdded(): boolean {
+    let buttonState = false;
+    this.store.select(selectCardStatus).subscribe((data) => {
+      if (data.some((e) => e.WidgetId === this.id)) {
+        buttonState = true;
+      }
+    });
+    return buttonState;
+  }
+  
   private showNFT() {}
 
   //add table to redux store

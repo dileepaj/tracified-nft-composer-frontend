@@ -8,6 +8,7 @@ import {
 } from 'src/app/store/nft-state-store/nft.actions';
 import {
   selectCarbonFP,
+  selectCardStatus,
   selectNFTContent,
   selectTimeline,
 } from 'src/app/store/nft-state-store/nft.selector';
@@ -45,6 +46,16 @@ export class NftTimelineComponent implements OnInit {
     } else {
       this.getTimeline();
     }
+  }
+
+  otpAdded(): boolean {
+    let buttonState = false;
+    this.store.select(selectCardStatus).subscribe((data) => {
+      if (data.some((e) => e.WidgetId === this.id)) {
+        buttonState = true;
+      }
+    });
+    return buttonState;
   }
 
   //add timeline to redux store

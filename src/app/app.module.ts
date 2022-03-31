@@ -77,7 +77,7 @@ const appRoutes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'projects',
+    path: 'projects/:userId',
     component: ProjectsComponent,
   },
   {

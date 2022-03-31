@@ -3,9 +3,11 @@ import {
   addBarChart,
   addBubbleChart,
   addCarbonFootprint,
+  addCardtStatus,
   addNFTImage,
   addPieChart,
   addProofBot,
+  addQueryResult,
   addTable,
   addTimeline,
   addToOrderArray,
@@ -31,21 +33,27 @@ import {
   updateTimeline,
 } from './nft.actions';
 import { NFTContent } from '../../../models/nft-content/nft.content';
+import { CardStatus, QueryResult } from 'src/models/nft-content/cardStatus';
+import { ComposerUser } from 'src/models/user';
 
 export interface NFTState {
   nftContent: NFTContent;
   newProj: boolean;
+  cardStatus: CardStatus[];
+  queryResult: QueryResult[];
   error: string;
 }
+
+//let user:ComposerUser=JSON.parse(sessionStorage.getItem('User')||'');
 
 export const initialNft: NFTState = {
   nftContent: {
     ProjectId: Date.now().toString(),
-    ProjectName: 'project1',
-    NFTName: 'NFT1',
-    UserId: 'abc123',
+    ProjectName: '',
+    NFTName: '',
+    UserId: '',
     CreatorName: '',
-    TenentId: '784b5070-8248-11eb-bcac-339454a996be',
+    TenentId: '',
     Timestamp: new Date().toISOString(),
     ContentOrderData: [],
     NFTContent: {
@@ -61,11 +69,37 @@ export const initialNft: NFTState = {
     },
   },
   newProj: true,
+  cardStatus: [],
+  queryResult: [],
   error: '',
 };
 
 export const nftReducer = createReducer(
   initialNft,
+
+  on(addQueryResult, (nft, { queryResult }) => {
+    const nftClone: NFTState = JSON.parse(JSON.stringify(nft));
+    let index;
+    let cloneQueryResult = [...nftClone.queryResult];
+    cloneQueryResult.forEach((e, i) => {
+      if (e.WidgetId === queryResult.WidgetId) {
+        index = i;
+      }
+    });
+    if (index === undefined) {
+      nftClone.queryResult = [...nftClone.queryResult, queryResult];
+    } else {
+      nftClone.queryResult = [...nftClone.queryResult];
+      nftClone.queryResult[index] = queryResult;
+    }
+    return nftClone;
+  }),
+
+  on(addCardtStatus, (nft, { cardStatus }) => ({
+    ...nft,
+    cardStatus: [...nft.cardStatus, cardStatus],
+  })),
+
   on(newProject, (nft, { nftContent }) => ({
     ...nft,
     nftContent: nftContent,

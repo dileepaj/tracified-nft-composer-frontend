@@ -8,6 +8,7 @@ import {
   deleteProofBot,
 } from 'src/app/store/nft-state-store/nft.actions';
 import {
+  selectCardStatus,
   selectNFTContent,
   selectProofBot,
   selectTimeline,
@@ -27,6 +28,8 @@ export class NftProofbotComponent implements OnInit {
   image$: Observable<ProofBot[]>;
   private proofbot: ProofBot;
   data: any[] = [];
+  otpAdded: boolean = false;
+
   constructor(
     private store: Store<AppState>,
     private service: DndServiceService
@@ -36,6 +39,12 @@ export class NftProofbotComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //checke OTP added or not
+    this.store.select(selectCardStatus).subscribe((data) => {
+      if (data.some((e) => e.WidgetId === this.id)) {
+        this.otpAdded = true;
+      }
+    });
     //check if the widget is already in redux store
     if (!this.service.widgetExists(this.id)) {
       this.addProofbotToStore();

@@ -12,6 +12,7 @@ import {
   selectNFT,
   selectNFTContent,
   selectPieCharts,
+  selectQueryResult,
 } from 'src/app/store/nft-state-store/nft.selector';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
@@ -98,6 +99,17 @@ export class ConfigurePieChartComponent implements OnInit {
     //this.updateChart();
     this.chartId = this.data.id;
     this.pieChart = this.data.widget;
+  }
+
+  //check , executed query save or not  use this function for show the congigure button
+  CheckQuerySavingStatus(): boolean {
+    let buttonState = false;
+    this.store.select(selectQueryResult).subscribe((data) => {
+      if (data.some((e) => e.WidgetId === this.data.id)) {
+        buttonState = true;
+      }
+    });
+    return buttonState;
   }
 
   //generate bar chart

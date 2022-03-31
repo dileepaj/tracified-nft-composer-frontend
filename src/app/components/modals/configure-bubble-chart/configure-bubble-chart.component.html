@@ -24,7 +24,7 @@
         <!--Column that displays the configuration panel-->
         <mat-grid-tile colspan="2" class="form-tile">
           <div class="form-div">
-            <h2><mat-icon class="title-icon">tune</mat-icon>Configure Chart</h2>
+            <h2><mat-icon class="title-icon" *ngIf="CheckQuerySavingStatus()">tune</mat-icon>Configure Chart</h2>
             <div class="domain">
               <!--input field for setting x axis name-->
               <mat-form-field appearance="fill" color="primary">

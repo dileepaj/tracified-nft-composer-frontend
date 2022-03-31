@@ -16,6 +16,8 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
+import { Store } from '@ngrx/store';
+import { addQueryResult } from 'src/app/store/nft-state-store/nft.actions';
 
 @Component({
   selector: 'app-ldaleditor',
@@ -208,7 +210,8 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
 
   constructor(
     private apiService: ComposerBackendService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private store: Store
   ) {}
 
   ngAfterViewInit(): void {
@@ -284,19 +287,35 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
     });
   }
 
+  saveExecuter() {
+    if (!!this.res && !!this.res.Response.result) {
+      console.log('asasasas');
+
+      this.store.dispatch(
+        addQueryResult({
+          queryResult: {
+            WidgetId: this.id,
+            queryResult: this.res.Response.result,
+          },
+        })
+      );
+      this.openSnackBar('Query Saved!!');
+    } else {
+      this.openSnackBar('Invalid query result formate');
+    }
+  }
+
   public queryExecuter() {
     this.loading = true;
     let queryObject = {
-      WidgetId: this.id,
-      Query: `$RESULT.SetCustomString(normal)\n$RESULT.SetRValue(4)\n$RESULT.GetStringVar:=RESULTSTRING\n$X.FilterSubtree($Item.GetValue.IsHavingSubstring(106)):=STAGELIST\n$STAGELIST.SeekToBegin\n$STAGELIST.GetCurrentElement:=STAGEELEM\nIf($STAGEELEM.CheckNotNull)\n$STAGEELEM.FilterSubtree($Item.GetValue.IsHavingSubstring(xportername)):=OUTERLIST\n$OUTERLIST.SeekToBegin\n$OUTERLIST.GetCurrentElement:=OUTERELEM\nIf($OUTERELEM.CheckNotNull)\n$OUTERELEM.FilterSubtree($Item.GetValue.IsStringEqualTo(name)):=LIST\n$LIST.SeekToBegin\n$LIST.GetCurrentElement:=ELEM\nIf($ELEM.CheckNotNull)\n$RESULTSTRING.AddPostFix($ELEM.GetLValue)\n$LIST.GetNextElement:=ELEM\nEndIf\nEndIf\nEndIf\n$RESULT.SetValue($RESULTSTRING)`,
+      WidgetId: '1648676323590',
+      Query: this.text,
     };
 
-    console.log(queryObject);
     this.apiService.executeQueryAndUpdate(queryObject).subscribe({
       next: (result: any) => {
         if (result) {
           //get result
-          console.log(result);
           this.onQuerySuccess.emit({
             query: queryObject.Query,
             result: result,
@@ -306,7 +325,6 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
         }
       },
       error: (err) => {
-        console.log(err);
         this.loading = false;
         alert('An unexpected error occured. Please try again later');
       },

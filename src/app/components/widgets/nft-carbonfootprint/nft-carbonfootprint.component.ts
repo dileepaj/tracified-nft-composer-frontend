@@ -9,6 +9,7 @@ import {
 } from 'src/app/store/nft-state-store/nft.actions';
 import {
   selectCarbonFP,
+  selectCardStatus,
   selectNFTContent,
 } from 'src/app/store/nft-state-store/nft.selector';
 import { CarbonFootprint } from 'src/models/nft-content/carbonFootprint';
@@ -27,7 +28,6 @@ export class NftCarbonfootprintComponent implements OnInit {
   nft$: any;
   private carbonFootprint: CarbonFootprint;
   data: any[] = [];
-
   projectId: string;
 
   constructor(
@@ -49,6 +49,16 @@ export class NftCarbonfootprintComponent implements OnInit {
     }
   }
 
+  otpAdded(): boolean {
+    let buttonState = false;
+    this.store.select(selectCardStatus).subscribe((data) => {
+      if (data.some((e) => e.WidgetId === this.id)) {
+        buttonState = true;
+      }
+    });
+    return buttonState;
+  }
+  
   //add carbon footprint to redux store
   private addCarbonFootprintToStore() {
     this.carbonFootprint = {

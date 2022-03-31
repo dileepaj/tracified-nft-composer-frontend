@@ -10,6 +10,7 @@ import { AppState } from 'src/app/store/app.state';
 import { addUser } from 'src/app/store/user-state-store/user.action';
 import jwt_decode from 'jwt-decode';
 import { ComposerUser } from 'src/models/user';
+import { timeout } from 'd3';
 
 @Component({
   selector: 'app-login',
@@ -23,6 +24,7 @@ export class LoginComponent implements OnInit {
   public loginForm: FormGroup;
   sKey = 'hackerkaidagalbanisbaby'.split('').reverse().join('');
   public userToken: string;
+  user: string;
 
   constructor(
     private router: Router,
@@ -69,17 +71,15 @@ export class LoginComponent implements OnInit {
           Country: decoded.locale,
           Domain: decoded.domain,
         };
-        console.log('deocded', decoded);
-        sessionStorage.setItem('UserId', decoded.userID);
-        this.store.dispatch(addUser({ userDetails: user1 }));
+        sessionStorage.setItem('User', JSON.stringify(user1));
         sessionStorage.setItem('authorized', 'authorized');
+        this.user = decoded.userID;
+        setTimeout(() => {
+          this.router.navigate([`/projects/${this.user}`]);
+        }, 6000);
       },
       error: (err) => {
-        console.log(err);
         alert('Error!');
-      },
-      complete: () => {
-        this.router.navigate(['/projects']);
       },
     });
   }

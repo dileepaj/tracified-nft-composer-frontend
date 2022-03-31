@@ -97,3 +97,13 @@ export const selectProjectStatus = createSelector(
   selectNFT,
   (state: NFTState) => state.newProj
 );
+
+export const selectCardStatus = createSelector(
+  selectNFT,
+  (state: NFTState) => state.cardStatus
+);
+
+export const selectQueryResult = createSelector(
+  selectNFT,
+  (state: NFTState) => state.queryResult
+);

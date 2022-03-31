@@ -14,6 +14,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.state';
 import {
   selectBarCharts,
+  selectCardStatus,
   selectNFTContent,
 } from 'src/app/store/nft-state-store/nft.selector';
 import * as d3 from 'd3';
@@ -38,7 +39,6 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
   @Output() onDeleteWidget: EventEmitter<any> = new EventEmitter();
   barchart$: Observable<Chart[]>;
   barChart: Chart;
-
   nftContent: NFTContent;
   @Input() widget: Widget;
 
@@ -62,6 +62,16 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
     } else {
       this.getBarChart();
     }
+  }
+
+  otpAdded(): boolean {
+    let buttonState = false;
+    this.store.select(selectCardStatus).subscribe((data) => {
+      if (data.some((e) => e.WidgetId === this.id)) {
+        buttonState = true;
+      }
+    });
+    return buttonState;
   }
 
   //open configuration popup
@@ -121,7 +131,6 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
     this.store.dispatch(addBarChart({ chart: this.barChart }));
     this.getBarChart();
     this.service.updateUsedStatus(this.id);
-    console.log(this.nftContent.UserId);
   }
 
   //get chart from redux
