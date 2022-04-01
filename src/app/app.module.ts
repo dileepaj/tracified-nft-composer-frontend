@@ -69,44 +69,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { NewProjectComponent } from './components/modals/new-project/new-project.component';
 import { userReducer } from './store/user-state-store/user.reducer';
 
-//import { AceEditorModule } from 'ng2-ace-editor';
-const appRoutes: Routes = [
-  {
-    path: '',
-    redirectTo: 'login',
-    pathMatch: 'full',
-  },
-  {
-    path: 'projects/:userId',
-    component: ProjectsComponent,
-  },
-  {
-    path: 'layouts/project/:id',
-    component: ComposerComponent,
-  },
-  {
-    path: 'login',
-    component: LoginComponent,
-  },
-  {
-    path: 'layouts',
-    component: ComposerComponent,
-  },
-  {
-    path: 'nft-svg',
-    component: NftSvgComponent,
-  },
-  {
-    path: 'nft-html',
-    component: NftHtmlComponent,
-  },
-  {
-    path: 'test',
-    component: TestViewComponent,
-  },
-  { path: '**', 
-  redirectTo: '/login', pathMatch: 'full' },
-];
+const appRoutes: Routes = [];
 
 @NgModule({
   declarations: [
