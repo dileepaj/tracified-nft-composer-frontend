@@ -102,7 +102,6 @@ export class ConfigureBarChartComponent implements OnInit {
     this.nft$ = this.store.select(selectNFTContent);
   }
 
-
   ngOnInit(): void {
     //this.updateChart();
     this.setValueToBarChart();
@@ -126,8 +125,15 @@ export class ConfigureBarChartComponent implements OnInit {
         let a = JSON.parse(dta);
         console.log('a', a);
         console.log('firstsssssssssssssss', a.val);
-        this.barChartData = a.val.ChartData;
-       
+        let b: Data[] = [];
+        //let val : string;
+        a.val.ChartData.map((data: any) => {
+          let val = parseFloat(data.Value);
+          b.push({ Name: data.Name, Value: val });
+        });
+        console.log(b);
+
+        this.barChartData = b;
       }
     });
   }
@@ -251,7 +257,7 @@ export class ConfigureBarChartComponent implements OnInit {
       YAxis: this.yName,
       Height: 200,
       Width: 500,
-      Domain: this.domain,
+      Domain: [0, this.max],
     };
 
     this.saveChart(this.barChart);
