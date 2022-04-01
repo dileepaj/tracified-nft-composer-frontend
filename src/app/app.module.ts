@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ComposerComponent } from './components/views/composer/composer.component';
@@ -141,7 +140,6 @@ const appRoutes: Routes = [];
     FlexLayoutModule,
     HttpClientModule,
     MatStepperModule,
-    //AceEditorModule,
     RouterModule.forRoot(appRoutes),
     StoreModule.forRoot({ nft: nftReducer, user: userReducer }),
   ],
