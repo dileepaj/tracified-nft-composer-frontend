@@ -288,13 +288,13 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
   }
 
   saveExecuter() {
-    //!!this.res && !!this.res.Response.result
-    if (true) {
+
+    if (!!this.res && !!this.res.Response.result) {
       this.store.dispatch(
         addQueryResult({
           queryResult: {
             WidgetId: this.id,
-            queryResult: `[{"Name": "Sri Lanka","Value": 200,},{"Name": "US","Value": 400}]`,
+            queryResult: this.res.Response.result,
           },
         })
       );

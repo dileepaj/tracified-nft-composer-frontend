@@ -121,7 +121,7 @@ export class ConfigurePieChartComponent implements OnInit {
   CheckQuerySavingStatus(): boolean {
     let buttonState = false;
     this.store.select(selectQueryResult).subscribe((data) => {
-      if (data.length!=0 && data.some((e) => e.WidgetId === this.data.id)) {
+      if (data.length != 0 && data.some((e) => e.WidgetId === this.data.id)) {
         buttonState = true;
       }
     });

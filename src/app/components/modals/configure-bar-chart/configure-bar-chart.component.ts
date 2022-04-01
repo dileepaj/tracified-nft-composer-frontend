@@ -25,6 +25,7 @@ import {
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
+import { color } from 'd3';
 
 @Component({
   selector: 'app-configure-bar-chart',
@@ -112,13 +113,27 @@ export class ConfigureBarChartComponent implements OnInit {
   setValueToBarChart() {
     this.store.select(selectQueryResult).subscribe((data) => {
       let barChartvalue = data.find((v) => v.WidgetId === this.data.id);
-    
+      console.log('barChar;', barChartvalue);
       if (
         !!barChartvalue &&
         barChartvalue != undefined &&
         barChartvalue.queryResult != ''
       ) {
-        this.barChartData = eval(barChartvalue.queryResult);
+        let barChartobject = JSON.stringify(barChartvalue.queryResult);
+        console.log('first', eval(barChartobject));
+        let dta = eval(barChartobject);
+        let a = JSON.parse(dta);
+        console.log('a', a);
+        console.log('firstsssssssssssssss', a.val);
+        let b: Data[] = [];
+        //let val : string;
+        a.val.ChartData.map((data: any) => {
+          let val = parseFloat(data.Value);
+          b.push({ Name: data.Name, Value: val });
+        });
+        console.log(b);
+
+        this.barChartData = b;
       }
     });
   }
@@ -242,7 +257,7 @@ export class ConfigureBarChartComponent implements OnInit {
       YAxis: this.yName,
       Height: 200,
       Width: 500,
-      Domain: this.domain,
+      Domain: [0, this.max],
     };
 
     this.saveChart(this.barChart);
