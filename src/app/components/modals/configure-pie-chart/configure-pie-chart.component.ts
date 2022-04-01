@@ -97,15 +97,31 @@ export class ConfigurePieChartComponent implements OnInit {
 
   ngOnInit(): void {
     //this.updateChart();
+    this.CheckQuerySavingStatus();
+    this.setValueToPieChart();
     this.chartId = this.data.id;
     this.pieChart = this.data.widget;
   }
 
+  //take value from  query result store by wigetId and se it as a barChart data
+  setValueToPieChart() {
+    this.store.select(selectQueryResult).subscribe((data) => {
+      let pieChartvalue = data.find((v) => v.WidgetId === this.data.id);
+
+      if (
+        !!pieChartvalue &&
+        pieChartvalue != undefined &&
+        pieChartvalue.queryResult != ''
+      ) {
+        this.pieChartData = eval(pieChartvalue.queryResult);
+      }
+    });
+  }
   //check , executed query save or not  use this function for show the congigure button
   CheckQuerySavingStatus(): boolean {
     let buttonState = false;
     this.store.select(selectQueryResult).subscribe((data) => {
-      if (data.some((e) => e.WidgetId === this.data.id)) {
+      if (data.length!=0 && data.some((e) => e.WidgetId === this.data.id)) {
         buttonState = true;
       }
     });

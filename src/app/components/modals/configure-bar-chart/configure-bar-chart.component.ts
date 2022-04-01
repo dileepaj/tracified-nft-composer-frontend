@@ -103,8 +103,24 @@ export class ConfigureBarChartComponent implements OnInit {
 
   ngOnInit(): void {
     //this.updateChart();
+    this.setValueToBarChart();
     this.chartId = this.data.id;
     this.barChart = this.data.widget;
+  }
+
+  //take value from  query result store by wigetId and se it as a barChart data
+  setValueToBarChart() {
+    this.store.select(selectQueryResult).subscribe((data) => {
+      let barChartvalue = data.find((v) => v.WidgetId === this.data.id);
+    
+      if (
+        !!barChartvalue &&
+        barChartvalue != undefined &&
+        barChartvalue.queryResult != ''
+      ) {
+        this.barChartData = eval(barChartvalue.queryResult);
+      }
+    });
   }
 
   //check , executed query save or not  use this function for show the congigure button
@@ -282,20 +298,16 @@ export class ConfigureBarChartComponent implements OnInit {
   }
 
   private saveChart(chart: any) {
-    console.log('chart', chart);
     chart = {
       ...chart,
       Type: barchart,
     };
     let status = this.dndService.getSavedStatus(chart.WidgetId);
-    console.log(status);
-
     if (status === false) {
       this.composerService.saveChart(chart).subscribe({
         next: (res) => {},
         error: (err) => {
           this.saving = false;
-          console.log(err);
           this.openSnackBar(
             'An unexpected error occured. Please try again later'
           );

@@ -288,14 +288,13 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
   }
 
   saveExecuter() {
-    if (!!this.res && !!this.res.Response.result) {
-      console.log('asasasas');
-
+    //!!this.res && !!this.res.Response.result
+    if (true) {
       this.store.dispatch(
         addQueryResult({
           queryResult: {
             WidgetId: this.id,
-            queryResult: this.res.Response.result,
+            queryResult: `[{"Name": "Sri Lanka","Value": 200,},{"Name": "US","Value": 400}]`,
           },
         })
       );
@@ -308,7 +307,7 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
   public queryExecuter() {
     this.loading = true;
     let queryObject = {
-      WidgetId: '1648676323590',
+      WidgetId: this.id,
       Query: this.text,
     };
 

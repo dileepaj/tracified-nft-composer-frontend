@@ -11,7 +11,7 @@
         ></mat-grid-tile>
       </mat-grid-list>
     </mat-tab>
-    <mat-tab label="Table Configuration">
+    <mat-tab label="Table Configuration"  *ngIf="CheckQuerySavingStatus()">
       <mat-grid-list cols="5" rowHeight="550px">
         <!--Column that displays the bar chart-->
         <mat-grid-tile colspan="3" style="overflow: auto">
@@ -22,7 +22,7 @@
         <!--Column that displays the configuration panel-->
         <mat-grid-tile colspan="2" class="form-tile">
           <div class="form-div">
-            <h2><mat-icon class="title-icon" *ngIf="CheckQuerySavingStatus()">tune</mat-icon>Configure Table</h2>
+            <h2><mat-icon class="title-icon">tune</mat-icon>Configure Table</h2>
             <div class="input-group">
               <!--input field for setting x axis name-->
               <mat-form-field appearance="fill" color="primary">
