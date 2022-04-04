@@ -45,6 +45,7 @@ import {
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import { NewProjectComponent } from '../../modals/new-project/new-project.component';
+import { projectStatus } from 'src/app/store/nft-state-store/nft.actions';
 
 export interface Widget {
   type: string;
@@ -319,6 +320,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
         this.saving = false;
       },
       complete: () => {
+        this.store.dispatch(projectStatus({ status: false }));
         this.openSnackBar('Project Saved!!');
         this.saving = false;
       },

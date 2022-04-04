@@ -21,6 +21,7 @@ import {
   deleteTimeline,
   loadProject,
   newProject,
+  projectStatus,
   removeFromOrderArray,
   setWidgetOrder,
   updateBarChart,
@@ -110,6 +111,11 @@ export const nftReducer = createReducer(
     ...nft,
     nftContent: nftContent,
     newProj: false,
+  })),
+
+  on(projectStatus, (nft, { status }) => ({
+    ...nft,
+    newProj: status,
   })),
 
   on(addBarChart, (nft, { chart }) => ({

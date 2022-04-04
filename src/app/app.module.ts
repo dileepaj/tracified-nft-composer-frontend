@@ -67,6 +67,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CookieService } from 'ngx-cookie-service';
 import { NewProjectComponent } from './components/modals/new-project/new-project.component';
 import { userReducer } from './store/user-state-store/user.reducer';
+import { NgChartsModule } from 'ng2-charts';
 
 const appRoutes: Routes = [];
 
@@ -140,6 +141,7 @@ const appRoutes: Routes = [];
     FlexLayoutModule,
     HttpClientModule,
     MatStepperModule,
+    NgChartsModule,
     RouterModule.forRoot(appRoutes),
     StoreModule.forRoot({ nft: nftReducer, user: userReducer }),
   ],
