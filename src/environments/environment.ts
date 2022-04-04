@@ -3,7 +3,12 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  name: 'qa',
+  backendUrl: 'https://qa.api.tracified.com',
+  adminUrl: 'https://qa.admin.api.tracified.com',
+  composerBackend: 'http://localhost:6081/api',
+  domain: 'localhost',
 };
 
 /*

@@ -1,0 +1,69 @@
+@import "../../../../scss/variables";
+@import "../../../../scss/mixins";
+mat-toolbar {
+  justify-content: space-between;
+}
+
+.content {
+  padding: 20px;
+}
+
+.content > mat-card {
+  margin-bottom: 16px;
+}
+
+.column-label {
+  margin-right: 8px;
+  font-size: 1rem;
+}
+
+.green-button {
+  border-radius: 35;
+  background-color: #00c853;
+  padding: 8px 26px;
+  font-size: 18px;
+}
+
+.mainView {
+  margin-top: 100px;
+}
+
+.customIcon {
+  font-size: 50px;
+  height: 50px;
+  width: 50px;
+  color: #00c853;
+}
+
+.green-color {
+  background-color: #00c853;
+}
+.mat-progress-bar-fill::after {
+  background-color: $green;
+}
+
+.progressbar {
+  background-color: $green !important;
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner:before {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  margin-left: -10px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  border-top-color: #000000;
+  animation: spinner 0.8s linear infinite;
+}

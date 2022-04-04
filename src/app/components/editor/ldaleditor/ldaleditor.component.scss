@@ -1,0 +1,62 @@
+@import "../../../../scss/variables";
+@import "../../../../scss/mixins";
+
+.ace-editor {
+  border: 2px solid #f8f9fa;
+  width: 100%;
+  height: 500px;
+}
+
+.ldal-div {
+  display: flex;
+  flex-direction: column;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  position: absolute;
+}
+
+.btn-execute {
+  @include btn-accent;
+  margin: 5px;
+  //float: right;
+}
+
+.btn mat-icon {
+  vertical-align: middle;
+}
+
+.progressbar {
+  background-color: $green !important;
+}
+
+.loader {
+  transform: scale(0.2);
+}
+
+.snackbar {
+  background: white;
+  color: black;
+  .mat-simple-snackbar-action {
+    color: $green !important;
+  }
+}
+
+.query-area {
+  display: flex;
+  flex-direction: column;
+}
+
+.results {
+  width: 100%;
+  min-height: 200px;
+  border-radius: 5px;
+  border: 1px solid rgb(211, 211, 211);
+}
+
+.btn-execute-save {
+ background-color: rgb(243, 197, 44);
+  margin: 5px;
+  //float: right;
+}

@@ -1,0 +1,274 @@
+@import "../../../../scss/mixins";
+@import "../../../../scss/variables";
+.modal-content {
+  @include modal-content;
+}
+.btn {
+  @include btn-primary;
+}
+
+.content {
+  height: calc($modalHeight - 50px);
+}
+
+.option {
+  height: 400px;
+  width: 300px;
+  background-color: whitesmoke;
+  border-radius: 10px;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.option-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+table,
+td,
+th {
+  padding: 10px;
+}
+
+tr {
+  cursor: pointer;
+}
+
+tbody tr:hover {
+  background: whitesmoke;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: auto;
+  @include shadow;
+}
+thead {
+  background: $background;
+  color: white;
+  padding: 20px;
+  font-weight: bold;
+}
+
+tbody {
+  background: white;
+}
+
+.data-row {
+  background: whitesmoke;
+}
+
+#stepper {
+  width: 100%;
+}
+
+mat-step {
+  background-color: $green !important;
+}
+
+.stage {
+  background: white;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 5px;
+}
+
+.mat-step-header .mat-step-icon-selected {
+  background-color: $background;
+}
+
+.mat-step-header .mat-step-icon-state-done,
+.mat-step-header .mat-step-icon-state-edit {
+  background-color: $green;
+  + .mat-step-label {
+    color: $green !important;
+  }
+}
+
+.demo-row-is-clicked {
+  font-weight: bold;
+  background: whitesmoke !important;
+}
+
+.batchImg {
+  width: 80px;
+  height: 80px;
+  margin: 5px;
+}
+
+.batch-img-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  overflow: hidden;
+}
+
+.option-title {
+  background: green;
+  width: 100%;
+  height: 50px;
+}
+
+.previous {
+  color: rgb(134, 134, 134);
+}
+
+.breadcrumb a:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.paginator {
+  margin-top: 10px;
+}
+
+.progressbar {
+  background-color: $green !important;
+}
+
+.mat-progress-bar-fill::after {
+  background-color: $green;
+}
+
+.stage-index {
+  background-color: $background;
+  max-width: 20px;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  font-size: large;
+}
+
+.stage-stageName {
+  background: $background;
+  color: white;
+  max-width: 100px;
+}
+
+.tdp-table {
+  box-shadow: unset;
+  border-collapse: separate;
+  border-spacing: 0px 1px;
+}
+
+.tdp-table tr {
+  @include shadow;
+}
+
+.tdp-table tr:hover {
+  background: unset;
+}
+
+.tdp {
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid whitesmoke;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.tdp-step {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Style the tab */
+.tab {
+  float: left;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+  width: 30%;
+  height: 300px;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  display: block;
+  background-color: inherit;
+  color: black;
+  padding: 22px 16px;
+  width: 100%;
+  border: none;
+  outline: none;
+  text-align: left;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current "tab button" class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  float: left;
+  padding: 0px 12px;
+  border: 1px solid #ccc;
+  width: 70%;
+  border-left: none;
+  height: 300px;
+}
+
+.headers-align .mat-expansion-panel-header-title,
+.headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
+.headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.headers-align .mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}
+
+.exp-panel-head {
+  background: $background;
+  color: white;
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner:before {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  margin-left: -10px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  border-top-color: #000000;
+  animation: spinner 0.8s linear infinite;
+}
+
+.snackbar {
+  background: white;
+  color: black;
+  .mat-simple-snackbar-action {
+    color: $green !important;
+  }
+}

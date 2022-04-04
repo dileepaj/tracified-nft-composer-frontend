@@ -1,0 +1,86 @@
+@import "../../../../scss/variables";
+@import "../../../../scss/mixins";
+
+.sidebar-container {
+  position: absolute;
+  top: 0;
+}
+
+.side-link {
+  font-size: smaller;
+}
+
+#project-title {
+  padding-left: 10px;
+  background: whitesmoke;
+  padding: 10px;
+  font-size: $fontSize;
+}
+
+.icon {
+  @include icon;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+.title-icon {
+  vertical-align: middle;
+  transform: scale(0.6);
+  margin-right: 5px;
+}
+
+mat-list-item {
+  border-radius: 5px;
+  font-size: $fontSize !important;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 2px 0px 2px 0px !important;
+  height: fit-content !important;
+  transition: 0.3s;
+}
+
+mat-nav-list {
+  margin: 10px;
+}
+
+.is-active {
+  color: $green;
+  font-weight: 500;
+  background: rgba(176, 221, 176, 0.199) !important;
+}
+
+mat-list-item:hover {
+  color: $green;
+  background: rgba(176, 221, 176, 0.137) !important;
+}
+
+.nav-title {
+  cursor: pointer;
+}
+
+#layoutsDiv {
+  display: block;
+  width: 100%;
+}
+
+#layouts:hover {
+  color: $green;
+  background: rgba(176, 221, 176, 0.137) !important;
+}
+
+#collapseBtn {
+  float: right;
+}
+
+#header {
+  padding-left: 10px;
+  padding: 10px;
+  padding-bottom: 0px;
+  font-size: $fontSize;
+}
+
+#project-title input {
+  all: unset;
+
+  font-size: $fontSize;
+}

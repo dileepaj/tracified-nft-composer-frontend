@@ -1,0 +1,227 @@
+<div fxLayout="row" fxLayoutAlign="space-between center">
+  <div class="breadcrumb">
+    <h2 mat-dialog-title>
+      <a class="previous" (click)="openWidgetContent()" mat-dialog-close
+        >Widget Content /</a
+      >
+      <a mat-dialog-close>Select Batch</a>
+    </h2>
+  </div>
+  <mat-icon style="cursor: pointer" (click)="close()">close</mat-icon>
+</div>
+<mat-dialog-content class="mat-typography modal-content">
+  <div class="content">
+    <mat-stepper #stepper (selectionChange)="onStepChange($event)">
+      <!-- changed step icons -->
+      <ng-template matStepperIcon="edit">
+        <mat-icon>done</mat-icon>
+      </ng-template>
+      <mat-step label="Select Product">
+        <mat-form-field appearance="outline" style="float: right">
+          <mat-label>Search</mat-label>
+          <input
+            type="text"
+            matInput
+            placeholder="Type here to search "
+            [(ngModel)]="productSearchText"
+            (keyup)="searchProduct($event)"
+          />
+          <mat-icon matPrefix>search</mat-icon>
+        </mat-form-field>
+        <mat-progress-bar
+          class="progressbar"
+          mode="indeterminate"
+          *ngIf="productsLoading"
+        ></mat-progress-bar>
+        <table>
+          <thead>
+            <tr>
+              <td>Product Name</td>
+              <td>Stages</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngIf="productsFilter.length === 0"
+              style="text-align: center; font-size: large"
+            >
+              No data to be displayed.
+            </tr>
+            <tr
+              *ngFor="let product of productsFilter; index as i"
+              (click)="selectProduct(product)"
+              [class.demo-row-is-clicked]="selectedProduct === product"
+            >
+              <td>
+                {{ product.itemName }}
+              </td>
+              <td fxLayout="row wrap">
+                <span class="stage" *ngFor="let stage of product.stages">
+                  {{ stages[stage] }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </mat-step>
+      <mat-step label="Select Batch">
+        <!--Search bar-->
+        <mat-form-field appearance="outline" style="float: right">
+          <mat-label>Search</mat-label>
+          <mat-icon matPrefix>search</mat-icon>
+          <input
+            type="text"
+            matInput
+            placeholder="Type here to search"
+            [(ngModel)]="searchKey"
+            (keyup)="searchBatch()"
+          />
+        </mat-form-field>
+
+        <!--Date time picker-->
+        <mat-form-field
+          appearance="outline"
+          style="float: right; margin-right: 10px"
+        >
+          <mat-label>Select date range</mat-label>
+          <mat-date-range-input [rangePicker]="picker" [formGroup]="dateRange">
+            <input
+              matStartDate
+              formControlName="start"
+              placeholder="Start date"
+            />
+            <input
+              matEndDate
+              formControlName="end"
+              placeholder="End date"
+              (dateChange)="onDateChange()"
+            />
+          </mat-date-range-input>
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+
+        <mat-progress-bar
+          class="progressbar"
+          mode="indeterminate"
+          *ngIf="batchesLoading"
+        ></mat-progress-bar>
+        <table>
+          <thead>
+            <tr>
+              <td>#</td>
+              <td>Batch Id</td>
+              <td>Current Stage</td>
+              <td>Current Stage Name</td>
+              <td>Date and Time</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngIf="batches.length === 0"
+              style="text-align: center; font-size: large"
+            >
+              No data to be displayed.
+            </tr>
+            <tr
+              *ngFor="let batch of batches; index as i"
+              (click)="selectBatch(batch)"
+              [class.demo-row-is-clicked]="selectedBatch === batch"
+            >
+              <td>{{ getItemCount(i) }}</td>
+              <td>{{ batch.identifier.identifier }}</td>
+              <td>{{ batch.stageId }}</td>
+              <td>{{ stages[batch.stageId] }}</td>
+              <td>{{ convertDate(batch.timestamp) }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <mat-paginator
+          class="paginator"
+          [length]="totalBatches"
+          [pageSize]="10"
+          [pageIndex]="page"
+          (page)="getBatches($event.pageIndex, searchKey)"
+          aria-label="Select page"
+        >
+        </mat-paginator>
+      </mat-step>
+      <mat-step label="Traceability Data">
+        <div style="display: flex; flex-direction: column">
+          <div>
+            <br />
+            <!--<mat-form-field appearance="outline" style="float: right">
+              <mat-label>Search</mat-label>
+              <mat-icon matPrefix>search</mat-icon>
+              <input
+                type="text"
+                matInput
+                placeholder="Search Traceability Data"
+              />
+            </mat-form-field>
+
+          --></div>
+
+          <div>
+            <mat-accordion class="headers-align" *ngIf="batchIsSelected">
+              <mat-expansion-panel
+                *ngFor="
+                  let stage of workflow[this.workflow.length - 1].stages;
+                  index as i
+                "
+                [expanded]="tdpStep === i + 1"
+                (opened)="setTdpStep(i + 1)"
+              >
+                <mat-expansion-panel-header>
+                  <mat-panel-title> Stage {{ i + 1 }}</mat-panel-title>
+                  <mat-panel-description>
+                    {{ stage.stageId }} - {{ stage.name }}
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <mat-action-row fxLayout="column">
+                  <div
+                    *ngFor="let tdp of selectedBatch.traceabilityDataPackets"
+                    fxFlex="100%"
+                    fxLayout="row wrap"
+                  >
+                    <div
+                      fxFlex="100%"
+                      fxLayout="row wrap"
+                      *ngIf="tdp.stageId === stage.stageId"
+                      class="tdp"
+                    >
+                      <label
+                        fxFlex="50%"
+                        *ngFor="let data of tdp.traceabilityData"
+                        ><strong>{{ CamelcaseToWord(data.key) }} - </strong>
+                        {{ data.val }}</label
+                      >
+                    </div>
+
+                    <mat-divider></mat-divider>
+                  </div>
+                </mat-action-row>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+        </div>
+      </mat-step>
+    </mat-stepper>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button
+    mat-button
+    (click)="updateReduxState()"
+    class="btn"
+    [disabled]="saving"
+    cdkFocusInitial
+  >
+    <mat-icon>save</mat-icon>
+    <span [class.spinner]="saving"> </span>
+    Save
+  </button>
+</mat-dialog-actions>
