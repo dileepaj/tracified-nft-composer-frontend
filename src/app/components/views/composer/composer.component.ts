@@ -251,6 +251,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     transferArrayItem(this.usedWidgets, [], index, 0);
 
     this.stateService.rewriteWidgetArr(this.usedWidgets);
+    this.saveOrUpdateProject(true);
   }
 
   openAddData() {
@@ -312,8 +313,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     };
 
     this.composerService.saveProject(project).subscribe({
-      next: (res) => {
-      },
+      next: (res) => {},
       error: (err) => {
         alert('An unexpected error occured. Please try again later');
         this.saving = false;
@@ -345,10 +345,12 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     };
 
     this.composerService.updateProject(project).subscribe({
-      next: (res) => {
-      },
+      next: (res) => {},
       error: (err) => {
-        alert('An unexpected error occured. Please try again later');
+        this.openSnackBar(
+          'An unexpected error occured. Please try again later'
+        );
+
         this.saving = false;
       },
       complete: () => {
@@ -358,14 +360,16 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     });
   }
 
-  saveOrUpdateProject() {
+  saveOrUpdateProject(deleteFlag: boolean) {
     let status = true;
     this.store.select(selectProjectStatus).subscribe((s) => {
       status = s;
     });
 
     if (status === true) {
-      this.saveProject();
+      if (!deleteFlag) {
+        this.saveProject();
+      }
     } else {
       this.updateProject();
     }

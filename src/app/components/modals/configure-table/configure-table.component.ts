@@ -21,6 +21,7 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
+import { Data } from '@angular/router';
 
 @Component({
   selector: 'app-configure-table',
@@ -38,9 +39,8 @@ export class ConfigureTableComponent implements OnInit {
   dataSource = [
     { position: 1, name: 'Hydrogen', weight: 1.0079 },
     { position: 2, name: 'Helium', weight: 4.0026 },
-    { position: 3, name: 'Lithium', weight: 6.941},
-    { position: 4, name: 'Beryllium', weight: 9.0122},
-
+    { position: 3, name: 'Lithium', weight: 6.941 },
+    { position: 4, name: 'Beryllium', weight: 9.0122 },
   ];
   tableContent: string;
   tableHtml: string = '';
@@ -64,6 +64,7 @@ export class ConfigureTableComponent implements OnInit {
     //this.updateChart();
     this.tableId = this.data.id;
     this.table = this.data.widget;
+    this.setValueToTable();
   }
 
   private showChart() {}
@@ -77,6 +78,23 @@ export class ConfigureTableComponent implements OnInit {
       }
     });
     return buttonState;
+  }
+
+  setValueToTable() {
+    this.store.select(selectQueryResult).subscribe((data) => {
+      let tableData = data.find((v) => v.WidgetId === this.data.id);
+      if (
+        !!tableData &&
+        tableData != undefined &&
+        tableData.queryResult != ''
+      ) {
+        let tableobject = JSON.stringify(tableData.queryResult);
+        let dta = eval(tableobject);
+        let a = JSON.parse(dta);
+
+        this.dataSource = a.val.MainTable;
+      }
+    });
   }
 
   //called when user moves to a different tab

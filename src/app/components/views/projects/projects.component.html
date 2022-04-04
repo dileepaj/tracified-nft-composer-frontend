@@ -36,7 +36,7 @@
           <mat-card-content>
             {{ project.Timestamp }}
           </mat-card-content>
-          <mat-card-actions>
+          <mat-card-actions align="end">
             <button
               mat-flat-button
               color="primary"
@@ -47,6 +47,17 @@
               <span [class.spinner]="projToBeLoaded === project.ProjectId">
               </span>
               Open
+            </button>
+            <button
+              mat-flat-button
+              color="primary"
+              class="red-button"
+              [disabled]="projToBeDeleted === project.ProjectId"
+              (click)="deleteProject(project.ProjectId)"
+            >
+              <span [class.spinner]="projToBeDeleted === project.ProjectId">
+              </span>
+              Delete
             </button>
           </mat-card-actions>
         </mat-card>

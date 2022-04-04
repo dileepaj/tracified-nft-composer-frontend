@@ -113,25 +113,20 @@ export class ConfigureBarChartComponent implements OnInit {
   setValueToBarChart() {
     this.store.select(selectQueryResult).subscribe((data) => {
       let barChartvalue = data.find((v) => v.WidgetId === this.data.id);
-      console.log('barChar;', barChartvalue);
       if (
         !!barChartvalue &&
         barChartvalue != undefined &&
         barChartvalue.queryResult != ''
       ) {
         let barChartobject = JSON.stringify(barChartvalue.queryResult);
-        console.log('first', eval(barChartobject));
         let dta = eval(barChartobject);
         let a = JSON.parse(dta);
-        console.log('a', a);
-        console.log('firstsssssssssssssss', a.val);
         let b: Data[] = [];
         //let val : string;
         a.val.ChartData.map((data: any) => {
           let val = parseFloat(data.Value);
           b.push({ Name: data.Name, Value: val });
         });
-        console.log(b);
 
         this.barChartData = b;
       }

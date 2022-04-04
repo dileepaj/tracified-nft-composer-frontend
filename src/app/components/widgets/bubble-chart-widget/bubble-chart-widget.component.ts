@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
+import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
 import { AppState } from 'src/app/store/app.state';
 import {
@@ -33,7 +34,8 @@ export class BubbleChartWidgetComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     public dialog: MatDialog,
-    private service: DndServiceService
+    private service: DndServiceService,
+    private composerService: ComposerBackendService
   ) {
     this.store.select(selectNFTContent).subscribe((content) => {
       this.nftContent = content;
@@ -76,8 +78,16 @@ export class BubbleChartWidgetComponent implements OnInit {
 
   //delete chart from redux
   deleteWidget() {
-    this.store.dispatch(deleteBubbleChart({ chart: this.bubbleChart }));
-    this.onDeleteWidget.emit(this.id);
+    this.composerService.deleteChart(this.id).subscribe({
+      next: (res) => {},
+      error: (err) => {
+        alert('Error');
+      },
+      complete: () => {
+        this.store.dispatch(deleteBubbleChart({ chart: this.bubbleChart }));
+        this.onDeleteWidget.emit(this.id);
+      },
+    });
   }
 
   //add chart to redux

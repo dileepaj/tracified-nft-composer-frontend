@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
+import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
 import { AppState } from 'src/app/store/app.state';
 import {
@@ -43,7 +44,8 @@ export class TableComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     public dialog: MatDialog,
-    private service: DndServiceService
+    private service: DndServiceService,
+    private composerService: ComposerBackendService
   ) {
     this.nft$ = this.store.select(selectNFTContent);
     this.store.select(selectNFTContent).subscribe((content) => {
@@ -68,7 +70,7 @@ export class TableComponent implements OnInit {
     });
     return buttonState;
   }
-  
+
   private showNFT() {}
 
   //add table to redux store
@@ -91,8 +93,16 @@ export class TableComponent implements OnInit {
 
   //delete table from redux store
   deleteWidget() {
-    this.store.dispatch(deleteTable({ table: this.table }));
-    this.onDeleteWidget.emit(this.id);
+    this.composerService.deleteTable(this.id).subscribe({
+      next: (res) => {},
+      error: (err) => {
+        alert(err);
+      },
+      complete: () => {
+        this.store.dispatch(deleteTable({ table: this.table }));
+        this.onDeleteWidget.emit(this.id);
+      },
+    });
   }
 
   //open configuartion popup
