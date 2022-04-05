@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { JwtserviceService } from './jwtservice.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
-  private api_url: String = '';
-  private auth_token = sessionStorage.getItem('Token') || '';
-  private sToken = 'Bearer ' + this.auth_token;
+  constructor(private http: HttpClient, private jwt: JwtserviceService) {}
 
-  constructor(private http: HttpClient) {}
+  private api_url: String = '';
+  private auth_token = this.jwt.getToken() || '';
+  private sToken = 'Bearer ' + this.auth_token;
 
   /**
    * @function setHeaders - set headers for an API request
