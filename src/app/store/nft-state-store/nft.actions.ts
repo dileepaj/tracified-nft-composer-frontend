@@ -159,11 +159,21 @@ export const projectStatus = createAction(
 );
 
 export const addCardtStatus = createAction(
-  '[set card status] Set card Status',
+  '[add card status] Add card Status',
   props<{ cardStatus: CardStatus }>()
 );
 
 export const addQueryResult = createAction(
-  '[set card query Result] Set card Query Result',
+  '[add card query Result] Add card Query Result',
   props<{ queryResult: QueryResult }>()
+);
+
+export const setCardStatus = createAction(
+  '[set card status] Set card status ',
+  props<{ cardStatus: CardStatus[] }>()
+);
+
+export const setQueryResult = createAction(
+  '[set card query Result] Set card Query Result',
+  props<{ queryResult: QueryResult[] }>()
 );

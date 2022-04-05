@@ -206,6 +206,9 @@ export class ConfigureBubbleChartComponent implements OnInit {
     this.fontSize = this.bubbleChart.FontSize!;
     this.height = this.bubbleChart.Height!;
     this.width = this.bubbleChart.Width!;
+    this.setLabels();
+    this.setValues();
+    this.setColors();
   }
 
   private saveChart(chart: any) {
