@@ -293,7 +293,7 @@ export class ConfigureBarChartComponent implements OnInit {
       labels: this.labels,
       datasets: [
         {
-          label: 'Bar Chart',
+          label: this.title,
           data: this.values,
           backgroundColor: this.barColors,
           borderWidth: 0,

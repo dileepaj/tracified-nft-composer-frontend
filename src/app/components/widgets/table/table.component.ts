@@ -58,6 +58,8 @@ export class TableComponent implements OnInit {
     //check if the widget is already in the redux store
     if (!this.service.widgetExists(this.id)) {
       this.addTableToStore();
+    } else {
+      this.getTable();
     }
   }
 

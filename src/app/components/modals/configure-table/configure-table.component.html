@@ -11,12 +11,12 @@
         ></mat-grid-tile>
       </mat-grid-list>
     </mat-tab>
-    <mat-tab label="Table Configuration"  *ngIf="CheckQuerySavingStatus()">
+    <mat-tab label="Table Configuration" *ngIf="CheckQuerySavingStatus()">
       <mat-grid-list cols="5" rowHeight="550px">
         <!--Column that displays the bar chart-->
         <mat-grid-tile colspan="3" style="overflow: auto">
           <!--Bar chart-->
-          <div class="chart" [innerHTML]="tableHtml"></div>
+          <div class="table" [innerHTML]="tableHtml"></div>
         </mat-grid-tile>
 
         <!--Column that displays the configuration panel-->
