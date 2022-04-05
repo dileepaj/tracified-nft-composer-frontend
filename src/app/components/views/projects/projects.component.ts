@@ -72,7 +72,6 @@ export class ProjectsComponent implements OnInit {
 
   addDragAndDropArray(widgets: any[]) {
     let warr: Widget[] = [];
-
     widgets.map((widget) => {
       warr.push({
         _Id: widget.WidgetId,
@@ -92,10 +91,7 @@ export class ProjectsComponent implements OnInit {
         user: this.user,
       },
     });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
-    });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
 
   openExistingProject(id: string) {
@@ -131,7 +127,6 @@ export class ProjectsComponent implements OnInit {
               Query: chart.Widget.Query,
               WidgetType: chart.Widget.WidgetType,
             };
-
             barcharts.push(ch);
           });
         }
@@ -150,7 +145,6 @@ export class ProjectsComponent implements OnInit {
               Query: chart.Widget.Query,
               WidgetType: chart.Widget.WidgetType,
             };
-
             piecharts.push(ch);
           });
         }
@@ -168,7 +162,6 @@ export class ProjectsComponent implements OnInit {
               Query: chart.Widget.Query,
               WidgetType: chart.Widget.WidgetType,
             };
-
             bubblecharts.push(ch);
           });
         }
@@ -187,7 +180,6 @@ export class ProjectsComponent implements OnInit {
               Query: table.Widget.Query,
               WidgetType: table.Widget.WidgetType,
             };
-
             tables.push(tb);
           });
         }
@@ -220,17 +212,12 @@ export class ProjectsComponent implements OnInit {
             CarbonFootprint: [],
           },
         };
-
-        console.log(this.loadedProject);
-
         this.store.dispatch(loadProject({ nftContent: this.loadedProject }));
         this.addDragAndDropArray(this.loadedProject.ContentOrderData);
-
         this.projToBeLoaded = '';
-        this.router.navigate([`/layouts/project/${proj.Project.ProjectId}`]);
+        this.router.navigate([`/layout/home/${proj.Project.ProjectId}`]);
       },
       error: (err) => {
-        console.log(err);
         this.openSnackBar(
           'An unexpected error occured. Please try again later.'
         );
