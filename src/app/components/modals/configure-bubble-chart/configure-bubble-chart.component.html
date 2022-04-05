@@ -16,37 +16,67 @@
         <!--Column that displays the bar chart-->
         <mat-grid-tile colspan="3">
           <!--Bar chart-->
-          <div class="chart">
-            <figure id="bubble"></figure>
+          <div class="bubble-chart">
+            <canvas
+              baseChart
+              class="canvas"
+              [data]="chartData"
+              [type]="'bubble'"
+              [options]="bubbleChartOptions"
+            >
+            </canvas>
           </div>
         </mat-grid-tile>
 
         <!--Column that displays the configuration panel-->
         <mat-grid-tile colspan="2" class="form-tile">
           <div class="form-div">
-            <h2><mat-icon class="title-icon" >tune</mat-icon>Configure Chart</h2>
-            <div class="domain">
+            <h2><mat-icon class="title-icon">tune</mat-icon>Configure Chart</h2>
+            <div fxLayout="row wrap">
               <!--input field for setting x axis name-->
-              <mat-form-field appearance="fill" color="primary">
+              <mat-form-field appearance="fill" color="primary" fxFlex="100%">
                 <mat-label>Title</mat-label>
                 <input
                   matInput
                   type="text"
                   [(ngModel)]="title"
-                  (ngModelChange)="updateChart()"
+                  (ngModelChange)="drawChart()"
                 />
               </mat-form-field>
-            </div>
+              <!--input field for setting x axis name-->
+              <mat-form-field appearance="fill" color="primary" fxFlex="45%">
+                <mat-label>X Axis Name</mat-label>
+                <input
+                  matInput
+                  type="text"
+                  [(ngModel)]="xName"
+                  (ngModelChange)="drawChart()"
+                />
+              </mat-form-field>
 
-            <div class="domain">
-              <mat-form-field appearance="fill">
+              <!--input field for setting y axis name-->
+              <mat-form-field
+                appearance="fill"
+                color="primary"
+                fxFlex="45%"
+                style="float: right"
+              >
+                <mat-label>Y Axis Name</mat-label>
+                <input
+                  matInput
+                  type="text"
+                  [(ngModel)]="yName"
+                  (ngModelChange)="drawChart()"
+                />
+              </mat-form-field>
+              <mat-form-field appearance="fill" fxFlex="45%">
                 <mat-label>Font size</mat-label>
                 <input
                   matInput
                   type="number"
                   placeholder="Ex. 12"
                   [(ngModel)]="fontSize"
-                  (ngModelChange)="updateChart()"
+                  (ngModelChange)="drawChart()"
                 />
                 <span matSuffix>px</span>
               </mat-form-field>
@@ -54,9 +84,11 @@
                 class="colorbox"
                 [(colorPicker)]="fontColor"
                 [style.background]="fontColor"
-                (colorPickerChange)="updateChart()"
+                (colorPickerChange)="drawChart()"
               ></div>
             </div>
+
+            <div class="domain"></div>
 
             <!--Values displayed in the bar chart-->
             <div class="bubble-chart-fields">
@@ -71,7 +103,7 @@
                     class="colorbox"
                     [(colorPicker)]="bubbleColors[i]"
                     [style.background]="bubbleColors[i]"
-                    (colorPickerChange)="updateChart()"
+                    (colorPickerChange)="drawChart()"
                   ></div>
                 </mat-card>
               </div>

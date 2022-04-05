@@ -37,6 +37,10 @@ export class ConfigureBubbleChartComponent implements OnInit {
   query: string = '';
   batchId: any = '';
   productName: string = '';
+  chartData: any;
+  bubbleChartOptions: any;
+  labels: string[] = [];
+  values: any = [];
   //data to be displayed in the pie chart
   bubbleChartData: Data[] = [
     { Name: 'Item 1', X: 100, Y: 60, Value: 1350 },
@@ -45,13 +49,7 @@ export class ConfigureBubbleChartComponent implements OnInit {
     { Name: 'Item 4', X: 190, Y: 100, Value: 30000 },
     { Name: 'Item 5', X: 80, Y: 170, Value: 47500 },
   ];
-  bubbleColors: string[] = [
-    '#69b3a2',
-    '#69b3a2',
-    '#69b3a2',
-    '#69b3a2',
-    '#69b3a2',
-  ];
+  bubbleColors: string[] = [];
   domain: number[] = [0, 1000]; //domain of the bar chart
   min: number = 0; //domain minimum value
   max: number = 1000; //domain maximum value
@@ -85,7 +83,6 @@ export class ConfigureBubbleChartComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //this.updateChart();
     this.chartId = this.data.id;
     this.bubbleChart = this.data.widget;
   }
@@ -101,6 +98,33 @@ export class ConfigureBubbleChartComponent implements OnInit {
     return buttonState;
   }
 
+  setValueToBubblerChart() {
+    this.store.select(selectQueryResult).subscribe((data) => {
+      let Chartvalue = data.find((v) => v.WidgetId === this.data.id);
+      if (
+        !!Chartvalue &&
+        Chartvalue != undefined &&
+        Chartvalue.queryResult != ''
+      ) {
+        let Chartobject = JSON.stringify(Chartvalue.queryResult);
+        let dta = eval(Chartobject);
+        let a = JSON.parse(dta);
+        let b: Data[] = [];
+        //let val : string;
+        a.val.ChartData.map((data: any) => {
+          let val = parseFloat(data.Value);
+          b.push({ Name: data.Name, Value: val });
+        });
+
+        this.bubbleChartData = b;
+
+        this.setLabels();
+        this.setValues();
+        this.setColors();
+      }
+    });
+  }
+
   private createSvg(): void {
     this.svg = d3
       .select('#bubble')
@@ -109,77 +133,12 @@ export class ConfigureBubbleChartComponent implements OnInit {
       .attr('height', this.height);
   }
 
-  private drawBubbles(
-    data: any[],
-    bubbleColors: string[],
-    radius: number[]
-  ): void {
-    // Initialize the circle: all located at the center of the svg area
-
-    this.svg
-      .selectAll('circle')
-      .data(data)
-      .enter()
-      .append('circle')
-      .attr('cx', function (d: any) {
-        return d.X;
-      })
-      .attr('cy', function (d: any) {
-        return d.Y;
-      })
-      .attr('r', function (d: any) {
-        let r = Math.sqrt(d.Value) / Math.PI;
-        radius.push(r);
-        return r;
-      })
-      .attr('fill', function (d: any, i: any) {
-        return bubbleColors[i];
-      });
-
-    this.svg
-      .selectAll('text')
-      .data(data)
-      .enter()
-      .append('text')
-      .attr('x', function (d: any) {
-        let r = d.X + Math.sqrt(d.Value) / Math.PI;
-
-        return r;
-      })
-      .attr('y', function (d: any) {
-        return d.Y + 4;
-      })
-      .text(function (d: any) {
-        return d.Name;
-      })
-      .style('font-size', this.fontSize + 'px')
-      .style('fill', this.fontColor);
-
-    this.svg
-      .append('g')
-      .append('text')
-      .attr('y', this.height - 10)
-      .attr('x', this.width / 2)
-      .text(this.title)
-      .style('text-anchor', 'middle')
-      .style('font-size', this.fontSize + 'px')
-      .attr('stroke', this.fontColor)
-      .style('fill', this.fontColor);
-  }
-
-  //update chart with new values
-  updateChart() {
-    d3.select('svg').remove();
-    this.createSvg();
-    this.drawBubbles(this.bubbleChartData, this.bubbleColors, this.radius);
-  }
-
   //called when user moves to a different tab
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     if (tabChangeEvent.index === 1) {
-      //this.getBubbleChart();
       this.assignValues();
-      this.updateChart();
+      this.setValueToBubblerChart();
+      this.drawChart();
     }
   }
 
@@ -296,6 +255,85 @@ export class ConfigureBubbleChartComponent implements OnInit {
   public addQuery(event: any) {
     console.log(event);
     this.query = event;
+  }
+
+  setLabels() {
+    this.labels = [];
+    this.bubbleChartData.map((data) => {
+      this.labels.push(data.Name);
+    });
+  }
+
+  setValues() {
+    this.values = [];
+    this.bubbleChartData.map((data) => {
+      this.values.push(data.Value);
+    });
+  }
+
+  setColors() {
+    if (this.bubbleColors.length === 0) {
+      let count = this.bubbleChartData.length;
+      for (let i = 0; i < count; i++) {
+        this.bubbleColors.push('#69b3a2');
+      }
+    }
+  }
+
+  public drawChart() {
+    this.setColors();
+    this.setValues();
+    this.setLabels();
+    this.chartData = {
+      labels: this.labels,
+      datasets: [
+        {
+          label: this.title,
+          data: [
+            { x: 10, y: 10, r: 10 },
+            { x: 15, y: 5, r: 15 },
+            { x: 26, y: 12, r: 23 },
+            { x: 7, y: 8, r: 8 },
+          ],
+          backgroundColor: this.bubbleColors,
+          borderWidth: 0,
+          hoverBackgroundColor: this.bubbleColors,
+        },
+      ],
+    };
+
+    this.bubbleChartOptions = {
+      animation: {
+        duration: 0,
+      },
+      responsive: true,
+      scales: {
+        x: {
+          min: 0,
+          title: {
+            display: true,
+            text: this.xName,
+            font: {
+              size: this.fontSize,
+            },
+            color: this.fontColor,
+          },
+          ticks: {},
+        },
+        y: {
+          min: 0,
+          title: {
+            display: true,
+            text: this.yName,
+            font: {
+              size: this.fontSize,
+            },
+            color: this.fontColor,
+          },
+          ticks: {},
+        },
+      },
+    };
   }
 
   openSnackBar(msg: string) {

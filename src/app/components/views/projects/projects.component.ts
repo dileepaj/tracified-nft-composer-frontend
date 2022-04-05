@@ -40,6 +40,7 @@ export class ProjectsComponent implements OnInit {
   userId: string = '';
   loading: boolean = false;
   projToBeLoaded: string = '';
+  projToBeDeleted: string = '';
   horizontalPosition: MatSnackBarHorizontalPosition = 'end';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
@@ -54,7 +55,6 @@ export class ProjectsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loading = true;
     let user: string = sessionStorage.getItem('User') || '';
     if (user !== '') {
       this.user = JSON.parse(user);
@@ -62,6 +62,11 @@ export class ProjectsComponent implements OnInit {
     this.route.paramMap.subscribe((params) => {
       this.userId = params.get('userId') || '';
     });
+    this.getRecentProjects();
+  }
+
+  getRecentProjects() {
+    this.loading = true;
     this.apiService.getRecentProjects(this.userId).subscribe((result) => {
       if (result) {
         this.projects = result.Response;
@@ -91,6 +96,7 @@ export class ProjectsComponent implements OnInit {
         user: this.user,
       },
     });
+
     dialogRef.afterClosed().subscribe((result) => {});
   }
 
@@ -99,7 +105,6 @@ export class ProjectsComponent implements OnInit {
     this.apiService.openExistingProject(id).subscribe({
       next: (data) => {
         const proj = data.Response;
-        console.log(proj);
         let contOrder: any[] = [];
         let barcharts: Chart[] = [];
         let piecharts: Chart[] = [];
@@ -221,6 +226,26 @@ export class ProjectsComponent implements OnInit {
         this.openSnackBar(
           'An unexpected error occured. Please try again later.'
         );
+        this.projToBeLoaded = '';
+      },
+    });
+  }
+
+  deleteProject(projectId: string) {
+    this.projToBeDeleted = projectId;
+
+    this.apiService.deleteProject(projectId).subscribe({
+      next: (res) => {},
+      error: (err) => {
+        this.openSnackBar(
+          'An unexpected error occured. Please try again later.'
+        );
+        this.projToBeDeleted = '';
+      },
+      complete: () => {
+        this.projToBeDeleted = '';
+        this.getRecentProjects();
+        this.openSnackBar('Project deleted!!');
       },
     });
   }

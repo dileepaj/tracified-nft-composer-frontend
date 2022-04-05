@@ -44,6 +44,7 @@ export class NftImageComponent implements OnInit {
   base64: string = '';
   img: any = '';
   projectId: string;
+  src: string = '';
 
   constructor(
     private store: Store<AppState>,
@@ -119,8 +120,16 @@ export class NftImageComponent implements OnInit {
 
   //delete image from redux store
   deleteWidget() {
-    this.store.dispatch(deleteNFTImage({ image: this.image }));
-    this.onDeleteWidget.emit(this.id);
+    this.composerService.deleteImage(this.id).subscribe({
+      next: (res) => {},
+      error: (err) => {
+        alert(err);
+      },
+      complete: () => {
+        this.store.dispatch(deleteNFTImage({ image: this.image }));
+        this.onDeleteWidget.emit(this.id);
+      },
+    });
   }
 
   //trigger file input click event
@@ -136,7 +145,7 @@ export class NftImageComponent implements OnInit {
 
   //create base64 image
   _handleReaderLoaded(readerEvt: any) {
-    this.base64 =readerEvt.target.result
+    this.base64 = readerEvt.target.result;
     this.updateImage();
     this.updateHTML();
   }
@@ -155,6 +164,7 @@ export class NftImageComponent implements OnInit {
       data.map((img) => {
         if (img.WidgetId === this.id) {
           this.image = img;
+          this.base64 = img.Base64Image;
         }
       });
     });

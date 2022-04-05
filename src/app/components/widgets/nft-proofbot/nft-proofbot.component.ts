@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
 import { AppState } from 'src/app/store/app.state';
 import {
@@ -32,7 +33,8 @@ export class NftProofbotComponent implements OnInit {
 
   constructor(
     private store: Store<AppState>,
-    private service: DndServiceService
+    private service: DndServiceService,
+    private composerService: ComposerBackendService
   ) {
     this.nft$ = this.store.select(selectNFTContent);
     //this.image$ = this.store.select(selectNFTImages);
@@ -80,8 +82,16 @@ export class NftProofbotComponent implements OnInit {
 
   //delete proofbot from redux
   deleteWidget() {
-    this.store.dispatch(deleteProofBot({ proofBot: this.proofbot }));
-    this.onDeleteWidget.emit(this.id);
+    this.composerService.deleteProofbot(this.id).subscribe({
+      next: (res) => {},
+      error: (err) => {
+        alert(err);
+      },
+      complete: () => {
+        this.store.dispatch(deleteProofBot({ proofBot: this.proofbot }));
+        this.onDeleteWidget.emit(this.id);
+      },
+    });
   }
 
   getProofBot() {

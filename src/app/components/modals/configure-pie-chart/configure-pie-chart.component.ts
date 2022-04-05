@@ -24,6 +24,7 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
+import { ChartOptions } from 'chart.js';
 
 @Component({
   selector: 'app-configure-pie-chart',
@@ -39,6 +40,9 @@ export class ConfigurePieChartComponent implements OnInit {
   query: string = '';
   batchId: any = '';
   productName: string = '';
+  chartData: any;
+  pieChartOptions: any;
+  loadedFromRedux: boolean = false;
   //data to be displayed in the pie chart
   pieChartData: Data[] = [
     {
@@ -64,7 +68,7 @@ export class ConfigurePieChartComponent implements OnInit {
   ];
 
   //pie chart field colors
-  fieldColors: any[] = ['#c7d3ec', '#a5b8db', '#879cc4', '#677795', '#5a6782'];
+  fieldColors: any[] = [];
   counter: number = 1; //counter to count the number of values in data array
   title: string = 'Pie Chart Title'; //pie chart title
   fontSize: number = 12; //font size
@@ -83,6 +87,8 @@ export class ConfigurePieChartComponent implements OnInit {
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'end';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+  labels: any[];
+  values: any[];
 
   constructor(
     private store: Store<AppState>,
@@ -97,8 +103,8 @@ export class ConfigurePieChartComponent implements OnInit {
 
   ngOnInit(): void {
     //this.updateChart();
-    this.CheckQuerySavingStatus();
-    this.setValueToPieChart();
+    //this.CheckQuerySavingStatus();
+    //this.setValueToPieChart();
     this.chartId = this.data.id;
     this.pieChart = this.data.widget;
   }
@@ -113,7 +119,20 @@ export class ConfigurePieChartComponent implements OnInit {
         pieChartvalue != undefined &&
         pieChartvalue.queryResult != ''
       ) {
-        this.pieChartData = eval(pieChartvalue.queryResult);
+        let pcData = JSON.stringify(pieChartvalue.queryResult);
+        let dta = eval(pcData);
+        let a = JSON.parse(dta);
+        let b: Data[] = [];
+        //let val : string;
+        a.val.ChartData.map((data: any) => {
+          let val = parseFloat(data.Value);
+          b.push({ Name: data.Name, Value: val });
+        });
+        this.pieChartData = b;
+
+        this.setLabels();
+        this.setValues();
+        this.setColors();
       }
     });
   }
@@ -128,78 +147,6 @@ export class ConfigurePieChartComponent implements OnInit {
     return buttonState;
   }
 
-  //generate bar chart
-  private createSvg(): void {
-    this.svg = d3
-      .select('#pie')
-      .append('svg')
-      .attr('width', this.width)
-      .attr('height', this.height)
-      .append('g')
-      .attr(
-        'transform',
-        'translate(' + this.width / 2 + ',' + this.height / 2 + ')'
-      );
-  }
-
-  private createColors(): void {
-    this.colors = d3
-      .scaleOrdinal()
-      .domain(this.pieChartData.map((d: any) => d.Value.toString()))
-      .range(this.fieldColors);
-  }
-
-  private drawChart(): void {
-    // Compute the position of each group on the pie:
-    const pie = d3.pie<any>().value((d: any) => Number(d.Value));
-
-    // Build the pie chart
-    this.svg
-      .selectAll('pieces')
-      .data(pie(this.pieChartData))
-      .enter()
-      .append('path')
-      .attr('d', d3.arc().innerRadius(0).outerRadius(this.radius))
-      .attr('fill', (d: any, i: any) => this.fieldColors[i])
-      .attr('stroke', '#121926')
-      .style('stroke-width', '1px');
-
-    // Add labels
-    const labelLocation = d3.arc().innerRadius(100).outerRadius(this.radius);
-
-    this.svg
-      .selectAll('pieces')
-      .data(pie(this.pieChartData))
-      .enter()
-      .append('text')
-      .text((d: any) => d.data.Name)
-      .attr(
-        'transform',
-        (d: any) => 'translate(' + labelLocation.centroid(d) + ')'
-      )
-      .style('text-anchor', 'middle')
-      .style('font-size', this.fontSize + 'px');
-
-    this.svg
-      .append('g')
-      .append('text')
-      .attr('y', this.height - 300)
-      .attr('x', this.width / 2 - 165)
-      .text(this.title)
-      .style('text-anchor', 'middle')
-      .style('font-size', this.fontSize + 'px')
-      .attr('stroke', this.fontColor)
-      .style('fill', this.fontColor);
-  }
-
-  //update chart with new values
-  updateChart() {
-    d3.select('svg').remove();
-    this.createSvg();
-    this.createColors();
-    this.drawChart();
-  }
-
   private showChart() {}
 
   //called when user moves to a different tab
@@ -207,7 +154,8 @@ export class ConfigurePieChartComponent implements OnInit {
     if (tabChangeEvent.index === 1) {
       //this.getPieChart();
       this.assignValues();
-      this.updateChart();
+      this.setValueToPieChart();
+      this.drawChart();
     }
   }
 
@@ -262,19 +210,22 @@ export class ConfigurePieChartComponent implements OnInit {
   }
 
   private assignValues() {
-    this.title = this.pieChart.ChartTitle!;
-    this.keyTitle = this.pieChart.KeyTitle;
-    this.batchId = this.pieChart.BactchId!;
-    this.productName = this.pieChart.ProductName!;
-    if (this.pieChart.ChartData!.length !== 0) {
-      this.pieChartData = this.pieChart.ChartData!.filter((data) => data);
+    if (!this.loadedFromRedux) {
+      this.title = this.pieChart.ChartTitle!;
+      this.keyTitle = this.pieChart.KeyTitle;
+      this.batchId = this.pieChart.BactchId!;
+      this.productName = this.pieChart.ProductName!;
+      if (this.pieChart.ChartData!.length !== 0) {
+        this.pieChartData = this.pieChart.ChartData!.filter((data) => data);
+      }
+      this.fieldColors = this.pieChart.Color!.filter((data) => data);
+      console.log(this.fieldColors);
+      this.fontColor = this.pieChart.FontColor!;
+      this.fontSize = this.pieChart.FontSize!;
+      this.height = this.pieChart.Height!;
+      this.width = this.pieChart.Width!;
+      this.loadedFromRedux = true;
     }
-    this.fieldColors = this.pieChart.Color!.filter((data) => data);
-    console.log(this.fieldColors);
-    this.fontColor = this.pieChart.FontColor!;
-    this.fontSize = this.pieChart.FontSize!;
-    this.height = this.pieChart.Height!;
-    this.width = this.pieChart.Width!;
   }
 
   private saveChart(chart: any) {
@@ -326,6 +277,41 @@ export class ConfigurePieChartComponent implements OnInit {
     this.query = event;
   }
 
+  getRandomColor() {
+    let letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
+  setLabels() {
+    this.labels = [];
+    this.pieChartData.map((data) => {
+      let lArr = [];
+      lArr[0] = data.Name;
+      this.labels.push(lArr);
+    });
+  }
+
+  setValues() {
+    this.values = [];
+    this.pieChartData.map((data) => {
+      this.values.push(data.Value);
+    });
+  }
+
+  setColors() {
+    console.log(this.fieldColors.length);
+    if (this.fieldColors.length === 0) {
+      let count = this.pieChartData.length;
+      for (let i = 0; i < count; i++) {
+        this.fieldColors.push(this.getRandomColor());
+      }
+    }
+  }
+
   openSnackBar(msg: string) {
     this._snackBar.open(msg, 'OK', {
       horizontalPosition: this.horizontalPosition,
@@ -333,5 +319,42 @@ export class ConfigurePieChartComponent implements OnInit {
       panelClass: ['snackbar'],
       duration: 5 * 1000,
     });
+  }
+
+  public drawChart() {
+    this.chartData = {
+      labels: this.labels,
+      datasets: [
+        {
+          data: this.values,
+          backgroundColor: this.fieldColors,
+          borderWidth: 0,
+          hoverBackgroundColor: this.fieldColors,
+        },
+      ],
+    };
+
+    this.pieChartOptions = {
+      animation: {
+        duration: 0,
+      },
+      responsive: true,
+      plugins: {
+        legend: {
+          display: true,
+          position: 'bottom',
+          labels: {
+            font: { size: this.fontSize },
+            color: this.fontColor,
+          },
+        },
+        title: {
+          display: true,
+          text: this.title,
+          color: this.fontColor,
+          font: { size: this.fontSize },
+        },
+      },
+    };
   }
 }

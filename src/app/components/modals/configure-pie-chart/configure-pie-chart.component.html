@@ -11,13 +11,20 @@
         ></mat-grid-tile>
       </mat-grid-list>
     </mat-tab>
-    <mat-tab label="Chart Configuration"  *ngIf="CheckQuerySavingStatus()">
+    <mat-tab label="Chart Configuration" *ngIf="CheckQuerySavingStatus()">
       <mat-grid-list cols="5" rowHeight="550px">
         <!--Column that displays the bar chart-->
         <mat-grid-tile colspan="3" style="overflow: auto">
           <!--Bar chart-->
-          <div class="chart">
-            <figure id="pie"></figure>
+          <div class="pie-chart">
+            <canvas
+              baseChart
+              class="canvas"
+              [data]="chartData"
+              [type]="'pie'"
+              [options]="pieChartOptions"
+            >
+            </canvas>
           </div>
         </mat-grid-tile>
 
@@ -33,7 +40,7 @@
                   matInput
                   type="text"
                   [(ngModel)]="title"
-                  (ngModelChange)="updateChart()"
+                  (ngModelChange)="drawChart()"
                 />
               </mat-form-field>
             </div>
@@ -46,7 +53,7 @@
                   type="number"
                   placeholder="Ex. 12"
                   [(ngModel)]="fontSize"
-                  (ngModelChange)="updateChart()"
+                  (ngModelChange)="drawChart()"
                 />
                 <span matSuffix>px</span>
               </mat-form-field>
@@ -54,7 +61,7 @@
                 class="colorbox"
                 [(colorPicker)]="fontColor"
                 [style.background]="fontColor"
-                (colorPickerChange)="updateChart()"
+                (colorPickerChange)="drawChart()"
               ></div>
             </div>
 
@@ -68,7 +75,7 @@
                     class="colorbox"
                     [(colorPicker)]="fieldColors[i]"
                     [style.background]="fieldColors[i]"
-                    (colorPickerChange)="updateChart()"
+                    (colorPickerChange)="drawChart()"
                   ></div>
                 </mat-card>
               </div>
