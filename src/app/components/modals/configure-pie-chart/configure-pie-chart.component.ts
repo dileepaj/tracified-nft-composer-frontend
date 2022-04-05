@@ -6,12 +6,14 @@ import { AppState } from 'src/app/store/app.state';
 import {
   addBarChart,
   addPieChart,
+  projectStatus,
   updatePieChart,
 } from 'src/app/store/nft-state-store/nft.actions';
 import {
   selectNFT,
   selectNFTContent,
   selectPieCharts,
+  selectProjectStatus,
   selectQueryResult,
 } from 'src/app/store/nft-state-store/nft.selector';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -43,29 +45,9 @@ export class ConfigurePieChartComponent implements OnInit {
   chartData: any;
   pieChartOptions: any;
   loadedFromRedux: boolean = false;
+  newProject: boolean;
   //data to be displayed in the pie chart
-  pieChartData: Data[] = [
-    {
-      Name: 'Sri Lanka',
-      Value: 200,
-    },
-    {
-      Name: 'India',
-      Value: 900,
-    },
-    {
-      Name: 'Bangladesh',
-      Value: 800,
-    },
-    {
-      Name: 'Pakistan',
-      Value: 600,
-    },
-    {
-      Name: 'Nepal',
-      Value: 100,
-    },
-  ];
+  pieChartData: Data[] = [];
 
   //pie chart field colors
   fieldColors: any[] = [];
@@ -99,6 +81,9 @@ export class ConfigurePieChartComponent implements OnInit {
     private _snackBar: MatSnackBar
   ) {
     this.nft$ = this.store.select(selectNFTContent);
+    this.store.select(selectProjectStatus).subscribe((status) => {
+      this.newProject = status;
+    });
   }
 
   ngOnInit(): void {
@@ -119,6 +104,7 @@ export class ConfigurePieChartComponent implements OnInit {
         pieChartvalue != undefined &&
         pieChartvalue.queryResult != ''
       ) {
+        console.log(true);
         let pcData = JSON.stringify(pieChartvalue.queryResult);
         let dta = eval(pcData);
         let a = JSON.parse(dta);
@@ -154,7 +140,9 @@ export class ConfigurePieChartComponent implements OnInit {
     if (tabChangeEvent.index === 1) {
       //this.getPieChart();
       this.assignValues();
+
       this.setValueToPieChart();
+
       this.drawChart();
     }
   }
@@ -225,6 +213,9 @@ export class ConfigurePieChartComponent implements OnInit {
       this.height = this.pieChart.Height!;
       this.width = this.pieChart.Width!;
       this.loadedFromRedux = true;
+      this.setLabels();
+      this.setValues();
+      this.setColors();
     }
   }
 

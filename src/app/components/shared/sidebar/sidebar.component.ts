@@ -40,6 +40,8 @@ export class SidebarComponent implements OnInit {
   image$: Observable<Image[]>;
   timeline = false;
   nft$: Observable<NFTContent>;
+  projId: string = '';
+  layoutLink: string = '/layout/home/';
 
   widgets = [
     {
@@ -90,6 +92,8 @@ export class SidebarComponent implements OnInit {
     this.tableCount = this.store.select(selectNoOfTables);
     this.store.select(selectNFTContent).subscribe((nft) => {
       this.title = nft.ProjectName;
+      this.projId = nft.ProjectId;
+      this.layoutLink += this.projId;
     });
   }
 
