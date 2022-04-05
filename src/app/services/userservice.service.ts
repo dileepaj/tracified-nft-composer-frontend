@@ -13,14 +13,7 @@ export class UserserviceService {
   constructor(private apiService: ApiService) {
     this.admin = environment.adminUrl;
   }
-
-  public login(credentials: any): Observable<any> {
-    console.log('Login api called');
-    return this.apiService.post(this.admin + '/sign/login', {
-      user: credentials,
-    });
-  }
-
+  
   public getUser(): Observable<any> {
     return this.apiService.get(this.admin + '/api/bc/user');
   }

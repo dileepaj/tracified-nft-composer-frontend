@@ -135,7 +135,6 @@ const appRoutes: Routes = [];
     ReactiveFormsModule,
     MatCardModule,
     MatRippleModule,
-    ReactiveFormsModule,
     ColorPickerModule,
     MatTabsModule,
     FlexLayoutModule,
