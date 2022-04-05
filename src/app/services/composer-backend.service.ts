@@ -8,13 +8,14 @@ import { NFTContent } from 'src/models/nft-content/nft.content';
 //import { RecentProject } from 'src/models/nft-content/htmlGenerator';
 import { QueryExecuter } from 'src/models/nft-content/queryExecuter';
 import { Table } from 'src/models/nft-content/table';
+import { JwtserviceService } from './jwtservice.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ComposerBackendService {
   private apiUrl: string = environment.composerBackend;
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,private jwt:JwtserviceService) {}
 
   /**
    * @function setHeaders - set headers for an API request
@@ -24,7 +25,7 @@ export class ComposerBackendService {
     const headersConfig = {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: 'Bearer ' + sessionStorage.getItem('Token') || '',
+      Authorization: 'Bearer ' + this.jwt.getToken() || '',
     };
     return new HttpHeaders(headersConfig);
   }
