@@ -45,7 +45,7 @@ export class ConfigureBarChartComponent implements OnInit {
   nft$: any;
   horizontalPosition: MatSnackBarHorizontalPosition = 'end';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
-
+  tabIndex: number = 0;
   barChart: Chart;
   chartId: any;
   projectId: string = '';
@@ -58,6 +58,8 @@ export class ConfigureBarChartComponent implements OnInit {
   chartData: any;
   labels: string[] = [];
   values: any[] = [];
+  qEvent: any;
+  querySuccess: boolean = false;
 
   //data that are being displayed in the bar chart
   barChartData: Data[] = [];
@@ -138,7 +140,6 @@ export class ConfigureBarChartComponent implements OnInit {
   //called when user moves to a different tab
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     if (tabChangeEvent.index === 1) {
-      //this.getBarChart();
       this.assignValues();
       this.setValueToBarChart();
       this.drawChart();
@@ -255,8 +256,7 @@ export class ConfigureBarChartComponent implements OnInit {
   }
 
   public onQuerySuccess(event: any) {
-    console.log(event);
-    this.query = event.query;
+    this.tabIndex = 1;
   }
 
   openSnackBar(msg: string) {

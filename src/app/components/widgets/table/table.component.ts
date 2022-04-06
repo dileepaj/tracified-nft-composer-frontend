@@ -128,6 +128,7 @@ export class TableComponent implements OnInit {
       data.map((table) => {
         if (table.WidgetId === this.id) {
           this.table = table;
+          console.log(table);
         }
       });
     });

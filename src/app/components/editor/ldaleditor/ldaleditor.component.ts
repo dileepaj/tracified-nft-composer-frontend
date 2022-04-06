@@ -28,10 +28,11 @@ import { addQueryResult } from 'src/app/store/nft-state-store/nft.actions';
 export class LdaleditorComponent implements OnInit, AfterViewInit {
   @ViewChild('editor') private editor: any;
   @Input() id: string;
+  @Input() type: string;
   @Output() onQuerySuccess: EventEmitter<any> = new EventEmitter();
   text: string = '';
   staticWordCompleter: any;
-  aceEditor: any;
+  aceEditor: ace.Ace.Editor;
   loading: boolean = false;
   horizontalPosition: MatSnackBarHorizontalPosition = 'end';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
@@ -223,19 +224,19 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
   }
 
   setLanguageTools(): void {
-    ace.config.set('fontSize', '14px');
-    ace.config.set('basePath', 'https://ace.c9.io/build/src-noconflict/');
-
     this.aceEditor = ace.edit(this.editor.nativeElement);
     this.aceEditor.session.setValue('');
-    this.aceEditor.completers = this.staticWordCompleter;
-    this.aceEditor.setTheme('ace/theme/twilight');
+    this.aceEditor.completers = [this.staticWordCompleter];
+    this.aceEditor.setTheme('ace/theme/dracula');
+    this.aceEditor.session.setMode('ace/mode/tql');
 
     this.aceEditor.setOptions({
-      highlightSelectedWord: true,
+      showLineNumbers: true,
+      tabSize: 2,
       enableBasicAutocompletion: true,
-      enableSnippets: true,
       enableLiveAutocompletion: true,
+      enableSnippets: true,
+      fontSize: '15px',
     });
     this.aceEditor.on('change', () => {
       this.text = this.aceEditor.getValue();
@@ -288,7 +289,6 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
   }
 
   saveExecuter() {
-
     if (!!this.res && !!this.res.Response.result) {
       this.store.dispatch(
         addQueryResult({
@@ -321,6 +321,7 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
           });
           this.loading = false;
           this.res = result;
+          this.checkOutput();
         }
       },
       error: (err) => {
@@ -331,5 +332,58 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
         this.queryRes = true;
       },
     });
+  }
+
+  public checkOutput() {
+    //{"type": 4, "val": {"ChartData":[{"Name":"averageAnnualTemperature","Value":"24"}]}} - charts
+    //{"type": 4, "val": {"MainTable":[{"Farm Name":"Medathennawaththa","Temperature":"24","Humidity":"80%","Rainfall":"1800 mm"}]}} - table
+
+    let output = this.res.Response.result;
+    let outputObject = JSON.stringify(output);
+    let data = eval(outputObject);
+    let result = JSON.parse(data);
+    if (this.type === 'bar' || this.type === 'pie' || this.type === 'bubble') {
+      if (result['val'] !== undefined) {
+        let val = result.val;
+        if (val['ChartData'] !== undefined) {
+          let chartData = val.ChartData;
+          if (chartData.length > 0) {
+            let keys = Object.keys(chartData[0]);
+            if (keys.includes('Name') && keys.includes('Value')) {
+              console.log('valid');
+              this.onQuerySuccess.emit({
+                data: chartData,
+              });
+              this.saveExecuter();
+            }
+          } else {
+            this.openSnackBar('Invalid output. Please check the query.');
+          }
+        } else {
+          this.openSnackBar('Invalid output. Please check the query.');
+        }
+      } else {
+        this.openSnackBar('Invalid output. Please check the query.');
+      }
+    } else if (this.type === 'table') {
+      if (result['val'] !== undefined) {
+        let val = result.val;
+        if (val['MainTable'] !== undefined) {
+          let mainTable = val.MainTable;
+          if (mainTable.length > 0) {
+            this.onQuerySuccess.emit({
+              data: mainTable,
+            });
+            this.saveExecuter();
+          } else {
+            this.openSnackBar('Invalid output. Please check the query.');
+          }
+        } else {
+          this.openSnackBar('Invalid output. Please check the query.');
+        }
+      } else {
+        this.openSnackBar('Invalid output. Please check the query.');
+      }
+    }
   }
 }

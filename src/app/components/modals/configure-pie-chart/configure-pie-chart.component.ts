@@ -36,6 +36,7 @@ import { ChartOptions } from 'chart.js';
 })
 export class ConfigurePieChartComponent implements OnInit {
   nft$: any;
+  tabIndex: number = 0;
   pieChart: Chart;
   chartId: any;
   keyTitle: any;
@@ -263,9 +264,8 @@ export class ConfigurePieChartComponent implements OnInit {
     }
   }
 
-  public addQuery(event: any) {
-    console.log(event);
-    this.query = event;
+  public onQuerySuccess(event: any) {
+    this.tabIndex = 1;
   }
 
   getRandomColor() {

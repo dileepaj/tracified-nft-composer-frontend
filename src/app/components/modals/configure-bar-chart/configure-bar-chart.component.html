@@ -1,10 +1,15 @@
 <mat-dialog-content class="mat-typography modal-content" fxLayout="row">
-  <mat-tab-group (selectedTabChange)="tabChanged($event)" fxFlex="100%">
+  <mat-tab-group
+    (selectedTabChange)="tabChanged($event)"
+    fxFlex="100%"
+    [(selectedIndex)]="tabIndex"
+  >
     <mat-tab label="Query">
       <mat-grid-list cols="5" rowHeight="550px">
         <mat-grid-tile colspan="5" style="overflow: auto">
           <app-ldaleditor
             [id]="barChart.WidgetId"
+            [type]="'bar'"
             (onQuerySuccess)="onQuerySuccess($event)"
           ></app-ldaleditor
         ></mat-grid-tile>
