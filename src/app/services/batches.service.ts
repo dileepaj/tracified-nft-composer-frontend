@@ -3,6 +3,7 @@ import { ApiService } from './api.service';
 import { environment } from 'src/environments/environment';
 import { map, Observable } from 'rxjs';
 import { Items, Workflow } from 'src/app/entity/batch';
+import { UserserviceService } from './userservice.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,13 +11,18 @@ import { Items, Workflow } from 'src/app/entity/batch';
 export class BatchesService {
   public backend: any;
   public admin: any;
-  public _tenantId = '784b5070-8248-11eb-bcac-339454a996be';
+  public _tenantId = this.userService.getCurrentUser().TenentId;
 
-  constructor(private apiService: ApiService) {
+  constructor(
+    private apiService: ApiService,
+    private userService: UserserviceService
+  ) {
     this.backend = environment.backendUrl;
     this.admin = environment.adminUrl;
   }
-
+  ngOnInit() {
+    this._tenantId = this.userService.getCurrentUser().TenentId;
+  }
   /**
    * @function getItems - get items for a particular tenent
    * @screen - the products view(popup screens)

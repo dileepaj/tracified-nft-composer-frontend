@@ -13,8 +13,17 @@ export class UserserviceService {
   constructor(private apiService: ApiService) {
     this.admin = environment.adminUrl;
   }
-  
+
   public getUser(): Observable<any> {
     return this.apiService.get(this.admin + '/api/bc/user');
+  }
+
+  public getCurrentUser(): any {
+    if (
+      !!sessionStorage.getItem('User') ||
+      sessionStorage.getItem('User') !== ''
+    )
+      return JSON.parse(sessionStorage.getItem('User') || '');
+    else return '';
   }
 }

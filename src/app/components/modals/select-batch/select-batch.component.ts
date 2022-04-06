@@ -48,6 +48,7 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
+import { UserserviceService } from 'src/app/services/userservice.service';
 
 @Component({
   selector: 'app-select-batch',
@@ -113,22 +114,19 @@ export class SelectBatchComponent implements OnInit {
     private batchesService: BatchesService,
     private composerService: ComposerBackendService,
     private dndService: DndServiceService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private user: UserserviceService
   ) {}
 
   ngOnInit() {
     this.id = this.data.id;
-
-    this.userId = JSON.parse(sessionStorage.getItem('User') || '').UserID;
+    console.log('first', this.user.getCurrentUser());
+    this.userId = this.user.getCurrentUser().UserID;
     this.widget = this.data.widget;
     this.products.filterPredicate = (data: any, filter: string) =>
       data.productName.indexOf(filter) != -1;
-
     this.getStages();
-
     this.getItems();
-
-    //this.rewriteStages();
   }
 
   //called when user selects a product
@@ -196,10 +194,10 @@ export class SelectBatchComponent implements OnInit {
 
         this.saveWidget();
       } else {
-        alert('Please select a batch that has traceability data');
+        this.openSnackBar('Please select a batch that has traceability data');
       }
     } else {
-      alert('Please select a product and batch!');
+      this.openSnackBar('Please select a product and batch!');
     }
   }
 
@@ -242,7 +240,8 @@ export class SelectBatchComponent implements OnInit {
           this.page = index;
         },
         error: (err) => {
-          alert('An unexpected error occured. Please try again later');
+          console.log('err', err);
+          this.openSnackBar(JSON.parse(err.error.message));
         },
         complete: () => {
           this.batchesLoading = false;
@@ -258,7 +257,7 @@ export class SelectBatchComponent implements OnInit {
         this.productsFilter = this.products;
       },
       error: (err) => {
-        alert('An unexpected error occured. Please try again later');
+        this.openSnackBar(JSON.parse(err.error.message));
       },
       complete: () => {
         this.productsLoading = false;
@@ -277,7 +276,7 @@ export class SelectBatchComponent implements OnInit {
         });
       },
       error: (err) => {
-        alert('An unexpected error occured. Please try again later');
+        this.openSnackBar(JSON.parse(err.error.message));
       },
     });
   }
@@ -346,8 +345,9 @@ export class SelectBatchComponent implements OnInit {
         next: (res) => {},
         error: (err) => {
           this.saving = false;
+          console.log('err', err);
           this.openSnackBar(
-            'An unexpected error occured. Please try again later'
+            err.error.status + ' ' + JSON.parse(err.error.message).err
           );
         },
         complete: () => {
@@ -372,9 +372,7 @@ export class SelectBatchComponent implements OnInit {
         next: (res) => {},
         error: (err) => {
           this.saving = false;
-          this.openSnackBar(
-            'An unexpected error occured. Please try again later'
-          );
+          this.openSnackBar(JSON.parse(err.error.message));
         },
         complete: () => {
           this.saving = false;
