@@ -19,13 +19,20 @@ input.mat-input-element {
 .logo-name{
     font-size: xx-large;
     color: #00C853;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', sans-serif; 
+    line-height:30px;
+}
+.logo-mobile{
+margin-top: 20px !important;
+}
+
+.main-login-card{
+padding-left: 5%;
+padding-right: 5%;
 }
 
 .logo{
-    padding-top: 20%;
-    padding-left: 1%;
-    padding-right: 1%;
+margin-top: -100px!important;
 }
 
 .green-icon{
@@ -33,9 +40,12 @@ input.mat-input-element {
 }
 
 .login-cards{
-    padding: 6%;
+    padding: 3%;
 }
 
+.login-main-card{
+    margin-top: 50px;
+}
 .sign-up{
     padding-top: 5%;
 }
@@ -82,4 +92,8 @@ input.mat-input-element {
     border: 2px solid #ffffff;
     border-top-color: #000000;
     animation: spinner 0.8s linear infinite;
+}
+
+mat-grid-tile {
+    background: lightblue;
 }
