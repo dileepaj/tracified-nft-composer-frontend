@@ -10,6 +10,8 @@ import { AppState } from 'src/app/store/app.state';
 import {
   loadProject,
   newProject,
+  setCardStatus,
+  setQueryResult,
 } from 'src/app/store/nft-state-store/nft.actions';
 import { Chart } from 'src/models/nft-content/chart';
 import { RecentProject } from 'src/models/nft-content/htmlGenerator';
@@ -26,6 +28,7 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
+import { CardStatus, QueryResult } from 'src/models/nft-content/cardStatus';
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
@@ -106,6 +109,8 @@ export class ProjectsComponent implements OnInit {
       next: (data) => {
         const proj = data.Response;
         let contOrder: any[] = [];
+        let cardStatus: CardStatus[] = [];
+        let queryResult: QueryResult[] = [];
         let barcharts: Chart[] = [];
         let piecharts: Chart[] = [];
         let bubblecharts: Chart[] = [];
@@ -116,6 +121,12 @@ export class ProjectsComponent implements OnInit {
 
         proj.Project.ContentOrderData.map((widget: any) => {
           contOrder.push({ WidgetId: widget.WidgetId, Type: widget.Type });
+          cardStatus.push({
+            WidgetId: widget.WidgetId,
+            WidgetType: widget.Type,
+            DataSelected: true,
+          });
+          queryResult.push({ WidgetId: widget.WidgetId, queryResult: '' });
         });
 
         if (proj.BarCharts) {
@@ -218,6 +229,8 @@ export class ProjectsComponent implements OnInit {
           },
         };
         this.store.dispatch(loadProject({ nftContent: this.loadedProject }));
+        this.store.dispatch(setCardStatus({ cardStatus: cardStatus }));
+        this.store.dispatch(setQueryResult({ queryResult: queryResult }));
         this.addDragAndDropArray(this.loadedProject.ContentOrderData);
         this.projToBeLoaded = '';
         this.router.navigate([`/layout/home/${proj.Project.ProjectId}`]);

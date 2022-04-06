@@ -12,6 +12,7 @@ import {
   copyArrayItem,
   CdkDragMove,
   transferArrayItem,
+  CdkDragEnter,
 } from '@angular/cdk/drag-drop';
 
 import { MatDialog } from '@angular/material/dialog';
@@ -188,7 +189,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   }
 
   //Called when a widget is dropped to drap and drop area.
-  drop(event: CdkDragDrop<Widget[]>) {
+  drop(event: any) {
     if (event.previousContainer === event.container) {
       if (event.container.data === this.usedWidgets) {
         moveItemInArray(
@@ -196,6 +197,9 @@ export class ComposerComponent implements OnInit, AfterViewInit {
           event.previousIndex,
           event.currentIndex
         );
+
+        console.log('prev', event.previousIndex);
+        console.log('cur', event.currentIndex);
         this.stateService.rewriteWidgetArr(this.usedWidgets);
       }
     } else {
@@ -222,6 +226,20 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   //get drag position
   dragMoved(event: any) {
     this.position = `> Position X: ${event.pointerPosition.x} - Y: ${event.pointerPosition.y}`;
+  }
+
+  dragEntered(event: CdkDragEnter<number>) {
+    const drag = event.item;
+    const dropList = event.container;
+    const dragIndex = drag.data;
+    const dropIndex = dropList.data;
+
+    const phContainer = dropList.element.nativeElement;
+    const phElement = phContainer.querySelector('.cdk-drag-placeholder');
+    phContainer.removeChild(phElement!);
+    phContainer.parentElement!.insertBefore(phElement!, phContainer);
+
+    moveItemInArray(this.usedWidgets, dragIndex, dropIndex);
   }
 
   noReturnPredicate() {

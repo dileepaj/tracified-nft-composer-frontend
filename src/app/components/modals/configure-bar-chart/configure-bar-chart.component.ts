@@ -208,6 +208,9 @@ export class ConfigureBarChartComponent implements OnInit {
     this.yName = this.barChart.YAxis;
     this.height = this.barChart.Height!;
     this.width = this.barChart.Width!;
+    this.setLabels();
+    this.setValues();
+    this.setColors();
   }
 
   private saveChart(chart: any) {
