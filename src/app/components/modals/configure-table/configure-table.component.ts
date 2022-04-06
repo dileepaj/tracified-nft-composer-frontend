@@ -9,6 +9,7 @@ import {
 } from 'src/app/store/nft-state-store/nft.actions';
 import {
   selectNFTContent,
+  selectProjectStatus,
   selectQueryResult,
   selectTable,
 } from 'src/app/store/nft-state-store/nft.selector';
@@ -31,18 +32,15 @@ import { Data } from '@angular/router';
 })
 export class ConfigureTableComponent implements OnInit {
   nft$: any;
+  tabIndex: number = 0;
+  newProj: boolean;
   table: Table;
   tableId: any;
   title: any;
   query: string = '';
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = [
-    { position: 1, name: 'Hydrogen', weight: 1.0079 },
-    { position: 2, name: 'Helium', weight: 4.0026 },
-    { position: 3, name: 'Lithium', weight: 6.941 },
-    { position: 4, name: 'Beryllium', weight: 9.0122 },
-  ];
-  tableContent: string;
+  displayedColumns: string[] = [];
+  dataSource = [];
+  tableContent: string = '';
   tableHtml: string = '';
 
   saving: boolean = false;
@@ -58,13 +56,16 @@ export class ConfigureTableComponent implements OnInit {
     private _snackBar: MatSnackBar
   ) {
     this.nft$ = this.store.select(selectNFTContent);
+    this.store.select(selectProjectStatus).subscribe((status) => {
+      this.newProj = status;
+    });
   }
 
   ngOnInit(): void {
     //this.updateChart();
     this.tableId = this.data.id;
     this.table = this.data.widget;
-    this.setValueToTable();
+    //this.setValueToTable();
   }
 
   private showChart() {}
@@ -100,8 +101,8 @@ export class ConfigureTableComponent implements OnInit {
   //called when user moves to a different tab
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     if (tabChangeEvent.index === 1) {
-      //this.getTable();
       this.assignValues();
+      this.setValueToTable();
       this.generateTable();
     }
   }
@@ -149,24 +150,27 @@ export class ConfigureTableComponent implements OnInit {
 
   //generate table html
   private generateTable() {
-    let tableString = '<thead><tr>';
-    Object.keys(this.dataSource[0]).map((column) => {
-      tableString += '<th>' + column + '</th>';
-    });
-
-    tableString += '</tr></thead><tbody>';
-
-    this.dataSource.map((data) => {
-      tableString += '<tr>';
-      Object.entries(data).map((d) => {
-        tableString += '<td>' + d[1] + '</td>';
+    if (this.tableContent === '') {
+      let tableString = '<thead><tr>';
+      Object.keys(this.dataSource[0]).map((column) => {
+        tableString += '<th>' + column + '</th>';
       });
-      tableString += '</tr>';
-    });
 
-    tableString += '</tbody>';
+      tableString += '</tr></thead><tbody>';
 
-    this.tableContent = tableString;
+      this.dataSource.map((data) => {
+        tableString += '<tr>';
+        Object.entries(data).map((d) => {
+          tableString += '<td>' + d[1] + '</td>';
+        });
+        tableString += '</tr>';
+      });
+
+      tableString += '</tbody>';
+
+      this.tableContent = tableString;
+    }
+
     this.tableHtml = '<table>' + this.tableContent + '</table>';
   }
 
@@ -209,9 +213,8 @@ export class ConfigureTableComponent implements OnInit {
     }
   }
 
-  public addQuery(event: any) {
-    console.log(event);
-    this.query = event;
+  public onQuerySuccess(event: any) {
+    this.tabIndex = 1;
   }
 
   openSnackBar(msg: string) {

@@ -228,11 +228,15 @@ export class ProjectsComponent implements OnInit {
             CarbonFootprint: [],
           },
         };
+
         this.store.dispatch(loadProject({ nftContent: this.loadedProject }));
         this.store.dispatch(setCardStatus({ cardStatus: cardStatus }));
         this.store.dispatch(setQueryResult({ queryResult: queryResult }));
+
         this.addDragAndDropArray(this.loadedProject.ContentOrderData);
+
         this.projToBeLoaded = '';
+
         this.router.navigate([`/layout/home/${proj.Project.ProjectId}`]);
       },
       error: (err) => {

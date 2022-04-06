@@ -31,6 +31,7 @@ import { bubblechart } from 'src/models/nft-content/widgetTypes';
 })
 export class ConfigureBubbleChartComponent implements OnInit {
   nft$: any;
+  tabIndex: number = 0;
   bubbleChart: Chart;
   chartId: any;
   keyTitle: any;
@@ -255,9 +256,8 @@ export class ConfigureBubbleChartComponent implements OnInit {
     }
   }
 
-  public addQuery(event: any) {
-    console.log(event);
-    this.query = event;
+  public onQuerySuccess(event: any) {
+    this.tabIndex = 1;
   }
 
   setLabels() {
