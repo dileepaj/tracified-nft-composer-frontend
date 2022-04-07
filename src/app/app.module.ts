@@ -68,6 +68,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { NewProjectComponent } from './components/modals/new-project/new-project.component';
 import { userReducer } from './store/user-state-store/user.reducer';
 import { NgChartsModule } from 'ng2-charts';
+import { TimelineViewComponent } from './components/modals/timeline-view/timeline-view.component';
 
 const appRoutes: Routes = [];
 
@@ -103,6 +104,7 @@ const appRoutes: Routes = [];
     SelectMasterDataTypeComponent,
     SelectDataComponent,
     NewProjectComponent,
+    TimelineViewComponent,
   ],
   imports: [
     BrowserModule,
