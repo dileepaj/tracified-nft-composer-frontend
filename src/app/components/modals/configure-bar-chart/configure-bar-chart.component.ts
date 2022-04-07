@@ -26,6 +26,14 @@ import {
 } from '@angular/material/snack-bar';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
 import { color } from 'd3';
+import {
+  ChartConfiguration,
+  ChartData,
+  ChartEvent,
+  ChartType,
+  ChartOptions,
+} from 'chart.js';
+import { BaseChartDirective } from 'ng2-charts';
 
 @Component({
   selector: 'app-configure-bar-chart',
@@ -37,7 +45,7 @@ export class ConfigureBarChartComponent implements OnInit {
   nft$: any;
   horizontalPosition: MatSnackBarHorizontalPosition = 'end';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
-
+  tabIndex: number = 0;
   barChart: Chart;
   chartId: any;
   projectId: string = '';
@@ -46,32 +54,17 @@ export class ConfigureBarChartComponent implements OnInit {
   productName: string = '';
   query: string = '';
   querySaved: boolean = false;
+  public barChartOptions: any;
+  chartData: any;
+  labels: string[] = [];
+  values: any[] = [];
+  qEvent: any;
+  querySuccess: boolean = false;
 
   //data that are being displayed in the bar chart
-  barChartData: Data[] = [
-    {
-      Name: 'Sri Lanka',
-      Value: 200,
-    },
-    {
-      Name: 'India',
-      Value: 900,
-    },
-    {
-      Name: 'Bangladesh',
-      Value: 800,
-    },
-    {
-      Name: 'Pakistan',
-      Value: 600,
-    },
-    {
-      Name: 'Nepal',
-      Value: 100,
-    },
-  ];
+  barChartData: Data[] = [];
 
-  barColors: any[] = ['#69b3a2', '#69b3a2', '#69b3a2', '#69b3a2', '#69b3a2']; //bar colors
+  barColors: any[] = []; //bar colors
   domain: number[] = [0, 1000]; //domain of the bar chart
   min: number = 0; //domain minimum value
   max: number = 1000; //domain maximum value
@@ -81,10 +74,7 @@ export class ConfigureBarChartComponent implements OnInit {
   yName: any = 'Y axis'; //y axis name
   fontSize: number = 10; //font size
   fontColor: string = '#000000'; //font color
-  tabcolor = '#69b3a2';
 
-  //other values required to generate the bar chart
-  private svg: any;
   private margin = 50;
   private width = 550 - this.margin * 2;
   private height = 200 - this.margin * 2;
@@ -103,8 +93,7 @@ export class ConfigureBarChartComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //this.updateChart();
-    this.setValueToBarChart();
+    //this.setValueToBarChart();
     this.chartId = this.data.id;
     this.barChart = this.data.widget;
   }
@@ -113,27 +102,26 @@ export class ConfigureBarChartComponent implements OnInit {
   setValueToBarChart() {
     this.store.select(selectQueryResult).subscribe((data) => {
       let barChartvalue = data.find((v) => v.WidgetId === this.data.id);
-      console.log('barChar;', barChartvalue);
       if (
         !!barChartvalue &&
         barChartvalue != undefined &&
         barChartvalue.queryResult != ''
       ) {
         let barChartobject = JSON.stringify(barChartvalue.queryResult);
-        console.log('first', eval(barChartobject));
         let dta = eval(barChartobject);
         let a = JSON.parse(dta);
-        console.log('a', a);
-        console.log('firstsssssssssssssss', a.val);
         let b: Data[] = [];
         //let val : string;
         a.val.ChartData.map((data: any) => {
           let val = parseFloat(data.Value);
           b.push({ Name: data.Name, Value: val });
         });
-        console.log(b);
 
         this.barChartData = b;
+
+        this.setLabels();
+        this.setValues();
+        this.setColors();
       }
     });
   }
@@ -149,96 +137,12 @@ export class ConfigureBarChartComponent implements OnInit {
     return buttonState;
   }
 
-  //generate bar chart
-  private createSvg(): void {
-    this.svg = d3
-      .select('#bar')
-      .append('svg')
-      .attr('width', this.width + this.margin * 2)
-      .attr('height', this.height + this.margin * 2)
-      .append('g')
-      .attr('transform', 'translate(' + this.margin + ',' + this.margin + ')');
-  }
-
-  private drawBars(data: any[]): void {
-    // Create the X-axis band scale
-    const x = d3
-      .scaleBand()
-      .range([0, this.width])
-      .domain(data.map((d) => d.Name))
-      .padding(0.2);
-
-    // Draw the X-axis on the DOM
-    this.svg
-      .append('g')
-      .attr('transform', 'translate(0,' + this.height + ')')
-      .call(d3.axisBottom(x))
-      .style('color', 'black')
-      .append('text')
-      .attr('y', this.height - 60)
-      .attr('x', this.width - 200)
-      .attr('text-anchor', 'end')
-      .attr('stroke', this.fontColor)
-      .style('fill', this.fontColor)
-      .style('font-size', this.fontSize + 'px')
-      .text(this.xName);
-
-    // Create the Y-axis band scale
-    const y = d3
-      .scaleLinear()
-      .domain([this.min, this.max])
-      .range([this.height, 0]);
-
-    // Draw the Y-axis on the DOM
-    this.svg
-      .append('g')
-      .call(d3.axisLeft(y))
-      .style('color', 'black')
-      .append('text')
-      .attr('transform', 'rotate(-90)')
-      .attr('y', 6)
-      .attr('dy', '-4.6em')
-      .attr('text-anchor', 'end')
-      .attr('stroke', this.fontColor)
-      .style('fill', this.fontColor)
-      .style('font-size', this.fontSize + 'px')
-      .text(this.yName);
-
-    // Create and fill the bars
-    this.svg
-      .selectAll('bars')
-      .data(data)
-      .enter()
-      .append('rect')
-      .attr('x', (d: any) => x(d.Name))
-      .attr('y', (d: any) => y(d.Value))
-      .attr('width', x.bandwidth())
-      .attr('height', (d: any) => this.height - y(d.Value))
-      .attr('fill', (d: any, i: number) => this.barColors[i])
-      .style('font-size', this.fontSize + 'px');
-  }
-
-  //update chart with new values
-  updateChart() {
-    d3.select('svg').remove();
-    this.createSvg();
-    this.drawBars(this.barChartData);
-  }
-
-  //delete a field in bar chart
-  deleteField(_id: number) {
-    this.barChartData = this.barChartData.filter(
-      (value: any) => value._id !== _id
-    );
-    this.updateChart();
-  }
-
   //called when user moves to a different tab
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     if (tabChangeEvent.index === 1) {
-      //this.getBarChart();
       this.assignValues();
-      this.updateChart();
+      this.setValueToBarChart();
+      this.drawChart();
     }
   }
 
@@ -261,11 +165,6 @@ export class ConfigureBarChartComponent implements OnInit {
     };
 
     this.saveChart(this.barChart);
-    /*this.barChart = {
-      ...this.barChart,
-      Height: this.height,
-      Width: this.width,
-    };*/
     this.store.dispatch(updateBarChart({ chart: this.barChart }));
   }
 
@@ -310,6 +209,9 @@ export class ConfigureBarChartComponent implements OnInit {
     this.yName = this.barChart.YAxis;
     this.height = this.barChart.Height!;
     this.width = this.barChart.Width!;
+    this.setLabels();
+    this.setValues();
+    this.setColors();
   }
 
   private saveChart(chart: any) {
@@ -354,8 +256,7 @@ export class ConfigureBarChartComponent implements OnInit {
   }
 
   public onQuerySuccess(event: any) {
-    console.log(event);
-    this.query = event.query;
+    this.tabIndex = 1;
   }
 
   openSnackBar(msg: string) {
@@ -365,5 +266,74 @@ export class ConfigureBarChartComponent implements OnInit {
       panelClass: ['snackbar'],
       duration: 5 * 1000,
     });
+  }
+
+  setLabels() {
+    this.labels = [];
+    this.barChartData.map((data) => {
+      this.labels.push(data.Name);
+    });
+  }
+
+  setValues() {
+    this.values = [];
+    this.barChartData.map((data) => {
+      this.values.push(data.Value);
+    });
+  }
+
+  setColors() {
+    if (this.barColors.length === 0) {
+      let count = this.barChartData.length;
+      for (let i = 0; i < count; i++) {
+        this.barColors.push('#69b3a2');
+      }
+    }
+  }
+
+  public drawChart() {
+    this.chartData = {
+      labels: this.labels,
+      datasets: [
+        {
+          label: this.title,
+          data: this.values,
+          backgroundColor: this.barColors,
+          borderWidth: 0,
+          hoverBackgroundColor: this.barColors,
+        },
+      ],
+    };
+
+    this.barChartOptions = {
+      animation: {
+        duration: 0,
+      },
+      responsive: true,
+      scales: {
+        x: {
+          display: true,
+          title: {
+            display: true,
+            text: this.xName,
+            font: {
+              size: this.fontSize,
+            },
+            color: this.fontColor,
+          },
+        },
+        y: {
+          display: true,
+          title: {
+            display: true,
+            text: this.yName,
+            font: {
+              size: this.fontSize,
+            },
+            color: this.fontColor,
+          },
+        },
+      },
+    };
   }
 }

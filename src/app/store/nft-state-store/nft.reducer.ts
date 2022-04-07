@@ -21,7 +21,10 @@ import {
   deleteTimeline,
   loadProject,
   newProject,
+  projectStatus,
   removeFromOrderArray,
+  setCardStatus,
+  setQueryResult,
   setWidgetOrder,
   updateBarChart,
   updateBubbleChart,
@@ -95,9 +98,19 @@ export const nftReducer = createReducer(
     return nftClone;
   }),
 
+  on(setQueryResult, (nft, { queryResult }) => ({
+    ...nft,
+    queryResult: queryResult,
+  })),
+
   on(addCardtStatus, (nft, { cardStatus }) => ({
     ...nft,
     cardStatus: [...nft.cardStatus, cardStatus],
+  })),
+
+  on(setCardStatus, (nft, { cardStatus }) => ({
+    ...nft,
+    cardStatus: cardStatus,
   })),
 
   on(newProject, (nft, { nftContent }) => ({
@@ -110,6 +123,11 @@ export const nftReducer = createReducer(
     ...nft,
     nftContent: nftContent,
     newProj: false,
+  })),
+
+  on(projectStatus, (nft, { status }) => ({
+    ...nft,
+    newProj: status,
   })),
 
   on(addBarChart, (nft, { chart }) => ({

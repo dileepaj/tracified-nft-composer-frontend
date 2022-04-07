@@ -20,8 +20,6 @@ mat-toolbar {
 .green-button {
   border-radius: 35;
   background-color: #00c853;
-  padding: 8px 26px;
-  font-size: 18px;
 }
 
 .mainView {
@@ -66,4 +64,11 @@ mat-toolbar {
   border: 2px solid #ffffff;
   border-top-color: #000000;
   animation: spinner 0.8s linear infinite;
+}
+
+.red-button {
+  border-radius: 35;
+  background-color: red;
+
+  margin-left: 10px;
 }

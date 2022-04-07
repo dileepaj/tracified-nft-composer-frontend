@@ -1,10 +1,15 @@
 <mat-dialog-content class="mat-typography modal-content" fxLayout="row">
-  <mat-tab-group (selectedTabChange)="tabChanged($event)" fxFlex="100%">
+  <mat-tab-group
+    (selectedTabChange)="tabChanged($event)"
+    fxFlex="100%"
+    [(selectedIndex)]="tabIndex"
+  >
     <mat-tab label="Query">
       <mat-grid-list cols="5" rowHeight="550px">
         <mat-grid-tile colspan="5" style="overflow: auto">
           <app-ldaleditor
             [id]="barChart.WidgetId"
+            [type]="'bar'"
             (onQuerySuccess)="onQuerySuccess($event)"
           ></app-ldaleditor
         ></mat-grid-tile>
@@ -15,8 +20,15 @@
         <!--Column that displays the bar chart-->
         <mat-grid-tile colspan="3">
           <!--Bar chart-->
-          <div class="chart">
-            <figure id="bar"></figure>
+          <div class="bar-chart">
+            <canvas
+              baseChart
+              class="canvas"
+              [data]="chartData"
+              [type]="'bar'"
+              [options]="barChartOptions"
+            >
+            </canvas>
           </div>
         </mat-grid-tile>
 
@@ -24,39 +36,51 @@
         <mat-grid-tile colspan="2" class="form-tile">
           <div class="form-div">
             <h2><mat-icon class="title-icon">tune</mat-icon>Configure Chart</h2>
-            <div class="domain">
+            <div fxLayout="row wrap">
+              <mat-form-field appearance="fill" fxFlex="100%">
+                <mat-label>Title</mat-label>
+                <input
+                  matInput
+                  type="text"
+                  placeholder="Title"
+                  [(ngModel)]="title"
+                  (ngModelChange)="drawChart()"
+                />
+              </mat-form-field>
               <!--input field for setting x axis name-->
-              <mat-form-field appearance="fill" color="primary">
+              <mat-form-field appearance="fill" color="primary" fxFlex="45%">
                 <mat-label>X Axis Name</mat-label>
                 <input
                   matInput
                   type="text"
                   [(ngModel)]="xName"
-                  (ngModelChange)="updateChart()"
+                  (ngModelChange)="drawChart()"
                 />
               </mat-form-field>
 
               <!--input field for setting y axis name-->
-              <mat-form-field appearance="fill" color="primary">
+              <mat-form-field
+                appearance="fill"
+                color="primary"
+                fxFlex="45%"
+                style="float: right"
+              >
                 <mat-label>Y Axis Name</mat-label>
                 <input
                   matInput
                   type="text"
                   [(ngModel)]="yName"
-                  (ngModelChange)="updateChart()"
+                  (ngModelChange)="drawChart()"
                 />
               </mat-form-field>
-            </div>
-
-            <div class="domain">
-              <mat-form-field appearance="fill">
+              <mat-form-field appearance="fill" fxFlex="45%">
                 <mat-label>Font size</mat-label>
                 <input
                   matInput
                   type="number"
                   placeholder="Ex. 12"
                   [(ngModel)]="fontSize"
-                  (ngModelChange)="updateChart()"
+                  (ngModelChange)="drawChart()"
                 />
                 <span matSuffix>px</span>
               </mat-form-field>
@@ -64,18 +88,10 @@
                 class="colorbox"
                 [(colorPicker)]="fontColor"
                 [style.background]="fontColor"
-                (colorPickerChange)="updateChart()"
+                (colorPickerChange)="drawChart()"
               ></div>
             </div>
 
-            <div class="domain">
-              <mat-form-field appearance="fill">
-                <mat-label>Range</mat-label>
-                <input matInput type="number" placeholder="Ex. 12" [(ngModel)]="max" (ngModelChange)="updateChart()" />
-                <span matSuffix>px</span>
-              </mat-form-field>
-            </div>
-            
             <!--Values displayed in the bar chart-->
             <div class="bar-chart-fields">
               <h3>Bar Chart Fields</h3>
@@ -86,7 +102,7 @@
                     class="colorbox"
                     [(colorPicker)]="barColors[i]"
                     [style.background]="barColors[i]"
-                    (colorPickerChange)="updateChart()"
+                    (colorPickerChange)="drawChart()"
                   ></div>
                 </mat-card>
               </div>

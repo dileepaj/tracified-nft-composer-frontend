@@ -28,6 +28,7 @@ import { Widget } from '../../views/composer/composer.component';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
 import { barchart } from 'src/models/nft-content/widgetTypes';
 import { NFTContent } from 'src/models/nft-content/nft.content';
+import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 
 @Component({
   selector: 'app-bar-chart-widget',
@@ -45,7 +46,8 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
   constructor(
     private store: Store<AppState>,
     public dialog: MatDialog,
-    private service: DndServiceService
+    private service: DndServiceService,
+    private composerService: ComposerBackendService
   ) {
     this.barchart$ = this.store.select(selectBarCharts);
     this.store.select(selectNFTContent).subscribe((content) => {
@@ -93,8 +95,16 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
 
   //delete chart from redux
   deleteWidget() {
-    this.store.dispatch(deleteBarChart({ chart: this.barChart }));
-    this.onDeleteWidget.emit(this.id);
+    this.composerService.deleteChart(this.id).subscribe({
+      next: (res) => {},
+      error: (err) => {
+        alert('Error');
+      },
+      complete: () => {
+        this.store.dispatch(deleteBarChart({ chart: this.barChart }));
+        this.onDeleteWidget.emit(this.id);
+      },
+    });
   }
 
   //add chart to redux
@@ -108,19 +118,7 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
       KeyTitle: 'Name',
       ValueTitle: 'Value',
       ChartData: [],
-      Color: [
-        '#69b3a2',
-        '#69b3a2',
-        '#69b3a2',
-        '#69b3a2',
-        '#69b3a2',
-        '#69b3a2',
-        '#69b3a2',
-        '#69b3a2',
-        '#69b3a2',
-        '#69b3a2',
-      ],
-
+      Color: [],
       FontColor: '#000000',
       FontSize: 10,
       XAxis: 'X Axis',

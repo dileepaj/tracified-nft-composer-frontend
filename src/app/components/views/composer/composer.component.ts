@@ -12,6 +12,7 @@ import {
   copyArrayItem,
   CdkDragMove,
   transferArrayItem,
+  CdkDragEnter,
 } from '@angular/cdk/drag-drop';
 
 import { MatDialog } from '@angular/material/dialog';
@@ -45,6 +46,7 @@ import {
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import { NewProjectComponent } from '../../modals/new-project/new-project.component';
+import { projectStatus } from 'src/app/store/nft-state-store/nft.actions';
 
 export interface Widget {
   type: string;
@@ -187,7 +189,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   }
 
   //Called when a widget is dropped to drap and drop area.
-  drop(event: CdkDragDrop<Widget[]>) {
+  drop(event: any) {
     if (event.previousContainer === event.container) {
       if (event.container.data === this.usedWidgets) {
         moveItemInArray(
@@ -195,6 +197,9 @@ export class ComposerComponent implements OnInit, AfterViewInit {
           event.previousIndex,
           event.currentIndex
         );
+
+        console.log('prev', event.previousIndex);
+        console.log('cur', event.currentIndex);
         this.stateService.rewriteWidgetArr(this.usedWidgets);
       }
     } else {
@@ -221,6 +226,20 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   //get drag position
   dragMoved(event: any) {
     this.position = `> Position X: ${event.pointerPosition.x} - Y: ${event.pointerPosition.y}`;
+  }
+
+  dragEntered(event: CdkDragEnter<number>) {
+    const drag = event.item;
+    const dropList = event.container;
+    const dragIndex = drag.data;
+    const dropIndex = dropList.data;
+
+    const phContainer = dropList.element.nativeElement;
+    const phElement = phContainer.querySelector('.cdk-drag-placeholder');
+    phContainer.removeChild(phElement!);
+    phContainer.parentElement!.insertBefore(phElement!, phContainer);
+
+    moveItemInArray(this.usedWidgets, dragIndex, dropIndex);
   }
 
   noReturnPredicate() {
@@ -251,6 +270,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     transferArrayItem(this.usedWidgets, [], index, 0);
 
     this.stateService.rewriteWidgetArr(this.usedWidgets);
+    this.saveOrUpdateProject(true);
   }
 
   openAddData() {
@@ -312,13 +332,13 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     };
 
     this.composerService.saveProject(project).subscribe({
-      next: (res) => {
-      },
+      next: (res) => {},
       error: (err) => {
         alert('An unexpected error occured. Please try again later');
         this.saving = false;
       },
       complete: () => {
+        this.store.dispatch(projectStatus({ status: false }));
         this.openSnackBar('Project Saved!!');
         this.saving = false;
       },
@@ -345,10 +365,12 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     };
 
     this.composerService.updateProject(project).subscribe({
-      next: (res) => {
-      },
+      next: (res) => {},
       error: (err) => {
-        alert('An unexpected error occured. Please try again later');
+        this.openSnackBar(
+          'An unexpected error occured. Please try again later'
+        );
+
         this.saving = false;
       },
       complete: () => {
@@ -358,14 +380,16 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     });
   }
 
-  saveOrUpdateProject() {
+  saveOrUpdateProject(deleteFlag: boolean) {
     let status = true;
     this.store.select(selectProjectStatus).subscribe((s) => {
       status = s;
     });
 
     if (status === true) {
-      this.saveProject();
+      if (!deleteFlag) {
+        this.saveProject();
+      }
     } else {
       this.updateProject();
     }

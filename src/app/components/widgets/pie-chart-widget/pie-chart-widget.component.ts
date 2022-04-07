@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
+import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
 import { AppState } from 'src/app/store/app.state';
 import {
@@ -32,7 +33,8 @@ export class PieChartWidgetComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     public dialog: MatDialog,
-    private service: DndServiceService
+    private service: DndServiceService,
+    private composerService: ComposerBackendService
   ) {
     this.store.select(selectNFTContent).subscribe((content) => {
       this.nftContent = content;
@@ -71,11 +73,19 @@ export class PieChartWidgetComponent implements OnInit {
     });
     return buttonState;
   }
-  
+
   //delete pie chart
   deleteWidget() {
-    this.store.dispatch(deletePieChart({ chart: this.pieChart }));
-    this.onDeleteWidget.emit(this.id);
+    this.composerService.deleteChart(this.id).subscribe({
+      next: (res) => {},
+      error: (err) => {
+        alert('Error');
+      },
+      complete: () => {
+        this.store.dispatch(deletePieChart({ chart: this.pieChart }));
+        this.onDeleteWidget.emit(this.id);
+      },
+    });
   }
 
   //add pie chart to the store
@@ -89,18 +99,7 @@ export class PieChartWidgetComponent implements OnInit {
       KeyTitle: 'Name',
       ValueTitle: 'Value',
       ChartData: [],
-      Color: [
-        '#c7d3ec',
-        '#a5b8db',
-        '#879cc4',
-        '#677795',
-        '#5a6782',
-        '#c7d3ec',
-        '#a5b8db',
-        '#879cc4',
-        '#677795',
-        '#5a6782',
-      ],
+      Color: [],
       FontColor: '#000000',
       FontSize: 12,
       Height: 500,
