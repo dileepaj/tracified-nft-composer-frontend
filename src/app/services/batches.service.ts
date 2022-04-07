@@ -3,6 +3,7 @@ import { ApiService } from './api.service';
 import { environment } from 'src/environments/environment';
 import { map, Observable } from 'rxjs';
 import { Items, Workflow } from 'src/app/entity/batch';
+import { TracibilityProfileWithTimeline } from '../entity/timeline';
 
 @Injectable({
   providedIn: 'root',
@@ -63,5 +64,12 @@ export class BatchesService {
       '&fromDate=' +
       fromDate;
     return this.apiService.get(url);
+  }
+
+  //get timeline for the widget
+  public getTimeline(): Observable<any> {
+    return this.apiService.get(
+      'https://qa.api.tracified.com/api/v2/traceabilityProfiles/customer/SGFuYU1hdE5zcDAx'
+    );
   }
 }

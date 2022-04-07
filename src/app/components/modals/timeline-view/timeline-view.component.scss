@@ -1,32 +1,9 @@
 @import "../../../../scss/mixins";
 @import "../../../../scss/variables";
 
-.widget-div {
-  @include widget-div;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.content-div {
-  //border: dotted 2px #ccc;
-  border-radius: 5px;
-  position: absolute;
-  bottom: 50px;
-  top: 50px;
-  right: 10px;
-  left: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 40px;
-  //background-color: #ccc;
-}
-
 .timeline-content{
-  overflow: auto;
-  width: 90%;
+  height: calc($modalHeight - 50px);
+  overflow: auto !important;
 }
 
 .timeline {
@@ -37,7 +14,6 @@
   margin: 20px 0 0 0;
   position: relative;
   counter-reset: list 0;
-
 
   &-item {
     list-style: none;
