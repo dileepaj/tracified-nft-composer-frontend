@@ -219,6 +219,12 @@ export class ProjectsComponent implements OnInit {
           });
         }
 
+        if (proj.Timeline) {
+          proj.Timeline.map((tl: any) => {
+            timeline.push(tl);
+          });
+        }
+
         this.loadedProject = {
           ProjectId: proj.Project.ProjectId,
           ProjectName: proj.Project.ProjectName,
@@ -234,7 +240,7 @@ export class ProjectsComponent implements OnInit {
             BubbleCharts: bubblecharts,
             Tables: tables,
             Images: images,
-            Timeline: [],
+            Timeline: timeline,
             ProofBotData: [],
             Stats: [],
             CarbonFootprint: [],

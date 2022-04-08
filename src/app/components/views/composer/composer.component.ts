@@ -47,6 +47,7 @@ import {
 } from '@angular/material/snack-bar';
 import { NewProjectComponent } from '../../modals/new-project/new-project.component';
 import { projectStatus } from 'src/app/store/nft-state-store/nft.actions';
+import { SelectMasterDataTypeComponent } from '../../modals/select-master-data-type/select-master-data-type.component';
 
 export interface Widget {
   type: string;
@@ -274,7 +275,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   }
 
   openAddData() {
-    const dialogRef = this.dialog.open(NewProjectComponent, {
+    const dialogRef = this.dialog.open(SelectMasterDataTypeComponent, {
       data: {
         id: 'abc123',
       },

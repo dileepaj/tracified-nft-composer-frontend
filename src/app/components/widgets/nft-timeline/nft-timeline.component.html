@@ -7,16 +7,20 @@
     </h2>
   </div>
   <div class="content-div">
-    <div class="timeline-content">
+    <mat-icon class="tl-icon" *ngIf="childrenOne.length === 0">
+      event_note
+    </mat-icon>
+
+    <div class="timeline-content" *ngIf="childrenOne.length > 0">
       <ul class="timeline">
         <div *ngFor="let childrenOne of childrenOne">
           <h3 class="timeline-title">
-            <b>{{ childrenOne.title }}</b>
+            <b>{{ childrenOne.Title }}</b>
           </h3>
-          <div *ngFor="let childrenTwo of childrenOne.children">
+          <div *ngFor="let childrenTwo of childrenOne.Children">
             <li class="timeline-item">
               <p class="timeline-text">
-                {{ childrenTwo.key }} : {{ childrenTwo.value }}
+                {{ childrenTwo.Key }} : {{ childrenTwo.Value }}
               </p>
             </li>
           </div>
@@ -29,7 +33,13 @@
       <mat-icon>add_circle</mat-icon>
       Add Data
     </button>
-    <button mat-button class="btn" style="float: right" (click)="openDialog()">
+    <button
+      mat-button
+      class="btn"
+      style="float: right"
+      (click)="openDialog()"
+      *ngIf="viewBtn"
+    >
       <mat-icon>visibility</mat-icon>
       View
     </button>

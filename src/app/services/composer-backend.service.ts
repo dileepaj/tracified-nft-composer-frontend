@@ -16,7 +16,7 @@ import { JwtserviceService } from './jwtservice.service';
 })
 export class ComposerBackendService {
   private apiUrl: string = environment.composerBackend;
-  constructor(private http: HttpClient,private jwt:JwtserviceService) {}
+  constructor(private http: HttpClient, private jwt: JwtserviceService) {}
 
   /**
    * @function setHeaders - set headers for an API request
@@ -94,6 +94,17 @@ export class ComposerBackendService {
   }
 
   /**
+   * @function saveTimeline - save timeline widget
+   * @param - timeline
+   * @component - nft-timeline widget
+   */
+  public saveTimeline(timeline: Timeline): Observable<Timeline> {
+    return this.http.post<Timeline>(`${this.apiUrl}/html/timeline`, timeline, {
+      headers: this.setHeaders(),
+    });
+  }
+
+  /**
    * @function generateHTML - generate HTML code
    * @param - nftContent
    * @component - composer view
@@ -155,6 +166,17 @@ export class ComposerBackendService {
    */
   public updateTable(table: Table): Observable<Table> {
     return this.http.put<Table>(`${this.apiUrl}/html/table`, table, {
+      headers: this.setHeaders(),
+    });
+  }
+
+  /**
+   * @function updateTimeline - udpate timeline
+   * @param - timeline
+   * @component - select-batch modal
+   */
+  public updateTimeline(timeline: Timeline): Observable<Timeline> {
+    return this.http.put<Timeline>(`${this.apiUrl}/html/timeline`, timeline, {
       headers: this.setHeaders(),
     });
   }

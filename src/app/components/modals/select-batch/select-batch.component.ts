@@ -49,6 +49,8 @@ import {
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import { UserserviceService } from 'src/app/services/userservice.service';
+import { Children, TimelineData } from 'src/models/nft-content/timeline';
+import { selectNFTContent } from 'src/app/store/nft-state-store/nft.selector';
 
 @Component({
   selector: 'app-select-batch',
@@ -183,7 +185,7 @@ export class SelectBatchComponent implements OnInit {
         } else if (this.widget.WidgetType === proofbot) {
           this.store.dispatch(updateProofBot({ proofBot: this.widget }));
         } else if (this.widget.WidgetType === timeline) {
-          this.store.dispatch(updateTimeline({ timeline: this.widget }));
+          this.getTimelineData();
         } else if (this.widget.WidgetType === carbonFp) {
           this.store.dispatch(
             updateCarbonFootprint({ carbonFootprint: this.widget })
@@ -191,6 +193,10 @@ export class SelectBatchComponent implements OnInit {
         } else if (this.widget.WidgetType === table) {
           this.store.dispatch(updateTable({ table: this.widget }));
         }
+
+        this.store.select(selectNFTContent).subscribe((data) => {
+          console.log(data);
+        });
 
         this.saveWidget();
       } else {
@@ -346,9 +352,7 @@ export class SelectBatchComponent implements OnInit {
         error: (err) => {
           this.saving = false;
           console.log('err', err);
-          this.openSnackBar(
-            err.error.status + ' ' + JSON.parse(err.error.message).err
-          );
+          this.openSnackBar(err);
         },
         complete: () => {
           this.saving = false;
@@ -396,6 +400,82 @@ export class SelectBatchComponent implements OnInit {
     });
 
     return tdArr;
+  }
+
+  getTimelineData() {
+    let b64BatchId = btoa(this.selectedBatch.identifier.identifier);
+    let timelineData: TimelineData[] = [];
+    this.batchesService.getTimeline('SGFuYU1hdE5zcDAx').subscribe((data) => {
+      let tabs = data.tabs;
+      let children: any[] = [];
+      console.log(data);
+      for (let i = 0; i < tabs.length; i++) {
+        if (data.tabs[i].title == 'Timeline') {
+          children = data.tabs[i].children;
+          break;
+        }
+      }
+      if (children.length > 0) {
+        console.log(children);
+        children.map((child: any) => {
+          let data = child.children;
+          let tlchildren: Children[] = [];
+
+          data.map((d: any) => {
+            if (d.component === 'key-value') {
+              tlchildren.push({ Key: d.key, Value: d.value });
+            }
+          });
+
+          timelineData.push({
+            Title: child.title,
+            Icon: child.icon,
+            Children: tlchildren,
+          });
+        });
+
+        console.log(timelineData);
+        this.widget = {
+          ...this.widget,
+          TimelineData: timelineData,
+          Timestamp: new Date().toISOString(),
+        };
+
+        this.store.dispatch(updateTimeline({ timeline: this.widget }));
+        let status = this.dndService.getSavedStatus(this.widget.WidgetId);
+        if (status === false) {
+          this.composerService.saveTimeline(this.widget).subscribe({
+            next: (res) => {},
+            error: (err) => {
+              this.openSnackBar(
+                'An unexpected error occured. Please try again later'
+              );
+            },
+            complete: () => {
+              this.dndService.setSavedStatus(this.widget.WidgetId);
+
+              this.openSnackBar('Saved!!');
+              this.dialog.closeAll();
+            },
+          });
+        } else {
+          this.composerService.updateTimeline(this.widget).subscribe({
+            next: (res) => {},
+            error: (err) => {
+              this.openSnackBar(
+                'An unexpected error occured. Please try again later'
+              );
+            },
+            complete: () => {
+              this.dndService.setSavedStatus(this.widget.WidgetId);
+
+              this.openSnackBar('Saved!!');
+              this.dialog.closeAll();
+            },
+          });
+        }
+      }
+    });
   }
 
   openSnackBar(msg: string) {

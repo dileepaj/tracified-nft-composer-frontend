@@ -15,7 +15,7 @@
 </div>
 <mat-dialog-content class="mat-typography modal-content">
   <div class="content">
-    <mat-form-field appearance="outline" style="float: right">
+    <mat-form-field appearance="outline" style="float: left">
       <mat-label>Search</mat-label>
       <mat-icon matPrefix>search</mat-icon>
       <input type="text" matInput placeholder="Search Batch" />
@@ -29,10 +29,21 @@
         </tr>
       </thead>
       <tbody>
-        <tr class="data-row" *ngFor="let item of dataSource; index as i">
+        <tr class="data-row" *ngFor="let source of dataSource; index as i">
           <td><input type="checkbox" /> Select for all widgets</td>
-          <td><button mat-flat-button class="btn">Select Batch</button></td>
-          <td *ngFor="let col of columns">{{ item[col] }}</td>
+          <td>
+            <button
+              mat-flat-button
+              class="btn"
+              (click)="updateReduxState(source)"
+              [disabled]="saving"
+            >
+              Select Batch
+            </button>
+          </td>
+          <td *ngFor="let key of keys">
+            {{ source.data[key] }}
+          </td>
         </tr>
       </tbody>
     </table>

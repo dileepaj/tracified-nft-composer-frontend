@@ -15,11 +15,13 @@
     <div fxLayout="row wrap" style="width: 100%">
       <mat-card fxFlex="24%" *ngFor="let item of artifacts">
         <mat-card-title>
-          <mat-icon class="master-data-icon">contact_page</mat-icon>
+          <mat-icon class="master-data-icon material-icons-outlined"
+            >contact_page</mat-icon
+          >
         </mat-card-title>
-        <mat-card-title>{{ item.name }}</mat-card-title>
+        <mat-card-title class="artifact-title">{{ item.name }}</mat-card-title>
         <mat-card-actions align="end">
-          <a id="more" (click)="openDataSelection()" mat-dialog-close
+          <a id="more" (click)="openDataSelection(item)" mat-dialog-close
             >View More
             <mat-icon style="vertical-align: middle; transform: rotate(270deg)"
               >expand_circle_down</mat-icon

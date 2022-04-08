@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { timeline } from 'src/models/nft-content/widgetTypes';
 import { SelectBatchComponent } from '../select-batch/select-batch.component';
 import { SelectMasterDataTypeComponent } from '../select-master-data-type/select-master-data-type.component';
 
@@ -12,6 +13,7 @@ export class WidgetContentComponent implements OnInit {
   id: any;
   userId: string;
   widget: any;
+  timeline = timeline;
   constructor(
     public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any

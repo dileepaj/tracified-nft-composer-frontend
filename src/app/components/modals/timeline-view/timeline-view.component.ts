@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BatchesService } from 'src/app/services/batches.service';
 
 @Component({
@@ -13,21 +14,13 @@ export class TimelineViewComponent implements OnInit {
   key: any;
   value: any;
 
-  constructor(private _batchService: BatchesService) {}
+  constructor(
+    private _batchService: BatchesService,
+    public dialog: MatDialog,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {}
 
   ngOnInit(): void {
-    this.getTimelineFromConsumer();
-  }
-
-  //get timeline
-  getTimelineFromConsumer() {
-    this._batchService.getTimeline().subscribe((data) => {
-      this.tabs = data.tabs;
-      for (let i = 0; i < this.tabs.length; i++) {
-        if (data.tabs[i].title == 'Timeline') {
-          this.childrenOne = data.tabs[i].children;
-        }
-      }
-    });
+    this.childrenOne = this.data.timelineData;
   }
 }

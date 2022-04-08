@@ -1,6 +1,7 @@
 export interface ProofBot {
   WidgetId: string;
   BactchI?: string;
+  ArtifactId?: string;
   ProductName?: string;
   TenentId?: string;
   ProjectId?: string;

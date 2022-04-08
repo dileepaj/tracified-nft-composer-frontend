@@ -73,9 +73,9 @@ export class BatchesService {
   }
 
   //get timeline for the widget
-  public getTimeline(): Observable<any> {
+  public getTimeline(id: string): Observable<any> {
     return this.apiService.get(
-      'https://qa.api.tracified.com/api/v2/traceabilityProfiles/customer/SGFuYU1hdE5zcDAx'
+      `https://qa.api.tracified.com/api/v2/traceabilityProfiles/customer/${id}`
     );
   }
 }

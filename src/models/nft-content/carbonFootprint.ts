@@ -1,6 +1,7 @@
 export interface CarbonFootprint {
   WidgetId: string;
   BactchId?: string;
+  ArtifactId?: string;
   ProductName?: string;
   TenentId?: string;
   ProjectId?: string;
