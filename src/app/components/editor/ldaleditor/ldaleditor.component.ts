@@ -38,7 +38,10 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   queryRes = false;
   res: any;
-
+  showOutput: boolean = false;
+  jsonString = '';
+  jsonPretty: any = '// No Output';
+  newResults: boolean = false;
   keyWordList2: any = [
     'If',
     'FilterSubtree',
@@ -315,10 +318,7 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
       next: (result: any) => {
         if (result) {
           //get result
-          this.onQuerySuccess.emit({
-            query: queryObject.Query,
-            result: result,
-          });
+
           this.loading = false;
           this.res = result;
           this.checkOutput();
@@ -340,50 +340,52 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
 
     let output = this.res.Response.result;
     let outputObject = JSON.stringify(output);
+    console.log(outputObject);
     let data = eval(outputObject);
     let result = JSON.parse(data);
     if (this.type === 'bar' || this.type === 'pie' || this.type === 'bubble') {
-      if (result['val'] !== undefined) {
-        let val = result.val;
-        if (val['ChartData'] !== undefined) {
-          let chartData = val.ChartData;
-          if (chartData.length > 0) {
-            let keys = Object.keys(chartData[0]);
-            if (keys.includes('Name') && keys.includes('Value')) {
-              console.log('valid');
-              this.onQuerySuccess.emit({
-                data: chartData,
-              });
-              this.saveExecuter();
-            }
-          } else {
-            this.openSnackBar('Invalid output. Please check the query.');
-          }
-        } else {
-          this.openSnackBar('Invalid output. Please check the query.');
-        }
+      if (
+        result['val'] !== undefined &&
+        result.val['ChartData'] !== undefined &&
+        result.val['ChartData'].length > 0 &&
+        Object.keys(result.val['ChartData'][0]).includes('Name') &&
+        Object.keys(result.val['ChartData'][0]).includes('Value')
+      ) {
+        console.log('valid');
+        this.onQuerySuccess.emit({
+          data: result.val['ChartData'],
+        });
+        this.saveExecuter();
       } else {
         this.openSnackBar('Invalid output. Please check the query.');
       }
     } else if (this.type === 'table') {
-      if (result['val'] !== undefined) {
-        let val = result.val;
-        if (val['MainTable'] !== undefined) {
-          let mainTable = val.MainTable;
-          if (mainTable.length > 0) {
-            this.onQuerySuccess.emit({
-              data: mainTable,
-            });
-            this.saveExecuter();
-          } else {
-            this.openSnackBar('Invalid output. Please check the query.');
-          }
-        } else {
-          this.openSnackBar('Invalid output. Please check the query.');
-        }
+      if (
+        result['val'] !== undefined &&
+        result.val['MainTable'] !== undefined &&
+        result.val.MainTable.length > 0
+      ) {
+        this.onQuerySuccess.emit({
+          data: result.val.MainTable,
+        });
+        this.saveExecuter();
       } else {
         this.openSnackBar('Invalid output. Please check the query.');
       }
+    } else {
+      this.openSnackBar('Invalid output. Please check the query.');
     }
+
+    this.outputJson(data);
+    this.newResults = true;
+  }
+
+  public outputJson(data: any) {
+    this.jsonPretty = JSON.stringify(JSON.parse(data), null, 2);
+  }
+
+  public toggleOutput() {
+    this.showOutput = !this.showOutput;
+    this.newResults = false;
   }
 }

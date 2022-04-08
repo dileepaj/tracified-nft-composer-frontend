@@ -22,7 +22,7 @@
   </div>
   <mat-divider></mat-divider>
   <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
-  <div layout-margin>
+  <div layout-margin class="projects-div">
     <div fxLayout="row wrap" fxLayoutGap="16px grid" class="md-margin">
       <div
         [fxFlex]="100 / gridColumns + '%'"
@@ -30,13 +30,40 @@
         fxFlex.sm="33%"
         *ngFor="let project of projects; &quot;layout-margin&quot;"
       >
-        <mat-card class="mat-elevation-z4">
-          <mat-card-title>{{ project.ProjectName }}</mat-card-title>
-          <mat-icon class="material-icons-outlined customIcon">source</mat-icon>
+        <mat-card class="project-card">
           <mat-card-content>
-            {{ project.Timestamp }}
+            <div class="content-div">
+              <div class="icon-div">
+                <mat-icon class="material-icons-outlined customIcon"
+                  >app_registration</mat-icon
+                >
+              </div>
+              <div class="title-div">
+                <label class="proj-name">{{ project.ProjectName }}</label>
+                <div fxLayout="row" fxAlign="center ">
+                  <mat-icon class="material-icons-outlined time-icon"
+                    >schedule</mat-icon
+                  >
+                  <label class="timestamp">
+                    {{ convertDate(project.Timestamp) }}</label
+                  >
+                </div>
+              </div>
+            </div>
           </mat-card-content>
           <mat-card-actions align="end">
+            <button
+              mat-flat-button
+              color="primary"
+              class="delete-button"
+              [disabled]="projToBeDeleted === project.ProjectId"
+              (click)="deleteProject(project.ProjectId)"
+            >
+              <mat-icon>delete_forever</mat-icon>
+              <span [class.spinner]="projToBeDeleted === project.ProjectId">
+              </span>
+              Delete
+            </button>
             <button
               mat-flat-button
               color="primary"
@@ -47,17 +74,6 @@
               <span [class.spinner]="projToBeLoaded === project.ProjectId">
               </span>
               Open
-            </button>
-            <button
-              mat-flat-button
-              color="primary"
-              class="red-button"
-              [disabled]="projToBeDeleted === project.ProjectId"
-              (click)="deleteProject(project.ProjectId)"
-            >
-              <span [class.spinner]="projToBeDeleted === project.ProjectId">
-              </span>
-              Delete
             </button>
           </mat-card-actions>
         </mat-card>

@@ -29,6 +29,8 @@ import {
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import { CardStatus, QueryResult } from 'src/models/nft-content/cardStatus';
+
+import * as MomentAll from 'moment';
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
@@ -76,6 +78,16 @@ export class ProjectsComponent implements OnInit {
       }
       this.loading = false;
     });
+  }
+
+  public convertDate(date: any): string {
+    const stillUtc = MomentAll.utc(date).toDate();
+    // MomentAll(date).zone((new Date()).getTimezoneOffset()).format('YYYY-MM-DD hh:mm A')
+    const local = MomentAll(date)
+      .zone(new Date().getTimezoneOffset())
+      .format('MMM D, YYYY');
+    // MomentAll(stillUtc).local().format('LLLL');
+    return local;
   }
 
   addDragAndDropArray(widgets: any[]) {

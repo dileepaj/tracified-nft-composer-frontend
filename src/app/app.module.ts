@@ -69,6 +69,7 @@ import { NewProjectComponent } from './components/modals/new-project/new-project
 import { userReducer } from './store/user-state-store/user.reducer';
 import { NgChartsModule } from 'ng2-charts';
 import { TimelineViewComponent } from './components/modals/timeline-view/timeline-view.component';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 const appRoutes: Routes = [];
 
@@ -142,6 +143,7 @@ const appRoutes: Routes = [];
     FlexLayoutModule,
     HttpClientModule,
     MatStepperModule,
+    MatButtonToggleModule,
     NgChartsModule,
     RouterModule.forRoot(appRoutes),
     StoreModule.forRoot({ nft: nftReducer, user: userReducer }),
