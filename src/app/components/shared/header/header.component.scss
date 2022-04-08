@@ -11,7 +11,6 @@
 }
 
 logo {
-  margin: 2px 0px 0px 15px;
   height: 30px;
   width: 140px;
 }
@@ -26,10 +25,15 @@ logo {
 
 .menu {
   vertical-align: middle;
-  margin-right: 10px;
+
   cursor: pointer;
 }
 
 #userName{
    font-size: small;
+}
+
+.account-username:hover{
+background-color:transparent !important;
+cursor: default;
 }

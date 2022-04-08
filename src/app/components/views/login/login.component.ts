@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserLogin } from 'src/app/entity/User';
 import { AES } from 'crypto-js';
-import { Key } from 'src/app/entity/Variables';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { JwtserviceService } from 'src/app/services/jwtservice.service';
 import jwt_decode from 'jwt-decode';
 import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
 import { AuthService } from 'src/app/services/authService/auth.service';
+import { MediaChange, MediaObserver } from '@angular/flex-layout';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -23,10 +24,23 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private _authService: AuthService,
     private jwt: JwtserviceService,
-    private snackBar: PopupMessageService
+    private snackBar: PopupMessageService,
+    private mediaObserver: MediaObserver
   ) {}
 
+  //for create responsive Ui
+  mediaSub: Subscription;
+  deviceXs: boolean;
+
   ngOnInit(): void {
+    //for create responsive Ui
+    this.mediaSub = this.mediaObserver.media$.subscribe(
+      (result: MediaChange) => {
+        this.deviceXs = result.mqAlias === 'xs' ? true : false;
+        //console.log(result.mqAlias);
+      }
+    );
+
     this.loginForm = new FormGroup({
       username: new FormControl('', [
         Validators.required,
@@ -40,10 +54,13 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  onDestroy() {
+    //for create responsive Ui
+    this.mediaSub.unsubscribe();
+  }
+
   public onSubmit() {
-        this.loading = true;
-    console.log('loginForm', this.loginForm);
-    const key: any = new Key();
+    this.loading = true;
     const user: UserLogin = new UserLogin();
     if (this.loginForm.status == 'VALID') {
       user.username = AES.encrypt(
@@ -60,8 +77,8 @@ export class LoginComponent implements OnInit {
       ).toString();
 
       this._authService.login(user).subscribe({
-        complete:()=>{
-          this.loading=false
+        complete: () => {
+          this.loading = false;
         },
         next: (data) => {
           this.jwt.saveToken(data);
@@ -70,7 +87,7 @@ export class LoginComponent implements OnInit {
             this.router.navigate([`/layout/projects/${decoded.userID}`]);
         },
         error: (err) => {
-           this.loading = false;
+          this.loading = false;
           this.snackBar.openSnackBar('Invalid email or password');
         },
       });

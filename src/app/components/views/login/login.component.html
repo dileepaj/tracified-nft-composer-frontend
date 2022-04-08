@@ -1,8 +1,23 @@
-<div fxLayout="row" fxLayoutAlign="center center" fxFill>
-  <mat-card fxFlex="80" class="mat-elevation-z0 outline">
-    <div class="login-cards">
-      <mat-card fxFlex="80" class="mat-elevation-z0">
-        <form fxLayoutAlign="stretch" fxLayout="column" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+<div fxLayout="100" fxLayoutAlign="center center" fxFill>
+  <mat-card fxFlex="90" fxLayout.xs="column" fxLayout.sm="column" class="mat-elevation-z0 outline"
+    fxLayoutAlign="center center">
+    <div fxLayout.xs="column" fxFlex.xs="100" fxFlex.sm="100" class="login-cards" fxHide.xs="false" fxHide.sm="false"
+      fxHide.md="true" fxHide.lg="true" fxHide.xl="true" fxLayoutAlign="center center">
+      <mat-card fxLayout.xs="column" fxLayout.sm="column" fxFlex.xs="80" fxFlex.sm="80" fxFlex.lg="80" fxFlex.md="80"
+        class="mat-elevation-z0" fxLayoutAlign="center center">
+        <img class="logo-mobile" mat-card-image src="assets\images\tracified-logo.png" alt="tracified-logo" />
+        <div>
+          <mat-card-content>
+            <p class="logo-name">NFT Composer</p>
+          </mat-card-content>
+        </div>
+      </mat-card>
+    </div>
+    <div fxFlex="100" fxFill class="login-cards" fxLayoutAlign="center center">
+      <mat-card fxFlex.gt-xs="100" fxFlex.gt-sm="100" fxFlex.gt-md="100" fxFlex.lg="50" fxFlex.md="50"
+        style="margin: 5px;" class="mat-elevation-z0" fxLayoutAlign="center center">
+        <form fxFlex.gt-sm="100" fxFill fxLayoutAlign="stretch" fxLayout="column" [formGroup]="loginForm"
+          (ngSubmit)="onSubmit()">
           <mat-form-field appearance="outline" [hideRequiredMarker]="true" class="alignment">
             <mat-icon matPrefix class="green-icon">alternate_email</mat-icon>
             <mat-label>Email Address</mat-label>
@@ -32,13 +47,17 @@
           </div>
         </form>
       </mat-card>
-      <mat-card fxFlex="50" class="mat-elevation-z0">
-        <img class="logo" mat-card-image src="assets\images\tracified-logo.png" alt="tracified-logo"
-          fxLayoutAlign="space-evenly" />
-        <div fxLayoutAlign="space-evenly">
-          <p class="logo-name">NFT Composer</p>
+      <mat-card style="margin: 5px;" fxFlex="50" fxHide.xs="true" fxHide.sm="true" fxHide.md="false" fxHide.lg="false"
+        fxHide.xl="false" fxFlex.gt-xs="100" fxFlex.gt-sm="50" fxFlex.gt-md="100" fxFlex.lg="50" fxFlex.md="50"
+        fxLayout="column" class="mat-elevation-z0" fxLayoutAlign="start center">
+        <img class="logo" mat-card-image src="assets\images\tracified-logo.png" alt="tracified-logo" />
+        <div>
+          <mat-card-content>
+            <p class="logo-name">NFT Composer</p>
+          </mat-card-content>
         </div>
       </mat-card>
     </div>
+
   </mat-card>
 </div>
