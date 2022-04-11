@@ -226,7 +226,7 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
     this.setWordCompleter(this.keyWordList, this.keyWordList2);
   }
 
-  setLanguageTools(): void {
+  private setLanguageTools(): void {
     this.aceEditor = ace.edit(this.editor.nativeElement);
     this.aceEditor.session.setValue('');
     this.aceEditor.completers = [this.staticWordCompleter];
@@ -246,7 +246,7 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
     });
   }
 
-  setWordCompleter(wordList: any, wordList2: any): void {
+  private setWordCompleter(wordList: any, wordList2: any): void {
     this.staticWordCompleter = {
       getCompletions: function (
         editor: any,
@@ -282,7 +282,7 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
     };
   }
 
-  openSnackBar(msg: string) {
+  public openSnackBar(msg: string) {
     this._snackBar.open(msg, 'OK', {
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
@@ -291,7 +291,7 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
     });
   }
 
-  saveExecuter() {
+  private saveExecuter() {
     if (!!this.res && !!this.res.Response.result) {
       this.store.dispatch(
         addQueryResult({
@@ -334,7 +334,7 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
     });
   }
 
-  public checkOutput() {
+  private checkOutput() {
     //{"type": 4, "val": {"ChartData":[{"Name":"averageAnnualTemperature","Value":"24"}]}} - charts
     //{"type": 4, "val": {"MainTable":[{"Farm Name":"Medathennawaththa","Temperature":"24","Humidity":"80%","Rainfall":"1800 mm"}]}} - table
 

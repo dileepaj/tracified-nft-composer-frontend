@@ -79,7 +79,7 @@ export class SelectDataComponent implements OnInit {
       });
   }
 
-  openMasterDataSelection() {
+  public openMasterDataSelection() {
     const dialogRef = this.dialog.open(SelectMasterDataTypeComponent, {
       data: {
         id: this.id,
@@ -92,7 +92,7 @@ export class SelectDataComponent implements OnInit {
     });
   }
 
-  openWidgetContent() {
+  public openWidgetContent() {
     const dialogRef = this.dialog.open(WidgetContentComponent, {
       data: {
         id: this.id,
@@ -101,11 +101,11 @@ export class SelectDataComponent implements OnInit {
     });
   }
 
-  close() {
+  public close() {
     this.dialog.closeAll();
   }
 
-  createColumns() {
+  private createColumns() {
     this.artifact.fields.map((field: any) => {
       this.columns.push(field.name);
       this.keys.push(field.key);
@@ -113,7 +113,7 @@ export class SelectDataComponent implements OnInit {
     console.log(this.keys);
   }
 
-  updateReduxState(source: any) {
+  public updateReduxState(source: any) {
     this.saving = true;
     this.widget = {
       ...this.widget,
@@ -211,7 +211,7 @@ export class SelectDataComponent implements OnInit {
     }
   }
 
-  openSnackBar(msg: string) {
+  public openSnackBar(msg: string) {
     this._snackBar.open(msg, 'OK', {
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,

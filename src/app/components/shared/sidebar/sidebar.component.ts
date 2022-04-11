@@ -1,13 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { NestedTreeControl } from '@angular/cdk/tree';
-import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { AppState } from 'src/app/store/app.state';
 import { Observable } from 'rxjs';
 import { Image } from 'src/models/nft-content/image';
 import {
-  selectBarCharts,
   selectNFTContent,
-  selectNFTImages,
   selectNoOfBarCharts,
   selectNoOfBubbleCharts,
   selectNoOfCarbonFP,
@@ -29,14 +25,14 @@ export class SidebarComponent implements OnInit {
   title = 'project_name';
   layouts = true;
   green = '#ccc';
-  imageCount: Observable<number>;
-  timelineCount: Observable<number>;
-  proofBotCount: Observable<number>;
-  carbonFPCount: Observable<number>;
-  barChartCount: Observable<number>;
-  pieChartCount: Observable<number>;
-  bubbleChartCount: Observable<number>;
-  tableCount: Observable<number>;
+  imageCount: number;
+  timelineCount: number;
+  proofBotCount: number;
+  carbonFPCount: number;
+  barChartCount: number;
+  pieChartCount: number;
+  bubbleChartCount: number;
+  tableCount: number;
   image$: Observable<Image[]>;
   timeline = false;
   nft$: Observable<NFTContent>;
@@ -82,14 +78,6 @@ export class SidebarComponent implements OnInit {
   ];
 
   constructor(private store: Store<AppState>) {
-    this.imageCount = this.store.select(selectNoOfImages);
-    this.timelineCount = this.store.select(selectNoOfTimelines);
-    this.proofBotCount = this.store.select(selectNoOfProofbots);
-    this.carbonFPCount = this.store.select(selectNoOfCarbonFP);
-    this.barChartCount = this.store.select(selectNoOfBarCharts);
-    this.pieChartCount = this.store.select(selectNoOfPieCharts);
-    this.bubbleChartCount = this.store.select(selectNoOfBubbleCharts);
-    this.tableCount = this.store.select(selectNoOfTables);
     this.store.select(selectNFTContent).subscribe((nft) => {
       this.title = nft.ProjectName;
       this.projId = nft.ProjectId;
@@ -97,121 +85,34 @@ export class SidebarComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.store.select(selectNoOfBarCharts).subscribe((c) => {
+      this.barChartCount = c;
+    });
+    this.store.select(selectNoOfPieCharts).subscribe((c) => {
+      this.pieChartCount = c;
+    });
+    this.store.select(selectNoOfBubbleCharts).subscribe((c) => {
+      this.bubbleChartCount = c;
+    });
+    this.store.select(selectNoOfTables).subscribe((c) => {
+      this.tableCount = c;
+    });
+    this.store.select(selectNoOfTimelines).subscribe((c) => {
+      this.timelineCount = c;
+    });
+    this.store.select(selectNoOfProofbots).subscribe((c) => {
+      this.proofBotCount = c;
+    });
+    this.store.select(selectNoOfImages).subscribe((c) => {
+      this.imageCount = c;
+    });
+    this.store.select(selectNoOfCarbonFP).subscribe((c) => {
+      this.carbonFPCount = c;
+    });
+  }
 
-  toggleLayouts() {
+  public toggleLayouts() {
     this.layouts = !this.layouts;
-  }
-
-  imagesAvailable() {
-    let c = 0;
-    let bool = false;
-    this.imageCount.subscribe((count) => {
-      c = count;
-    });
-
-    if (c > 0) {
-      bool = true;
-    }
-
-    return bool;
-  }
-
-  timelineAvailable() {
-    let c = 0;
-    let bool = false;
-    this.timelineCount.subscribe((count) => {
-      c = count;
-    });
-
-    if (c > 0) {
-      bool = true;
-    }
-
-    return bool;
-  }
-
-  proofbotAvailable() {
-    let c = 0;
-    let bool = false;
-    this.proofBotCount.subscribe((count) => {
-      c = count;
-    });
-
-    if (c > 0) {
-      bool = true;
-    }
-
-    return bool;
-  }
-
-  carbonAvailable() {
-    let c = 0;
-    let bool = false;
-    this.carbonFPCount.subscribe((count) => {
-      c = count;
-    });
-
-    if (c > 0) {
-      bool = true;
-    }
-
-    return bool;
-  }
-
-  barChartAvailable() {
-    let c = 0;
-    let bool = false;
-    this.barChartCount.subscribe((count) => {
-      c = count;
-    });
-
-    if (c > 0) {
-      bool = true;
-    }
-
-    return bool;
-  }
-
-  pieChartAvailable() {
-    let c = 0;
-    let bool = false;
-    this.pieChartCount.subscribe((count) => {
-      c = count;
-    });
-
-    if (c > 0) {
-      bool = true;
-    }
-
-    return bool;
-  }
-
-  bubbleChartAvailable() {
-    let c = 0;
-    let bool = false;
-    this.bubbleChartCount.subscribe((count) => {
-      c = count;
-    });
-
-    if (c > 0) {
-      bool = true;
-    }
-
-    return bool;
-  }
-
-  tableAvailable() {
-    let c = 0;
-    let bool = false;
-    this.tableCount.subscribe((count) => {
-      c = count;
-    });
-
-    if (c > 0) {
-      bool = true;
-    }
-
-    return bool;
   }
 }

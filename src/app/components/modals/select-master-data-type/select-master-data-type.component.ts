@@ -29,7 +29,7 @@ export class SelectMasterDataTypeComponent implements OnInit {
     });
   }
 
-  openDataSelection(artifact: any) {
+  public openDataSelection(artifact: any) {
     const dialogRef = this.dialog.open(SelectDataComponent, {
       data: {
         id: this.id,
@@ -39,7 +39,7 @@ export class SelectMasterDataTypeComponent implements OnInit {
     });
   }
 
-  openWidgetContent() {
+  public openWidgetContent() {
     const dialogRef = this.dialog.open(WidgetContentComponent, {
       data: {
         id: this.id,
@@ -48,7 +48,7 @@ export class SelectMasterDataTypeComponent implements OnInit {
     });
   }
 
-  close() {
+  public close() {
     this.dialog.closeAll();
   }
 }

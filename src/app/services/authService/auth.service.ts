@@ -14,7 +14,7 @@ export class AuthService {
     this.admin = environment.adminUrl;
   }
 
-  isValidToken(): boolean {
+  public isValidToken(): boolean {
     if (this.jwt.isEmpty() || Date.now() >= Number(this.jwt.getExp()) * 1000) {
       let decoded: any = jwt_decode(this.jwt.getToken(), { header: false });
       if (

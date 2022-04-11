@@ -12,7 +12,7 @@ export class ExpService {
 
   constructor(private jwtService: JwtserviceService, private router: Router) {}
 
-  checkExpire(): boolean {
+  public checkExpire(): boolean {
     try {
       const decoded: any = jwt.decode(this.jwtService.getToken(), {
         complete: true,

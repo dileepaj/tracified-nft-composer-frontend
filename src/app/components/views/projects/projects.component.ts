@@ -70,7 +70,7 @@ export class ProjectsComponent implements OnInit {
     this.getRecentProjects();
   }
 
-  getRecentProjects() {
+  public getRecentProjects() {
     this.loading = true;
     this.apiService.getRecentProjects(this.userId).subscribe((result) => {
       if (result) {
@@ -90,7 +90,7 @@ export class ProjectsComponent implements OnInit {
     return local;
   }
 
-  addDragAndDropArray(widgets: any[]) {
+  private addDragAndDropArray(widgets: any[]) {
     let warr: Widget[] = [];
     widgets.map((widget) => {
       warr.push({
@@ -105,7 +105,7 @@ export class ProjectsComponent implements OnInit {
     this.dndService.rewriteWidgetArr(warr);
   }
 
-  openNewProject() {
+  public openNewProject() {
     const dialogRef = this.dialog.open(NewProjectComponent, {
       data: {
         user: this.user,
@@ -115,7 +115,7 @@ export class ProjectsComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {});
   }
 
-  openExistingProject(id: string) {
+  public openExistingProject(id: string) {
     this.projToBeLoaded = id;
     this.apiService.openExistingProject(id).subscribe({
       next: (data) => {
@@ -266,7 +266,7 @@ export class ProjectsComponent implements OnInit {
     });
   }
 
-  deleteProject(projectId: string) {
+  public deleteProject(projectId: string) {
     this.projToBeDeleted = projectId;
 
     this.apiService.deleteProject(projectId).subscribe({
@@ -285,7 +285,7 @@ export class ProjectsComponent implements OnInit {
     });
   }
 
-  openSnackBar(msg: string) {
+  public openSnackBar(msg: string) {
     this._snackBar.open(msg, 'OK', {
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,

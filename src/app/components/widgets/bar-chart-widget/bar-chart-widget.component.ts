@@ -66,7 +66,7 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
     }
   }
 
-  otpAdded(): boolean {
+  public otpAdded(): boolean {
     let buttonState = false;
     this.store.select(selectCardStatus).subscribe((data) => {
       if (data.some((e) => e.WidgetId === this.id)) {
@@ -77,7 +77,7 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
   }
 
   //open configuration popup
-  openDialog() {
+  public openDialog() {
     this.getBarChart();
     const dialogRef = this.dialog.open(ConfigureBarChartComponent, {
       data: {
@@ -94,7 +94,7 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
   ngOnChanges(val: any) {}
 
   //delete chart from redux
-  deleteWidget() {
+  public deleteWidget() {
     this.composerService.deleteChart(this.id).subscribe({
       next: (res) => {},
       error: (err) => {
@@ -143,7 +143,7 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
   }
 
   //open batch selection popup
-  openAddData() {
+  public openAddData() {
     this.getBarChart();
     const dialogRef = this.dialog.open(WidgetContentComponent, {
       data: {

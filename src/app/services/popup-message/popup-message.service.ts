@@ -13,7 +13,7 @@ export class PopupMessageService {
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   constructor(private _snackBar: MatSnackBar) {}
 
-  openSnackBar(msg: string) {
+  public openSnackBar(msg: string) {
     this._snackBar.open(msg, 'OK', {
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,

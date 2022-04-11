@@ -51,7 +51,7 @@ export class BubbleChartWidgetComponent implements OnInit {
     }
   }
 
-  otpAdded(): boolean {
+  public otpAdded(): boolean {
     let buttonState = false;
     this.store.select(selectCardStatus).subscribe((data) => {
       if (data.some((e) => e.WidgetId === this.id)) {
@@ -62,7 +62,7 @@ export class BubbleChartWidgetComponent implements OnInit {
   }
 
   //open configuration popup
-  openDialog() {
+  public openDialog() {
     this.getBubbleChart();
     const dialogRef = this.dialog.open(ConfigureBubbleChartComponent, {
       data: {
@@ -77,7 +77,7 @@ export class BubbleChartWidgetComponent implements OnInit {
   }
 
   //delete chart from redux
-  deleteWidget() {
+  public deleteWidget() {
     this.composerService.deleteChart(this.id).subscribe({
       next: (res) => {},
       error: (err) => {
@@ -124,7 +124,7 @@ export class BubbleChartWidgetComponent implements OnInit {
   }
 
   //open batch selection popup
-  openAddData() {
+  public openAddData() {
     this.getBubbleChart();
     const dialogRef = this.dialog.open(WidgetContentComponent, {
       data: {

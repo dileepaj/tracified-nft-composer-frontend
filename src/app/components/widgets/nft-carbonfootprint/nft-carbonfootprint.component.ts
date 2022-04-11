@@ -49,7 +49,7 @@ export class NftCarbonfootprintComponent implements OnInit {
     }
   }
 
-  otpAdded(): boolean {
+  public otpAdded(): boolean {
     let buttonState = false;
     this.store.select(selectCardStatus).subscribe((data) => {
       if (data.some((e) => e.WidgetId === this.id)) {
@@ -58,7 +58,7 @@ export class NftCarbonfootprintComponent implements OnInit {
     });
     return buttonState;
   }
-  
+
   //add carbon footprint to redux store
   private addCarbonFootprintToStore() {
     this.carbonFootprint = {
@@ -75,7 +75,7 @@ export class NftCarbonfootprintComponent implements OnInit {
   }
 
   //delete widget
-  deleteWidget() {
+  public deleteWidget() {
     this.store.dispatch(
       deleteCarbonFootprint({ carbonFootPrint: this.carbonFootprint })
     );
@@ -83,7 +83,7 @@ export class NftCarbonfootprintComponent implements OnInit {
   }
 
   //open batch selection popup
-  openAddData() {
+  public openAddData() {
     const dialogRef = this.dialog.open(WidgetContentComponent, {
       data: {
         id: this.id,
@@ -96,7 +96,7 @@ export class NftCarbonfootprintComponent implements OnInit {
     });
   }
 
-  getFootPrint() {
+  public getFootPrint() {
     this.store.select(selectCarbonFP).subscribe((data) => {
       data.map((fp) => {
         if (fp.WidgetId === this.id) {

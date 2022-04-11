@@ -79,7 +79,7 @@ export class NftTimelineComponent implements OnInit {
     });
   }
 
-  otpAdded(): boolean {
+  public otpAdded(): boolean {
     let buttonState = false;
     this.store.select(selectCardStatus).subscribe((data) => {
       if (data.some((e) => e.WidgetId === this.id)) {
@@ -103,7 +103,7 @@ export class NftTimelineComponent implements OnInit {
   }
 
   //delete timeline widget
-  deleteWidget() {
+  public deleteWidget() {
     this.composerService.deleteTimeline(this.id).subscribe({
       next: (res) => {},
       error: (err) => {
@@ -116,7 +116,7 @@ export class NftTimelineComponent implements OnInit {
     });
   }
 
-  getTimeline() {
+  private getTimeline() {
     this.store.select(selectTimeline).subscribe((data) => {
       data.map((tl) => {
         if (tl.WidgetId === this.id) {
@@ -127,7 +127,7 @@ export class NftTimelineComponent implements OnInit {
   }
 
   //batch selection popup
-  openAddData() {
+  public openAddData() {
     this.getTimeline();
     const dialogRef = this.dialog.open(WidgetContentComponent, {
       data: {
@@ -139,7 +139,7 @@ export class NftTimelineComponent implements OnInit {
   }
 
   //open the view timeline popup
-  openDialog() {
+  public openDialog() {
     this.getTimeline();
     const dialogRef = this.dialog.open(TimelineViewComponent, {
       data: {
@@ -151,7 +151,7 @@ export class NftTimelineComponent implements OnInit {
   }
 
   //get timeline
-  getTimelineFromConsumer() {
+  private getTimelineFromConsumer() {
     this._batchService.getTimeline('SGFuYU1hdE5zcDAx').subscribe((data) => {
       this.tabs = data.tabs;
       console.log(data);

@@ -50,7 +50,7 @@ export class PieChartWidgetComponent implements OnInit {
   }
 
   //open canfiguration popup
-  openDialog() {
+  public openDialog() {
     this.getPieChart();
     const dialogRef = this.dialog.open(ConfigurePieChartComponent, {
       data: {
@@ -64,7 +64,7 @@ export class PieChartWidgetComponent implements OnInit {
     });
   }
 
-  otpAdded(): boolean {
+  public otpAdded(): boolean {
     let buttonState = false;
     this.store.select(selectCardStatus).subscribe((data) => {
       if (data.some((e) => e.WidgetId === this.id)) {
@@ -75,7 +75,7 @@ export class PieChartWidgetComponent implements OnInit {
   }
 
   //delete pie chart
-  deleteWidget() {
+  public deleteWidget() {
     this.composerService.deleteChart(this.id).subscribe({
       next: (res) => {},
       error: (err) => {
@@ -122,7 +122,7 @@ export class PieChartWidgetComponent implements OnInit {
   }
 
   //open batch selection popup
-  openAddData() {
+  public openAddData() {
     this.getPieChart();
     const dialogRef = this.dialog.open(WidgetContentComponent, {
       data: {

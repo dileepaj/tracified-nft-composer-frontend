@@ -26,7 +26,7 @@ export class WidgetContentComponent implements OnInit {
   }
 
   //open batch selection popup
-  openBatchSelection() {
+  public openBatchSelection() {
     const dialogRef = this.dialog.open(SelectBatchComponent, {
       data: {
         id: this.id,
@@ -38,7 +38,7 @@ export class WidgetContentComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {});
   }
 
-  openMasterDataSelection() {
+  public openMasterDataSelection() {
     const dialogRef = this.dialog.open(SelectMasterDataTypeComponent, {
       data: {
         id: this.id,

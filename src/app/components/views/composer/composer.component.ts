@@ -190,7 +190,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   }
 
   //Called when a widget is dropped to drap and drop area.
-  drop(event: any) {
+  public drop(event: any) {
     if (event.previousContainer === event.container) {
       if (event.container.data === this.usedWidgets) {
         moveItemInArray(
@@ -225,11 +225,11 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   }
 
   //get drag position
-  dragMoved(event: any) {
+  public dragMoved(event: any) {
     this.position = `> Position X: ${event.pointerPosition.x} - Y: ${event.pointerPosition.y}`;
   }
 
-  dragEntered(event: CdkDragEnter<number>) {
+  public dragEntered(event: CdkDragEnter<number>) {
     const drag = event.item;
     const dropList = event.container;
     const dragIndex = drag.data;
@@ -243,7 +243,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     moveItemInArray(this.usedWidgets, dragIndex, dropIndex);
   }
 
-  noReturnPredicate() {
+  public noReturnPredicate() {
     return false;
   }
 
@@ -261,7 +261,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   }
 
   //delete a widget
-  deleteWidget(id: any) {
+  public deleteWidget(id: any) {
     let index: number = 0;
     this.usedWidgets.map((widget) => {
       if (widget._Id === id) {
@@ -274,7 +274,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     this.saveOrUpdateProject(true);
   }
 
-  openAddData() {
+  public openAddData() {
     const dialogRef = this.dialog.open(SelectMasterDataTypeComponent, {
       data: {
         id: 'abc123',
@@ -292,7 +292,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     });
   }
 
-  public downloadFile(content: any, name: string, type: string) {
+  private downloadFile(content: any, name: string, type: string) {
     var a = document.createElement('a');
     var blob = new Blob([content], { type: type });
     a.href = window.URL.createObjectURL(blob);
@@ -313,7 +313,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     });
   }
 
-  public saveProject() {
+  private saveProject() {
     this.saving = true;
     let widgetArr: any = [];
     this.getNftContent();
@@ -346,7 +346,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     });
   }
 
-  updateProject() {
+  private updateProject() {
     this.saving = true;
     let widgetArr: any = [];
     this.getNftContent();
@@ -381,7 +381,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     });
   }
 
-  saveOrUpdateProject(deleteFlag: boolean) {
+  public saveOrUpdateProject(deleteFlag: boolean) {
     let status = true;
     this.store.select(selectProjectStatus).subscribe((s) => {
       status = s;
@@ -396,7 +396,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     }
   }
 
-  openSnackBar(msg: string) {
+  public openSnackBar(msg: string) {
     this._snackBar.open(msg, 'OK', {
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,

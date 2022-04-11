@@ -55,8 +55,6 @@ export class NftProofbotComponent implements OnInit {
     }
   }
 
-  private showNFT() {}
-
   //add proofbot bot to redux store
   private addProofbotToStore() {
     this.proofbot = {
@@ -76,12 +74,10 @@ export class NftProofbotComponent implements OnInit {
     this.service.updateUsedStatus(this.id);
   }
 
-  private updateProofbot() {
-    this.showNFT();
-  }
+  private updateProofbot() {}
 
   //delete proofbot from redux
-  deleteWidget() {
+  public deleteWidget() {
     this.composerService.deleteProofbot(this.id).subscribe({
       next: (res) => {},
       error: (err) => {
@@ -94,7 +90,7 @@ export class NftProofbotComponent implements OnInit {
     });
   }
 
-  getProofBot() {
+  private getProofBot() {
     this.store.select(selectProofBot).subscribe((data) => {
       data.map((proofBot) => {
         if (proofBot.WidgetId === this.id) {

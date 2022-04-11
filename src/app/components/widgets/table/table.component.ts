@@ -63,7 +63,7 @@ export class TableComponent implements OnInit {
     }
   }
 
-  otpAdded(): boolean {
+  public otpAdded(): boolean {
     let buttonState = false;
     this.store.select(selectCardStatus).subscribe((data) => {
       if (data.some((e) => e.WidgetId === this.id)) {
@@ -94,7 +94,7 @@ export class TableComponent implements OnInit {
   }
 
   //delete table from redux store
-  deleteWidget() {
+  public deleteWidget() {
     this.composerService.deleteTable(this.id).subscribe({
       next: (res) => {},
       error: (err) => {
@@ -108,7 +108,7 @@ export class TableComponent implements OnInit {
   }
 
   //open configuartion popup
-  openDialog() {
+  public openDialog() {
     this.getTable();
     const dialogRef = this.dialog.open(ConfigureTableComponent, {
       data: {
@@ -135,7 +135,7 @@ export class TableComponent implements OnInit {
   }
 
   //open batch selection popup
-  openAddData() {
+  public openAddData() {
     this.getTable();
     const dialogRef = this.dialog.open(WidgetContentComponent, {
       data: {

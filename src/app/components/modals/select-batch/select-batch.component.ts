@@ -132,7 +132,7 @@ export class SelectBatchComponent implements OnInit {
   }
 
   //called when user selects a product
-  selectProduct(row: any) {
+  public selectProduct(row: any) {
     this.selectedProduct = row;
     this.page = 0;
     this.searchKey = '';
@@ -142,7 +142,7 @@ export class SelectBatchComponent implements OnInit {
   }
 
   //called when user selects a batch
-  selectBatch(row: any) {
+  public selectBatch(row: any) {
     this.selectedBatch = row;
     this.batchIsSelected = true;
     this.tdpStep = 0;
@@ -150,23 +150,23 @@ export class SelectBatchComponent implements OnInit {
   }
 
   //called when user selects a tdp
-  selectTdp(row: any) {
+  public selectTdp(row: any) {
     this.selectedTdp = row;
     this.tdpIsSelected = true;
   }
 
   //go back to previous step
-  goBack() {
+  public goBack() {
     this.myStepper.previous();
   }
 
   //move to next step
-  goForward() {
+  public goForward() {
     this.myStepper.next();
   }
 
   //update redux state
-  updateReduxState() {
+  public updateReduxState() {
     if (this.productIsSelected && this.batchIsSelected) {
       if (this.selectedBatch.traceabilityDataPackets.length !== 0) {
         this.saving = true;
@@ -215,7 +215,7 @@ export class SelectBatchComponent implements OnInit {
     }
   }
 
-  openWidgetContent() {
+  public openWidgetContent() {
     const dialogRef = this.dialog.open(WidgetContentComponent, {
       data: {
         id: this.id,
@@ -224,11 +224,11 @@ export class SelectBatchComponent implements OnInit {
     });
   }
 
-  close() {
+  public close() {
     this.dialog.closeAll();
   }
 
-  getItemCount(index: number) {
+  public getItemCount(index: number) {
     return this.page * 10 + index + 1;
   }
 
@@ -266,7 +266,7 @@ export class SelectBatchComponent implements OnInit {
       });
   }
 
-  public getItems() {
+  private getItems() {
     this.productsLoading = true;
     this.batchesService.getItems().subscribe({
       next: (data: any) => {
@@ -285,7 +285,7 @@ export class SelectBatchComponent implements OnInit {
     });
   }
 
-  public getStages() {
+  private getStages() {
     this.batchesService.getStages().subscribe({
       next: (data: any) => {
         this.workflow = data.workflow;
@@ -333,7 +333,7 @@ export class SelectBatchComponent implements OnInit {
     );*/
   }
 
-  onStepChange(event: any) {
+  public onStepChange(event: any) {
     let index = event.selectedIndex;
   }
 
@@ -404,11 +404,11 @@ export class SelectBatchComponent implements OnInit {
     }
   }
 
-  setTdpStep(index: number) {
+  public setTdpStep(index: number) {
     this.tdpStep = index;
   }
 
-  getTraceabilityData(stageId: number) {
+  private getTraceabilityData(stageId: number) {
     let tdArr: any = [];
     this.selectedBatch.traceabilityDataPackets.map((data: any) => {
       if (data.stageId === stageId) {
@@ -419,7 +419,7 @@ export class SelectBatchComponent implements OnInit {
     return tdArr;
   }
 
-  getTimelineData() {
+  private getTimelineData() {
     let b64BatchId = btoa(this.selectedBatch.identifier.identifier);
     let timelineData: TimelineData[] = [];
     this.batchesService.getTimeline(b64BatchId).subscribe((data) => {
@@ -515,7 +515,7 @@ export class SelectBatchComponent implements OnInit {
     });
   }
 
-  openSnackBar(msg: string) {
+  public openSnackBar(msg: string) {
     this._snackBar.open(msg, 'OK', {
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,

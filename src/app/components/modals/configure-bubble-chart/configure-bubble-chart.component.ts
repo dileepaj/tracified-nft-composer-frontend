@@ -89,7 +89,7 @@ export class ConfigureBubbleChartComponent implements OnInit {
   }
 
   //check , executed query save or not  use this function for show the congigure button
-  CheckQuerySavingStatus(): boolean {
+  public CheckQuerySavingStatus(): boolean {
     let buttonState = false;
     this.store.select(selectQueryResult).subscribe((data) => {
       if (data.some((e) => e.WidgetId === this.data.id)) {
@@ -99,7 +99,7 @@ export class ConfigureBubbleChartComponent implements OnInit {
     return buttonState;
   }
 
-  setValueToBubblerChart() {
+  private setValueToBubblerChart() {
     this.store.select(selectQueryResult).subscribe((data) => {
       let Chartvalue = data.find((v) => v.WidgetId === this.data.id);
       if (
@@ -127,16 +127,8 @@ export class ConfigureBubbleChartComponent implements OnInit {
     });
   }
 
-  private createSvg(): void {
-    this.svg = d3
-      .select('#bubble')
-      .append('svg')
-      .attr('width', this.width)
-      .attr('height', this.height);
-  }
-
   //called when user moves to a different tab
-  tabChanged(tabChangeEvent: MatTabChangeEvent): void {
+  public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     if (tabChangeEvent.index === 1) {
       this.assignValues();
       this.setValueToBubblerChart();
@@ -144,10 +136,8 @@ export class ConfigureBubbleChartComponent implements OnInit {
     }
   }
 
-  private showChart() {}
-
   //update redux store
-  updateReduxState() {
+  public updateReduxState() {
     this.saving = true;
     this.bubbleChart = {
       ...this.bubbleChart,
@@ -261,14 +251,14 @@ export class ConfigureBubbleChartComponent implements OnInit {
     this.tabIndex = 1;
   }
 
-  setLabels() {
+  private setLabels() {
     this.labels = [];
     this.bubbleChartData.map((data) => {
       this.labels.push(data.Name);
     });
   }
 
-  setValues() {
+  private setValues() {
     this.values = [];
     let i = 0;
     this.bubbleChartData.map((data) => {
@@ -283,7 +273,7 @@ export class ConfigureBubbleChartComponent implements OnInit {
     });
   }
 
-  setColors() {
+  private setColors() {
     if (this.bubbleColors.length === 0) {
       let count = this.bubbleChartData.length;
       for (let i = 0; i < count; i++) {
@@ -336,7 +326,7 @@ export class ConfigureBubbleChartComponent implements OnInit {
     };
   }
 
-  openSnackBar(msg: string) {
+  public openSnackBar(msg: string) {
     this._snackBar.open(msg, 'OK', {
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
