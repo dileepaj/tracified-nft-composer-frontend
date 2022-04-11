@@ -118,6 +118,7 @@ export class ConfigureBubbleChartComponent implements OnInit {
         });
 
         this.bubbleChartData = b;
+        console.log(this.bubbleChartData);
 
         this.setLabels();
         this.setValues();
@@ -269,8 +270,16 @@ export class ConfigureBubbleChartComponent implements OnInit {
 
   setValues() {
     this.values = [];
+    let i = 0;
     this.bubbleChartData.map((data) => {
-      this.values.push(data.Value);
+      this.values.push({
+        label: data.Name,
+        data: [{ x: data.X, y: data.Y, r: data.Value }],
+        backgroundColor: this.bubbleColors[i],
+        borderWidth: 0,
+        hoverBackgroundColor: this.bubbleColors[i],
+      });
+      i++;
     });
   }
 
@@ -287,22 +296,10 @@ export class ConfigureBubbleChartComponent implements OnInit {
     this.setColors();
     this.setValues();
     this.setLabels();
+    console.log(this.values);
     this.chartData = {
-      labels: this.labels,
-      datasets: [
-        {
-          label: this.title,
-          data: [
-            { x: 10, y: 10, r: 10 },
-            { x: 15, y: 5, r: 15 },
-            { x: 26, y: 12, r: 23 },
-            { x: 7, y: 8, r: 8 },
-          ],
-          backgroundColor: this.bubbleColors,
-          borderWidth: 0,
-          hoverBackgroundColor: this.bubbleColors,
-        },
-      ],
+      labels: [],
+      datasets: this.values,
     };
 
     this.bubbleChartOptions = {

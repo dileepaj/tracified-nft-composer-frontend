@@ -197,7 +197,10 @@ export class SelectDataComponent implements OnInit {
         next: (res) => {},
         error: (err) => {
           this.saving = false;
-          this.openSnackBar(JSON.parse(err.error.message));
+          //this.openSnackBar(JSON.parse(err.error.message));
+          this.openSnackBar(
+            'An unexpected error occured. Please try again later'
+          );
         },
         complete: () => {
           this.saving = false;

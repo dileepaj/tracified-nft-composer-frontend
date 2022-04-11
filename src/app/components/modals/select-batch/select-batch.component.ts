@@ -74,7 +74,7 @@ export class SelectBatchComponent implements OnInit {
     start: new FormControl(),
     end: new FormControl(),
   });
-
+  continueSaving: boolean = false;
   saving: boolean = false;
 
   tdpStep: number = 0;
@@ -178,27 +178,35 @@ export class SelectBatchComponent implements OnInit {
 
         if (this.widget.WidgetType === barchart) {
           this.store.dispatch(updateBarChart({ chart: this.widget }));
+          this.continueSaving = true;
         } else if (this.widget.WidgetType === piechart) {
           this.store.dispatch(updatePieChart({ chart: this.widget }));
+          this.continueSaving = true;
         } else if (this.widget.WidgetType === bubblechart) {
           this.store.dispatch(updateBubbleChart({ chart: this.widget }));
+          this.continueSaving = true;
         } else if (this.widget.WidgetType === proofbot) {
           this.store.dispatch(updateProofBot({ proofBot: this.widget }));
+          this.continueSaving = true;
         } else if (this.widget.WidgetType === timeline) {
           this.getTimelineData();
         } else if (this.widget.WidgetType === carbonFp) {
           this.store.dispatch(
             updateCarbonFootprint({ carbonFootprint: this.widget })
           );
+          this.continueSaving = true;
         } else if (this.widget.WidgetType === table) {
           this.store.dispatch(updateTable({ table: this.widget }));
+          this.continueSaving = true;
         }
 
         this.store.select(selectNFTContent).subscribe((data) => {
           console.log(data);
         });
 
-        this.saveWidget();
+        if (this.continueSaving) {
+          this.saveWidget();
+        }
       } else {
         this.openSnackBar('Please select a batch that has traceability data');
       }
@@ -247,7 +255,10 @@ export class SelectBatchComponent implements OnInit {
         },
         error: (err) => {
           console.log('err', err);
-          this.openSnackBar(JSON.parse(err.error.message));
+          //this.openSnackBar(JSON.parse(err.error.message));
+          this.openSnackBar(
+            'An unexpected error occured. Please try again later'
+          );
         },
         complete: () => {
           this.batchesLoading = false;
@@ -263,7 +274,10 @@ export class SelectBatchComponent implements OnInit {
         this.productsFilter = this.products;
       },
       error: (err) => {
-        this.openSnackBar(JSON.parse(err.error.message));
+        //this.openSnackBar(JSON.parse(err.error.message));
+        this.openSnackBar(
+          'An unexpected error occured. Please try again later'
+        );
       },
       complete: () => {
         this.productsLoading = false;
@@ -376,7 +390,10 @@ export class SelectBatchComponent implements OnInit {
         next: (res) => {},
         error: (err) => {
           this.saving = false;
-          this.openSnackBar(JSON.parse(err.error.message));
+          //this.openSnackBar(JSON.parse(err.error.message));
+          this.openSnackBar(
+            'An unexpected error occured. Please try again later'
+          );
         },
         complete: () => {
           this.saving = false;
@@ -405,74 +422,94 @@ export class SelectBatchComponent implements OnInit {
   getTimelineData() {
     let b64BatchId = btoa(this.selectedBatch.identifier.identifier);
     let timelineData: TimelineData[] = [];
-    this.batchesService.getTimeline('SGFuYU1hdE5zcDAx').subscribe((data) => {
-      let tabs = data.tabs;
-      let children: any[] = [];
-      console.log(data);
-      for (let i = 0; i < tabs.length; i++) {
-        if (data.tabs[i].title == 'Timeline') {
-          children = data.tabs[i].children;
-          break;
+    this.batchesService.getTimeline(b64BatchId).subscribe((data) => {
+      if (data.name === 'Error') {
+        this.openSnackBar('Please select a suitable batch for timeline.');
+        this.continueSaving = false;
+        this.saving = false;
+      } else {
+        let tabs = data.tabs;
+        let children: any[] = [];
+
+        //loop through tabs array to find timeline object
+        for (let i = 0; i < tabs.length; i++) {
+          if (data.tabs[i].title == 'Timeline') {
+            children = data.tabs[i].children;
+            break;
+          }
         }
-      }
-      if (children.length > 0) {
-        console.log(children);
-        children.map((child: any) => {
-          let data = child.children;
-          let tlchildren: Children[] = [];
 
-          data.map((d: any) => {
-            if (d.component === 'key-value') {
-              tlchildren.push({ Key: d.key, Value: d.value });
-            }
+        //check whether the timeline has children or not
+        if (children.length > 0) {
+          //creates timeline data array
+          children.map((child: any) => {
+            let data = child.children;
+            let tlchildren: Children[] = [];
+
+            //creates children array
+            data.map((d: any) => {
+              if (d.component === 'key-value') {
+                tlchildren.push({ Key: d.key, Value: d.value });
+              }
+            });
+
+            //create and push timeline child to timeline data array
+            timelineData.push({
+              Title: child.title,
+              Icon: child.icon,
+              Children: tlchildren,
+            });
           });
 
-          timelineData.push({
-            Title: child.title,
-            Icon: child.icon,
-            Children: tlchildren,
-          });
-        });
+          //add timeline data to widget object
+          this.widget = {
+            ...this.widget,
+            TimelineData: timelineData,
+            Timestamp: new Date().toISOString(),
+          };
 
-        console.log(timelineData);
-        this.widget = {
-          ...this.widget,
-          TimelineData: timelineData,
-          Timestamp: new Date().toISOString(),
-        };
+          //Update timeline redux state
+          this.store.dispatch(updateTimeline({ timeline: this.widget }));
+          let status = this.dndService.getSavedStatus(this.widget.WidgetId);
 
-        this.store.dispatch(updateTimeline({ timeline: this.widget }));
-        let status = this.dndService.getSavedStatus(this.widget.WidgetId);
-        if (status === false) {
-          this.composerService.saveTimeline(this.widget).subscribe({
-            next: (res) => {},
-            error: (err) => {
-              this.openSnackBar(
-                'An unexpected error occured. Please try again later'
-              );
-            },
-            complete: () => {
-              this.dndService.setSavedStatus(this.widget.WidgetId);
+          //check whether timeline is already saved or not
+          if (status === false) {
+            this.composerService.saveTimeline(this.widget).subscribe({
+              next: (res) => {},
+              error: (err) => {
+                this.openSnackBar(
+                  'An unexpected error occured. Please try again later'
+                );
+              },
+              complete: () => {
+                this.dndService.setSavedStatus(this.widget.WidgetId);
 
-              this.openSnackBar('Saved!!');
-              this.dialog.closeAll();
-            },
-          });
+                this.openSnackBar('Saved!!');
+                this.dialog.closeAll();
+              },
+            });
+          } else {
+            this.composerService.updateTimeline(this.widget).subscribe({
+              next: (res) => {},
+              error: (err) => {
+                this.openSnackBar(
+                  'An unexpected error occured. Please try again later'
+                );
+              },
+              complete: () => {
+                this.dndService.setSavedStatus(this.widget.WidgetId);
+
+                this.openSnackBar('Saved!!');
+                this.dialog.closeAll();
+              },
+            });
+          }
+
+          this.continueSaving = true;
         } else {
-          this.composerService.updateTimeline(this.widget).subscribe({
-            next: (res) => {},
-            error: (err) => {
-              this.openSnackBar(
-                'An unexpected error occured. Please try again later'
-              );
-            },
-            complete: () => {
-              this.dndService.setSavedStatus(this.widget.WidgetId);
-
-              this.openSnackBar('Saved!!');
-              this.dialog.closeAll();
-            },
-          });
+          this.openSnackBar('Timeline has no children');
+          this.continueSaving = false;
+          this.saving = false;
         }
       }
     });

@@ -343,13 +343,31 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
     console.log(outputObject);
     let data = eval(outputObject);
     let result = JSON.parse(data);
-    if (this.type === 'bar' || this.type === 'pie' || this.type === 'bubble') {
+    if (this.type === 'bar' || this.type === 'pie') {
       if (
         result['val'] !== undefined &&
         result.val['ChartData'] !== undefined &&
         result.val['ChartData'].length > 0 &&
         Object.keys(result.val['ChartData'][0]).includes('Name') &&
         Object.keys(result.val['ChartData'][0]).includes('Value')
+      ) {
+        console.log('valid');
+        this.onQuerySuccess.emit({
+          data: result.val['ChartData'],
+        });
+        this.saveExecuter();
+      } else {
+        this.openSnackBar('Invalid output. Please check the query.');
+      }
+    } else if (this.type === 'bubble') {
+      if (
+        result['val'] !== undefined &&
+        result.val['ChartData'] !== undefined &&
+        result.val['ChartData'].length > 0 &&
+        Object.keys(result.val['ChartData'][0]).includes('Name') &&
+        Object.keys(result.val['ChartData'][0]).includes('Value') &&
+        Object.keys(result.val['ChartData'][0]).includes('X') &&
+        Object.keys(result.val['ChartData'][0]).includes('Y')
       ) {
         console.log('valid');
         this.onQuerySuccess.emit({
