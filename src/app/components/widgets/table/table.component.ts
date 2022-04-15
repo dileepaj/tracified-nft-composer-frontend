@@ -35,7 +35,6 @@ import { WidgetContentComponent } from '../../modals/widget-content/widget-conte
 export class TableComponent implements OnInit {
   @Input() id: any;
   @Output() onDeleteWidget: EventEmitter<any> = new EventEmitter();
-  nft$: any;
   projectId: string;
   table: Table;
   projectName: string;
@@ -47,23 +46,26 @@ export class TableComponent implements OnInit {
     private service: DndServiceService,
     private composerService: ComposerBackendService
   ) {
-    this.nft$ = this.store.select(selectNFTContent);
     this.store.select(selectNFTContent).subscribe((content) => {
       this.nftContent = content;
     });
-    //this.image$ = this.store.select(selectNFTImages);
   }
 
   ngOnInit(): void {
     //check if the widget is already in the redux store
     if (!this.service.widgetExists(this.id)) {
       this.addTableToStore();
-    } else {
-      this.getTable();
     }
+    this.store.select(selectTable).subscribe((data) => {
+      data.map((table) => {
+        if (table.WidgetId === this.id) {
+          this.table = table;
+        }
+      });
+    });
   }
 
-  otpAdded(): boolean {
+  public otpAdded(): boolean {
     let buttonState = false;
     this.store.select(selectCardStatus).subscribe((data) => {
       if (data.some((e) => e.WidgetId === this.id)) {
@@ -87,14 +89,11 @@ export class TableComponent implements OnInit {
     };
 
     this.store.dispatch(addTable({ table: this.table }));
-    //this.showNFT();
-
-    this.getTable();
     this.service.updateUsedStatus(this.id);
   }
 
   //delete table from redux store
-  deleteWidget() {
+  public deleteWidget() {
     this.composerService.deleteTable(this.id).subscribe({
       next: (res) => {},
       error: (err) => {
@@ -108,45 +107,23 @@ export class TableComponent implements OnInit {
   }
 
   //open configuartion popup
-  openDialog() {
-    this.getTable();
+  public openDialog() {
     const dialogRef = this.dialog.open(ConfigureTableComponent, {
       data: {
         id: this.id,
         widget: this.table,
       },
     });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      this.getTable();
-    });
-  }
-
-  //get table from redux store
-  private getTable() {
-    this.store.select(selectTable).subscribe((data) => {
-      data.map((table) => {
-        if (table.WidgetId === this.id) {
-          this.table = table;
-          console.log(table);
-        }
-      });
-    });
   }
 
   //open batch selection popup
-  openAddData() {
-    this.getTable();
+  public openAddData() {
     const dialogRef = this.dialog.open(WidgetContentComponent, {
       data: {
         id: this.id,
         userId: this.nftContent.UserId,
         widget: this.table,
       },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      //
     });
   }
 }

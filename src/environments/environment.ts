@@ -8,6 +8,7 @@ export const environment = {
   backendUrl: 'https://qa.api.tracified.com',
   adminUrl: 'https://qa.admin.api.tracified.com',
   composerBackend: 'http://localhost:6081/api',
+  gateway: 'https://qa.gateway.tracified.com',
   domain: 'localhost',
 };
 

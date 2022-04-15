@@ -19,12 +19,12 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  logout() {
+  public logout() {
     this.router.navigate(['/login']);
     sessionStorage.setItem('Token', '');
   }
 
-  toggleSideBar() {
+  public toggleSideBar() {
     this.sidenav.toggleNav();
   }
 }

@@ -23,7 +23,7 @@
   <mat-divider></mat-divider>
   <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
   <div layout-margin class="projects-div">
-    <div fxLayout="row wrap" fxLayoutGap="16px grid" class="md-margin">
+    <div fxLayout="row wrap" fxLayoutGap="10px grid" class="md-margin">
       <div
         [fxFlex]="100 / gridColumns + '%'"
         fxFlex.xs="100%"
@@ -59,7 +59,7 @@
               [disabled]="projToBeDeleted === project.ProjectId"
               (click)="deleteProject(project.ProjectId)"
             >
-              <mat-icon>delete_forever</mat-icon>
+              <mat-icon class="btn-icon">delete_forever</mat-icon>
               <span [class.spinner]="projToBeDeleted === project.ProjectId">
               </span>
               Delete
@@ -71,6 +71,7 @@
               [disabled]="projToBeLoaded === project.ProjectId"
               (click)="openExistingProject(project.ProjectId)"
             >
+              <mat-icon class="btn-icon">launch</mat-icon>
               <span [class.spinner]="projToBeLoaded === project.ProjectId">
               </span>
               Open

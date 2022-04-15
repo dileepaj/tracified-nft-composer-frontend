@@ -24,20 +24,19 @@
   //background-color: #ccc;
 }
 
-.timeline-content{
+.timeline-content {
   overflow: auto;
   width: 90%;
 }
 
 .timeline {
-  $color: #00C853;
+  $color: #00c853;
   $timeline-font-color: white;
 
   padding: 0 25px;
   margin: 20px 0 0 0;
   position: relative;
   counter-reset: list 0;
-
 
   &-item {
     list-style: none;
@@ -49,22 +48,22 @@
   }
 
   &-title {
-      margin: 0;
-      padding: 0;
-      &:before {
-        $size: 40px;
-        color: $timeline-font-color;
-        position: relative;
-        left: -22px;
-        display: inline-block;
-        width: $size;
-        height: $size;
-        line-height: $size;
-        text-align: center;
-        border-radius: 50%;
-        background-color: $color;
-        counter-increment: list;
-        content: counter(list);
+    margin: 0;
+    padding: 0;
+    &:before {
+      $size: 40px;
+      color: $timeline-font-color;
+      position: relative;
+      left: -22px;
+      display: inline-block;
+      width: $size;
+      height: $size;
+      line-height: $size;
+      text-align: center;
+      border-radius: 50%;
+      background-color: $color;
+      counter-increment: list;
+      content: counter(list);
     }
   }
 
@@ -112,4 +111,7 @@ h2 button {
   vertical-align: middle;
 }
 
-
+.tl-icon {
+  transform: scale(4);
+  color: $background;
+}

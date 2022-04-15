@@ -28,14 +28,14 @@ export class ApiService {
   }
 
   //GET request
-  get(path: string): Observable<any> {
+  public get(path: string): Observable<any> {
     return this.http.get(`${this.api_url}${path}`, {
       headers: this.setHeaders(),
     });
   }
 
   //post request
-  post(path: string, body: any): Observable<any> {
+  public post(path: string, body: any): Observable<any> {
     return this.http.post(`${this.api_url}${path}`, body, {
       headers: this.setHeaders(),
     });

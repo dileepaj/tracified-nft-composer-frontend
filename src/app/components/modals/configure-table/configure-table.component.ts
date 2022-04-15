@@ -71,7 +71,7 @@ export class ConfigureTableComponent implements OnInit {
   private showChart() {}
 
   //check , executed query save or not  use this function for show the congigure button
-  CheckQuerySavingStatus(): boolean {
+  public CheckQuerySavingStatus(): boolean {
     let buttonState = false;
     this.store.select(selectQueryResult).subscribe((data) => {
       if (data.some((e) => e.WidgetId === this.data.id)) {
@@ -81,7 +81,7 @@ export class ConfigureTableComponent implements OnInit {
     return buttonState;
   }
 
-  setValueToTable() {
+  private setValueToTable() {
     this.store.select(selectQueryResult).subscribe((data) => {
       let tableData = data.find((v) => v.WidgetId === this.data.id);
       if (
@@ -99,7 +99,7 @@ export class ConfigureTableComponent implements OnInit {
   }
 
   //called when user moves to a different tab
-  tabChanged(tabChangeEvent: MatTabChangeEvent): void {
+  public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     if (tabChangeEvent.index === 1) {
       this.assignValues();
       this.setValueToTable();
@@ -108,15 +108,7 @@ export class ConfigureTableComponent implements OnInit {
   }
 
   //update redux state
-  updateReduxState() {
-    /*this.table = {
-      WidgetId: this.tableId,
-      WidgetType: 'table',
-      TableTitle: this.title,
-      Query: this.query,
-      TableContent: this.tableContent,
-    };*/
-
+  public updateReduxState() {
     this.saving = true;
     this.table = {
       ...this.table,
@@ -217,7 +209,7 @@ export class ConfigureTableComponent implements OnInit {
     this.tabIndex = 1;
   }
 
-  openSnackBar(msg: string) {
+  public openSnackBar(msg: string) {
     this._snackBar.open(msg, 'OK', {
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,

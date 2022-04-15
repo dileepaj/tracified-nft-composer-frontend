@@ -31,6 +31,7 @@ import {
 import { CardStatus, QueryResult } from 'src/models/nft-content/cardStatus';
 
 import * as MomentAll from 'moment';
+
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
@@ -70,7 +71,7 @@ export class ProjectsComponent implements OnInit {
     this.getRecentProjects();
   }
 
-  getRecentProjects() {
+  public getRecentProjects() {
     this.loading = true;
     this.apiService.getRecentProjects(this.userId).subscribe((result) => {
       if (result) {
@@ -90,7 +91,7 @@ export class ProjectsComponent implements OnInit {
     return local;
   }
 
-  addDragAndDropArray(widgets: any[]) {
+  private addDragAndDropArray(widgets: any[]) {
     let warr: Widget[] = [];
     widgets.map((widget) => {
       warr.push({
@@ -105,7 +106,7 @@ export class ProjectsComponent implements OnInit {
     this.dndService.rewriteWidgetArr(warr);
   }
 
-  openNewProject() {
+  public openNewProject() {
     const dialogRef = this.dialog.open(NewProjectComponent, {
       data: {
         user: this.user,
@@ -115,7 +116,7 @@ export class ProjectsComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {});
   }
 
-  openExistingProject(id: string) {
+  public openExistingProject(id: string) {
     this.projToBeLoaded = id;
     this.apiService.openExistingProject(id).subscribe({
       next: (data) => {
@@ -147,6 +148,7 @@ export class ProjectsComponent implements OnInit {
             ch = {
               ...ch,
               BactchId: chart.Widget.BatchId,
+              ArtifactId: chart.Widget.ArtifactId,
               ProductName: chart.Widget.productName,
               TenentId: chart.Widget.TenentiD,
               UserId: chart.Widget.UserId,
@@ -165,6 +167,7 @@ export class ProjectsComponent implements OnInit {
             ch = {
               ...ch,
               BactchId: chart.Widget.BatchId,
+              ArtifactId: chart.Widget.ArtifactId,
               ProductName: chart.Widget.productName,
               TenentId: chart.Widget.TenentiD,
               UserId: chart.Widget.UserId,
@@ -182,6 +185,7 @@ export class ProjectsComponent implements OnInit {
             ch = {
               ...ch,
               BactchId: chart.Widget.BatchId,
+              ArtifactId: chart.Widget.ArtifactId,
               ProductName: chart.Widget.productName,
               TenentId: chart.Widget.TenentiD,
               UserId: chart.Widget.UserId,
@@ -200,6 +204,7 @@ export class ProjectsComponent implements OnInit {
             tb = {
               ...tb,
               BactchId: table.Widget.BatchId,
+              ArtifactId: table.Widget.ArtifactId,
               ProductName: table.Widget.productName,
               TenentId: table.Widget.TenentiD,
               UserId: table.Widget.UserId,
@@ -219,6 +224,18 @@ export class ProjectsComponent implements OnInit {
           });
         }
 
+        if (proj.Timeline) {
+          proj.Timeline.map((tl: any) => {
+            timeline.push(tl);
+          });
+        }
+
+        if (proj.ProofBot) {
+          proj.ProofBot.map((pb: any) => {
+            proofbot.push(pb);
+          });
+        }
+
         this.loadedProject = {
           ProjectId: proj.Project.ProjectId,
           ProjectName: proj.Project.ProjectName,
@@ -234,8 +251,8 @@ export class ProjectsComponent implements OnInit {
             BubbleCharts: bubblecharts,
             Tables: tables,
             Images: images,
-            Timeline: [],
-            ProofBotData: [],
+            Timeline: timeline,
+            ProofBot: proofbot,
             Stats: [],
             CarbonFootprint: [],
           },
@@ -260,7 +277,7 @@ export class ProjectsComponent implements OnInit {
     });
   }
 
-  deleteProject(projectId: string) {
+  public deleteProject(projectId: string) {
     this.projToBeDeleted = projectId;
 
     this.apiService.deleteProject(projectId).subscribe({
@@ -279,7 +296,7 @@ export class ProjectsComponent implements OnInit {
     });
   }
 
-  openSnackBar(msg: string) {
+  public openSnackBar(msg: string) {
     this._snackBar.open(msg, 'OK', {
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,

@@ -45,7 +45,7 @@ export const selectCarbonFP = createSelector(
 
 export const selectProofBot = createSelector(
   selectNFT,
-  (state: NFTState) => state.nftContent.NFTContent.ProofBotData
+  (state: NFTState) => state.nftContent.NFTContent.ProofBot
 );
 
 export const selectTimeline = createSelector(
@@ -60,7 +60,7 @@ export const selectNoOfTimelines = createSelector(
 
 export const selectNoOfProofbots = createSelector(
   selectNFT,
-  (state: NFTState) => state.nftContent.NFTContent.ProofBotData.length
+  (state: NFTState) => state.nftContent.NFTContent.ProofBot.length
 );
 
 export const selectNoOfCarbonFP = createSelector(

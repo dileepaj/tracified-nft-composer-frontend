@@ -1,13 +1,25 @@
 export interface Timeline {
   WidgetId: string;
   BactchId?: string;
+  ArtifactId?: string;
+  ProductId?: string;
   ProductName?: string;
   TenentId?: string;
   ProjectId?: string;
   ProjectName?: string;
   UserId?: string;
   OTPType?: string;
-  Query?: string;
   WidgetType?: string;
-  data?: any[];
+  TimelineData?: TimelineData[];
+}
+
+export interface TimelineData {
+  Title: string;
+  Children: Children[];
+  Icon: string;
+}
+
+export interface Children {
+  Key: string;
+  Value: string;
 }

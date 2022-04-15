@@ -11,6 +11,7 @@
           <app-ldaleditor
             [id]="table.WidgetId"
             [type]="'table'"
+            [query]="table.Query!"
             (onQuerySuccess)="onQuerySuccess($event)"
           ></app-ldaleditor
         ></mat-grid-tile>

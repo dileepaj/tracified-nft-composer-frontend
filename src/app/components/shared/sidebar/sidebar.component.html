@@ -35,42 +35,42 @@
           id="widgets"
           [ngStyle]="{ display: !layouts ? 'none' : 'block' }"
         >
-          <mat-list-item *ngIf="timelineAvailable()">
+          <mat-list-item *ngIf="timelineCount > 0">
             <mat-icon mat-list-icon class="icon">event_note</mat-icon>
             <label>Timeline</label>
           </mat-list-item>
 
-          <mat-list-item *ngIf="proofbotAvailable()">
+          <mat-list-item *ngIf="proofBotCount > 0">
             <mat-icon mat-list-icon class="icon">ondemand_video</mat-icon>
             <label>Proofbot</label>
           </mat-list-item>
 
-          <mat-list-item *ngIf="carbonAvailable()">
+          <mat-list-item *ngIf="carbonFPCount > 0">
             <mat-icon mat-list-icon class="icon">filter_drama</mat-icon>
             <label>Carbon Footprint</label>
           </mat-list-item>
 
-          <mat-list-item *ngIf="imagesAvailable()">
+          <mat-list-item *ngIf="imageCount > 0">
             <mat-icon mat-list-icon class="icon">wallpaper</mat-icon>
             <label>NFT Image</label>
           </mat-list-item>
 
-          <mat-list-item *ngIf="barChartAvailable()">
+          <mat-list-item *ngIf="barChartCount > 0">
             <mat-icon mat-list-icon class="icon">bar_chart</mat-icon>
             <label>Bar Chart</label>
           </mat-list-item>
 
-          <mat-list-item *ngIf="pieChartAvailable()">
+          <mat-list-item *ngIf="pieChartCount > 0">
             <mat-icon mat-list-icon class="icon">pie_chart</mat-icon>
             <label>Pie Chart</label>
           </mat-list-item>
 
-          <mat-list-item *ngIf="bubbleChartAvailable()">
+          <mat-list-item *ngIf="bubbleChartCount > 0">
             <mat-icon mat-list-icon class="icon">bubble_chart</mat-icon>
             <label>Bubble Chart</label>
           </mat-list-item>
 
-          <mat-list-item *ngIf="tableAvailable()">
+          <mat-list-item *ngIf="tableCount > 0">
             <mat-icon mat-list-icon class="icon">table_view</mat-icon>
             <label>Table</label>
           </mat-list-item>
@@ -85,7 +85,12 @@
       <div fxLayout="row" fxLayoutAlign="space-between center">
         <div>
           <mat-icon mat-list-icon class="icon">code_off</mat-icon>
-          <label [routerLink]="['/layout/nft-html']" routerLinkActive="router-link-active"  class="nav-title">NFT HTML</label>
+          <label
+            [routerLink]="['/layout/nft-html']"
+            routerLinkActive="router-link-active"
+            class="nav-title"
+            >NFT HTML</label
+          >
         </div>
       </div>
     </mat-list-item>

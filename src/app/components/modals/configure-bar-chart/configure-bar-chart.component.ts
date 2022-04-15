@@ -99,7 +99,7 @@ export class ConfigureBarChartComponent implements OnInit {
   }
 
   //take value from  query result store by wigetId and se it as a barChart data
-  setValueToBarChart() {
+  private setValueToBarChart() {
     this.store.select(selectQueryResult).subscribe((data) => {
       let barChartvalue = data.find((v) => v.WidgetId === this.data.id);
       if (
@@ -127,7 +127,7 @@ export class ConfigureBarChartComponent implements OnInit {
   }
 
   //check , executed query save or not  use this function for show the congigure button
-  CheckQuerySavingStatus(): boolean {
+  public CheckQuerySavingStatus(): boolean {
     let buttonState = false;
     this.store.select(selectQueryResult).subscribe((data) => {
       if (data.some((e) => e.WidgetId === this.data.id)) {
@@ -138,7 +138,7 @@ export class ConfigureBarChartComponent implements OnInit {
   }
 
   //called when user moves to a different tab
-  tabChanged(tabChangeEvent: MatTabChangeEvent): void {
+  public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     if (tabChangeEvent.index === 1) {
       this.assignValues();
       this.setValueToBarChart();
@@ -147,7 +147,7 @@ export class ConfigureBarChartComponent implements OnInit {
   }
 
   //update redux store
-  updateReduxState() {
+  public updateReduxState() {
     this.saving = true;
     this.barChart = {
       ...this.barChart,
@@ -259,7 +259,7 @@ export class ConfigureBarChartComponent implements OnInit {
     this.tabIndex = 1;
   }
 
-  openSnackBar(msg: string) {
+  public openSnackBar(msg: string) {
     this._snackBar.open(msg, 'OK', {
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
@@ -268,21 +268,21 @@ export class ConfigureBarChartComponent implements OnInit {
     });
   }
 
-  setLabels() {
+  private setLabels() {
     this.labels = [];
     this.barChartData.map((data) => {
       this.labels.push(data.Name);
     });
   }
 
-  setValues() {
+  private setValues() {
     this.values = [];
     this.barChartData.map((data) => {
       this.values.push(data.Value);
     });
   }
 
-  setColors() {
+  private setColors() {
     if (this.barColors.length === 0) {
       let count = this.barChartData.length;
       for (let i = 0; i < count; i++) {

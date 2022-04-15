@@ -96,7 +96,7 @@ export class ConfigurePieChartComponent implements OnInit {
   }
 
   //take value from  query result store by wigetId and se it as a barChart data
-  setValueToPieChart() {
+  private setValueToPieChart() {
     this.store.select(selectQueryResult).subscribe((data) => {
       let pieChartvalue = data.find((v) => v.WidgetId === this.data.id);
 
@@ -124,7 +124,7 @@ export class ConfigurePieChartComponent implements OnInit {
     });
   }
   //check , executed query save or not  use this function for show the congigure button
-  CheckQuerySavingStatus(): boolean {
+  public CheckQuerySavingStatus(): boolean {
     let buttonState = false;
     this.store.select(selectQueryResult).subscribe((data) => {
       if (data.length != 0 && data.some((e) => e.WidgetId === this.data.id)) {
@@ -134,10 +134,8 @@ export class ConfigurePieChartComponent implements OnInit {
     return buttonState;
   }
 
-  private showChart() {}
-
   //called when user moves to a different tab
-  tabChanged(tabChangeEvent: MatTabChangeEvent): void {
+  public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     if (tabChangeEvent.index === 1) {
       //this.getPieChart();
       this.assignValues();
@@ -149,7 +147,7 @@ export class ConfigurePieChartComponent implements OnInit {
   }
 
   //update redux state
-  updateReduxState() {
+  public updateReduxState() {
     this.saving = true;
 
     this.pieChart = {
@@ -268,7 +266,7 @@ export class ConfigurePieChartComponent implements OnInit {
     this.tabIndex = 1;
   }
 
-  getRandomColor() {
+  private getRandomColor() {
     let letters = '0123456789ABCDEF';
     let color = '#';
     for (let i = 0; i < 6; i++) {
@@ -277,7 +275,7 @@ export class ConfigurePieChartComponent implements OnInit {
     return color;
   }
 
-  setLabels() {
+  private setLabels() {
     this.labels = [];
     this.pieChartData.map((data) => {
       let lArr = [];
@@ -286,14 +284,14 @@ export class ConfigurePieChartComponent implements OnInit {
     });
   }
 
-  setValues() {
+  private setValues() {
     this.values = [];
     this.pieChartData.map((data) => {
       this.values.push(data.Value);
     });
   }
 
-  setColors() {
+  private setColors() {
     console.log(this.fieldColors.length);
     if (this.fieldColors.length === 0) {
       let count = this.pieChartData.length;
@@ -303,7 +301,7 @@ export class ConfigurePieChartComponent implements OnInit {
     }
   }
 
-  openSnackBar(msg: string) {
+  public openSnackBar(msg: string) {
     this._snackBar.open(msg, 'OK', {
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,

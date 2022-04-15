@@ -7,15 +7,35 @@
       </button>
     </h2>
   </div>
-  <div class="content-div"></div>
+  <div class="content-div">
+    <mat-icon class="pb-icon" *ngIf="!otpAdded"> ondemand_video </mat-icon>
+    <div class="proofbot-content" *ngIf="otpAdded">
+      <ul *ngFor="let proof of proofUrls">
+        <li class="caret">
+          <span class="proof-type">{{ proof.type.toUpperCase() }}</span>
+        </li>
+        <ul class="urls" *ngFor="let url of proof.urls">
+          <li class="child-caret">
+            <a class="proof-url" [href]="url" target="_blank">{{ url }}</a>
+          </li>
+        </ul>
+      </ul>
+    </div>
+  </div>
   <div class="widget-footer">
-    <button mat-button class="btn" style="float: right">
+    <button mat-button class="btn" style="float: right" (click)="openAddData()">
       <mat-icon>add_circle</mat-icon>
       Add Data
     </button>
-    <button mat-button *ngIf="otpAdded" class="btn" style="float: right">
-      <mat-icon>edit</mat-icon>
-      Configure
+    <button
+      mat-button
+      *ngIf="otpAdded"
+      class="btn"
+      style="float: right"
+      (click)="openProofBotView()"
+    >
+      <mat-icon>visibility</mat-icon>
+      View
     </button>
   </div>
 </div>

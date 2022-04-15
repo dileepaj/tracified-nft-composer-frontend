@@ -49,6 +49,9 @@ import {
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import { UserserviceService } from 'src/app/services/userservice.service';
+import { Children, TimelineData } from 'src/models/nft-content/timeline';
+import { selectNFTContent } from 'src/app/store/nft-state-store/nft.selector';
+import { ProofBot, ProofData, ProofURL } from 'src/models/nft-content/proofbot';
 
 @Component({
   selector: 'app-select-batch',
@@ -72,7 +75,7 @@ export class SelectBatchComponent implements OnInit {
     start: new FormControl(),
     end: new FormControl(),
   });
-
+  continueSaving: boolean = false;
   saving: boolean = false;
 
   tdpStep: number = 0;
@@ -130,7 +133,7 @@ export class SelectBatchComponent implements OnInit {
   }
 
   //called when user selects a product
-  selectProduct(row: any) {
+  public selectProduct(row: any) {
     this.selectedProduct = row;
     this.page = 0;
     this.searchKey = '';
@@ -140,7 +143,7 @@ export class SelectBatchComponent implements OnInit {
   }
 
   //called when user selects a batch
-  selectBatch(row: any) {
+  public selectBatch(row: any) {
     this.selectedBatch = row;
     this.batchIsSelected = true;
     this.tdpStep = 0;
@@ -148,51 +151,62 @@ export class SelectBatchComponent implements OnInit {
   }
 
   //called when user selects a tdp
-  selectTdp(row: any) {
+  public selectTdp(row: any) {
     this.selectedTdp = row;
     this.tdpIsSelected = true;
   }
 
   //go back to previous step
-  goBack() {
+  public goBack() {
     this.myStepper.previous();
   }
 
   //move to next step
-  goForward() {
+  public goForward() {
     this.myStepper.next();
   }
 
   //update redux state
-  updateReduxState() {
+  public updateReduxState() {
     if (this.productIsSelected && this.batchIsSelected) {
       if (this.selectedBatch.traceabilityDataPackets.length !== 0) {
         this.saving = true;
         this.widget = {
           ...this.widget,
+          Timestamp: new Date().toISOString(),
           BactchId: this.selectedBatch.identifier.identifier,
           ProductName: this.selectedProduct.itemName,
+          ProductId: this.selectedProduct.itemID,
+          OTPType: 'Batch',
         };
 
         if (this.widget.WidgetType === barchart) {
           this.store.dispatch(updateBarChart({ chart: this.widget }));
+          this.continueSaving = true;
         } else if (this.widget.WidgetType === piechart) {
           this.store.dispatch(updatePieChart({ chart: this.widget }));
+          this.continueSaving = true;
         } else if (this.widget.WidgetType === bubblechart) {
           this.store.dispatch(updateBubbleChart({ chart: this.widget }));
+          this.continueSaving = true;
         } else if (this.widget.WidgetType === proofbot) {
-          this.store.dispatch(updateProofBot({ proofBot: this.widget }));
+          this.getProofbotData();
+          this.continueSaving = true;
         } else if (this.widget.WidgetType === timeline) {
-          this.store.dispatch(updateTimeline({ timeline: this.widget }));
+          this.getTimelineData();
         } else if (this.widget.WidgetType === carbonFp) {
           this.store.dispatch(
             updateCarbonFootprint({ carbonFootprint: this.widget })
           );
+          this.continueSaving = true;
         } else if (this.widget.WidgetType === table) {
           this.store.dispatch(updateTable({ table: this.widget }));
+          this.continueSaving = true;
         }
 
-        this.saveWidget();
+        if (this.continueSaving) {
+          this.saveWidget();
+        }
       } else {
         this.openSnackBar('Please select a batch that has traceability data');
       }
@@ -201,7 +215,7 @@ export class SelectBatchComponent implements OnInit {
     }
   }
 
-  openWidgetContent() {
+  public openWidgetContent() {
     const dialogRef = this.dialog.open(WidgetContentComponent, {
       data: {
         id: this.id,
@@ -210,11 +224,11 @@ export class SelectBatchComponent implements OnInit {
     });
   }
 
-  close() {
+  public close() {
     this.dialog.closeAll();
   }
 
-  getItemCount(index: number) {
+  public getItemCount(index: number) {
     return this.page * 10 + index + 1;
   }
 
@@ -241,7 +255,10 @@ export class SelectBatchComponent implements OnInit {
         },
         error: (err) => {
           console.log('err', err);
-          this.openSnackBar(JSON.parse(err.error.message));
+          //this.openSnackBar(JSON.parse(err.error.message));
+          this.openSnackBar(
+            'An unexpected error occured. Please try again later'
+          );
         },
         complete: () => {
           this.batchesLoading = false;
@@ -249,15 +266,19 @@ export class SelectBatchComponent implements OnInit {
       });
   }
 
-  public getItems() {
+  private getItems() {
     this.productsLoading = true;
     this.batchesService.getItems().subscribe({
       next: (data: any) => {
         this.products = data;
         this.productsFilter = this.products;
+        console.log(data);
       },
       error: (err) => {
-        this.openSnackBar(JSON.parse(err.error.message));
+        //this.openSnackBar(JSON.parse(err.error.message));
+        this.openSnackBar(
+          'An unexpected error occured. Please try again later'
+        );
       },
       complete: () => {
         this.productsLoading = false;
@@ -265,7 +286,7 @@ export class SelectBatchComponent implements OnInit {
     });
   }
 
-  public getStages() {
+  private getStages() {
     this.batchesService.getStages().subscribe({
       next: (data: any) => {
         this.workflow = data.workflow;
@@ -305,15 +326,9 @@ export class SelectBatchComponent implements OnInit {
 
   public onDateChange() {
     this.page = 0;
-    /*this.getBatches(
-      this.page,
-      '',
-      this.dateRange.value.start,
-      this.dateRange.value.end
-    );*/
   }
 
-  onStepChange(event: any) {
+  public onStepChange(event: any) {
     let index = event.selectedIndex;
   }
 
@@ -324,7 +339,7 @@ export class SelectBatchComponent implements OnInit {
 
   private saveWidget() {
     const widget = {
-      Timestamp: new Date().toISOString(),
+      Timestamp: this.widget.Timestamp,
       ProjectId: this.widget.ProjectId,
       ProjectName: this.widget.ProjectName,
       WidgetId: this.widget.WidgetId,
@@ -346,9 +361,7 @@ export class SelectBatchComponent implements OnInit {
         error: (err) => {
           this.saving = false;
           console.log('err', err);
-          this.openSnackBar(
-            err.error.status + ' ' + JSON.parse(err.error.message).err
-          );
+          this.openSnackBar(err);
         },
         complete: () => {
           this.saving = false;
@@ -372,7 +385,10 @@ export class SelectBatchComponent implements OnInit {
         next: (res) => {},
         error: (err) => {
           this.saving = false;
-          this.openSnackBar(JSON.parse(err.error.message));
+          //this.openSnackBar(JSON.parse(err.error.message));
+          this.openSnackBar(
+            'An unexpected error occured. Please try again later'
+          );
         },
         complete: () => {
           this.saving = false;
@@ -383,11 +399,11 @@ export class SelectBatchComponent implements OnInit {
     }
   }
 
-  setTdpStep(index: number) {
+  public setTdpStep(index: number) {
     this.tdpStep = index;
   }
 
-  getTraceabilityData(stageId: number) {
+  private getTraceabilityData(stageId: number) {
     let tdArr: any = [];
     this.selectedBatch.traceabilityDataPackets.map((data: any) => {
       if (data.stageId === stageId) {
@@ -398,7 +414,170 @@ export class SelectBatchComponent implements OnInit {
     return tdArr;
   }
 
-  openSnackBar(msg: string) {
+  private getTimelineData() {
+    let b64BatchId = btoa(this.selectedBatch.identifier.identifier);
+    let timelineData: TimelineData[] = [];
+    this.batchesService.getTimeline(b64BatchId).subscribe((data) => {
+      if (data.name === 'Error') {
+        this.openSnackBar('Please select a suitable batch for timeline.');
+        this.continueSaving = false;
+        this.saving = false;
+      } else {
+        let tabs = data.tabs;
+        let children: any[] = [];
+
+        //loop through tabs array to find timeline object
+        for (let i = 0; i < tabs.length; i++) {
+          if (data.tabs[i].title == 'Timeline') {
+            children = data.tabs[i].children;
+            break;
+          }
+        }
+
+        //check whether the timeline has children or not
+        if (children.length > 0) {
+          //creates timeline data array
+          children.map((child: any) => {
+            let data = child.children;
+            let tlchildren: Children[] = [];
+
+            //creates children array
+            data.map((d: any) => {
+              if (d.component === 'key-value') {
+                tlchildren.push({ Key: d.key, Value: d.value });
+              }
+            });
+
+            //create and push timeline child to timeline data array
+            timelineData.push({
+              Title: child.title,
+              Icon: child.icon,
+              Children: tlchildren,
+            });
+          });
+
+          //add timeline data to widget object
+          this.widget = {
+            ...this.widget,
+            TimelineData: timelineData,
+            Timestamp: new Date().toISOString(),
+          };
+
+          //Update timeline redux state
+          this.store.dispatch(updateTimeline({ timeline: this.widget }));
+          let status = this.dndService.getSavedStatus(this.widget.WidgetId);
+
+          //check whether timeline is already saved or not
+          if (status === false) {
+            this.composerService.saveTimeline(this.widget).subscribe({
+              next: (res) => {},
+              error: (err) => {
+                this.openSnackBar(
+                  'An unexpected error occured. Please try again later'
+                );
+              },
+              complete: () => {
+                this.dndService.setSavedStatus(this.widget.WidgetId);
+
+                this.openSnackBar('Saved!!');
+                this.dialog.closeAll();
+              },
+            });
+          } else {
+            this.composerService.updateTimeline(this.widget).subscribe({
+              next: (res) => {},
+              error: (err) => {
+                this.openSnackBar(
+                  'An unexpected error occured. Please try again later'
+                );
+              },
+              complete: () => {
+                this.dndService.setSavedStatus(this.widget.WidgetId);
+
+                this.openSnackBar('Saved!!');
+                this.dialog.closeAll();
+              },
+            });
+          }
+
+          this.continueSaving = true;
+        } else {
+          this.openSnackBar('Timeline has no children');
+          this.continueSaving = false;
+          this.saving = false;
+        }
+      }
+    });
+  }
+
+  public getProofbotData() {
+    let proofbot: ProofBot;
+    this.batchesService
+      .getProofbotData(this.selectedBatch.identifier.identifier)
+      .subscribe({
+        next: (data) => {
+          console.log(data);
+          let proofData: ProofData[] = [];
+          for (let i = 0; i < data.length; i++) {
+            let urls: ProofURL[] = [];
+
+            data[i].AvailableProof.map((proof: string) => {
+              urls.push({
+                Type: proof,
+                Url: `https://tillit-explorer.netlify.app/proof-verification?type=${proof}&txn=${data[i].Txnhash}`,
+              });
+            });
+
+            proofData.push({
+              BatchId: this.selectedBatch.identifier.identifier,
+              GatewayIdentifier: data[i].Identifier,
+              TxnType: data[i].TxnType,
+              TxnHash: data[i].Txnhash,
+              AvailableProofs: data[i].AvailableProof,
+              Urls: urls,
+            });
+          }
+
+          proofbot = {
+            ...this.widget,
+            Data: proofData,
+            TenentId: this.selectedBatch.tenantId,
+            NFTType: 'ProofBot',
+          };
+
+          this.store.dispatch(updateProofBot({ proofBot: proofbot }));
+
+          let status = this.dndService.getBatchStatus(this.widget.WidgetId);
+          if (status === false) {
+            this.composerService.saveProofbot(proofbot).subscribe({
+              error: (err) => {
+                this.openSnackBar('Error!');
+              },
+              complete: () => {
+                this.saving = false;
+                this.continueSaving = true;
+              },
+            });
+          } else {
+            this.composerService.updateProofbot(proofbot).subscribe({
+              error: (err) => {
+                this.openSnackBar('Error!');
+              },
+              complete: () => {
+                this.saving = false;
+                this.continueSaving = true;
+              },
+            });
+          }
+        },
+        error: (err) => {
+          this.openSnackBar('Error!');
+          this.saving = false;
+        },
+      });
+  }
+
+  public openSnackBar(msg: string) {
     this._snackBar.open(msg, 'OK', {
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
