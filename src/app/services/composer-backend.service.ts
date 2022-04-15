@@ -215,7 +215,9 @@ export class ComposerBackendService {
    * @component - projects view
    */
   public deleteProject(projectId: string): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/html/project/${projectId}`);
+    return this.http.delete<any>(`${this.apiUrl}/html/project/${projectId}`, {
+      headers: this.setHeaders(),
+    });
   }
 
   /**
@@ -224,7 +226,9 @@ export class ComposerBackendService {
    * @component - bar-chart-widget, bubble-chart-widget, pie-chart-widget
    */
   public deleteChart(widgetId: string): Observable<Chart> {
-    return this.http.delete<Chart>(`${this.apiUrl}/html/chart/${widgetId}`);
+    return this.http.delete<Chart>(`${this.apiUrl}/html/chart/${widgetId}`, {
+      headers: this.setHeaders(),
+    });
   }
 
   /**
@@ -233,7 +237,9 @@ export class ComposerBackendService {
    * @component - table widget
    */
   public deleteTable(widgetId: string): Observable<Table> {
-    return this.http.delete<Table>(`${this.apiUrl}/html/table/${widgetId}`);
+    return this.http.delete<Table>(`${this.apiUrl}/html/table/${widgetId}`, {
+      headers: this.setHeaders(),
+    });
   }
 
   /**
@@ -242,7 +248,9 @@ export class ComposerBackendService {
    * @component - nft-image
    */
   public deleteImage(widgetId: string): Observable<Image> {
-    return this.http.delete<Image>(`${this.apiUrl}/html/image/${widgetId}`);
+    return this.http.delete<Image>(`${this.apiUrl}/html/image/${widgetId}`, {
+      headers: this.setHeaders(),
+    });
   }
 
   /**
@@ -252,7 +260,10 @@ export class ComposerBackendService {
    */
   public deleteTimeline(widgetId: string): Observable<Timeline> {
     return this.http.delete<Timeline>(
-      `${this.apiUrl}/html/timeline/${widgetId}`
+      `${this.apiUrl}/html/timeline/${widgetId}`,
+      {
+        headers: this.setHeaders(),
+      }
     );
   }
 
@@ -263,7 +274,10 @@ export class ComposerBackendService {
    */
   public deleteProofbot(widgetId: string): Observable<ProofBot> {
     return this.http.delete<ProofBot>(
-      `${this.apiUrl}/html/proofbot/${widgetId}`
+      `${this.apiUrl}/html/proofbot/${widgetId}`,
+      {
+        headers: this.setHeaders(),
+      }
     );
   }
 }
