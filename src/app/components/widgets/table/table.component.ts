@@ -85,6 +85,7 @@ export class TableComponent implements OnInit {
       ProjectName: this.nftContent.ProjectName,
       WidgetType: table,
       TableTitle: 'Table',
+      Query: '',
       TableContent: '',
     };
 

@@ -106,6 +106,7 @@ export class BubbleChartWidgetComponent implements OnInit {
       FontSize: 12,
       Height: 295,
       Width: 295,
+      Query: '',
     };
     this.store.dispatch(addBubbleChart({ chart: this.bubbleChart }));
     this.service.updateUsedStatus(this.id);

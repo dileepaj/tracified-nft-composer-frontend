@@ -108,6 +108,7 @@ export class PieChartWidgetComponent implements OnInit {
       FontSize: 12,
       Height: 500,
       Width: 350,
+      Query: '',
     };
     this.store.dispatch(addPieChart({ chart: this.pieChart }));
     this.service.updateUsedStatus(this.id);

@@ -123,6 +123,7 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
       YAxis: 'Y Axis',
       Width: 450,
       Height: 100,
+      Query: '',
     };
     this.store.dispatch(addBarChart({ chart: this.barChart }));
     this.service.updateUsedStatus(this.id);
