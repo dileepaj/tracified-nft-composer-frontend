@@ -70,6 +70,7 @@ import { userReducer } from './store/user-state-store/user.reducer';
 import { NgChartsModule } from 'ng2-charts';
 import { TimelineViewComponent } from './components/modals/timeline-view/timeline-view.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { ProofbotViewComponent } from './components/modals/proofbot-view/proofbot-view.component';
 
 const appRoutes: Routes = [];
 
@@ -106,6 +107,7 @@ const appRoutes: Routes = [];
     SelectDataComponent,
     NewProjectComponent,
     TimelineViewComponent,
+    ProofbotViewComponent,
   ],
   imports: [
     BrowserModule,

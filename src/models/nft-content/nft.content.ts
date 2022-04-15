@@ -22,7 +22,7 @@ export interface NFTContent {
     Stats: Stat[];
     Tables: Table[];
     Images: Image[];
-    ProofBotData: ProofBot[];
+    ProofBot: ProofBot[];
     Timeline: Timeline[];
     CarbonFootprint: CarbonFootprint[];
   };

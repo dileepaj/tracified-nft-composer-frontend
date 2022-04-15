@@ -50,7 +50,7 @@ export class NewProjectComponent implements OnInit {
           Tables: [],
           Images: [],
           Timeline: [],
-          ProofBotData: [],
+          ProofBot: [],
           Stats: [],
           CarbonFootprint: [],
         },

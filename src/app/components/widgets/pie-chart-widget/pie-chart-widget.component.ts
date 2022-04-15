@@ -44,14 +44,18 @@ export class PieChartWidgetComponent implements OnInit {
   ngOnInit(): void {
     if (!this.service.widgetExists(this.id)) {
       this.addPieChartToStore();
-    } else {
-      this.getPieChart();
     }
+    this.store.select(selectPieCharts).subscribe((data) => {
+      data.map((chart) => {
+        if (chart.WidgetId === this.id) {
+          this.pieChart = chart;
+        }
+      });
+    });
   }
 
   //open canfiguration popup
   public openDialog() {
-    this.getPieChart();
     const dialogRef = this.dialog.open(ConfigurePieChartComponent, {
       data: {
         id: this.id,
@@ -106,24 +110,11 @@ export class PieChartWidgetComponent implements OnInit {
       Width: 350,
     };
     this.store.dispatch(addPieChart({ chart: this.pieChart }));
-    this.getPieChart();
     this.service.updateUsedStatus(this.id);
-  }
-
-  //get pie chart from redux store
-  private getPieChart() {
-    this.store.select(selectPieCharts).subscribe((data) => {
-      data.map((chart) => {
-        if (chart.WidgetId === this.id) {
-          this.pieChart = chart;
-        }
-      });
-    });
   }
 
   //open batch selection popup
   public openAddData() {
-    this.getPieChart();
     const dialogRef = this.dialog.open(WidgetContentComponent, {
       data: {
         id: this.id,

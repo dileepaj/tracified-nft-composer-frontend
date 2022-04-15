@@ -30,8 +30,6 @@ import { ComposerBackendService } from 'src/app/services/composer-backend.servic
 export class NftTimelineComponent implements OnInit {
   @Input() id: any;
   @Output() onDeleteWidget: EventEmitter<any> = new EventEmitter();
-
-  nft$: any;
   private timeline: Timeline;
   data: TimelineData[];
   projectId: string;
@@ -51,7 +49,6 @@ export class NftTimelineComponent implements OnInit {
     private _batchService: BatchesService,
     private composerService: ComposerBackendService
   ) {
-    this.nft$ = this.store.select(selectNFTContent);
     this.store.select(selectNFTContent).subscribe((content) => {
       this.nftContent = content;
     });
@@ -61,15 +58,11 @@ export class NftTimelineComponent implements OnInit {
     //check if the widget is already in the redux store
     if (!this.service.widgetExists(this.id)) {
       this.addTimelineToStore();
-    } else {
-      this.getTimeline();
     }
-
-    //this.getTimelineFromConsumer();
-
     this.store.select(selectTimeline).subscribe((timelines) => {
       timelines.map((timeline) => {
         if (timeline.WidgetId === this.id) {
+          this.timeline = timeline;
           if (timeline.TimelineData !== undefined) {
             this.childrenOne = timeline.TimelineData!;
             this.viewBtn = true;
@@ -116,19 +109,8 @@ export class NftTimelineComponent implements OnInit {
     });
   }
 
-  private getTimeline() {
-    this.store.select(selectTimeline).subscribe((data) => {
-      data.map((tl) => {
-        if (tl.WidgetId === this.id) {
-          this.timeline = tl;
-        }
-      });
-    });
-  }
-
   //batch selection popup
   public openAddData() {
-    this.getTimeline();
     const dialogRef = this.dialog.open(WidgetContentComponent, {
       data: {
         id: this.id,
@@ -140,26 +122,12 @@ export class NftTimelineComponent implements OnInit {
 
   //open the view timeline popup
   public openDialog() {
-    this.getTimeline();
     const dialogRef = this.dialog.open(TimelineViewComponent, {
       data: {
         id: this.id,
         widget: this.timeline,
         timelineData: this.childrenOne,
       },
-    });
-  }
-
-  //get timeline
-  private getTimelineFromConsumer() {
-    this._batchService.getTimeline('SGFuYU1hdE5zcDAx').subscribe((data) => {
-      this.tabs = data.tabs;
-      console.log(data);
-      for (let i = 0; i < this.tabs.length; i++) {
-        if (data.tabs[i].title == 'Timeline') {
-          this.childrenOne = data.tabs[i].children;
-        }
-      }
     });
   }
 }

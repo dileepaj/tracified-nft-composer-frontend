@@ -31,6 +31,7 @@ import {
 import { CardStatus, QueryResult } from 'src/models/nft-content/cardStatus';
 
 import * as MomentAll from 'moment';
+
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
@@ -147,6 +148,7 @@ export class ProjectsComponent implements OnInit {
             ch = {
               ...ch,
               BactchId: chart.Widget.BatchId,
+              ArtifactId: chart.Widget.ArtifactId,
               ProductName: chart.Widget.productName,
               TenentId: chart.Widget.TenentiD,
               UserId: chart.Widget.UserId,
@@ -165,6 +167,7 @@ export class ProjectsComponent implements OnInit {
             ch = {
               ...ch,
               BactchId: chart.Widget.BatchId,
+              ArtifactId: chart.Widget.ArtifactId,
               ProductName: chart.Widget.productName,
               TenentId: chart.Widget.TenentiD,
               UserId: chart.Widget.UserId,
@@ -182,6 +185,7 @@ export class ProjectsComponent implements OnInit {
             ch = {
               ...ch,
               BactchId: chart.Widget.BatchId,
+              ArtifactId: chart.Widget.ArtifactId,
               ProductName: chart.Widget.productName,
               TenentId: chart.Widget.TenentiD,
               UserId: chart.Widget.UserId,
@@ -200,6 +204,7 @@ export class ProjectsComponent implements OnInit {
             tb = {
               ...tb,
               BactchId: table.Widget.BatchId,
+              ArtifactId: table.Widget.ArtifactId,
               ProductName: table.Widget.productName,
               TenentId: table.Widget.TenentiD,
               UserId: table.Widget.UserId,
@@ -225,6 +230,12 @@ export class ProjectsComponent implements OnInit {
           });
         }
 
+        if (proj.ProofBot) {
+          proj.ProofBot.map((pb: any) => {
+            proofbot.push(pb);
+          });
+        }
+
         this.loadedProject = {
           ProjectId: proj.Project.ProjectId,
           ProjectName: proj.Project.ProjectName,
@@ -241,7 +252,7 @@ export class ProjectsComponent implements OnInit {
             Tables: tables,
             Images: images,
             Timeline: timeline,
-            ProofBotData: [],
+            ProofBot: proofbot,
             Stats: [],
             CarbonFootprint: [],
           },

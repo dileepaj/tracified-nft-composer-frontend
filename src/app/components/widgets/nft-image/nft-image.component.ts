@@ -34,9 +34,6 @@ export class NftImageComponent implements OnInit {
   @Input() id: any;
   @Output() onDeleteWidget: EventEmitter<any> = new EventEmitter();
   @ViewChild('fileUpload') fileUpload: ElementRef<HTMLElement>;
-
-  nft$: any;
-  image$: Observable<Image[]>;
   private image: Image;
   file: File;
   shortLink: string = '';
@@ -51,8 +48,6 @@ export class NftImageComponent implements OnInit {
     private service: DndServiceService,
     private composerService: ComposerBackendService
   ) {
-    this.nft$ = this.store.select(selectNFTContent);
-    this.image$ = this.store.select(selectNFTImages);
     this.store.select(selectNFTContent).subscribe((content) => {
       this.projectId = content.ProjectId;
     });
@@ -62,13 +57,16 @@ export class NftImageComponent implements OnInit {
     //check if the widget is already in redux store
     if (!this.service.widgetExists(this.id)) {
       this.addImageToStore();
-    } else {
-      this.getImage();
     }
+    this.store.select(selectNFTImages).subscribe((data) => {
+      data.map((img) => {
+        if (img.WidgetId === this.id) {
+          this.image = img;
+          this.base64 = img.Base64Image;
+        }
+      });
+    });
   }
-
-  //display nft state
-  private showNFT() {}
 
   //called when file input change event is emitted
   public onChange(event: any) {
@@ -99,9 +97,6 @@ export class NftImageComponent implements OnInit {
     };
 
     this.store.dispatch(addNFTImage({ image: this.image }));
-
-    //this.showNFT();
-
     this.service.updateUsedStatus(this.id);
   }
 
@@ -115,7 +110,6 @@ export class NftImageComponent implements OnInit {
 
     this.saveImage();
     this.store.dispatch(updateNFTImage({ image: this.image }));
-    this.showNFT();
   }
 
   //delete image from redux store
@@ -159,19 +153,7 @@ export class NftImageComponent implements OnInit {
     };
   }
 
-  private getImage() {
-    this.store.select(selectNFTImages).subscribe((data) => {
-      data.map((img) => {
-        if (img.WidgetId === this.id) {
-          this.image = img;
-          this.base64 = img.Base64Image;
-        }
-      });
-    });
-  }
-
   public saveImage() {
-    console.log(this.image);
     this.composerService.saveImage(this.image).subscribe((res) => {
       console.log(res);
     });

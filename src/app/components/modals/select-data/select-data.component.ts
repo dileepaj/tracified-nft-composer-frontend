@@ -51,6 +51,7 @@ export class SelectDataComponent implements OnInit {
   widget: any;
   horizontalPosition: MatSnackBarHorizontalPosition = 'end';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+  artifactAlreadySelected: boolean = false;
 
   constructor(
     private store: Store<AppState>,
@@ -66,9 +67,13 @@ export class SelectDataComponent implements OnInit {
   ngOnInit(): void {
     this.id = this.data.id;
     this.widget = this.data.widget;
+    if (this.widget.ArtifactId !== undefined && this.widget.ArtifactId !== '') {
+      this.artifactAlreadySelected = true;
+    }
     this.user = this.userService.getCurrentUser();
     console.log(this.user);
     this.artifact = this.data.artifact;
+    console.log('artifact', this.artifact);
     this.createColumns();
     this.displayFields = this.artifact.displayFields;
     this.artifactService
@@ -113,14 +118,14 @@ export class SelectDataComponent implements OnInit {
     console.log(this.keys);
   }
 
-  public updateReduxState(source: any) {
+  public updateReduxState() {
     this.saving = true;
     this.widget = {
       ...this.widget,
       BactchId: '',
       ProductId: '',
       ProductName: '',
-      ArtifactId: source.artifactMetadata.artifactDataId,
+      ArtifactId: this.artifact.id,
     };
 
     if (this.widget.WidgetType === barchart) {
@@ -141,20 +146,16 @@ export class SelectDataComponent implements OnInit {
       this.store.dispatch(updateTable({ table: this.widget }));
     }
 
-    this.store.select(selectNFTContent).subscribe((data) => {
-      console.log(data);
-    });
-
-    this.saveWidget(source);
+    this.saveWidget();
   }
 
-  private saveWidget(source: any) {
+  private saveWidget() {
     const widget = {
       Timestamp: new Date().toISOString(),
       ProjectId: this.widget.ProjectId,
       ProjectName: this.widget.ProjectName,
       WidgetId: this.widget.WidgetId,
-      ArtifactId: source.artifactMetadata.artifactDataId,
+      ArtifactId: this.artifact.id,
       BatchId: '',
       ProductId: '',
       ProductName: '',
@@ -166,8 +167,7 @@ export class SelectDataComponent implements OnInit {
       WidgetType: this.widget.WidgetType,
     };
 
-    let status = this.dndService.getBatchStatus(widget.WidgetId);
-    if (status === false) {
+    if (this.artifactAlreadySelected === false) {
       this.composerService.saveWidget(widget).subscribe({
         next: (res) => {},
         error: (err) => {

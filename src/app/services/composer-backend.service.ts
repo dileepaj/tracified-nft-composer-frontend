@@ -105,6 +105,17 @@ export class ComposerBackendService {
   }
 
   /**
+   * @function saveProofbot - save proofbot widget
+   * @param - proofbot
+   * @component - nft-proofbot widget
+   */
+  public saveProofbot(proofbot: ProofBot): Observable<ProofBot> {
+    return this.http.post<ProofBot>(`${this.apiUrl}/html/proofbot`, proofbot, {
+      headers: this.setHeaders(),
+    });
+  }
+
+  /**
    * @function generateHTML - generate HTML code
    * @param - nftContent
    * @component - composer view
@@ -177,6 +188,17 @@ export class ComposerBackendService {
    */
   public updateTimeline(timeline: Timeline): Observable<Timeline> {
     return this.http.put<Timeline>(`${this.apiUrl}/html/timeline`, timeline, {
+      headers: this.setHeaders(),
+    });
+  }
+
+  /**
+   * @function updateProofbot - update proofbot widget
+   * @param - proofbot
+   * @component - nft-proofbot widget
+   */
+  public updateProofbot(proofbot: ProofBot): Observable<ProofBot> {
+    return this.http.put<ProofBot>(`${this.apiUrl}/html/proofbot`, proofbot, {
       headers: this.setHeaders(),
     });
   }

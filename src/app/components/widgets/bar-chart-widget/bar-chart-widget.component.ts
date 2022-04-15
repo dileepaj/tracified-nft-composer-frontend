@@ -38,7 +38,6 @@ import { ComposerBackendService } from 'src/app/services/composer-backend.servic
 export class BarChartWidgetComponent implements OnInit, AfterViewInit {
   @Input() id: any;
   @Output() onDeleteWidget: EventEmitter<any> = new EventEmitter();
-  barchart$: Observable<Chart[]>;
   barChart: Chart;
   nftContent: NFTContent;
   @Input() widget: Widget;
@@ -49,7 +48,6 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
     private service: DndServiceService,
     private composerService: ComposerBackendService
   ) {
-    this.barchart$ = this.store.select(selectBarCharts);
     this.store.select(selectNFTContent).subscribe((content) => {
       this.nftContent = content;
     });
@@ -61,9 +59,14 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
     //check if the widget is already in redux store
     if (!this.service.widgetExists(this.id)) {
       this.addBarChartToStore();
-    } else {
-      this.getBarChart();
     }
+    this.store.select(selectBarCharts).subscribe((data) => {
+      data.map((chart) => {
+        if (chart.WidgetId === this.id) {
+          this.barChart = chart;
+        }
+      });
+    });
   }
 
   public otpAdded(): boolean {
@@ -78,16 +81,11 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
 
   //open configuration popup
   public openDialog() {
-    this.getBarChart();
     const dialogRef = this.dialog.open(ConfigureBarChartComponent, {
       data: {
         id: this.id,
         widget: this.barChart,
       },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      //
     });
   }
 
@@ -127,34 +125,17 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
       Height: 100,
     };
     this.store.dispatch(addBarChart({ chart: this.barChart }));
-    this.getBarChart();
     this.service.updateUsedStatus(this.id);
-  }
-
-  //get chart from redux
-  private getBarChart() {
-    this.store.select(selectBarCharts).subscribe((data) => {
-      data.map((chart) => {
-        if (chart.WidgetId === this.id) {
-          this.barChart = chart;
-        }
-      });
-    });
   }
 
   //open batch selection popup
   public openAddData() {
-    this.getBarChart();
     const dialogRef = this.dialog.open(WidgetContentComponent, {
       data: {
         id: this.id,
         userId: this.nftContent.UserId,
         widget: this.barChart,
       },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      //
     });
   }
 }

@@ -29,6 +29,7 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
   @ViewChild('editor') private editor: any;
   @Input() id: string;
   @Input() type: string;
+  @Input() query: string = '';
   @Output() onQuerySuccess: EventEmitter<any> = new EventEmitter();
   text: string = '';
   staticWordCompleter: any;
@@ -241,8 +242,9 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
       enableSnippets: true,
       fontSize: '15px',
     });
+    this.aceEditor.session.setValue(this.query);
     this.aceEditor.on('change', () => {
-      this.text = this.aceEditor.getValue();
+      this.query = this.aceEditor.getValue();
     });
   }
 
@@ -311,7 +313,7 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
     this.loading = true;
     let queryObject = {
       WidgetId: this.id,
-      Query: this.text,
+      Query: this.query,
     };
 
     this.apiService.executeQueryAndUpdate(queryObject).subscribe({

@@ -5,6 +5,8 @@ import { map, Observable } from 'rxjs';
 import { Items, Workflow } from 'src/app/entity/batch';
 import { UserserviceService } from './userservice.service';
 import { TracibilityProfileWithTimeline } from '../entity/timeline';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { JwtserviceService } from './jwtservice.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,18 +14,22 @@ import { TracibilityProfileWithTimeline } from '../entity/timeline';
 export class BatchesService {
   public backend: any;
   public admin: any;
+  public gateway: any;
   public _tenantId = this.userService.getCurrentUser().TenentId;
 
   constructor(
     private apiService: ApiService,
-    private userService: UserserviceService
+    private userService: UserserviceService,
+    private http: HttpClient
   ) {
     this.backend = environment.backendUrl;
     this.admin = environment.adminUrl;
+    this.gateway = environment.gateway;
   }
   ngOnInit() {
     this._tenantId = this.userService.getCurrentUser().TenentId;
   }
+
   /**
    * @function getItems - get items for a particular tenent
    * @screen - the products view(popup screens)
@@ -73,9 +79,16 @@ export class BatchesService {
   }
 
   //get timeline for the widget
-  public getTimeline(id: string): Observable<any> {
+  public getTimeline(batchId: string): Observable<any> {
     return this.apiService.get(
-      `https://qa.api.tracified.com/api/v2/traceabilityProfiles/customer/${id}`
+      `https://qa.api.tracified.com/api/v2/traceabilityProfiles/customer/${batchId}`
+    );
+  }
+
+  //get proofbot data
+  public getProofbotData(batchId: string): Observable<any> {
+    return this.http.get<any>(
+      `${this.gateway}/transaction/identifier/${batchId}`
     );
   }
 }

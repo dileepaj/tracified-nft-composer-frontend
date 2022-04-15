@@ -11,6 +11,7 @@
           <app-ldaleditor
             [id]="pieChart.WidgetId"
             [type]="'pie'"
+            [query]="pieChart.Query!"
             (onQuerySuccess)="onQuerySuccess($event)"
           ></app-ldaleditor
         ></mat-grid-tile>

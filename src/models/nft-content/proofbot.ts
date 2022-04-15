@@ -1,6 +1,5 @@
 export interface ProofBot {
   WidgetId: string;
-  BactchI?: string;
   ArtifactId?: string;
   ProductName?: string;
   TenentId?: string;
@@ -8,13 +7,21 @@ export interface ProofBot {
   ProjectName?: string;
   UserId?: string;
   OTPType?: string;
-  Query?: string;
   WidgetType?: string;
   Title?: string;
-  Proofurls?: ProofUrl[];
+  Data?: ProofData[];
 }
 
-export interface ProofUrl {
+export interface ProofData {
+  BatchId: string;
+  GatewayIdentifier: string;
+  TxnType: string;
+  TxnHash: string;
+  AvailableProofs: string[];
+  Urls: ProofURL[];
+}
+
+export interface ProofURL {
   Type: string;
   Url: string;
 }

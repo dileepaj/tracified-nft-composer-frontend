@@ -11,6 +11,7 @@
           <app-ldaleditor
             [id]="bubbleChart.WidgetId"
             [type]="'bubble'"
+            [query]="bubbleChart.Query!"
             (onQuerySuccess)="onQuerySuccess($event)"
           ></app-ldaleditor
         ></mat-grid-tile>

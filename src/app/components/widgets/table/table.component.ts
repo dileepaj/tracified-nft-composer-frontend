@@ -35,7 +35,6 @@ import { WidgetContentComponent } from '../../modals/widget-content/widget-conte
 export class TableComponent implements OnInit {
   @Input() id: any;
   @Output() onDeleteWidget: EventEmitter<any> = new EventEmitter();
-  nft$: any;
   projectId: string;
   table: Table;
   projectName: string;
@@ -47,20 +46,23 @@ export class TableComponent implements OnInit {
     private service: DndServiceService,
     private composerService: ComposerBackendService
   ) {
-    this.nft$ = this.store.select(selectNFTContent);
     this.store.select(selectNFTContent).subscribe((content) => {
       this.nftContent = content;
     });
-    //this.image$ = this.store.select(selectNFTImages);
   }
 
   ngOnInit(): void {
     //check if the widget is already in the redux store
     if (!this.service.widgetExists(this.id)) {
       this.addTableToStore();
-    } else {
-      this.getTable();
     }
+    this.store.select(selectTable).subscribe((data) => {
+      data.map((table) => {
+        if (table.WidgetId === this.id) {
+          this.table = table;
+        }
+      });
+    });
   }
 
   public otpAdded(): boolean {
@@ -87,9 +89,6 @@ export class TableComponent implements OnInit {
     };
 
     this.store.dispatch(addTable({ table: this.table }));
-    //this.showNFT();
-
-    this.getTable();
     this.service.updateUsedStatus(this.id);
   }
 
@@ -109,44 +108,22 @@ export class TableComponent implements OnInit {
 
   //open configuartion popup
   public openDialog() {
-    this.getTable();
     const dialogRef = this.dialog.open(ConfigureTableComponent, {
       data: {
         id: this.id,
         widget: this.table,
       },
     });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      this.getTable();
-    });
-  }
-
-  //get table from redux store
-  private getTable() {
-    this.store.select(selectTable).subscribe((data) => {
-      data.map((table) => {
-        if (table.WidgetId === this.id) {
-          this.table = table;
-          console.log(table);
-        }
-      });
-    });
   }
 
   //open batch selection popup
   public openAddData() {
-    this.getTable();
     const dialogRef = this.dialog.open(WidgetContentComponent, {
       data: {
         id: this.id,
         userId: this.nftContent.UserId,
         widget: this.table,
       },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      //
     });
   }
 }

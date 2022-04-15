@@ -51,6 +51,7 @@ import {
 import { UserserviceService } from 'src/app/services/userservice.service';
 import { Children, TimelineData } from 'src/models/nft-content/timeline';
 import { selectNFTContent } from 'src/app/store/nft-state-store/nft.selector';
+import { ProofBot, ProofData, ProofURL } from 'src/models/nft-content/proofbot';
 
 @Component({
   selector: 'app-select-batch',
@@ -172,8 +173,11 @@ export class SelectBatchComponent implements OnInit {
         this.saving = true;
         this.widget = {
           ...this.widget,
+          Timestamp: new Date().toISOString(),
           BactchId: this.selectedBatch.identifier.identifier,
           ProductName: this.selectedProduct.itemName,
+          ProductId: this.selectedProduct.itemID,
+          OTPType: 'Batch',
         };
 
         if (this.widget.WidgetType === barchart) {
@@ -186,7 +190,7 @@ export class SelectBatchComponent implements OnInit {
           this.store.dispatch(updateBubbleChart({ chart: this.widget }));
           this.continueSaving = true;
         } else if (this.widget.WidgetType === proofbot) {
-          this.store.dispatch(updateProofBot({ proofBot: this.widget }));
+          this.getProofbotData();
           this.continueSaving = true;
         } else if (this.widget.WidgetType === timeline) {
           this.getTimelineData();
@@ -199,10 +203,6 @@ export class SelectBatchComponent implements OnInit {
           this.store.dispatch(updateTable({ table: this.widget }));
           this.continueSaving = true;
         }
-
-        this.store.select(selectNFTContent).subscribe((data) => {
-          console.log(data);
-        });
 
         if (this.continueSaving) {
           this.saveWidget();
@@ -272,6 +272,7 @@ export class SelectBatchComponent implements OnInit {
       next: (data: any) => {
         this.products = data;
         this.productsFilter = this.products;
+        console.log(data);
       },
       error: (err) => {
         //this.openSnackBar(JSON.parse(err.error.message));
@@ -325,12 +326,6 @@ export class SelectBatchComponent implements OnInit {
 
   public onDateChange() {
     this.page = 0;
-    /*this.getBatches(
-      this.page,
-      '',
-      this.dateRange.value.start,
-      this.dateRange.value.end
-    );*/
   }
 
   public onStepChange(event: any) {
@@ -344,7 +339,7 @@ export class SelectBatchComponent implements OnInit {
 
   private saveWidget() {
     const widget = {
-      Timestamp: new Date().toISOString(),
+      Timestamp: this.widget.Timestamp,
       ProjectId: this.widget.ProjectId,
       ProjectName: this.widget.ProjectName,
       WidgetId: this.widget.WidgetId,
@@ -513,6 +508,73 @@ export class SelectBatchComponent implements OnInit {
         }
       }
     });
+  }
+
+  public getProofbotData() {
+    let proofbot: ProofBot;
+    this.batchesService
+      .getProofbotData(this.selectedBatch.identifier.identifier)
+      .subscribe({
+        next: (data) => {
+          console.log(data);
+          let proofData: ProofData[] = [];
+          for (let i = 0; i < data.length; i++) {
+            let urls: ProofURL[] = [];
+
+            data[i].AvailableProof.map((proof: string) => {
+              urls.push({
+                Type: proof,
+                Url: `https://tillit-explorer.netlify.app/proof-verification?type=${proof}&txn=${data[i].Txnhash}`,
+              });
+            });
+
+            proofData.push({
+              BatchId: this.selectedBatch.identifier.identifier,
+              GatewayIdentifier: data[i].Identifier,
+              TxnType: data[i].TxnType,
+              TxnHash: data[i].Txnhash,
+              AvailableProofs: data[i].AvailableProof,
+              Urls: urls,
+            });
+          }
+
+          proofbot = {
+            ...this.widget,
+            Data: proofData,
+            TenentId: this.selectedBatch.tenantId,
+            NFTType: 'ProofBot',
+          };
+
+          this.store.dispatch(updateProofBot({ proofBot: proofbot }));
+
+          let status = this.dndService.getBatchStatus(this.widget.WidgetId);
+          if (status === false) {
+            this.composerService.saveProofbot(proofbot).subscribe({
+              error: (err) => {
+                this.openSnackBar('Error!');
+              },
+              complete: () => {
+                this.saving = false;
+                this.continueSaving = true;
+              },
+            });
+          } else {
+            this.composerService.updateProofbot(proofbot).subscribe({
+              error: (err) => {
+                this.openSnackBar('Error!');
+              },
+              complete: () => {
+                this.saving = false;
+                this.continueSaving = true;
+              },
+            });
+          }
+        },
+        error: (err) => {
+          this.openSnackBar('Error!');
+          this.saving = false;
+        },
+      });
   }
 
   public openSnackBar(msg: string) {

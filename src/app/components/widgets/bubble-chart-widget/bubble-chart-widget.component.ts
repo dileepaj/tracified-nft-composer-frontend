@@ -46,9 +46,14 @@ export class BubbleChartWidgetComponent implements OnInit {
     //check if the widget is already in redux store
     if (!this.service.widgetExists(this.id)) {
       this.addBubbleChartToStore();
-    } else {
-      this.getBubbleChart();
     }
+    this.store.select(selectBubbleCharts).subscribe((data) => {
+      data.map((chart) => {
+        if (chart.WidgetId === this.id) {
+          this.bubbleChart = chart;
+        }
+      });
+    });
   }
 
   public otpAdded(): boolean {
@@ -63,16 +68,11 @@ export class BubbleChartWidgetComponent implements OnInit {
 
   //open configuration popup
   public openDialog() {
-    this.getBubbleChart();
     const dialogRef = this.dialog.open(ConfigureBubbleChartComponent, {
       data: {
         id: this.id,
         widget: this.bubbleChart,
       },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      //
     });
   }
 
@@ -108,24 +108,11 @@ export class BubbleChartWidgetComponent implements OnInit {
       Width: 295,
     };
     this.store.dispatch(addBubbleChart({ chart: this.bubbleChart }));
-    this.getBubbleChart();
     this.service.updateUsedStatus(this.id);
-  }
-
-  //get chart from redux
-  private getBubbleChart() {
-    this.store.select(selectBubbleCharts).subscribe((data) => {
-      data.map((chart) => {
-        if (chart.WidgetId === this.id) {
-          this.bubbleChart = chart;
-        }
-      });
-    });
   }
 
   //open batch selection popup
   public openAddData() {
-    this.getBubbleChart();
     const dialogRef = this.dialog.open(WidgetContentComponent, {
       data: {
         id: this.id,
@@ -133,7 +120,5 @@ export class BubbleChartWidgetComponent implements OnInit {
         widget: this.bubbleChart,
       },
     });
-
-    dialogRef.afterClosed().subscribe((result) => {});
   }
 }
