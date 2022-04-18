@@ -1,0 +1,84 @@
+<div class="content">
+  <div
+    fxLayout="row"
+    fxLayoutAlign="space-between center"
+    layout-margin
+    style="min-height: 100px"
+  >
+    <section class="mat-typography">
+      <h2 class="mat-h1">Projects</h2>
+    </section>
+    <div class="example-button-container">
+      <button
+        mat-fab
+        color="accent"
+        class="green-color"
+        aria-label="new project"
+        (click)="openNewProject()"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+  <div layout-margin class="projects-div">
+    <div fxLayout="row wrap" fxLayoutGap="10px grid" class="md-margin">
+      <div
+        [fxFlex]="100 / gridColumns + '%'"
+        fxFlex.xs="100%"
+        fxFlex.sm="33%"
+        *ngFor="let project of projects; &quot;layout-margin&quot;"
+      >
+        <mat-card class="project-card">
+          <mat-card-content>
+            <div class="content-div">
+              <div class="icon-div">
+                <mat-icon class="material-icons-outlined customIcon"
+                  >app_registration</mat-icon
+                >
+              </div>
+              <div class="title-div">
+                <label class="proj-name">{{ project.ProjectName }}</label>
+                <div fxLayout="row" fxAlign="center ">
+                  <mat-icon class="material-icons-outlined time-icon"
+                    >schedule</mat-icon
+                  >
+                  <label class="timestamp">
+                    {{ convertDate(project.Timestamp) }}</label
+                  >
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+          <mat-card-actions align="end">
+            <button
+              mat-flat-button
+              color="primary"
+              class="delete-button"
+              [disabled]="projToBeDeleted === project.ProjectId"
+              (click)="deleteProject(project.ProjectId)"
+            >
+              <mat-icon class="btn-icon">delete_forever</mat-icon>
+              <span [class.spinner]="projToBeDeleted === project.ProjectId">
+              </span>
+              Delete
+            </button>
+            <button
+              mat-flat-button
+              color="primary"
+              class="green-button"
+              [disabled]="projToBeLoaded === project.ProjectId"
+              (click)="openExistingProject(project.ProjectId)"
+            >
+              <mat-icon class="btn-icon">launch</mat-icon>
+              <span [class.spinner]="projToBeLoaded === project.ProjectId">
+              </span>
+              Open
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

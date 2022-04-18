@@ -1,0 +1,50 @@
+@import "../../../../scss/variables";
+@import "../../../../scss/mixins";
+
+.sidebar-container {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  top: 0;
+  background: whitesmoke;
+}
+.side-nav {
+  width: 250px;
+}
+
+.container {
+  background: white;
+  position: absolute;
+  top: 10px;
+  right: 0px;
+  left: 10px;
+  bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.content {
+  border-radius: 5px;
+  border: 1px rgb(206, 206, 206) solid;
+  position: absolute;
+  top: 50px;
+  bottom: 50px;
+  left: 50px;
+  right: 50px;
+}
+
+.btn {
+  @include btn-primary;
+  margin: 5px;
+}
+
+.btn-container {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  bottom: 10px;
+  right: 40px;
+}

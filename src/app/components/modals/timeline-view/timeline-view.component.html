@@ -1,0 +1,26 @@
+<mat-dialog-content>
+  <div class="widget-div" f>
+    <div>
+      <h2>Timeline</h2>
+    </div>
+    <div class="content-div">
+      <div class="timeline-content">
+        <ul class="timeline">
+          <div *ngFor="let childrenOne of childrenOne">
+            <h3 class="timeline-title">
+              <b>{{ childrenOne.Title }}</b>
+            </h3>
+            <div *ngFor="let childrenTwo of childrenOne.Children">
+              <li class="timeline-item">
+                <p class="timeline-text">
+                  {{ childrenTwo.Key }} : {{ childrenTwo.Value }}
+                </p>
+              </li>
+            </div>
+          </div>
+        </ul>
+      </div>
+    </div>
+    <div class="widget-footer"></div>
+  </div>
+</mat-dialog-content>

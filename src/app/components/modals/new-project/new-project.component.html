@@ -1,0 +1,27 @@
+<h2 mat-dialog-title>New Project</h2>
+<mat-dialog-content class="mat-typography">
+  <div class="container">
+    <mat-form-field appearance="outline">
+      <mat-label>Project Name</mat-label>
+      <input
+        matInput
+        placeholder="Type project name here..."
+        [(ngModel)]="projectName"
+      />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>NFT Name</mat-label>
+      <input
+        matInput
+        placeholder="Type nft name here..."
+        [(ngModel)]="nftName"
+      />
+    </mat-form-field>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button cdkFocusInitial class="btn" (click)="createProject()">
+    Create
+  </button>
+</mat-dialog-actions>

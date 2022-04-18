@@ -1,0 +1,99 @@
+.main-div mat-card{
+    padding: 0px;
+}
+
+.outline {
+    border-style: solid;
+    border-width: medium;
+    border-color: #00C853;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #00C853;
+}
+
+input.mat-input-element {
+  font-family: 'Inter', sans-serif;
+}
+
+.logo-name{
+    font-size: xx-large;
+    color: #00C853;
+    font-family: 'Inter', sans-serif; 
+    line-height:30px;
+}
+.logo-mobile{
+margin-top: 20px !important;
+}
+
+.main-login-card{
+padding-left: 5%;
+padding-right: 5%;
+}
+
+.logo{
+margin-top: -100px!important;
+}
+
+.green-icon{
+     color: #00C853;
+}
+
+.login-cards{
+    padding: 3%;
+}
+
+.login-main-card{
+    margin-top: 50px;
+}
+.sign-up{
+    padding-top: 5%;
+}
+
+.password-reset{
+    padding-top: 1%;
+}
+
+.sign-up-link{
+    color: black;
+}
+
+.get-help-link{
+    color: #00C853;
+}
+
+.login-button{
+    background-color: #00C853;
+    color: white;
+    width : 40%;
+}
+
+
+.button{
+    border-radius: 20%;
+}
+@keyframes spinner {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.spinner:before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin-top: -10px;
+    margin-left: -10px;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    border-top-color: #000000;
+    animation: spinner 0.8s linear infinite;
+}
+
+mat-grid-tile {
+    background: lightblue;
+}

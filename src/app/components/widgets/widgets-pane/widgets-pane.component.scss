@@ -1,0 +1,70 @@
+@import "../../../../scss/variables";
+
+.available-widget-list {
+  width: 100%;
+  height: calc(100vh - $headerHeight);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  background: $background;
+}
+
+.available-widget-box {
+  padding: 10px 0px 10px 0px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  cursor: grab;
+  font-size: $widgetPaneFontSize;
+  border-radius: 5px;
+  transition: 0.3s;
+  margin: 2px 5px 2px 5px;
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  background: $background;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.available-widget-box:last-child {
+  border: none;
+}
+
+.available-widget-list.cdk-drop-list-dragging
+  .available-widget-box:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.available-widget-box:hover {
+  background: $backgroundHover;
+}
+
+.icon {
+  transform: scale($widgetPaneIconScale);
+  margin-bottom: 5px;
+}
+
+.available-widget-list label {
+  word-spacing: 100px;
+  text-align: center;
+}
+
+collapse-widgets {
+  position: fixed;
+  top: 50px;
+}

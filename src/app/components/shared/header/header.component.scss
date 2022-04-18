@@ -1,0 +1,39 @@
+@import "../../../../scss/variables";
+
+.header {
+  height: $headerHeight;
+  background-color: $background;
+  color: white;
+}
+
+#title {
+  color: $green;
+}
+
+logo {
+  height: 30px;
+  width: 140px;
+}
+
+.menu-item {
+  font-size: $fontSize;
+}
+
+.menu-icon {
+  transform: scale(0.8);
+}
+
+.menu {
+  vertical-align: middle;
+
+  cursor: pointer;
+}
+
+#userName{
+   font-size: small;
+}
+
+.account-username:hover{
+background-color:transparent !important;
+cursor: default;
+}

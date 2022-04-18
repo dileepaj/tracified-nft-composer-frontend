@@ -1,0 +1,128 @@
+@import "../../../../scss/variables";
+@import "../../../../scss/mixins";
+
+.project-card {
+  @include project-card;
+}
+mat-toolbar {
+  justify-content: space-between;
+}
+
+.content {
+  padding: 20px;
+}
+
+.content > mat-card {
+  margin-bottom: 16px;
+}
+
+.column-label {
+  margin-right: 8px;
+  font-size: 1rem;
+}
+
+.green-button {
+  border-radius: 35;
+  background-color: $green;
+  margin-left: 10px;
+}
+
+.mainView {
+  margin-top: 100px;
+}
+
+.customIcon {
+  font-size: 40px;
+  height: 40px;
+  width: 40px;
+  color: $green;
+}
+
+.green-color {
+  background-color: #00c853;
+}
+.mat-progress-bar-fill::after {
+  background-color: $green;
+}
+
+.progressbar {
+  background-color: $green !important;
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner:before {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  margin-left: -10px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  border-top-color: #000000;
+  animation: spinner 0.8s linear infinite;
+}
+
+.delete-button {
+  border-radius: 35;
+  background-color: #e7e7e9;
+  color: #0d0c22;
+}
+
+.content-div {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.icon-div {
+  width: 70px;
+  height: 70px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 100%;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(176, 221, 176, 0.199);
+}
+
+.title-div {
+  height: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 10px;
+  row-gap: 10px;
+}
+
+.proj-name {
+  font-size: 20px;
+  font-weight: 500;
+  color: #212121;
+}
+
+.time-icon {
+  font-size: 16px;
+  vertical-align: middle;
+  color: #9e9e9e;
+}
+
+.projects-div {
+  margin-top: 10px;
+}
+
+.timestamp {
+  color: #9e9e9e;
+}
+
+.btn-icon {
+  transform: scale(0.75);
+}

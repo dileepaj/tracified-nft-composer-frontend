@@ -1,0 +1,12 @@
+@import "../../../../scss/variables";
+@import "../../../../scss/mixins";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+}
+
+.btn {
+  @include btn-primary;
+}

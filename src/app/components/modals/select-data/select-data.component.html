@@ -1,0 +1,44 @@
+<div fxLayout="row" fxLayoutAlign="space-between center">
+  <div class="breadcrumb">
+    <h2 mat-dialog-title>
+      <a class="previous" (click)="openWidgetContent()" mat-dialog-close
+        >Widget Content /</a
+      >
+      <a class="previous" (click)="openMasterDataSelection()" mat-dialog-close
+        >Select Master Data Type</a
+      >
+      /
+      <a>Select Master Data</a>
+    </h2>
+  </div>
+  <mat-icon style="cursor: pointer" (click)="close()">close</mat-icon>
+</div>
+<mat-dialog-content class="mat-typography modal-content">
+  <div class="content">
+    <table>
+      <thead>
+        <tr>
+          <td *ngFor="let col of columns">{{ col }}</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="data-row" *ngFor="let source of dataSource; index as i">
+          <td *ngFor="let key of keys">
+            {{ source.data[key] }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button
+    mat-flat-button
+    class="btn"
+    [disabled]="saving"
+    (click)="updateReduxState()"
+  >
+    <span [class.spinner]="saving"> </span>
+    Save
+  </button>
+</mat-dialog-actions>
