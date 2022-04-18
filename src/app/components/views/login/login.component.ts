@@ -9,6 +9,10 @@ import { PopupMessageService } from 'src/app/services/popup-message/popup-messag
 import { AuthService } from 'src/app/services/authService/auth.service';
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
 import { Subscription } from 'rxjs';
+import { UserserviceService } from 'src/app/services/userservice.service';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/store/app.state';
+import { addUsername } from 'src/app/store/user-state-store/user.action';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -25,7 +29,9 @@ export class LoginComponent implements OnInit {
     private _authService: AuthService,
     private jwt: JwtserviceService,
     private snackBar: PopupMessageService,
-    private mediaObserver: MediaObserver
+    private mediaObserver: MediaObserver,
+    private userService: UserserviceService,
+    private store: Store<AppState>
   ) {}
 
   //for create responsive Ui
@@ -83,6 +89,9 @@ export class LoginComponent implements OnInit {
         next: (data) => {
           this.jwt.saveToken(data);
           let decoded: any = jwt_decode(data.Token, { header: false });
+          let username = JSON.parse(sessionStorage.getItem('User') || '')
+            .UserName!;
+          this.store.dispatch(addUsername({ username: username }));
           if (!!decoded.userID)
             this.router.navigate([`/layout/projects/${decoded.userID}`]);
         },
