@@ -15,7 +15,6 @@ export class JwtserviceService {
   private domain: string;
   private key = new Key();
   constructor(private _cookieService: CookieService) {
-    console.log(environment);
     if (environment.name == 'production') {
       this.tokenName = 'PTTOKEN';
       this.expName = 'PWAIT';

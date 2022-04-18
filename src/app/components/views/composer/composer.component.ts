@@ -198,9 +198,6 @@ export class ComposerComponent implements OnInit, AfterViewInit {
           event.previousIndex,
           event.currentIndex
         );
-
-        console.log('prev', event.previousIndex);
-        console.log('cur', event.currentIndex);
         this.stateService.rewriteWidgetArr(this.usedWidgets);
       }
     } else {
