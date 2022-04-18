@@ -37,7 +37,6 @@ export class LoginComponent implements OnInit {
     this.mediaSub = this.mediaObserver.media$.subscribe(
       (result: MediaChange) => {
         this.deviceXs = result.mqAlias === 'xs' ? true : false;
-        //console.log(result.mqAlias);
       }
     );
 

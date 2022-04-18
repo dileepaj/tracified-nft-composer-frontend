@@ -44,8 +44,7 @@ export class NftHtmlComponent implements OnInit {
     //get from backend
     this._composerService.generateHTML(this.nftContent).subscribe((data: any) => {
       if (!!data && !!data.Response && data.Response !== '') {
-        this.htmlStr = atob(data.Response);
-        console.log('log', this.htmlStr);        
+        this.htmlStr = atob(data.Response);    
         const content = this.htmlStr;
         iframe.contentWindow.document.open();
         iframe.contentWindow.document.write(content);

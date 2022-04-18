@@ -342,7 +342,6 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
 
     let output = this.res.Response.result;
     let outputObject = JSON.stringify(output);
-    console.log(outputObject);
     let data = eval(outputObject);
     let result = JSON.parse(data);
     if (this.type === 'bar' || this.type === 'pie') {
@@ -353,7 +352,6 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
         Object.keys(result.val['ChartData'][0]).includes('Name') &&
         Object.keys(result.val['ChartData'][0]).includes('Value')
       ) {
-        console.log('valid');
         this.onQuerySuccess.emit({
           data: result.val['ChartData'],
         });
@@ -371,7 +369,6 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
         Object.keys(result.val['ChartData'][0]).includes('X') &&
         Object.keys(result.val['ChartData'][0]).includes('Y')
       ) {
-        console.log('valid');
         this.onQuerySuccess.emit({
           data: result.val['ChartData'],
         });
