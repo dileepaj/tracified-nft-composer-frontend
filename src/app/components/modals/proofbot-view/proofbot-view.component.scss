@@ -1,0 +1,143 @@
+@import "../../../../scss/mixins";
+@import "../../../../scss/variables";
+
+.widget-div {
+  @include widget-div;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.content-div {
+  //border: dotted 2px #ccc;
+  border-radius: 5px;
+  position: absolute;
+  bottom: 50px;
+  top: 50px;
+  right: 10px;
+  left: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  overflow: hidden;
+  //background-color: #ccc;
+}
+
+.chrt {
+  margin: 10px;
+  transform: scale(0.4);
+}
+
+.btn {
+  @include btn-primary;
+  transform: scale(0.9);
+}
+
+mat-icon {
+  color: $green;
+}
+.btn mat-icon {
+  color: white;
+}
+
+.widget-footer {
+  position: absolute;
+  right: 7px;
+  left: 0;
+  bottom: 0;
+  top: 255px;
+}
+
+h2 mat-icon {
+  color: black;
+  float: right;
+  cursor: pointer;
+}
+
+h2 button {
+  float: right;
+  vertical-align: middle;
+}
+
+.proofbot-content {
+  overflow: auto;
+  width: 100%;
+}
+
+/* Remove default bullets */
+ul,
+#myUL {
+  list-style-type: none;
+}
+
+#myUL {
+  margin: 0;
+}
+
+/* Remove margins and padding from the parent ul */
+.urls {
+  margin: 20px;
+  padding: 0;
+}
+
+/* Style the caret/arrow */
+.caret {
+  font-size: large;
+  font-weight: 600;
+  user-select: none; /* Prevent text selection */
+}
+
+/* Create the caret/arrow with a unicode, and style it */
+.caret::before {
+  content: "\25CF";
+  color: $green;
+  display: inline-block;
+  margin-right: 6px;
+  transform: scale(2);
+}
+
+/* Rotate the caret/arrow icon when clicked on (using JavaScript) */
+.caret-down::before {
+  transform: rotate(90deg);
+}
+
+/* Hide the nested list */
+.nested {
+  display: none;
+}
+
+/* Show the nested list when the user clicks on the caret/arrow (with JavaScript) */
+.active {
+  display: block;
+}
+
+.child-caret::before {
+  content: "\25CB";
+  color: black;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+.proof-url {
+  text-decoration: none;
+  font-size: small;
+  cursor: pointer;
+  color: $green;
+}
+
+.proof-url:hover {
+  text-decoration: underline;
+}
+
+.proof-type {
+  font-weight: 600;
+  font-size: large;
+  color: #212121;
+}
+
+.pb-icon {
+  transform: scale(4);
+  color: $background;
+}

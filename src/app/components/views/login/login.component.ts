@@ -2,40 +2,49 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserLogin } from 'src/app/entity/User';
 import { AES } from 'crypto-js';
-import { UserserviceService } from 'src/app/services/userservice.service';
-import { Key } from 'src/app/entity/Variables';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/store/app.state';
-import { addUser } from 'src/app/store/user-state-store/user.action';
+import { JwtserviceService } from 'src/app/services/jwtservice.service';
 import jwt_decode from 'jwt-decode';
-import { ComposerUser } from 'src/models/user';
-import { timeout } from 'd3';
-
+import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
+import { AuthService } from 'src/app/services/authService/auth.service';
+import { MediaChange, MediaObserver } from '@angular/flex-layout';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  email: String;
-  password: String;
   public newPassword = 'none';
   public loginForm: FormGroup;
   sKey = 'hackerkaidagalbanisbaby'.split('').reverse().join('');
   public userToken: string;
-  user: string;
-
+  public loading = false;
   constructor(
     private router: Router,
-    private _userService: UserserviceService,
-    private store: Store<AppState>
+    private _authService: AuthService,
+    private jwt: JwtserviceService,
+    private snackBar: PopupMessageService,
+    private mediaObserver: MediaObserver
   ) {}
 
+  //for create responsive Ui
+  mediaSub: Subscription;
+  deviceXs: boolean;
+
   ngOnInit(): void {
+    //for create responsive Ui
+    this.mediaSub = this.mediaObserver.media$.subscribe(
+      (result: MediaChange) => {
+        this.deviceXs = result.mqAlias === 'xs' ? true : false;
+        //console.log(result.mqAlias);
+      }
+    );
+
     this.loginForm = new FormGroup({
       username: new FormControl('', [
         Validators.required,
+        Validators.email,
         Validators.minLength(6),
       ]),
       password: new FormControl('', [
@@ -45,42 +54,46 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  public onSubmit(data: any) {
-    const key: any = new Key();
+  onDestroy() {
+    //for create responsive Ui
+    this.mediaSub.unsubscribe();
+  }
+
+  public onSubmit() {
+    this.loading = true;
     const user: UserLogin = new UserLogin();
+    if (this.loginForm.status == 'VALID') {
+      user.username = AES.encrypt(
+        this.loginForm.value.username,
+        this.sKey
+      ).toString();
+      user.password = AES.encrypt(
+        this.loginForm.value.password,
+        this.sKey
+      ).toString();
+      user.newPassword = AES.encrypt(
+        this.newPassword.toString(),
+        this.sKey
+      ).toString();
 
-    user.username = AES.encrypt(data.email, this.sKey).toString();
-    user.password = AES.encrypt(data.password, this.sKey).toString();
-    user.newPassword = AES.encrypt(
-      this.newPassword.toString(),
-      this.sKey
-    ).toString();
-
-    this._userService.login(user).subscribe({
-      next: (data) => {
-        sessionStorage.setItem('Token', data.Token);
-        let decoded: any = jwt_decode(data.Token, { header: false });
-        let user1: ComposerUser = {
-          UserID: decoded.userID,
-          UserName: decoded.username,
-          Email: decoded.email,
-          TenentId: decoded.tenantID,
-          displayImage: decoded.displayImage,
-          Company: decoded.company,
-          Type: decoded.type,
-          Country: decoded.locale,
-          Domain: decoded.domain,
-        };
-        sessionStorage.setItem('User', JSON.stringify(user1));
-        sessionStorage.setItem('authorized', 'authorized');
-        this.user = decoded.userID;
-        setTimeout(() => {
-          this.router.navigate([`/projects/${this.user}`]);
-        }, 6000);
-      },
-      error: (err) => {
-        alert('Error!');
-      },
-    });
+      this._authService.login(user).subscribe({
+        complete: () => {
+          this.loading = false;
+        },
+        next: (data) => {
+          this.jwt.saveToken(data);
+          let decoded: any = jwt_decode(data.Token, { header: false });
+          if (!!decoded.userID)
+            this.router.navigate([`/layout/projects/${decoded.userID}`]);
+        },
+        error: (err) => {
+          this.loading = false;
+          this.snackBar.openSnackBar('Invalid email or password');
+        },
+      });
+    } else {
+      this.loading = false;
+      this.snackBar.openSnackBar('Invalid Input');
+    }
   }
 }

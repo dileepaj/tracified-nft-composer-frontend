@@ -29,34 +29,37 @@
   justify-content: center;
 }
 
-table,
-td,
-th {
-  padding: 10px;
-}
-
-tr {
+.batch-table tr {
   cursor: pointer;
 }
 
-tbody tr:hover {
+.batch-table tbody tr:hover {
   background: whitesmoke;
 }
 
-table {
+.batch-table {
   width: 100%;
   border-collapse: collapse;
   overflow: auto;
+  border: none;
   @include shadow;
+  td {
+    border: none;
+    padding: 10px;
+  }
+  th {
+    border: none;
+    padding: 10px;
+  }
 }
-thead {
+.batch-table thead {
   background: $background;
   color: white;
   padding: 20px;
   font-weight: bold;
 }
 
-tbody {
+.batch-table tbody {
   background: white;
 }
 

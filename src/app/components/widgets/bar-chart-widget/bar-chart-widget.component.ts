@@ -28,6 +28,7 @@ import { Widget } from '../../views/composer/composer.component';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
 import { barchart } from 'src/models/nft-content/widgetTypes';
 import { NFTContent } from 'src/models/nft-content/nft.content';
+import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 
 @Component({
   selector: 'app-bar-chart-widget',
@@ -37,7 +38,6 @@ import { NFTContent } from 'src/models/nft-content/nft.content';
 export class BarChartWidgetComponent implements OnInit, AfterViewInit {
   @Input() id: any;
   @Output() onDeleteWidget: EventEmitter<any> = new EventEmitter();
-  barchart$: Observable<Chart[]>;
   barChart: Chart;
   nftContent: NFTContent;
   @Input() widget: Widget;
@@ -45,9 +45,9 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
   constructor(
     private store: Store<AppState>,
     public dialog: MatDialog,
-    private service: DndServiceService
+    private service: DndServiceService,
+    private composerService: ComposerBackendService
   ) {
-    this.barchart$ = this.store.select(selectBarCharts);
     this.store.select(selectNFTContent).subscribe((content) => {
       this.nftContent = content;
     });
@@ -59,12 +59,17 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
     //check if the widget is already in redux store
     if (!this.service.widgetExists(this.id)) {
       this.addBarChartToStore();
-    } else {
-      this.getBarChart();
     }
+    this.store.select(selectBarCharts).subscribe((data) => {
+      data.map((chart) => {
+        if (chart.WidgetId === this.id) {
+          this.barChart = chart;
+        }
+      });
+    });
   }
 
-  otpAdded(): boolean {
+  public otpAdded(): boolean {
     let buttonState = false;
     this.store.select(selectCardStatus).subscribe((data) => {
       if (data.some((e) => e.WidgetId === this.id)) {
@@ -75,26 +80,29 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
   }
 
   //open configuration popup
-  openDialog() {
-    this.getBarChart();
+  public openDialog() {
     const dialogRef = this.dialog.open(ConfigureBarChartComponent, {
       data: {
         id: this.id,
         widget: this.barChart,
       },
     });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      //
-    });
   }
 
   ngOnChanges(val: any) {}
 
   //delete chart from redux
-  deleteWidget() {
-    this.store.dispatch(deleteBarChart({ chart: this.barChart }));
-    this.onDeleteWidget.emit(this.id);
+  public deleteWidget() {
+    this.composerService.deleteChart(this.id).subscribe({
+      next: (res) => {},
+      error: (err) => {
+        alert('Error');
+      },
+      complete: () => {
+        this.store.dispatch(deleteBarChart({ chart: this.barChart }));
+        this.onDeleteWidget.emit(this.id);
+      },
+    });
   }
 
   //add chart to redux
@@ -108,55 +116,27 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
       KeyTitle: 'Name',
       ValueTitle: 'Value',
       ChartData: [],
-      Color: [
-        '#69b3a2',
-        '#69b3a2',
-        '#69b3a2',
-        '#69b3a2',
-        '#69b3a2',
-        '#69b3a2',
-        '#69b3a2',
-        '#69b3a2',
-        '#69b3a2',
-        '#69b3a2',
-      ],
-
+      Color: [],
       FontColor: '#000000',
       FontSize: 10,
       XAxis: 'X Axis',
       YAxis: 'Y Axis',
       Width: 450,
       Height: 100,
+      Query: '',
     };
     this.store.dispatch(addBarChart({ chart: this.barChart }));
-    this.getBarChart();
     this.service.updateUsedStatus(this.id);
   }
 
-  //get chart from redux
-  private getBarChart() {
-    this.store.select(selectBarCharts).subscribe((data) => {
-      data.map((chart) => {
-        if (chart.WidgetId === this.id) {
-          this.barChart = chart;
-        }
-      });
-    });
-  }
-
   //open batch selection popup
-  openAddData() {
-    this.getBarChart();
+  public openAddData() {
     const dialogRef = this.dialog.open(WidgetContentComponent, {
       data: {
         id: this.id,
         userId: this.nftContent.UserId,
         widget: this.barChart,
       },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      //
     });
   }
 }

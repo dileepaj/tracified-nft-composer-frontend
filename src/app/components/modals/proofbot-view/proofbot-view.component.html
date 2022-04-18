@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>Available Proofs</h2>
+<mat-dialog-content>
+  <div class="proofbot-content">
+    <ul *ngFor="let proof of proofUrls">
+      <li class="caret">
+        <span class="proof-type">{{ proof.type.toUpperCase() }}</span>
+      </li>
+      <ul class="urls" *ngFor="let url of proof.urls">
+        <li class="child-caret">
+          <a class="proof-url" [href]="url" target="_blank">{{ url }}</a>
+        </li>
+      </ul>
+    </ul>
+  </div>
+</mat-dialog-content>

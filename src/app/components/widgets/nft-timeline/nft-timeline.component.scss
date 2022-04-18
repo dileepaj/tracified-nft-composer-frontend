@@ -21,8 +21,58 @@
   align-items: center;
   justify-content: center;
   gap: 40px;
-  overflow: hidden;
   //background-color: #ccc;
+}
+
+.timeline-content {
+  overflow: auto;
+  width: 90%;
+}
+
+.timeline {
+  $color: #00c853;
+  $timeline-font-color: white;
+
+  padding: 0 25px;
+  margin: 20px 0 0 0;
+  position: relative;
+  counter-reset: list 0;
+
+  &-item {
+    list-style: none;
+    border-left: 4px solid $color;
+
+    &:last-child {
+      border-left-color: transparent;
+    }
+  }
+
+  &-title {
+    margin: 0;
+    padding: 0;
+    &:before {
+      $size: 40px;
+      color: $timeline-font-color;
+      position: relative;
+      left: -22px;
+      display: inline-block;
+      width: $size;
+      height: $size;
+      line-height: $size;
+      text-align: center;
+      border-radius: 50%;
+      background-color: $color;
+      counter-increment: list;
+      content: counter(list);
+    }
+  }
+
+  &-text {
+    margin: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 50px;
+  }
 }
 
 .chrt {
@@ -59,4 +109,9 @@ h2 mat-icon {
 h2 button {
   float: right;
   vertical-align: middle;
+}
+
+.tl-icon {
+  transform: scale(4);
+  color: $background;
 }

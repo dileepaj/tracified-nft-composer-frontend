@@ -34,7 +34,7 @@
 }
 
 .master-data-icon {
-  transform: scale(2.5);
+  transform: scale(2);
   margin-bottom: 20px;
 }
 
@@ -50,4 +50,8 @@ mat-card {
 
 #more:hover {
   text-decoration: underline;
+}
+
+.artifact-title {
+  font-size: 20px;
 }

@@ -67,7 +67,12 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CookieService } from 'ngx-cookie-service';
 import { NewProjectComponent } from './components/modals/new-project/new-project.component';
 import { userReducer } from './store/user-state-store/user.reducer';
-
+import { NgChartsModule } from 'ng2-charts';
+import { TimelineViewComponent } from './components/modals/timeline-view/timeline-view.component';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { ProofbotViewComponent } from './components/modals/proofbot-view/proofbot-view.component';
+import { HtmlCodebehindComponent } from './components/modals/html-codebehind/html-codebehind.component';
+import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 const appRoutes: Routes = [];
 
 @NgModule({
@@ -102,6 +107,9 @@ const appRoutes: Routes = [];
     SelectMasterDataTypeComponent,
     SelectDataComponent,
     NewProjectComponent,
+    TimelineViewComponent,
+    ProofbotViewComponent,
+    HtmlCodebehindComponent,
   ],
   imports: [
     BrowserModule,
@@ -134,16 +142,27 @@ const appRoutes: Routes = [];
     ReactiveFormsModule,
     MatCardModule,
     MatRippleModule,
-    ReactiveFormsModule,
     ColorPickerModule,
     MatTabsModule,
     FlexLayoutModule,
     HttpClientModule,
     MatStepperModule,
+    MatButtonToggleModule,
+    NgChartsModule,
     RouterModule.forRoot(appRoutes),
     StoreModule.forRoot({ nft: nftReducer, user: userReducer }),
+    HighlightModule,
   ],
-  providers: [CookieService],
+  providers: [
+    CookieService,
+    {
+      provide: HIGHLIGHT_OPTIONS,
+      useValue: {
+        fullLibraryLoader: () => import('highlight.js'),
+        //lineNumbersLoader: () => import('highlightjs-line-numbers.js'),
+      },
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SidenavService } from 'src/app/services/sidenav.service';
 
@@ -8,23 +8,23 @@ import { SidenavService } from 'src/app/services/sidenav.service';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  userName: string = '';
+  userName: string = 'aaaaaaaa@Gmail.com';
   constructor(private router: Router, private sidenav: SidenavService) {}
 
   ngOnInit(): void {
+
     if (!!sessionStorage.getItem('User')) {
       let user = JSON.parse(sessionStorage.getItem('User') || '');
       this.userName = user.UserName;
     }
   }
 
-  logout() {
+  public logout() {
     this.router.navigate(['/login']);
-    sessionStorage.setItem('authorized', 'NOT');
     sessionStorage.setItem('Token', '');
   }
 
-  toggleSideBar() {
+  public toggleSideBar() {
     this.sidenav.toggleNav();
   }
 }

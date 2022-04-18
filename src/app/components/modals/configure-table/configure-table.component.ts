@@ -9,6 +9,7 @@ import {
 } from 'src/app/store/nft-state-store/nft.actions';
 import {
   selectNFTContent,
+  selectProjectStatus,
   selectQueryResult,
   selectTable,
 } from 'src/app/store/nft-state-store/nft.selector';
@@ -21,6 +22,7 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
+import { Data } from '@angular/router';
 
 @Component({
   selector: 'app-configure-table',
@@ -30,19 +32,15 @@ import {
 })
 export class ConfigureTableComponent implements OnInit {
   nft$: any;
+  tabIndex: number = 0;
+  newProj: boolean;
   table: Table;
   tableId: any;
   title: any;
   query: string = '';
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = [
-    { position: 1, name: 'Hydrogen', weight: 1.0079 },
-    { position: 2, name: 'Helium', weight: 4.0026 },
-    { position: 3, name: 'Lithium', weight: 6.941},
-    { position: 4, name: 'Beryllium', weight: 9.0122},
-
-  ];
-  tableContent: string;
+  displayedColumns: string[] = [];
+  dataSource = [];
+  tableContent: string = '';
   tableHtml: string = '';
 
   saving: boolean = false;
@@ -58,18 +56,22 @@ export class ConfigureTableComponent implements OnInit {
     private _snackBar: MatSnackBar
   ) {
     this.nft$ = this.store.select(selectNFTContent);
+    this.store.select(selectProjectStatus).subscribe((status) => {
+      this.newProj = status;
+    });
   }
 
   ngOnInit(): void {
     //this.updateChart();
     this.tableId = this.data.id;
     this.table = this.data.widget;
+    //this.setValueToTable();
   }
 
   private showChart() {}
 
   //check , executed query save or not  use this function for show the congigure button
-  CheckQuerySavingStatus(): boolean {
+  public CheckQuerySavingStatus(): boolean {
     let buttonState = false;
     this.store.select(selectQueryResult).subscribe((data) => {
       if (data.some((e) => e.WidgetId === this.data.id)) {
@@ -79,25 +81,34 @@ export class ConfigureTableComponent implements OnInit {
     return buttonState;
   }
 
+  private setValueToTable() {
+    this.store.select(selectQueryResult).subscribe((data) => {
+      let tableData = data.find((v) => v.WidgetId === this.data.id);
+      if (
+        !!tableData &&
+        tableData != undefined &&
+        tableData.queryResult != ''
+      ) {
+        let tableobject = JSON.stringify(tableData.queryResult);
+        let dta = eval(tableobject);
+        let a = JSON.parse(dta);
+
+        this.dataSource = a.val.MainTable;
+      }
+    });
+  }
+
   //called when user moves to a different tab
-  tabChanged(tabChangeEvent: MatTabChangeEvent): void {
+  public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     if (tabChangeEvent.index === 1) {
-      //this.getTable();
       this.assignValues();
+      this.setValueToTable();
       this.generateTable();
     }
   }
 
   //update redux state
-  updateReduxState() {
-    /*this.table = {
-      WidgetId: this.tableId,
-      WidgetType: 'table',
-      TableTitle: this.title,
-      Query: this.query,
-      TableContent: this.tableContent,
-    };*/
-
+  public updateReduxState() {
     this.saving = true;
     this.table = {
       ...this.table,
@@ -131,24 +142,27 @@ export class ConfigureTableComponent implements OnInit {
 
   //generate table html
   private generateTable() {
-    let tableString = '<thead><tr>';
-    Object.keys(this.dataSource[0]).map((column) => {
-      tableString += '<th>' + column + '</th>';
-    });
-
-    tableString += '</tr></thead><tbody>';
-
-    this.dataSource.map((data) => {
-      tableString += '<tr>';
-      Object.entries(data).map((d) => {
-        tableString += '<td>' + d[1] + '</td>';
+    if (this.tableContent === '') {
+      let tableString = '<thead><tr>';
+      Object.keys(this.dataSource[0]).map((column) => {
+        tableString += '<th>' + column + '</th>';
       });
-      tableString += '</tr>';
-    });
 
-    tableString += '</tbody>';
+      tableString += '</tr></thead><tbody>';
 
-    this.tableContent = tableString;
+      this.dataSource.map((data) => {
+        tableString += '<tr>';
+        Object.entries(data).map((d) => {
+          tableString += '<td>' + d[1] + '</td>';
+        });
+        tableString += '</tr>';
+      });
+
+      tableString += '</tbody>';
+
+      this.tableContent = tableString;
+    }
+
     this.tableHtml = '<table>' + this.tableContent + '</table>';
   }
 
@@ -191,12 +205,11 @@ export class ConfigureTableComponent implements OnInit {
     }
   }
 
-  public addQuery(event: any) {
-    console.log(event);
-    this.query = event;
+  public onQuerySuccess(event: any) {
+    this.tabIndex = 1;
   }
 
-  openSnackBar(msg: string) {
+  public openSnackBar(msg: string) {
     this._snackBar.open(msg, 'OK', {
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,

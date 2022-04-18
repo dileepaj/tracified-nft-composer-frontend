@@ -1,39 +1,33 @@
-<mat-toolbar fxLayout="row" class="header" fxLayoutAlign="space-between center">
-  <div>
-    <mat-icon
-      fxHide.sm="false"
-      fxHide.md="false"
-      fxHide.lg="false"
-      fxHide.xl="false"
-      fxHide.xs="false"
-      class="menu"
-      (click)="toggleSideBar()"
-      >menu</mat-icon
-    >
-    <span
-      ><label>Tracified<span id="title"> | NFT Composer</span></label></span
-    >
+<mat-toolbar class="header" fxFlex="row" fxLayoutAlign="space-between center">
+  <div fxFlex.lg="80" fxFlex.md="80" fxFlex.sm="70" fxFlex.xs="90" fxLayoutAlign="start center">
+    <mat-icon fxHide.sm="false" fxHide.md="false" fxHide.lg="false" fxHide.xl="false" fxHide.xs="false" class="menu"
+      (click)="toggleSideBar()">menu</mat-icon>
+    <span><label>Tracified<span id="title"> | NFT Composer</span></label></span>
   </div>
-  <div style="position: absolute; right: 40px">
-    <button mat-icon-button [matMenuTriggerFor]="menu">
-      <mat-icon>account_circle</mat-icon>
-    </button>
-    <mat-menu #menu="matMenu" xPosition="before">
-      <button mat-menu-item>
-        <mat-icon class="menu-icon">help</mat-icon>
-        <span class="menu-item">Help</span>
-      </button>
-      <button mat-menu-item>
-        <mat-icon class="menu-icon">lightbulb_circle</mat-icon>
-        <span class="menu-item">FAQ</span>
-      </button>
-      <button mat-menu-item (click)="logout()">
-        <mat-icon class="menu-icon">logout</mat-icon>
-        <span class="menu-item">Log Out</span>
-      </button>
-    </mat-menu>
-  </div>
-    <div style="position: absolute; right: 100px">
-<label id="userName">{{userName}}</label>
+  <div fxFlex.lg="20" fxFlex.md="20" fxFlex.sm="30" fxFlex.xs="10" fxLayoutAlign="end center">
+    <div fxFlex="80" fxHide.xs="true" fxHide.md="false" fxHide.sm="false" fxHide.lg="false" fxHide.xl="false"
+      fxFlex="20" fxLayoutAlign="end center">
+      <label id="userName">{{userName}}</label>
     </div>
+    <div fxFlex="20" fxLayoutAlign="end center">
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu" xPosition="before">
+        <label class="account-username"  mat-menu-item id="userName">{{userName}}</label>
+        <button mat-menu-item>
+          <mat-icon class="menu-icon">help</mat-icon>
+          <span class="menu-item">Help</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon class="menu-icon">lightbulb_circle</mat-icon>
+          <span class="menu-item">FAQ</span>
+        </button>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon class="menu-icon">logout</mat-icon>
+          <span class="menu-item">Log Out</span>
+        </button>
+      </mat-menu>
+    </div>
+  </div>
 </mat-toolbar>

@@ -12,6 +12,7 @@ import {
   copyArrayItem,
   CdkDragMove,
   transferArrayItem,
+  CdkDragEnter,
 } from '@angular/cdk/drag-drop';
 
 import { MatDialog } from '@angular/material/dialog';
@@ -45,6 +46,8 @@ import {
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import { NewProjectComponent } from '../../modals/new-project/new-project.component';
+import { projectStatus } from 'src/app/store/nft-state-store/nft.actions';
+import { SelectMasterDataTypeComponent } from '../../modals/select-master-data-type/select-master-data-type.component';
 
 export interface Widget {
   type: string;
@@ -187,7 +190,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   }
 
   //Called when a widget is dropped to drap and drop area.
-  drop(event: CdkDragDrop<Widget[]>) {
+  public drop(event: any) {
     if (event.previousContainer === event.container) {
       if (event.container.data === this.usedWidgets) {
         moveItemInArray(
@@ -195,6 +198,9 @@ export class ComposerComponent implements OnInit, AfterViewInit {
           event.previousIndex,
           event.currentIndex
         );
+
+        console.log('prev', event.previousIndex);
+        console.log('cur', event.currentIndex);
         this.stateService.rewriteWidgetArr(this.usedWidgets);
       }
     } else {
@@ -219,11 +225,25 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   }
 
   //get drag position
-  dragMoved(event: any) {
+  public dragMoved(event: any) {
     this.position = `> Position X: ${event.pointerPosition.x} - Y: ${event.pointerPosition.y}`;
   }
 
-  noReturnPredicate() {
+  public dragEntered(event: CdkDragEnter<number>) {
+    const drag = event.item;
+    const dropList = event.container;
+    const dragIndex = drag.data;
+    const dropIndex = dropList.data;
+
+    const phContainer = dropList.element.nativeElement;
+    const phElement = phContainer.querySelector('.cdk-drag-placeholder');
+    phContainer.removeChild(phElement!);
+    phContainer.parentElement!.insertBefore(phElement!, phContainer);
+
+    moveItemInArray(this.usedWidgets, dragIndex, dropIndex);
+  }
+
+  public noReturnPredicate() {
     return false;
   }
 
@@ -241,7 +261,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   }
 
   //delete a widget
-  deleteWidget(id: any) {
+  public deleteWidget(id: any) {
     let index: number = 0;
     this.usedWidgets.map((widget) => {
       if (widget._Id === id) {
@@ -251,10 +271,11 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     transferArrayItem(this.usedWidgets, [], index, 0);
 
     this.stateService.rewriteWidgetArr(this.usedWidgets);
+    this.saveOrUpdateProject(true);
   }
 
-  openAddData() {
-    const dialogRef = this.dialog.open(NewProjectComponent, {
+  public openAddData() {
+    const dialogRef = this.dialog.open(SelectMasterDataTypeComponent, {
       data: {
         id: 'abc123',
       },
@@ -271,7 +292,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     });
   }
 
-  public downloadFile(content: any, name: string, type: string) {
+  private downloadFile(content: any, name: string, type: string) {
     var a = document.createElement('a');
     var blob = new Blob([content], { type: type });
     a.href = window.URL.createObjectURL(blob);
@@ -292,7 +313,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     });
   }
 
-  public saveProject() {
+  private saveProject() {
     this.saving = true;
     let widgetArr: any = [];
     this.getNftContent();
@@ -312,20 +333,20 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     };
 
     this.composerService.saveProject(project).subscribe({
-      next: (res) => {
-      },
+      next: (res) => {},
       error: (err) => {
         alert('An unexpected error occured. Please try again later');
         this.saving = false;
       },
       complete: () => {
+        this.store.dispatch(projectStatus({ status: false }));
         this.openSnackBar('Project Saved!!');
         this.saving = false;
       },
     });
   }
 
-  updateProject() {
+  private updateProject() {
     this.saving = true;
     let widgetArr: any = [];
     this.getNftContent();
@@ -345,10 +366,12 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     };
 
     this.composerService.updateProject(project).subscribe({
-      next: (res) => {
-      },
+      next: (res) => {},
       error: (err) => {
-        alert('An unexpected error occured. Please try again later');
+        this.openSnackBar(
+          'An unexpected error occured. Please try again later'
+        );
+
         this.saving = false;
       },
       complete: () => {
@@ -358,20 +381,22 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     });
   }
 
-  saveOrUpdateProject() {
+  public saveOrUpdateProject(deleteFlag: boolean) {
     let status = true;
     this.store.select(selectProjectStatus).subscribe((s) => {
       status = s;
     });
 
     if (status === true) {
-      this.saveProject();
+      if (!deleteFlag) {
+        this.saveProject();
+      }
     } else {
       this.updateProject();
     }
   }
 
-  openSnackBar(msg: string) {
+  public openSnackBar(msg: string) {
     this._snackBar.open(msg, 'OK', {
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,

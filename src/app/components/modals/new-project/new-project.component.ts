@@ -4,10 +4,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
 import { AppState } from 'src/app/store/app.state';
-import {
-  loadProject,
-  newProject,
-} from 'src/app/store/nft-state-store/nft.actions';
+import { newProject } from 'src/app/store/nft-state-store/nft.actions';
 import { NFTContent } from 'src/models/nft-content/nft.content';
 import { ComposerUser } from 'src/models/user';
 
@@ -29,13 +26,13 @@ export class NewProjectComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-       let user: string = sessionStorage.getItem('User') || '';
-       if (user !== '') {
-         this.user = JSON.parse(user);
-       }
+    let user: string = sessionStorage.getItem('User') || '';
+    if (user !== '') {
+      this.user = JSON.parse(user);
+    }
   }
 
-  createProject() {
+  public createProject() {
     if (this.projectName !== '' && this.nftName !== '') {
       const project: NFTContent = {
         ProjectId: Date.now().toString(),
@@ -53,15 +50,15 @@ export class NewProjectComponent implements OnInit {
           Tables: [],
           Images: [],
           Timeline: [],
-          ProofBotData: [],
+          ProofBot: [],
           Stats: [],
           CarbonFootprint: [],
         },
       };
-      sessionStorage.setItem('NFTCom',JSON.stringify(project))
+      sessionStorage.setItem('NFTCom', JSON.stringify(project));
       this.store.dispatch(newProject({ nftContent: project }));
       this.dndService.rewriteWidgetArr([]);
-      this.router.navigate([`/layouts/project/${project.ProjectId}`]);
+      this.router.navigate([`/layout/home/${project.ProjectId}`]);
       this.dialog.closeAll();
     } else {
       alert('Please give a project name and nft name');

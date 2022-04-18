@@ -28,16 +28,21 @@ import { addQueryResult } from 'src/app/store/nft-state-store/nft.actions';
 export class LdaleditorComponent implements OnInit, AfterViewInit {
   @ViewChild('editor') private editor: any;
   @Input() id: string;
+  @Input() type: string;
+  @Input() query: string = '';
   @Output() onQuerySuccess: EventEmitter<any> = new EventEmitter();
   text: string = '';
   staticWordCompleter: any;
-  aceEditor: any;
+  aceEditor: ace.Ace.Editor;
   loading: boolean = false;
   horizontalPosition: MatSnackBarHorizontalPosition = 'end';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   queryRes = false;
   res: any;
-
+  showOutput: boolean = false;
+  jsonString = '';
+  jsonPretty: any = '// No Output';
+  newResults: boolean = false;
   keyWordList2: any = [
     'If',
     'FilterSubtree',
@@ -222,27 +227,28 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
     this.setWordCompleter(this.keyWordList, this.keyWordList2);
   }
 
-  setLanguageTools(): void {
-    ace.config.set('fontSize', '14px');
-    ace.config.set('basePath', 'https://ace.c9.io/build/src-noconflict/');
-
+  private setLanguageTools(): void {
     this.aceEditor = ace.edit(this.editor.nativeElement);
     this.aceEditor.session.setValue('');
-    this.aceEditor.completers = this.staticWordCompleter;
-    this.aceEditor.setTheme('ace/theme/twilight');
+    this.aceEditor.completers = [this.staticWordCompleter];
+    this.aceEditor.setTheme('ace/theme/dracula');
+    this.aceEditor.session.setMode('ace/mode/tql');
 
     this.aceEditor.setOptions({
-      highlightSelectedWord: true,
+      showLineNumbers: true,
+      tabSize: 2,
       enableBasicAutocompletion: true,
-      enableSnippets: true,
       enableLiveAutocompletion: true,
+      enableSnippets: true,
+      fontSize: '15px',
     });
+    this.aceEditor.session.setValue(this.query);
     this.aceEditor.on('change', () => {
-      this.text = this.aceEditor.getValue();
+      this.query = this.aceEditor.getValue();
     });
   }
 
-  setWordCompleter(wordList: any, wordList2: any): void {
+  private setWordCompleter(wordList: any, wordList2: any): void {
     this.staticWordCompleter = {
       getCompletions: function (
         editor: any,
@@ -278,7 +284,7 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
     };
   }
 
-  openSnackBar(msg: string) {
+  public openSnackBar(msg: string) {
     this._snackBar.open(msg, 'OK', {
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
@@ -287,8 +293,7 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
     });
   }
 
-  saveExecuter() {
-
+  private saveExecuter() {
     if (!!this.res && !!this.res.Response.result) {
       this.store.dispatch(
         addQueryResult({
@@ -308,19 +313,17 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
     this.loading = true;
     let queryObject = {
       WidgetId: this.id,
-      Query: this.text,
+      Query: this.query,
     };
 
     this.apiService.executeQueryAndUpdate(queryObject).subscribe({
       next: (result: any) => {
         if (result) {
           //get result
-          this.onQuerySuccess.emit({
-            query: queryObject.Query,
-            result: result,
-          });
+
           this.loading = false;
           this.res = result;
+          this.checkOutput();
         }
       },
       error: (err) => {
@@ -331,5 +334,78 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
         this.queryRes = true;
       },
     });
+  }
+
+  private checkOutput() {
+    //{"type": 4, "val": {"ChartData":[{"Name":"averageAnnualTemperature","Value":"24"}]}} - charts
+    //{"type": 4, "val": {"MainTable":[{"Farm Name":"Medathennawaththa","Temperature":"24","Humidity":"80%","Rainfall":"1800 mm"}]}} - table
+
+    let output = this.res.Response.result;
+    let outputObject = JSON.stringify(output);
+    console.log(outputObject);
+    let data = eval(outputObject);
+    let result = JSON.parse(data);
+    if (this.type === 'bar' || this.type === 'pie') {
+      if (
+        result['val'] !== undefined &&
+        result.val['ChartData'] !== undefined &&
+        result.val['ChartData'].length > 0 &&
+        Object.keys(result.val['ChartData'][0]).includes('Name') &&
+        Object.keys(result.val['ChartData'][0]).includes('Value')
+      ) {
+        console.log('valid');
+        this.onQuerySuccess.emit({
+          data: result.val['ChartData'],
+        });
+        this.saveExecuter();
+      } else {
+        this.openSnackBar('Invalid output. Please check the query.');
+      }
+    } else if (this.type === 'bubble') {
+      if (
+        result['val'] !== undefined &&
+        result.val['ChartData'] !== undefined &&
+        result.val['ChartData'].length > 0 &&
+        Object.keys(result.val['ChartData'][0]).includes('Name') &&
+        Object.keys(result.val['ChartData'][0]).includes('Value') &&
+        Object.keys(result.val['ChartData'][0]).includes('X') &&
+        Object.keys(result.val['ChartData'][0]).includes('Y')
+      ) {
+        console.log('valid');
+        this.onQuerySuccess.emit({
+          data: result.val['ChartData'],
+        });
+        this.saveExecuter();
+      } else {
+        this.openSnackBar('Invalid output. Please check the query.');
+      }
+    } else if (this.type === 'table') {
+      if (
+        result['val'] !== undefined &&
+        result.val['MainTable'] !== undefined &&
+        result.val.MainTable.length > 0
+      ) {
+        this.onQuerySuccess.emit({
+          data: result.val.MainTable,
+        });
+        this.saveExecuter();
+      } else {
+        this.openSnackBar('Invalid output. Please check the query.');
+      }
+    } else {
+      this.openSnackBar('Invalid output. Please check the query.');
+    }
+
+    this.outputJson(data);
+    this.newResults = true;
+  }
+
+  public outputJson(data: any) {
+    this.jsonPretty = JSON.stringify(JSON.parse(data), null, 2);
+  }
+
+  public toggleOutput() {
+    this.showOutput = !this.showOutput;
+    this.newResults = false;
   }
 }

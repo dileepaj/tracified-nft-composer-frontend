@@ -14,14 +14,16 @@ export class UserserviceService {
     this.admin = environment.adminUrl;
   }
 
-  public login(credentials: any): Observable<any> {
-    console.log('Login api called');
-    return this.apiService.post(this.admin + '/sign/login', {
-      user: credentials,
-    });
-  }
-
   public getUser(): Observable<any> {
     return this.apiService.get(this.admin + '/api/bc/user');
+  }
+
+  public getCurrentUser(): any {
+    if (
+      !!sessionStorage.getItem('User') ||
+      sessionStorage.getItem('User') !== ''
+    )
+      return JSON.parse(sessionStorage.getItem('User') || '');
+    else return '';
   }
 }

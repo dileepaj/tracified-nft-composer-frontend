@@ -34,9 +34,6 @@ export class NftImageComponent implements OnInit {
   @Input() id: any;
   @Output() onDeleteWidget: EventEmitter<any> = new EventEmitter();
   @ViewChild('fileUpload') fileUpload: ElementRef<HTMLElement>;
-
-  nft$: any;
-  image$: Observable<Image[]>;
   private image: Image;
   file: File;
   shortLink: string = '';
@@ -44,14 +41,13 @@ export class NftImageComponent implements OnInit {
   base64: string = '';
   img: any = '';
   projectId: string;
+  src: string = '';
 
   constructor(
     private store: Store<AppState>,
     private service: DndServiceService,
     private composerService: ComposerBackendService
   ) {
-    this.nft$ = this.store.select(selectNFTContent);
-    this.image$ = this.store.select(selectNFTImages);
     this.store.select(selectNFTContent).subscribe((content) => {
       this.projectId = content.ProjectId;
     });
@@ -61,22 +57,25 @@ export class NftImageComponent implements OnInit {
     //check if the widget is already in redux store
     if (!this.service.widgetExists(this.id)) {
       this.addImageToStore();
-    } else {
-      this.getImage();
     }
+    this.store.select(selectNFTImages).subscribe((data) => {
+      data.map((img) => {
+        if (img.WidgetId === this.id) {
+          this.image = img;
+          this.base64 = img.Base64Image;
+        }
+      });
+    });
   }
 
-  //display nft state
-  private showNFT() {}
-
   //called when file input change event is emitted
-  onChange(event: any) {
+  public onChange(event: any) {
     this.file = event.target.files[0];
     this.uploadImage(event);
   }
 
   //called when user uploads an image
-  uploadImage(event: Event) {
+  public uploadImage(event: Event) {
     this.loading = !this.loading;
 
     const reader = new FileReader();
@@ -98,9 +97,6 @@ export class NftImageComponent implements OnInit {
     };
 
     this.store.dispatch(addNFTImage({ image: this.image }));
-
-    //this.showNFT();
-
     this.service.updateUsedStatus(this.id);
   }
 
@@ -114,35 +110,42 @@ export class NftImageComponent implements OnInit {
 
     this.saveImage();
     this.store.dispatch(updateNFTImage({ image: this.image }));
-    this.showNFT();
   }
 
   //delete image from redux store
-  deleteWidget() {
-    this.store.dispatch(deleteNFTImage({ image: this.image }));
-    this.onDeleteWidget.emit(this.id);
+  public deleteWidget() {
+    this.composerService.deleteImage(this.id).subscribe({
+      next: (res) => {},
+      error: (err) => {
+        alert(err);
+      },
+      complete: () => {
+        this.store.dispatch(deleteNFTImage({ image: this.image }));
+        this.onDeleteWidget.emit(this.id);
+      },
+    });
   }
 
   //trigger file input click event
-  triggerClick() {
+  public triggerClick() {
     let el: HTMLElement = this.fileUpload.nativeElement;
     el.click();
   }
 
   //check whether user has uploaded an image or not
-  isUploaded() {
+  public isUploaded() {
     return this.base64 !== '';
   }
 
   //create base64 image
-  _handleReaderLoaded(readerEvt: any) {
-    this.base64 =readerEvt.target.result
+  private _handleReaderLoaded(readerEvt: any) {
+    this.base64 = readerEvt.target.result;
     this.updateImage();
     this.updateHTML();
   }
 
   //update html
-  updateHTML() {
+  public updateHTML() {
     const reader = new FileReader();
     reader.readAsDataURL(this.file);
     reader.onload = (_event) => {
@@ -150,18 +153,7 @@ export class NftImageComponent implements OnInit {
     };
   }
 
-  getImage() {
-    this.store.select(selectNFTImages).subscribe((data) => {
-      data.map((img) => {
-        if (img.WidgetId === this.id) {
-          this.image = img;
-        }
-      });
-    });
-  }
-
-  saveImage() {
-    console.log(this.image);
+  public saveImage() {
     this.composerService.saveImage(this.image).subscribe((res) => {
       console.log(res);
     });
