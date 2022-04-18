@@ -154,8 +154,6 @@ export class NftImageComponent implements OnInit {
   }
 
   public saveImage() {
-    this.composerService.saveImage(this.image).subscribe((res) => {
-      console.log(res);
-    });
+    this.composerService.saveImage(this.image).subscribe((res) => {});
   }
 }

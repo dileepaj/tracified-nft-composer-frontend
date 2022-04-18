@@ -137,7 +137,5 @@ export class NftProofbotComponent implements OnInit {
       });
       this.proofUrls.push({ type: proofs[i], urls: urlSet });
     }
-
-    console.log(this.proofUrls);
   }
 }
