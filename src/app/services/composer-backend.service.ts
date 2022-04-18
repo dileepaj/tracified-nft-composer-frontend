@@ -5,16 +5,18 @@ import { environment } from 'src/environments/environment';
 import { Chart } from 'src/models/nft-content/chart';
 import { Image } from 'src/models/nft-content/image';
 import { NFTContent } from 'src/models/nft-content/nft.content';
-//import { RecentProject } from 'src/models/nft-content/htmlGenerator';
+import { ProofBot } from 'src/models/nft-content/proofbot';
 import { QueryExecuter } from 'src/models/nft-content/queryExecuter';
 import { Table } from 'src/models/nft-content/table';
+import { Timeline } from 'src/models/nft-content/timeline';
+import { JwtserviceService } from './jwtservice.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ComposerBackendService {
   private apiUrl: string = environment.composerBackend;
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private jwt: JwtserviceService) {}
 
   /**
    * @function setHeaders - set headers for an API request
@@ -24,7 +26,7 @@ export class ComposerBackendService {
     const headersConfig = {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: 'Bearer ' + sessionStorage.getItem('Token') || '',
+      Authorization: 'Bearer ' + this.jwt.getToken() || '',
     };
     return new HttpHeaders(headersConfig);
   }
@@ -53,7 +55,6 @@ export class ComposerBackendService {
    * @component - select-batch modal
    */
   public saveWidget(widget: any): Observable<any> {
-    console.log('request body', widget);
     return this.http.post<any>(`${this.apiUrl}/widget`, widget, {
       headers: this.setHeaders(),
     });
@@ -65,7 +66,6 @@ export class ComposerBackendService {
    * @component - configure-bar-chart, configure-bubble-chart and configure-pie-chart modals
    */
   public saveChart(chart: Chart): Observable<Chart> {
-    console.log('request body', chart);
     return this.http.post<Chart>(`${this.apiUrl}/html/chart`, chart, {
       headers: this.setHeaders(),
     });
@@ -77,7 +77,6 @@ export class ComposerBackendService {
    * @component - configure-table modal
    */
   public saveTable(table: Table): Observable<Table> {
-    console.log('request body', table);
     return this.http.post<Table>(`${this.apiUrl}/html/table`, table, {
       headers: this.setHeaders(),
     });
@@ -89,8 +88,29 @@ export class ComposerBackendService {
    * @component - nft-image widget
    */
   public saveImage(image: Image): Observable<Image> {
-    console.log('request body', image);
     return this.http.post<Image>(`${this.apiUrl}/html/image`, image, {
+      headers: this.setHeaders(),
+    });
+  }
+
+  /**
+   * @function saveTimeline - save timeline widget
+   * @param - timeline
+   * @component - nft-timeline widget
+   */
+  public saveTimeline(timeline: Timeline): Observable<Timeline> {
+    return this.http.post<Timeline>(`${this.apiUrl}/html/timeline`, timeline, {
+      headers: this.setHeaders(),
+    });
+  }
+
+  /**
+   * @function saveProofbot - save proofbot widget
+   * @param - proofbot
+   * @component - nft-proofbot widget
+   */
+  public saveProofbot(proofbot: ProofBot): Observable<ProofBot> {
+    return this.http.post<ProofBot>(`${this.apiUrl}/html/proofbot`, proofbot, {
       headers: this.setHeaders(),
     });
   }
@@ -123,7 +143,6 @@ export class ComposerBackendService {
    * @component - select-batch modal
    */
   public updateWidget(widget: any): Observable<any> {
-    console.log('request body', widget);
     return this.http.put<any>(`${this.apiUrl}/widget`, widget, {
       headers: this.setHeaders(),
     });
@@ -146,7 +165,6 @@ export class ComposerBackendService {
    * @component - configure-bar-chart, configure-bubble-chart and configure-pie-chart modals
    */
   public updateChart(chart: Chart): Observable<Chart> {
-    console.log('request body', chart);
     return this.http.put<Chart>(`${this.apiUrl}/html/chart`, chart, {
       headers: this.setHeaders(),
     });
@@ -158,8 +176,29 @@ export class ComposerBackendService {
    * @component - configure-table modal
    */
   public updateTable(table: Table): Observable<Table> {
-    console.log('request body', table);
     return this.http.put<Table>(`${this.apiUrl}/html/table`, table, {
+      headers: this.setHeaders(),
+    });
+  }
+
+  /**
+   * @function updateTimeline - udpate timeline
+   * @param - timeline
+   * @component - select-batch modal
+   */
+  public updateTimeline(timeline: Timeline): Observable<Timeline> {
+    return this.http.put<Timeline>(`${this.apiUrl}/html/timeline`, timeline, {
+      headers: this.setHeaders(),
+    });
+  }
+
+  /**
+   * @function updateProofbot - update proofbot widget
+   * @param - proofbot
+   * @component - nft-proofbot widget
+   */
+  public updateProofbot(proofbot: ProofBot): Observable<ProofBot> {
+    return this.http.put<ProofBot>(`${this.apiUrl}/html/proofbot`, proofbot, {
       headers: this.setHeaders(),
     });
   }
@@ -168,5 +207,77 @@ export class ComposerBackendService {
     return this.http.get(`${this.apiUrl}/project/${projectId}`, {
       headers: this.setHeaders(),
     });
+  }
+
+  /**
+   * @function deleteProject - delete an existing project
+   * @param - projectId
+   * @component - projects view
+   */
+  public deleteProject(projectId: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/html/project/${projectId}`, {
+      headers: this.setHeaders(),
+    });
+  }
+
+  /**
+   * @function deleteChart - delete chart
+   * @param - widgetId
+   * @component - bar-chart-widget, bubble-chart-widget, pie-chart-widget
+   */
+  public deleteChart(widgetId: string): Observable<Chart> {
+    return this.http.delete<Chart>(`${this.apiUrl}/html/chart/${widgetId}`, {
+      headers: this.setHeaders(),
+    });
+  }
+
+  /**
+   * @function deleteTable - delete table
+   * @param - widgetId
+   * @component - table widget
+   */
+  public deleteTable(widgetId: string): Observable<Table> {
+    return this.http.delete<Table>(`${this.apiUrl}/html/table/${widgetId}`, {
+      headers: this.setHeaders(),
+    });
+  }
+
+  /**
+   * @function deleteImage - delete image
+   * @param - widgetId
+   * @component - nft-image
+   */
+  public deleteImage(widgetId: string): Observable<Image> {
+    return this.http.delete<Image>(`${this.apiUrl}/html/image/${widgetId}`, {
+      headers: this.setHeaders(),
+    });
+  }
+
+  /**
+   * @function deleteTimeline - delete timeline
+   * @param - widgetId
+   * @component - nft-timeline
+   */
+  public deleteTimeline(widgetId: string): Observable<Timeline> {
+    return this.http.delete<Timeline>(
+      `${this.apiUrl}/html/timeline/${widgetId}`,
+      {
+        headers: this.setHeaders(),
+      }
+    );
+  }
+
+  /**
+   * @function deleteProofbot - delete proofbot
+   * @param - widgetId
+   * @component - nft-proofbot
+   */
+  public deleteProofbot(widgetId: string): Observable<ProofBot> {
+    return this.http.delete<ProofBot>(
+      `${this.apiUrl}/html/proofbot/${widgetId}`,
+      {
+        headers: this.setHeaders(),
+      }
+    );
   }
 }

@@ -18,7 +18,7 @@ export class WidgetsPaneComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  toggle() {
+  public toggle() {
     this.opened = !this.opened;
   }
 }

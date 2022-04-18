@@ -42,7 +42,6 @@ export class NftHtmlComponent implements OnInit {
   }
   private populateIframe(iframe: any) {
     //get from backend
-
     this._composerService.generateHTML(this.nftContent).subscribe((data: any) => {
       if (!!data && !!data.Response && data.Response !== '') {
         this.htmlStr = atob(data.Response);

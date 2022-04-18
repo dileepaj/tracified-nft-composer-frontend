@@ -6,15 +6,42 @@
       </button>
     </h2>
   </div>
-  <div class="content-div"></div>
+  <div class="content-div">
+    <mat-icon class="tl-icon" *ngIf="childrenOne.length === 0">
+      event_note
+    </mat-icon>
+
+    <div class="timeline-content" *ngIf="childrenOne.length > 0">
+      <ul class="timeline">
+        <div *ngFor="let childrenOne of childrenOne">
+          <h3 class="timeline-title">
+            <b>{{ childrenOne.Title }}</b>
+          </h3>
+          <div *ngFor="let childrenTwo of childrenOne.Children">
+            <li class="timeline-item">
+              <p class="timeline-text">
+                {{ childrenTwo.Key }} : {{ childrenTwo.Value }}
+              </p>
+            </li>
+          </div>
+        </div>
+      </ul>
+    </div>
+  </div>
   <div class="widget-footer">
-    <button mat-button class="btn" style="float: right">
+    <button mat-button class="btn" style="float: right" (click)="openAddData()">
       <mat-icon>add_circle</mat-icon>
       Add Data
     </button>
-    <button mat-button class="btn" *ngIf="otpAdded()" style="float: right">
-      <mat-icon>edit</mat-icon>
-      Configure
+    <button
+      mat-button
+      class="btn"
+      style="float: right"
+      (click)="openDialog()"
+      *ngIf="viewBtn"
+    >
+      <mat-icon>visibility</mat-icon>
+      View
     </button>
   </div>
 </div>

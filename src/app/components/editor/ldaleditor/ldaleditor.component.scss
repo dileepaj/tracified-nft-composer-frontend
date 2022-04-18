@@ -2,9 +2,7 @@
 @import "../../../../scss/mixins";
 
 .ace-editor {
-  border: 2px solid #f8f9fa;
-  width: 100%;
-  height: 500px;
+  height: 480px;
 }
 
 .ldal-div {
@@ -15,10 +13,17 @@
   right: 0;
   left: 0;
   position: absolute;
+  padding-top: 5px;
 }
 
 .btn-execute {
   @include btn-accent;
+  margin: 5px;
+  //float: right;
+}
+.btn-output {
+  color: #212121;
+  background-color: #e0e0e0;
   margin: 5px;
   //float: right;
 }
@@ -44,8 +49,11 @@
 }
 
 .query-area {
-  display: flex;
-  flex-direction: column;
+  top: 60px;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  position: absolute;
 }
 
 .results {
@@ -56,7 +64,58 @@
 }
 
 .btn-execute-save {
- background-color: rgb(243, 197, 44);
+  background-color: rgb(243, 197, 44);
   margin: 5px;
   //float: right;
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner:before {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  margin-left: -10px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  border-top-color: #000000;
+  animation: spinner 0.8s linear infinite;
+}
+
+.warning {
+  background: #fff9c4;
+  //max-width: fit-content;
+  border-radius: 5px;
+  color: #fbc02d;
+  padding: 5px 10px 5px 10px;
+  font-weight: 500;
+}
+
+.warning-icon {
+  vertical-align: middle;
+}
+
+.btn-tgl-div {
+  margin-left: 2px;
+}
+
+.btn-tgl {
+}
+
+.output {
+  background: #212121;
+  height: 480px;
+  overflow: auto;
+  font-family: Courier New;
+  color: white;
+  padding: 10px;
 }

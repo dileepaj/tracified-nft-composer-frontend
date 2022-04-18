@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
 import { AppState } from 'src/app/store/app.state';
@@ -12,8 +13,14 @@ import {
   selectNFTContent,
   selectTimeline,
 } from 'src/app/store/nft-state-store/nft.selector';
-import { Timeline } from 'src/models/nft-content/timeline';
+import { NFTContent } from 'src/models/nft-content/nft.content';
+import { Timeline, TimelineData } from 'src/models/nft-content/timeline';
 import { timeline } from 'src/models/nft-content/widgetTypes';
+import { TimelineViewComponent } from '../../modals/timeline-view/timeline-view.component';
+import { WidgetContentComponent } from '../../modals/widget-content/widget-content.component';
+import { BatchesService } from 'src/app/services/batches.service';
+import { TracibilityProfileWithTimeline } from 'src/app/entity/timeline';
+import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 
 @Component({
   selector: 'app-nft-timeline',
@@ -23,19 +30,27 @@ import { timeline } from 'src/models/nft-content/widgetTypes';
 export class NftTimelineComponent implements OnInit {
   @Input() id: any;
   @Output() onDeleteWidget: EventEmitter<any> = new EventEmitter();
-
-  nft$: any;
   private timeline: Timeline;
-  data: any[];
+  data: TimelineData[];
   projectId: string;
+  nftContent: NFTContent;
+  tabs: any[];
+  childrenOne: any[] = [];
+  childrenTwo: any[] = [];
+  title: any;
+  key: any;
+  value: any;
+  viewBtn: boolean = false;
 
   constructor(
     private store: Store<AppState>,
-    private service: DndServiceService
+    private service: DndServiceService,
+    public dialog: MatDialog,
+    private _batchService: BatchesService,
+    private composerService: ComposerBackendService
   ) {
-    this.nft$ = this.store.select(selectNFTContent);
     this.store.select(selectNFTContent).subscribe((content) => {
-      this.projectId = content.ProjectId;
+      this.nftContent = content;
     });
   }
 
@@ -43,12 +58,21 @@ export class NftTimelineComponent implements OnInit {
     //check if the widget is already in the redux store
     if (!this.service.widgetExists(this.id)) {
       this.addTimelineToStore();
-    } else {
-      this.getTimeline();
     }
+    this.store.select(selectTimeline).subscribe((timelines) => {
+      timelines.map((timeline) => {
+        if (timeline.WidgetId === this.id) {
+          this.timeline = timeline;
+          if (timeline.TimelineData !== undefined) {
+            this.childrenOne = timeline.TimelineData!;
+            this.viewBtn = true;
+          }
+        }
+      });
+    });
   }
 
-  otpAdded(): boolean {
+  public otpAdded(): boolean {
     let buttonState = false;
     this.store.select(selectCardStatus).subscribe((data) => {
       if (data.some((e) => e.WidgetId === this.id)) {
@@ -63,8 +87,8 @@ export class NftTimelineComponent implements OnInit {
     this.timeline = {
       WidgetId: this.id,
       WidgetType: timeline,
-      ProjectId: this.projectId,
-      data: this.data,
+      ProjectId: this.nftContent.ProjectId,
+      TimelineData: this.data,
     };
 
     this.store.dispatch(addTimeline({ timeline: this.timeline }));
@@ -72,18 +96,38 @@ export class NftTimelineComponent implements OnInit {
   }
 
   //delete timeline widget
-  deleteWidget() {
-    this.store.dispatch(deleteTimeline({ timeline: this.timeline }));
-    this.onDeleteWidget.emit(this.id);
+  public deleteWidget() {
+    this.composerService.deleteTimeline(this.id).subscribe({
+      next: (res) => {},
+      error: (err) => {
+        alert('Error');
+      },
+      complete: () => {
+        this.store.dispatch(deleteTimeline({ timeline: this.timeline }));
+        this.onDeleteWidget.emit(this.id);
+      },
+    });
   }
 
-  getTimeline() {
-    this.store.select(selectTimeline).subscribe((data) => {
-      data.map((tl) => {
-        if (tl.WidgetId === this.id) {
-          this.timeline = tl;
-        }
-      });
+  //batch selection popup
+  public openAddData() {
+    const dialogRef = this.dialog.open(WidgetContentComponent, {
+      data: {
+        id: this.id,
+        userId: this.nftContent.UserId,
+        widget: this.timeline,
+      },
+    });
+  }
+
+  //open the view timeline popup
+  public openDialog() {
+    const dialogRef = this.dialog.open(TimelineViewComponent, {
+      data: {
+        id: this.id,
+        widget: this.timeline,
+        timelineData: this.childrenOne,
+      },
     });
   }
 }

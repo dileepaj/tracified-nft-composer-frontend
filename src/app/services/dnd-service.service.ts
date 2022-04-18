@@ -19,16 +19,16 @@ export class DndServiceService {
     return this.usedWidget$;
   }
 
-  addWidget(widget: Widget) {
+  public addWidget(widget: Widget) {
     this.usedWidget$.push(widget);
   }
 
-  rewriteWidgetArr(arr: Widget[]) {
+  public rewriteWidgetArr(arr: Widget[]) {
     this.usedWidget$ = arr;
     this.rewriteReduxArray(arr);
   }
 
-  widgetExists(id: any) {
+  public widgetExists(id: any) {
     let status = false;
     this.usedWidget$.map((widget) => {
       if (widget._Id === id) {
@@ -38,7 +38,7 @@ export class DndServiceService {
     return status;
   }
 
-  updateUsedStatus(id: any) {
+  public updateUsedStatus(id: any) {
     this.usedWidget$.map((widget) => {
       if (widget._Id === id) {
         widget.used = true;
@@ -61,7 +61,7 @@ export class DndServiceService {
     this.store.dispatch(setWidgetOrder({ widgetOrder: warr }));
   }
 
-  setSavedStatus(id: string) {
+  public setSavedStatus(id: string) {
     this.usedWidget$.map((widget) => {
       if (widget._Id === id) {
         widget.saved = true;
@@ -69,7 +69,7 @@ export class DndServiceService {
     });
   }
 
-  getSavedStatus(id: string): boolean {
+  public getSavedStatus(id: string): boolean {
     let status = false;
     this.usedWidget$.map((widget) => {
       if (widget._Id === id) {
@@ -79,7 +79,7 @@ export class DndServiceService {
     return status;
   }
 
-  setBatchStatus(id: string) {
+  public setBatchStatus(id: string) {
     this.usedWidget$.map((widget) => {
       if (widget._Id === id) {
         widget.batch = true;
@@ -87,7 +87,7 @@ export class DndServiceService {
     });
   }
 
-  getBatchStatus(id: string): boolean {
+  public getBatchStatus(id: string): boolean {
     let status = false;
     this.usedWidget$.map((widget) => {
       if (widget._Id === id) {

@@ -10,6 +10,8 @@ import { AppState } from 'src/app/store/app.state';
 import {
   loadProject,
   newProject,
+  setCardStatus,
+  setQueryResult,
 } from 'src/app/store/nft-state-store/nft.actions';
 import { Chart } from 'src/models/nft-content/chart';
 import { RecentProject } from 'src/models/nft-content/htmlGenerator';
@@ -26,6 +28,10 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
+import { CardStatus, QueryResult } from 'src/models/nft-content/cardStatus';
+
+import * as MomentAll from 'moment';
+
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
@@ -40,6 +46,7 @@ export class ProjectsComponent implements OnInit {
   userId: string = '';
   loading: boolean = false;
   projToBeLoaded: string = '';
+  projToBeDeleted: string = '';
   horizontalPosition: MatSnackBarHorizontalPosition = 'end';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
@@ -54,7 +61,6 @@ export class ProjectsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loading = true;
     let user: string = sessionStorage.getItem('User') || '';
     if (user !== '') {
       this.user = JSON.parse(user);
@@ -62,6 +68,11 @@ export class ProjectsComponent implements OnInit {
     this.route.paramMap.subscribe((params) => {
       this.userId = params.get('userId') || '';
     });
+    this.getRecentProjects();
+  }
+
+  public getRecentProjects() {
+    this.loading = true;
     this.apiService.getRecentProjects(this.userId).subscribe((result) => {
       if (result) {
         this.projects = result.Response;
@@ -70,9 +81,18 @@ export class ProjectsComponent implements OnInit {
     });
   }
 
-  addDragAndDropArray(widgets: any[]) {
-    let warr: Widget[] = [];
+  public convertDate(date: any): string {
+    const stillUtc = MomentAll.utc(date).toDate();
+    // MomentAll(date).zone((new Date()).getTimezoneOffset()).format('YYYY-MM-DD hh:mm A')
+    const local = MomentAll(date)
+      .zone(new Date().getTimezoneOffset())
+      .format('MMM D, YYYY');
+    // MomentAll(stillUtc).local().format('LLLL');
+    return local;
+  }
 
+  private addDragAndDropArray(widgets: any[]) {
+    let warr: Widget[] = [];
     widgets.map((widget) => {
       warr.push({
         _Id: widget.WidgetId,
@@ -86,25 +106,24 @@ export class ProjectsComponent implements OnInit {
     this.dndService.rewriteWidgetArr(warr);
   }
 
-  openNewProject() {
+  public openNewProject() {
     const dialogRef = this.dialog.open(NewProjectComponent, {
       data: {
         user: this.user,
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
-    });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
 
-  openExistingProject(id: string) {
+  public openExistingProject(id: string) {
     this.projToBeLoaded = id;
     this.apiService.openExistingProject(id).subscribe({
       next: (data) => {
         const proj = data.Response;
-        console.log(proj);
         let contOrder: any[] = [];
+        let cardStatus: CardStatus[] = [];
+        let queryResult: QueryResult[] = [];
         let barcharts: Chart[] = [];
         let piecharts: Chart[] = [];
         let bubblecharts: Chart[] = [];
@@ -115,6 +134,12 @@ export class ProjectsComponent implements OnInit {
 
         proj.Project.ContentOrderData.map((widget: any) => {
           contOrder.push({ WidgetId: widget.WidgetId, Type: widget.Type });
+          cardStatus.push({
+            WidgetId: widget.WidgetId,
+            WidgetType: widget.Type,
+            DataSelected: true,
+          });
+          queryResult.push({ WidgetId: widget.WidgetId, queryResult: '' });
         });
 
         if (proj.BarCharts) {
@@ -123,6 +148,7 @@ export class ProjectsComponent implements OnInit {
             ch = {
               ...ch,
               BactchId: chart.Widget.BatchId,
+              ArtifactId: chart.Widget.ArtifactId,
               ProductName: chart.Widget.productName,
               TenentId: chart.Widget.TenentiD,
               UserId: chart.Widget.UserId,
@@ -131,7 +157,6 @@ export class ProjectsComponent implements OnInit {
               Query: chart.Widget.Query,
               WidgetType: chart.Widget.WidgetType,
             };
-
             barcharts.push(ch);
           });
         }
@@ -142,6 +167,7 @@ export class ProjectsComponent implements OnInit {
             ch = {
               ...ch,
               BactchId: chart.Widget.BatchId,
+              ArtifactId: chart.Widget.ArtifactId,
               ProductName: chart.Widget.productName,
               TenentId: chart.Widget.TenentiD,
               UserId: chart.Widget.UserId,
@@ -150,7 +176,6 @@ export class ProjectsComponent implements OnInit {
               Query: chart.Widget.Query,
               WidgetType: chart.Widget.WidgetType,
             };
-
             piecharts.push(ch);
           });
         }
@@ -160,6 +185,7 @@ export class ProjectsComponent implements OnInit {
             ch = {
               ...ch,
               BactchId: chart.Widget.BatchId,
+              ArtifactId: chart.Widget.ArtifactId,
               ProductName: chart.Widget.productName,
               TenentId: chart.Widget.TenentiD,
               UserId: chart.Widget.UserId,
@@ -168,7 +194,6 @@ export class ProjectsComponent implements OnInit {
               Query: chart.Widget.Query,
               WidgetType: chart.Widget.WidgetType,
             };
-
             bubblecharts.push(ch);
           });
         }
@@ -179,6 +204,7 @@ export class ProjectsComponent implements OnInit {
             tb = {
               ...tb,
               BactchId: table.Widget.BatchId,
+              ArtifactId: table.Widget.ArtifactId,
               ProductName: table.Widget.productName,
               TenentId: table.Widget.TenentiD,
               UserId: table.Widget.UserId,
@@ -187,7 +213,6 @@ export class ProjectsComponent implements OnInit {
               Query: table.Widget.Query,
               WidgetType: table.Widget.WidgetType,
             };
-
             tables.push(tb);
           });
         }
@@ -196,6 +221,18 @@ export class ProjectsComponent implements OnInit {
           proj.Images.map((image: any) => {
             let img: Image = image;
             images.push(img);
+          });
+        }
+
+        if (proj.Timeline) {
+          proj.Timeline.map((tl: any) => {
+            timeline.push(tl);
+          });
+        }
+
+        if (proj.ProofBot) {
+          proj.ProofBot.map((pb: any) => {
+            proofbot.push(pb);
           });
         }
 
@@ -214,31 +251,52 @@ export class ProjectsComponent implements OnInit {
             BubbleCharts: bubblecharts,
             Tables: tables,
             Images: images,
-            Timeline: [],
-            ProofBotData: [],
+            Timeline: timeline,
+            ProofBot: proofbot,
             Stats: [],
             CarbonFootprint: [],
           },
         };
 
-        console.log(this.loadedProject);
-
         this.store.dispatch(loadProject({ nftContent: this.loadedProject }));
+        this.store.dispatch(setCardStatus({ cardStatus: cardStatus }));
+        this.store.dispatch(setQueryResult({ queryResult: queryResult }));
+
         this.addDragAndDropArray(this.loadedProject.ContentOrderData);
 
         this.projToBeLoaded = '';
-        this.router.navigate([`/layouts/project/${proj.Project.ProjectId}`]);
+
+        this.router.navigate([`/layout/home/${proj.Project.ProjectId}`]);
       },
       error: (err) => {
-        console.log(err);
         this.openSnackBar(
           'An unexpected error occured. Please try again later.'
         );
+        this.projToBeLoaded = '';
       },
     });
   }
 
-  openSnackBar(msg: string) {
+  public deleteProject(projectId: string) {
+    this.projToBeDeleted = projectId;
+
+    this.apiService.deleteProject(projectId).subscribe({
+      next: (res) => {},
+      error: (err) => {
+        this.openSnackBar(
+          'An unexpected error occured. Please try again later.'
+        );
+        this.projToBeDeleted = '';
+      },
+      complete: () => {
+        this.projToBeDeleted = '';
+        this.getRecentProjects();
+        this.openSnackBar('Project deleted!!');
+      },
+    });
+  }
+
+  public openSnackBar(msg: string) {
     this._snackBar.open(msg, 'OK', {
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,

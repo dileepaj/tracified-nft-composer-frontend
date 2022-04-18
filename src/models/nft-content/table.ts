@@ -1,7 +1,9 @@
 export interface Table {
   WidgetId: string;
   BactchId?: string;
+  ArtifactId?: string;
   ProductName?: string;
+  ProductId?: string;
   TenentId?: string;
   ProjectId?: string;
   ProjectName?: string;

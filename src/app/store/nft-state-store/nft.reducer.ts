@@ -21,7 +21,10 @@ import {
   deleteTimeline,
   loadProject,
   newProject,
+  projectStatus,
   removeFromOrderArray,
+  setCardStatus,
+  setQueryResult,
   setWidgetOrder,
   updateBarChart,
   updateBubbleChart,
@@ -60,7 +63,7 @@ export const initialNft: NFTState = {
       BarCharts: [],
       PieCharts: [],
       BubbleCharts: [],
-      ProofBotData: [],
+      ProofBot: [],
       Timeline: [],
       Stats: [],
       Tables: [],
@@ -95,9 +98,19 @@ export const nftReducer = createReducer(
     return nftClone;
   }),
 
+  on(setQueryResult, (nft, { queryResult }) => ({
+    ...nft,
+    queryResult: queryResult,
+  })),
+
   on(addCardtStatus, (nft, { cardStatus }) => ({
     ...nft,
     cardStatus: [...nft.cardStatus, cardStatus],
+  })),
+
+  on(setCardStatus, (nft, { cardStatus }) => ({
+    ...nft,
+    cardStatus: cardStatus,
   })),
 
   on(newProject, (nft, { nftContent }) => ({
@@ -110,6 +123,11 @@ export const nftReducer = createReducer(
     ...nft,
     nftContent: nftContent,
     newProj: false,
+  })),
+
+  on(projectStatus, (nft, { status }) => ({
+    ...nft,
+    newProj: status,
   })),
 
   on(addBarChart, (nft, { chart }) => ({
@@ -187,7 +205,7 @@ export const nftReducer = createReducer(
       ...nft.nftContent,
       NFTContent: {
         ...nft.nftContent.NFTContent,
-        ProofBotData: [...nft.nftContent.NFTContent.ProofBotData, proofBot],
+        ProofBotData: [...nft.nftContent.NFTContent.ProofBot, proofBot],
       },
     },
   })),
@@ -295,13 +313,13 @@ export const nftReducer = createReducer(
   on(updateProofBot, (nft, { proofBot }) => {
     const nftClone: NFTState = JSON.parse(JSON.stringify(nft));
     let i = 0;
-    nftClone.nftContent.NFTContent.ProofBotData.map((data) => {
+    nftClone.nftContent.NFTContent.ProofBot.map((data) => {
       if (data.WidgetId === proofBot.WidgetId) {
-        i = nftClone.nftContent.NFTContent.ProofBotData.indexOf(data);
+        i = nftClone.nftContent.NFTContent.ProofBot.indexOf(data);
       }
       return data;
     });
-    nftClone.nftContent.NFTContent.ProofBotData[i] = proofBot;
+    nftClone.nftContent.NFTContent.ProofBot[i] = proofBot;
     return nftClone;
   }),
 
@@ -371,8 +389,8 @@ export const nftReducer = createReducer(
   on(deleteProofBot, (nft, { proofBot }) => {
     const nftClone: NFTState = JSON.parse(JSON.stringify(nft));
     let i = 0;
-    nftClone.nftContent.NFTContent.ProofBotData =
-      nftClone.nftContent.NFTContent.ProofBotData.filter(
+    nftClone.nftContent.NFTContent.ProofBot =
+      nftClone.nftContent.NFTContent.ProofBot.filter(
         (data) => data.WidgetId !== proofBot.WidgetId
       );
     return nftClone;
