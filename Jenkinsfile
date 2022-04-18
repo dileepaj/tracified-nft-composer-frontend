@@ -1,6 +1,6 @@
 pipeline {
   agent { label 'linux-slave' }
-  tools {nodejs "nodejs-14.15.1"}
+  tools {nodejs "nodejs-12.20.1"}
   stages {
     stage('Build') {
       steps {
