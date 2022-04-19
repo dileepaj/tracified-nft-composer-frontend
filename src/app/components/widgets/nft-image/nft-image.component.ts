@@ -9,10 +9,12 @@ import {
   EventEmitter,
   Output,
 } from '@angular/core';
+
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
+import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
 import { AppState } from 'src/app/store/app.state';
 import {
   addNFTImage,
@@ -46,7 +48,8 @@ export class NftImageComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     private service: DndServiceService,
-    private composerService: ComposerBackendService
+    private composerService: ComposerBackendService,
+    private popupMsgService: PopupMessageService
   ) {
     this.store.select(selectNFTContent).subscribe((content) => {
       this.projectId = content.ProjectId;
@@ -117,7 +120,9 @@ export class NftImageComponent implements OnInit {
     this.composerService.deleteImage(this.id).subscribe({
       next: (res) => {},
       error: (err) => {
-        alert(err);
+        this.popupMsgService.openSnackBar(
+          'An unexpected error occured. Please try again later'
+        );
       },
       complete: () => {
         this.store.dispatch(deleteNFTImage({ image: this.image }));

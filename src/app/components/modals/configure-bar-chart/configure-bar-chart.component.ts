@@ -19,11 +19,7 @@ import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 import { barchart } from 'src/models/nft-content/widgetTypes';
-import {
-  MatSnackBar,
-  MatSnackBarHorizontalPosition,
-  MatSnackBarVerticalPosition,
-} from '@angular/material/snack-bar';
+
 import { DndServiceService } from 'src/app/services/dnd-service.service';
 import { color } from 'd3';
 import {
@@ -34,6 +30,7 @@ import {
   ChartOptions,
 } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
+import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
 
 @Component({
   selector: 'app-configure-bar-chart',
@@ -43,8 +40,6 @@ import { BaseChartDirective } from 'ng2-charts';
 })
 export class ConfigureBarChartComponent implements OnInit {
   nft$: any;
-  horizontalPosition: MatSnackBarHorizontalPosition = 'end';
-  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   tabIndex: number = 0;
   barChart: Chart;
   chartId: any;
@@ -86,14 +81,13 @@ export class ConfigureBarChartComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialog: MatDialog,
     private composerService: ComposerBackendService,
-    private _snackBar: MatSnackBar,
+    private popupMsgService: PopupMessageService,
     private dndService: DndServiceService
   ) {
     this.nft$ = this.store.select(selectNFTContent);
   }
 
   ngOnInit(): void {
-    //this.setValueToBarChart();
     this.chartId = this.data.id;
     this.barChart = this.data.widget;
   }
@@ -225,14 +219,14 @@ export class ConfigureBarChartComponent implements OnInit {
         next: (res) => {},
         error: (err) => {
           this.saving = false;
-          this.openSnackBar(
+          this.popupMsgService.openSnackBar(
             'An unexpected error occured. Please try again later'
           );
         },
         complete: () => {
           this.saving = false;
           this.dndService.setSavedStatus(chart.WidgetId);
-          this.openSnackBar('Saved!!');
+          this.popupMsgService.openSnackBar('Saved!!');
           this.dialog.closeAll();
         },
       });
@@ -241,14 +235,13 @@ export class ConfigureBarChartComponent implements OnInit {
         next: (res) => {},
         error: (err) => {
           this.saving = false;
-          console.log(err);
-          this.openSnackBar(
+          this.popupMsgService.openSnackBar(
             'An unexpected error occured. Please try again later'
           );
         },
         complete: () => {
           this.saving = false;
-          this.openSnackBar('Saved!!');
+          this.popupMsgService.openSnackBar('Saved!!');
           this.dialog.closeAll();
         },
       });
@@ -257,15 +250,6 @@ export class ConfigureBarChartComponent implements OnInit {
 
   public onQuerySuccess(event: any) {
     this.tabIndex = 1;
-  }
-
-  public openSnackBar(msg: string) {
-    this._snackBar.open(msg, 'OK', {
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-      panelClass: ['snackbar'],
-      duration: 5 * 1000,
-    });
   }
 
   private setLabels() {

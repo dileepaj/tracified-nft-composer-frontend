@@ -46,9 +46,5 @@ export class WidgetContentComponent implements OnInit {
         widget: this.widget,
       },
     });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
-    });
   }
 }

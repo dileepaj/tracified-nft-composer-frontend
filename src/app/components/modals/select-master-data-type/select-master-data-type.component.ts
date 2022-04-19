@@ -24,7 +24,6 @@ export class SelectMasterDataTypeComponent implements OnInit {
     this.id = this.data.id;
     this.widget = this.data.widget;
     this.artifactService.getArtifacts().subscribe((data) => {
-      console.log(data);
       this.artifacts = data;
     });
   }

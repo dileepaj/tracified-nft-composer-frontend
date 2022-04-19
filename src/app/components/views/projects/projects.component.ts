@@ -23,14 +23,10 @@ import { Timeline } from 'src/models/nft-content/timeline';
 import { NewProjectComponent } from '../../modals/new-project/new-project.component';
 import { Widget } from '../composer/composer.component';
 import { ComposerUser } from 'src/models/user';
-import {
-  MatSnackBar,
-  MatSnackBarHorizontalPosition,
-  MatSnackBarVerticalPosition,
-} from '@angular/material/snack-bar';
 import { CardStatus, QueryResult } from 'src/models/nft-content/cardStatus';
 
 import * as MomentAll from 'moment';
+import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
 
 @Component({
   selector: 'app-projects',
@@ -47,8 +43,6 @@ export class ProjectsComponent implements OnInit {
   loading: boolean = false;
   projToBeLoaded: string = '';
   projToBeDeleted: string = '';
-  horizontalPosition: MatSnackBarHorizontalPosition = 'end';
-  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
   constructor(
     private store: Store<AppState>,
@@ -57,7 +51,7 @@ export class ProjectsComponent implements OnInit {
     private apiService: ComposerBackendService,
     private dndService: DndServiceService,
     public dialog: MatDialog,
-    private _snackBar: MatSnackBar
+    private popupMsgService: PopupMessageService
   ) {}
 
   ngOnInit(): void {
@@ -83,11 +77,9 @@ export class ProjectsComponent implements OnInit {
 
   public convertDate(date: any): string {
     const stillUtc = MomentAll.utc(date).toDate();
-    // MomentAll(date).zone((new Date()).getTimezoneOffset()).format('YYYY-MM-DD hh:mm A')
     const local = MomentAll(date)
       .zone(new Date().getTimezoneOffset())
       .format('MMM D, YYYY');
-    // MomentAll(stillUtc).local().format('LLLL');
     return local;
   }
 
@@ -269,7 +261,7 @@ export class ProjectsComponent implements OnInit {
         this.router.navigate([`/layout/home/${proj.Project.ProjectId}`]);
       },
       error: (err) => {
-        this.openSnackBar(
+        this.popupMsgService.openSnackBar(
           'An unexpected error occured. Please try again later.'
         );
         this.projToBeLoaded = '';
@@ -283,7 +275,7 @@ export class ProjectsComponent implements OnInit {
     this.apiService.deleteProject(projectId).subscribe({
       next: (res) => {},
       error: (err) => {
-        this.openSnackBar(
+        this.popupMsgService.openSnackBar(
           'An unexpected error occured. Please try again later.'
         );
         this.projToBeDeleted = '';
@@ -291,17 +283,8 @@ export class ProjectsComponent implements OnInit {
       complete: () => {
         this.projToBeDeleted = '';
         this.getRecentProjects();
-        this.openSnackBar('Project deleted!!');
+        this.popupMsgService.openSnackBar('Project deleted!!');
       },
-    });
-  }
-
-  public openSnackBar(msg: string) {
-    this._snackBar.open(msg, 'OK', {
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-      panelClass: ['snackbar'],
-      duration: 5 * 1000,
     });
   }
 }
