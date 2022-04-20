@@ -3,7 +3,7 @@ export const environment = {
   name: 'qa',
   backendUrl: 'https://qa.api.tracified.com',
   adminUrl: 'https://qa.admin.api.tracified.com',
-  composerBackend: 'https://qa.nftapi.tracified.com/api',
+  composerBackend: 'https://qa.api.nft.tracified.com',
   gateway: 'https://qa.gateway.tracified.com',
   domain: '.tracified.com',
 };

@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { ComposerUser } from 'src/models/user';
-import { addUser } from './user.action';
+import { addUser, addUsername } from './user.action';
 
 export interface UserState {
   userDetails: ComposerUser;
@@ -27,5 +27,12 @@ export const userReducer = createReducer(
   on(addUser, (userState, { userDetails }) => ({
     ...userState,
     userDetails: userDetails,
+  })),
+  on(addUsername, (userState, { username }) => ({
+    ...userState,
+    userDetails: {
+      ...userState.userDetails,
+      UserName: username,
+    },
   }))
 );
