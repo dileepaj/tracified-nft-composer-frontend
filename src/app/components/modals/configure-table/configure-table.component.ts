@@ -59,6 +59,7 @@ export class ConfigureTableComponent implements OnInit {
   ngOnInit(): void {
     this.tableId = this.data.id;
     this.table = this.data.widget;
+    this.query = this.table.Query!;
   }
 
   private showChart() {}
@@ -197,5 +198,6 @@ export class ConfigureTableComponent implements OnInit {
 
   public onQuerySuccess(event: any) {
     this.tabIndex = 1;
+    this.query = event.query;
   }
 }

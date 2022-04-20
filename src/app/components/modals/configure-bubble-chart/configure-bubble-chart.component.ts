@@ -80,6 +80,7 @@ export class ConfigureBubbleChartComponent implements OnInit {
   ngOnInit(): void {
     this.chartId = this.data.id;
     this.bubbleChart = this.data.widget;
+    this.query = this.bubbleChart.Query!;
   }
 
   //check , executed query save or not  use this function for show the congigure button
@@ -242,6 +243,7 @@ export class ConfigureBubbleChartComponent implements OnInit {
 
   public onQuerySuccess(event: any) {
     this.tabIndex = 1;
+    this.query = event.query;
   }
 
   private setLabels() {
