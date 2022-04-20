@@ -4,7 +4,8 @@
   </div>
   <div class="content-div">
     <div class="code-content">
-      <pre><code data-ln-start-from="1" [highlight]="code"></code></pre>
+      <mat-progress-bar mode="indeterminate" *ngIf="loaded"></mat-progress-bar>
+      <pre><code data-ln-start-from="1" [highlight]="code" [hidden]="loaded"></code></pre>
     </div>
   </div>
 </div>
