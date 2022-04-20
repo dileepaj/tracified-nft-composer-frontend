@@ -9,6 +9,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class HtmlCodebehindComponent implements OnInit {
   code: any;
+  loaded: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<HtmlCodebehindComponent>,
@@ -16,6 +17,8 @@ export class HtmlCodebehindComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.loaded = true;
     this.code = this.data.htmlCode;
+    this.loaded = false;
   }
 }

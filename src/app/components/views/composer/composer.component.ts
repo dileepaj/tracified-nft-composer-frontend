@@ -68,6 +68,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   id: string;
   private sub: any;
   saving: boolean = false;
+  generated: boolean = false;
 
   widgetTypes: any = {
     timeline: timeline,
@@ -292,13 +293,16 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   }
 
   public generateHTML() {
+    this.generated = true;
     this.getNftContent();
     this.composerService.generateHTML(this.nftContent).subscribe({
       next: (data: any) => {
+        this.generated = false;
         const decodedRes = atob(data.Response);
         this.downloadFile(decodedRes, this.nftContent.NFTName, 'html');
       },
       error: (err) => {
+        this.generated = false;
         this.popupMsgService.openSnackBar(
           'An unexpected error occured. Please try again later'
         );
