@@ -4,6 +4,8 @@ import { Store } from '@ngrx/store';
 import { NFTContent } from 'src/models/nft-content/nft.content';
 import { AppState } from 'src/app/store/app.state';
 import { selectNFTContent } from 'src/app/store/nft-state-store/nft.selector';
+import { MatDialog } from '@angular/material/dialog';
+import { HtmlCodebehindComponent } from '../../modals/html-codebehind/html-codebehind.component';
 
 @Component({
   selector: 'app-nft-html',
@@ -21,7 +23,8 @@ export class NftHtmlComponent implements OnInit {
 
   constructor(
     private _composerService: ComposerBackendService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -39,16 +42,20 @@ export class NftHtmlComponent implements OnInit {
   }
   private populateIframe(iframe: any) {
     //get from backend
-    this._composerService
-      .generateHTML(this.nftContent)
-      .subscribe((data: any) => {
-        if (!!data && !!data.Response && data.Response !== '') {
-          this.htmlStr = atob(data.Response);
-          const content = this.htmlStr;
-          iframe.contentWindow.document.open();
-          iframe.contentWindow.document.write(content);
-          iframe.contentWindow.document.close();
-        }
-      });
+    this._composerService.generateHTML(this.nftContent).subscribe((data: any) => {
+      if (!!data && !!data.Response && data.Response !== '') {
+        this.htmlStr = atob(data.Response);    
+        const content = this.htmlStr;
+        iframe.contentWindow.document.open();
+        iframe.contentWindow.document.write(content);
+        iframe.contentWindow.document.close();
+      }
+    });
+  }
+
+  openCodebehindPopup(){
+    this.dialog.open(HtmlCodebehindComponent,{
+      data: {htmlCode: this.htmlStr}
+    });
   }
 }

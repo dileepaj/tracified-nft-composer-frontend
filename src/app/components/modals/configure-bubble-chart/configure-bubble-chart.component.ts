@@ -1,15 +1,11 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import {
-  MatSnackBar,
-  MatSnackBarHorizontalPosition,
-  MatSnackBarVerticalPosition,
-} from '@angular/material/snack-bar';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Store } from '@ngrx/store';
 import * as d3 from 'd3';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
+import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
 import { AppState } from 'src/app/store/app.state';
 import {
   addBubbleChart,
@@ -42,6 +38,7 @@ export class ConfigureBubbleChartComponent implements OnInit {
   bubbleChartOptions: any;
   labels: string[] = [];
   values: any = [];
+  loadedFromRedux: boolean = false;
   //data to be displayed in the pie chart
   bubbleChartData: Data[] = [
     { Name: 'Item 1', X: 100, Y: 60, Value: 1350 },
@@ -69,16 +66,13 @@ export class ConfigureBubbleChartComponent implements OnInit {
 
   saving: boolean = false;
 
-  horizontalPosition: MatSnackBarHorizontalPosition = 'end';
-  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
-
   constructor(
     private store: Store<AppState>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialog: MatDialog,
     private composerService: ComposerBackendService,
     private dndService: DndServiceService,
-    private _snackBar: MatSnackBar
+    private popupMsgService: PopupMessageService
   ) {
     this.nft$ = this.store.select(selectNFTContent);
   }
@@ -118,7 +112,6 @@ export class ConfigureBubbleChartComponent implements OnInit {
         });
 
         this.bubbleChartData = b;
-        console.log(this.bubbleChartData);
 
         this.setLabels();
         this.setValues();
@@ -174,7 +167,6 @@ export class ConfigureBubbleChartComponent implements OnInit {
             this.bubbleChartData = chart.ChartData!.filter((data) => data);
           }
           this.bubbleColors = chart.Color!.filter((data) => data);
-          console.log(this.bubbleColors);
           this.fontColor = chart.FontColor!;
           this.fontSize = chart.FontSize!;
           this.height = chart.Height!;
@@ -185,26 +177,29 @@ export class ConfigureBubbleChartComponent implements OnInit {
   }
 
   private assignValues() {
-    this.title = this.bubbleChart.ChartTitle!;
-    this.keyTitle = this.bubbleChart.KeyTitle;
-    this.batchId = this.bubbleChart.BactchId!;
-    this.productName = this.bubbleChart.ProductName!;
-    if (this.bubbleChart.ChartData!.length !== 0) {
-      this.bubbleChartData = this.bubbleChart.ChartData!.filter((data) => data);
+    if (!this.loadedFromRedux) {
+      this.title = this.bubbleChart.ChartTitle!;
+      this.keyTitle = this.bubbleChart.KeyTitle;
+      this.batchId = this.bubbleChart.BactchId!;
+      this.productName = this.bubbleChart.ProductName!;
+      if (this.bubbleChart.ChartData!.length !== 0) {
+        this.bubbleChartData = this.bubbleChart.ChartData!.filter(
+          (data) => data
+        );
+      }
+      this.bubbleColors = this.bubbleChart.Color!.filter((data) => data);
+      this.fontColor = this.bubbleChart.FontColor!;
+      this.fontSize = this.bubbleChart.FontSize!;
+      this.height = this.bubbleChart.Height!;
+      this.width = this.bubbleChart.Width!;
+      this.loadedFromRedux = true;
+      this.setLabels();
+      this.setValues();
+      this.setColors();
     }
-    this.bubbleColors = this.bubbleChart.Color!.filter((data) => data);
-    console.log(this.bubbleColors);
-    this.fontColor = this.bubbleChart.FontColor!;
-    this.fontSize = this.bubbleChart.FontSize!;
-    this.height = this.bubbleChart.Height!;
-    this.width = this.bubbleChart.Width!;
-    this.setLabels();
-    this.setValues();
-    this.setColors();
   }
 
   private saveChart(chart: any) {
-    console.log('chart', chart);
     chart = {
       ...chart,
       Type: bubblechart,
@@ -216,14 +211,13 @@ export class ConfigureBubbleChartComponent implements OnInit {
         next: (res) => {},
         error: (err) => {
           this.saving = false;
-          console.log(err);
-          this.openSnackBar(
+          this.popupMsgService.openSnackBar(
             'An unexpected error occured. Please try again later'
           );
         },
         complete: () => {
           this.saving = false;
-          this.openSnackBar('Saved!!');
+          this.popupMsgService.openSnackBar('Saved!!');
           this.dndService.setSavedStatus(chart.WidgetId);
           this.dialog.closeAll();
         },
@@ -233,14 +227,13 @@ export class ConfigureBubbleChartComponent implements OnInit {
         next: (res) => {},
         error: (err) => {
           this.saving = false;
-          console.log(err);
-          this.openSnackBar(
+          this.popupMsgService.openSnackBar(
             'An unexpected error occured. Please try again later'
           );
         },
         complete: () => {
           this.saving = false;
-          this.openSnackBar('Saved!!');
+          this.popupMsgService.openSnackBar('Saved!!');
           this.dialog.closeAll();
         },
       });
@@ -286,7 +279,6 @@ export class ConfigureBubbleChartComponent implements OnInit {
     this.setColors();
     this.setValues();
     this.setLabels();
-    console.log(this.values);
     this.chartData = {
       labels: [],
       datasets: this.values,
@@ -324,14 +316,5 @@ export class ConfigureBubbleChartComponent implements OnInit {
         },
       },
     };
-  }
-
-  public openSnackBar(msg: string) {
-    this._snackBar.open(msg, 'OK', {
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-      panelClass: ['snackbar'],
-      duration: 5 * 1000,
-    });
   }
 }

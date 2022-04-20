@@ -1,14 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import {
-  MatSnackBar,
-  MatSnackBarHorizontalPosition,
-  MatSnackBarVerticalPosition,
-} from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { ArtifactService } from 'src/app/services/artifact.service';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
+import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
 import { UserserviceService } from 'src/app/services/userservice.service';
 import { AppState } from 'src/app/store/app.state';
 import {
@@ -49,8 +45,6 @@ export class SelectDataComponent implements OnInit {
   columns: string[] = [];
   id: any;
   widget: any;
-  horizontalPosition: MatSnackBarHorizontalPosition = 'end';
-  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   artifactAlreadySelected: boolean = false;
 
   constructor(
@@ -60,7 +54,7 @@ export class SelectDataComponent implements OnInit {
     private artifactService: ArtifactService,
     private composerService: ComposerBackendService,
     private dndService: DndServiceService,
-    private _snackBar: MatSnackBar,
+    private popupMsgService: PopupMessageService,
     private userService: UserserviceService
   ) {}
 
@@ -71,16 +65,13 @@ export class SelectDataComponent implements OnInit {
       this.artifactAlreadySelected = true;
     }
     this.user = this.userService.getCurrentUser();
-    console.log(this.user);
     this.artifact = this.data.artifact;
-    console.log('artifact', this.artifact);
     this.createColumns();
     this.displayFields = this.artifact.displayFields;
     this.artifactService
       .getArtifactDataById(this.artifact.id)
       .subscribe((data) => {
         this.dataSource = data;
-        console.log(this.dataSource[0]);
       });
   }
 
@@ -90,10 +81,6 @@ export class SelectDataComponent implements OnInit {
         id: this.id,
         widget: this.widget,
       },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
     });
   }
 
@@ -115,7 +102,6 @@ export class SelectDataComponent implements OnInit {
       this.columns.push(field.name);
       this.keys.push(field.key);
     });
-    console.log(this.keys);
   }
 
   public updateReduxState() {
@@ -128,22 +114,30 @@ export class SelectDataComponent implements OnInit {
       ArtifactId: this.artifact.id,
     };
 
-    if (this.widget.WidgetType === barchart) {
-      this.store.dispatch(updateBarChart({ chart: this.widget }));
-    } else if (this.widget.WidgetType === piechart) {
-      this.store.dispatch(updatePieChart({ chart: this.widget }));
-    } else if (this.widget.WidgetType === bubblechart) {
-      this.store.dispatch(updateBubbleChart({ chart: this.widget }));
-    } else if (this.widget.WidgetType === proofbot) {
-      this.store.dispatch(updateProofBot({ proofBot: this.widget }));
-    } else if (this.widget.WidgetType === timeline) {
-      this.store.dispatch(updateTimeline({ timeline: this.widget }));
-    } else if (this.widget.WidgetType === carbonFp) {
-      this.store.dispatch(
-        updateCarbonFootprint({ carbonFootprint: this.widget })
-      );
-    } else if (this.widget.WidgetType === table) {
-      this.store.dispatch(updateTable({ table: this.widget }));
+    switch (this.widget.WidgetType) {
+      case barchart:
+        this.store.dispatch(updateBarChart({ chart: this.widget }));
+        break;
+      case piechart:
+        this.store.dispatch(updatePieChart({ chart: this.widget }));
+        break;
+      case bubblechart:
+        this.store.dispatch(updateBubbleChart({ chart: this.widget }));
+        break;
+      case proofbot:
+        this.store.dispatch(updateProofBot({ proofBot: this.widget }));
+        break;
+      case timeline:
+        this.store.dispatch(updateTimeline({ timeline: this.widget }));
+        break;
+      case carbonFp:
+        this.store.dispatch(
+          updateCarbonFootprint({ carbonFootprint: this.widget })
+        );
+        break;
+      case table:
+        this.store.dispatch(updateTable({ table: this.widget }));
+        break;
     }
 
     this.saveWidget();
@@ -172,12 +166,13 @@ export class SelectDataComponent implements OnInit {
         next: (res) => {},
         error: (err) => {
           this.saving = false;
-          console.log('err', err);
-          this.openSnackBar(err);
+          this.popupMsgService.openSnackBar(
+            'An unexpected error occured. Please try again later'
+          );
         },
         complete: () => {
           this.saving = false;
-          this.openSnackBar('Saved!!');
+          this.popupMsgService.openSnackBar('Saved!!');
           //put the Data save status to sti
           this.store.dispatch(
             addCardtStatus({
@@ -197,26 +192,16 @@ export class SelectDataComponent implements OnInit {
         next: (res) => {},
         error: (err) => {
           this.saving = false;
-          //this.openSnackBar(JSON.parse(err.error.message));
-          this.openSnackBar(
+          this.popupMsgService.openSnackBar(
             'An unexpected error occured. Please try again later'
           );
         },
         complete: () => {
           this.saving = false;
-          this.openSnackBar('Saved!!');
+          this.popupMsgService.openSnackBar('Saved!!');
           this.close();
         },
       });
     }
-  }
-
-  public openSnackBar(msg: string) {
-    this._snackBar.open(msg, 'OK', {
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-      panelClass: ['snackbar'],
-      duration: 5 * 1000,
-    });
   }
 }

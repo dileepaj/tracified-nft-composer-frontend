@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
+import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
 import { AppState } from 'src/app/store/app.state';
 import {
   addProofBot,
@@ -39,7 +40,8 @@ export class NftProofbotComponent implements OnInit {
     private store: Store<AppState>,
     private service: DndServiceService,
     private composerService: ComposerBackendService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private popupMsgService: PopupMessageService
   ) {
     this.store.select(selectNFTContent).subscribe((nft) => {
       this.projectId = nft.ProjectId;
@@ -57,6 +59,7 @@ export class NftProofbotComponent implements OnInit {
         if (widget.WidgetId == this.id) {
           this.proofbot = widget;
           if (widget.Data!.length > 0) {
+            this.proofUrls = [];
             this.buildProofsArray(widget.Data!);
             this.otpAdded = true;
           }
@@ -84,7 +87,9 @@ export class NftProofbotComponent implements OnInit {
     this.composerService.deleteProofbot(this.id).subscribe({
       next: (res) => {},
       error: (err) => {
-        alert(err);
+        this.popupMsgService.openSnackBar(
+          'An unexpected error occured. Please try again later'
+        );
       },
       complete: () => {
         this.store.dispatch(deleteProofBot({ proofBot: this.proofbot }));
@@ -137,7 +142,5 @@ export class NftProofbotComponent implements OnInit {
       });
       this.proofUrls.push({ type: proofs[i], urls: urlSet });
     }
-
-    console.log(this.proofUrls);
   }
 }

@@ -5,3 +5,8 @@ export const addUser = createAction(
   '[add composer User] Add User',
   props<{ userDetails: ComposerUser }>()
 );
+
+export const addUsername = createAction(
+  '[add username] Add Username',
+  props<{ username: string }>()
+);

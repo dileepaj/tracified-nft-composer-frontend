@@ -19,7 +19,6 @@ export class ExpService {
       });
 
       if (decoded != null) {
-        // console.log(decoded.payload);
         const currentUser = JSON.parse(JSON.stringify(decoded.payload));
         this.exp = decoded.payload['exp'];
         this.currentExp = this.jwtService.getExp();

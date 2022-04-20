@@ -1,0 +1,47 @@
+@import "../../../../scss/mixins";
+@import "../../../../scss/variables";
+
+
+.content-div{
+  border: 2px solid #00C853;
+  border-radius: 8px 8px 8px 8px;
+}
+
+.code-content{
+  padding: 10px;
+  height: calc($modalHeight - 50px);
+  width: auto;
+  overflow: auto;
+}
+
+h2 mat-icon {
+  color: black;
+  float: right;
+  cursor: pointer;
+}
+
+/* for block of numbers */
+.hljs-ln-numbers {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+ 
+    text-align: center;
+    color: #ccc;
+    border-right: 1px solid #CCC;
+    vertical-align: top;
+    padding-right: 5px;
+ 
+    /* your custom style here */
+}
+ 
+/* for block of code */
+.hljs-ln-code {
+    padding-left: 10px;
+}
+
+
+
