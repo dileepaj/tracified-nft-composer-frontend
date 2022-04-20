@@ -41,9 +41,9 @@ export class JwtserviceService {
 
   public isEmpty(): boolean {
     if (this._cookieService.check(this.tokenName)) {
-      return true;
-    } else {
       return false;
+    } else {
+      return true;
     }
   }
 
@@ -73,7 +73,7 @@ export class JwtserviceService {
   }
 
   public destroyToken() {
-    const expireDate = MomentAll().add(30, 'y').toDate();
+    const expireDate = MomentAll().add(0, 's').toDate();
     this._cookieService.set(this.tokenName, '', expireDate, '/', this.domain);
     this._cookieService.set(this.expName, '', expireDate, '/', this.domain);
   }

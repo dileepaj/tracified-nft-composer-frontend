@@ -27,6 +27,7 @@ import { CardStatus, QueryResult } from 'src/models/nft-content/cardStatus';
 
 import * as MomentAll from 'moment';
 import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
+import { UserserviceService } from 'src/app/services/userservice.service';
 
 @Component({
   selector: 'app-projects',
@@ -51,14 +52,12 @@ export class ProjectsComponent implements OnInit {
     private apiService: ComposerBackendService,
     private dndService: DndServiceService,
     public dialog: MatDialog,
-    private popupMsgService: PopupMessageService
+    private popupMsgService: PopupMessageService,
+    private userServices: UserserviceService
   ) {}
 
   ngOnInit(): void {
-    let user: string = sessionStorage.getItem('User') || '';
-    if (user !== '') {
-      this.user = JSON.parse(user);
-    }
+    this.user = this.userServices.getCurrentUser();
     this.route.paramMap.subscribe((params) => {
       this.userId = params.get('userId') || '';
     });
