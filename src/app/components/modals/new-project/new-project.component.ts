@@ -3,6 +3,7 @@ import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
+import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
 import { AppState } from 'src/app/store/app.state';
 import { newProject } from 'src/app/store/nft-state-store/nft.actions';
 import { NFTContent } from 'src/models/nft-content/nft.content';
@@ -17,12 +18,14 @@ export class NewProjectComponent implements OnInit {
   projectName: string = '';
   nftName: string = '';
   user: ComposerUser;
+
   constructor(
     private store: Store<AppState>,
     private dialog: MatDialog,
     private dndService: DndServiceService,
     private router: Router,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private popupMsgService: PopupMessageService
   ) {}
 
   ngOnInit(): void {
@@ -61,7 +64,9 @@ export class NewProjectComponent implements OnInit {
       this.router.navigate([`/layout/home/${project.ProjectId}`]);
       this.dialog.closeAll();
     } else {
-      alert('Please give a project name and nft name');
+      this.popupMsgService.openSnackBar(
+        'Please give a project name and nft name'
+      );
     }
   }
 }

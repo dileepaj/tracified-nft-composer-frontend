@@ -11,13 +11,9 @@ import {
 } from '@angular/core';
 import * as ace from 'ace-builds';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
-import {
-  MatSnackBar,
-  MatSnackBarHorizontalPosition,
-  MatSnackBarVerticalPosition,
-} from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { addQueryResult } from 'src/app/store/nft-state-store/nft.actions';
+import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
 
 @Component({
   selector: 'app-ldaleditor',
@@ -35,8 +31,6 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
   staticWordCompleter: any;
   aceEditor: ace.Ace.Editor;
   loading: boolean = false;
-  horizontalPosition: MatSnackBarHorizontalPosition = 'end';
-  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   queryRes = false;
   res: any;
   showOutput: boolean = false;
@@ -215,7 +209,7 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
 
   constructor(
     private apiService: ComposerBackendService,
-    private _snackBar: MatSnackBar,
+    private popupMsgService: PopupMessageService,
     private store: Store
   ) {}
 
@@ -284,15 +278,6 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
     };
   }
 
-  public openSnackBar(msg: string) {
-    this._snackBar.open(msg, 'OK', {
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-      panelClass: ['snackbar'],
-      duration: 5 * 1000,
-    });
-  }
-
   private saveExecuter() {
     if (!!this.res && !!this.res.Response.result) {
       this.store.dispatch(
@@ -303,9 +288,9 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
           },
         })
       );
-      this.openSnackBar('Query Saved!!');
+      this.popupMsgService.openSnackBar('Query Saved!!');
     } else {
-      this.openSnackBar('Invalid query result formate');
+      this.popupMsgService.openSnackBar('Invalid query result formate');
     }
   }
 
@@ -328,7 +313,9 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
       },
       error: (err) => {
         this.loading = false;
-        alert('An unexpected error occured. Please try again later');
+        this.popupMsgService.openSnackBar(
+          'An unexpected error occured. Please try again later'
+        );
       },
       complete: () => {
         this.queryRes = true;
@@ -357,7 +344,9 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
         });
         this.saveExecuter();
       } else {
-        this.openSnackBar('Invalid output. Please check the query.');
+        this.popupMsgService.openSnackBar(
+          'Invalid output. Please check the query.'
+        );
       }
     } else if (this.type === 'bubble') {
       if (
@@ -374,7 +363,9 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
         });
         this.saveExecuter();
       } else {
-        this.openSnackBar('Invalid output. Please check the query.');
+        this.popupMsgService.openSnackBar(
+          'Invalid output. Please check the query.'
+        );
       }
     } else if (this.type === 'table') {
       if (
@@ -387,10 +378,14 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
         });
         this.saveExecuter();
       } else {
-        this.openSnackBar('Invalid output. Please check the query.');
+        this.popupMsgService.openSnackBar(
+          'Invalid output. Please check the query.'
+        );
       }
     } else {
-      this.openSnackBar('Invalid output. Please check the query.');
+      this.popupMsgService.openSnackBar(
+        'Invalid output. Please check the query.'
+      );
     }
 
     this.outputJson(data);

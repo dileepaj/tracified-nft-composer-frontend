@@ -17,12 +17,9 @@ import { Table } from 'src/models/nft-content/table';
 import { ViewEncapsulation } from '@angular/core';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
-import {
-  MatSnackBar,
-  MatSnackBarHorizontalPosition,
-  MatSnackBarVerticalPosition,
-} from '@angular/material/snack-bar';
+
 import { Data } from '@angular/router';
+import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
 
 @Component({
   selector: 'app-configure-table',
@@ -44,8 +41,6 @@ export class ConfigureTableComponent implements OnInit {
   tableHtml: string = '';
 
   saving: boolean = false;
-  horizontalPosition: MatSnackBarHorizontalPosition = 'end';
-  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
   constructor(
     private store: Store<AppState>,
@@ -53,7 +48,7 @@ export class ConfigureTableComponent implements OnInit {
     public dialog: MatDialog,
     private composerService: ComposerBackendService,
     private dndService: DndServiceService,
-    private _snackBar: MatSnackBar
+    private popupMsgService: PopupMessageService
   ) {
     this.nft$ = this.store.select(selectNFTContent);
     this.store.select(selectProjectStatus).subscribe((status) => {
@@ -62,10 +57,8 @@ export class ConfigureTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //this.updateChart();
     this.tableId = this.data.id;
     this.table = this.data.widget;
-    //this.setValueToTable();
   }
 
   private showChart() {}
@@ -167,21 +160,19 @@ export class ConfigureTableComponent implements OnInit {
   }
 
   private saveTable(table: Table) {
-    console.log('table', table);
     let status = this.dndService.getSavedStatus(table.WidgetId);
     if (status === false) {
       this.composerService.saveTable(table).subscribe({
         next: (res) => {},
         error: (err) => {
           this.saving = false;
-          console.log(err);
-          this.openSnackBar(
+          this.popupMsgService.openSnackBar(
             'An unexpected error occured. Please try again later'
           );
         },
         complete: () => {
           this.saving = false;
-          this.openSnackBar('Saved!!');
+          this.popupMsgService.openSnackBar('Saved!!');
           this.dndService.setSavedStatus(table.WidgetId);
           this.dialog.closeAll();
         },
@@ -191,14 +182,13 @@ export class ConfigureTableComponent implements OnInit {
         next: (res) => {},
         error: (err) => {
           this.saving = false;
-          console.log(err);
-          this.openSnackBar(
+          this.popupMsgService.openSnackBar(
             'An unexpected error occured. Please try again later'
           );
         },
         complete: () => {
           this.saving = false;
-          this.openSnackBar('Saved!!');
+          this.popupMsgService.openSnackBar('Saved!!');
           this.dialog.closeAll();
         },
       });
@@ -207,14 +197,5 @@ export class ConfigureTableComponent implements OnInit {
 
   public onQuerySuccess(event: any) {
     this.tabIndex = 1;
-  }
-
-  public openSnackBar(msg: string) {
-    this._snackBar.open(msg, 'OK', {
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-      panelClass: ['snackbar'],
-      duration: 5 * 1000,
-    });
   }
 }

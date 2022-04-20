@@ -21,6 +21,7 @@ import { WidgetContentComponent } from '../../modals/widget-content/widget-conte
 import { BatchesService } from 'src/app/services/batches.service';
 import { TracibilityProfileWithTimeline } from 'src/app/entity/timeline';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
+import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
 
 @Component({
   selector: 'app-nft-timeline',
@@ -47,7 +48,8 @@ export class NftTimelineComponent implements OnInit {
     private service: DndServiceService,
     public dialog: MatDialog,
     private _batchService: BatchesService,
-    private composerService: ComposerBackendService
+    private composerService: ComposerBackendService,
+    private popupMsgService: PopupMessageService
   ) {
     this.store.select(selectNFTContent).subscribe((content) => {
       this.nftContent = content;
@@ -100,7 +102,9 @@ export class NftTimelineComponent implements OnInit {
     this.composerService.deleteTimeline(this.id).subscribe({
       next: (res) => {},
       error: (err) => {
-        alert('Error');
+        this.popupMsgService.openSnackBar(
+          'An unexpected error occured. Please try again later'
+        );
       },
       complete: () => {
         this.store.dispatch(deleteTimeline({ timeline: this.timeline }));
