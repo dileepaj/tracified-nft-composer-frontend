@@ -2,7 +2,7 @@
 @import "../../../../scss/mixins";
 
 .ace-editor {
-  height: 480px;
+  height: $queryIDEHeight;
 }
 
 .ldal-div {
@@ -13,23 +13,27 @@
   right: 0;
   left: 0;
   position: absolute;
-  padding-top: 5px;
 }
 
 .btn-execute {
-  @include btn-accent;
   margin: 5px;
-  //float: right;
-}
-.btn-output {
-  color: #212121;
-  background-color: #e0e0e0;
-  margin: 5px;
+  color: $green;
+  transform: scale(0.9);
   //float: right;
 }
 
-.btn mat-icon {
-  vertical-align: middle;
+.btn-execute:hover {
+  background-color: whitesmoke;
+}
+.btn-output {
+  color: #424242;
+  margin: 5px;
+  transform: scale(0.9);
+  //float: right;
+}
+
+.btn-output:hover {
+  background-color: whitesmoke;
 }
 
 .progressbar {
@@ -49,11 +53,6 @@
 }
 
 .query-area {
-  top: 60px;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  position: absolute;
 }
 
 .results {
@@ -91,17 +90,16 @@
   animation: spinner 0.8s linear infinite;
 }
 
-.warning {
-  background: #fff9c4;
-  //max-width: fit-content;
+.note {
+  color: #212121;
   border-radius: 5px;
-  color: #fbc02d;
-  padding: 5px 10px 5px 10px;
-  font-weight: 500;
+  font-size: smaller;
+  padding: 10px 0px 0px 0px;
 }
 
-.warning-icon {
+.note-icon {
   vertical-align: middle;
+  transform: scale(0.8);
 }
 
 .btn-tgl-div {
@@ -113,7 +111,7 @@
 
 .output {
   background: #212121;
-  height: 480px;
+  height: $queryIDEHeight;
   overflow: auto;
   font-family: Courier New;
   color: white;

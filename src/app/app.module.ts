@@ -73,6 +73,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { ProofbotViewComponent } from './components/modals/proofbot-view/proofbot-view.component';
 import { HtmlCodebehindComponent } from './components/modals/html-codebehind/html-codebehind.component';
 import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
 const appRoutes: Routes = [];
 
 @NgModule({
@@ -137,6 +139,7 @@ const appRoutes: Routes = [];
     MatProgressBarModule,
     MatProgressSpinnerModule,
     MatExpansionModule,
+    MatTooltipModule,
     OverlayModule,
     FormsModule,
     ReactiveFormsModule,

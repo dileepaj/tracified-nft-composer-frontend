@@ -14,6 +14,12 @@ import { ComposerBackendService } from 'src/app/services/composer-backend.servic
 import { Store } from '@ngrx/store';
 import { addQueryResult } from 'src/app/store/nft-state-store/nft.actions';
 import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
+import {
+  selectNFT,
+  selectNFTContent,
+  selectQueryResult,
+} from 'src/app/store/nft-state-store/nft.selector';
+import { AppState } from 'src/app/store/app.state';
 
 @Component({
   selector: 'app-ldaleditor',
@@ -210,7 +216,7 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
   constructor(
     private apiService: ComposerBackendService,
     private popupMsgService: PopupMessageService,
-    private store: Store
+    private store: Store<AppState>
   ) {}
 
   ngAfterViewInit(): void {
@@ -288,6 +294,7 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
           },
         })
       );
+
       this.popupMsgService.openSnackBar('Query Saved!!');
     } else {
       this.popupMsgService.openSnackBar('Invalid query result formate');
