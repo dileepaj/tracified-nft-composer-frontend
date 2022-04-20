@@ -38,6 +38,7 @@ export class ConfigureBubbleChartComponent implements OnInit {
   bubbleChartOptions: any;
   labels: string[] = [];
   values: any = [];
+  loadedFromRedux: boolean = false;
   //data to be displayed in the pie chart
   bubbleChartData: Data[] = [
     { Name: 'Item 1', X: 100, Y: 60, Value: 1350 },
@@ -176,21 +177,26 @@ export class ConfigureBubbleChartComponent implements OnInit {
   }
 
   private assignValues() {
-    this.title = this.bubbleChart.ChartTitle!;
-    this.keyTitle = this.bubbleChart.KeyTitle;
-    this.batchId = this.bubbleChart.BactchId!;
-    this.productName = this.bubbleChart.ProductName!;
-    if (this.bubbleChart.ChartData!.length !== 0) {
-      this.bubbleChartData = this.bubbleChart.ChartData!.filter((data) => data);
+    if (!this.loadedFromRedux) {
+      this.title = this.bubbleChart.ChartTitle!;
+      this.keyTitle = this.bubbleChart.KeyTitle;
+      this.batchId = this.bubbleChart.BactchId!;
+      this.productName = this.bubbleChart.ProductName!;
+      if (this.bubbleChart.ChartData!.length !== 0) {
+        this.bubbleChartData = this.bubbleChart.ChartData!.filter(
+          (data) => data
+        );
+      }
+      this.bubbleColors = this.bubbleChart.Color!.filter((data) => data);
+      this.fontColor = this.bubbleChart.FontColor!;
+      this.fontSize = this.bubbleChart.FontSize!;
+      this.height = this.bubbleChart.Height!;
+      this.width = this.bubbleChart.Width!;
+      this.loadedFromRedux = true;
+      this.setLabels();
+      this.setValues();
+      this.setColors();
     }
-    this.bubbleColors = this.bubbleChart.Color!.filter((data) => data);
-    this.fontColor = this.bubbleChart.FontColor!;
-    this.fontSize = this.bubbleChart.FontSize!;
-    this.height = this.bubbleChart.Height!;
-    this.width = this.bubbleChart.Width!;
-    this.setLabels();
-    this.setValues();
-    this.setColors();
   }
 
   private saveChart(chart: any) {

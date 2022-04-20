@@ -55,6 +55,7 @@ export class ConfigureBarChartComponent implements OnInit {
   values: any[] = [];
   qEvent: any;
   querySuccess: boolean = false;
+  loadedFromRedux: boolean = false;
 
   //data that are being displayed in the bar chart
   barChartData: Data[] = [];
@@ -146,7 +147,6 @@ export class ConfigureBarChartComponent implements OnInit {
     this.barChart = {
       ...this.barChart,
       ChartTitle: this.title,
-      Query: this.query,
       ChartData: this.barChartData,
       Color: this.barColors,
       FontColor: this.fontColor,
@@ -188,24 +188,27 @@ export class ConfigureBarChartComponent implements OnInit {
   }
 
   private assignValues() {
-    this.title = this.barChart.ChartTitle!;
-    this.batchId = this.barChart.BactchId!;
-    this.productName = this.barChart.ProductName!;
-    this.keyTitle = this.barChart.KeyTitle!;
-    this.projectId = this.barChart.ProjectId!;
-    if (this.barChart.ChartData!.length !== 0) {
-      this.barChartData = this.barChart.ChartData!.filter((data) => data);
+    if (!this.loadedFromRedux) {
+      this.title = this.barChart.ChartTitle!;
+      this.batchId = this.barChart.BactchId!;
+      this.productName = this.barChart.ProductName!;
+      this.keyTitle = this.barChart.KeyTitle!;
+      this.projectId = this.barChart.ProjectId!;
+      if (this.barChart.ChartData!.length !== 0) {
+        this.barChartData = this.barChart.ChartData!.filter((data) => data);
+      }
+      this.barColors = this.barChart.Color!.filter((data) => data);
+      this.fontColor = this.barChart.FontColor!;
+      this.fontSize = this.barChart.FontSize!;
+      this.xName = this.barChart.XAxis;
+      this.yName = this.barChart.YAxis;
+      this.height = this.barChart.Height!;
+      this.width = this.barChart.Width!;
+      this.loadedFromRedux = true;
+      this.setLabels();
+      this.setValues();
+      this.setColors();
     }
-    this.barColors = this.barChart.Color!.filter((data) => data);
-    this.fontColor = this.barChart.FontColor!;
-    this.fontSize = this.barChart.FontSize!;
-    this.xName = this.barChart.XAxis;
-    this.yName = this.barChart.YAxis;
-    this.height = this.barChart.Height!;
-    this.width = this.barChart.Width!;
-    this.setLabels();
-    this.setValues();
-    this.setColors();
   }
 
   private saveChart(chart: any) {

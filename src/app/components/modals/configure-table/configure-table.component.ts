@@ -135,7 +135,7 @@ export class ConfigureTableComponent implements OnInit {
 
   //generate table html
   private generateTable() {
-    if (this.tableContent === '') {
+    if (this.dataSource.length > 0) {
       let tableString = '<thead><tr>';
       Object.keys(this.dataSource[0]).map((column) => {
         tableString += '<th>' + column + '</th>';
