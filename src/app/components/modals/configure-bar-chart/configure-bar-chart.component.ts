@@ -91,6 +91,7 @@ export class ConfigureBarChartComponent implements OnInit {
   ngOnInit(): void {
     this.chartId = this.data.id;
     this.barChart = this.data.widget;
+    this.query = this.barChart.Query!;
   }
 
   //take value from  query result store by wigetId and se it as a barChart data
@@ -155,6 +156,7 @@ export class ConfigureBarChartComponent implements OnInit {
       YAxis: this.yName,
       Height: 200,
       Width: 500,
+      Query: this.query,
       Domain: [0, this.max],
     };
 
@@ -253,6 +255,7 @@ export class ConfigureBarChartComponent implements OnInit {
 
   public onQuerySuccess(event: any) {
     this.tabIndex = 1;
+    this.query = event.query;
   }
 
   private setLabels() {

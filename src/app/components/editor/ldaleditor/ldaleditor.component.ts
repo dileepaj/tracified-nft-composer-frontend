@@ -348,6 +348,7 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
       ) {
         this.onQuerySuccess.emit({
           data: result.val['ChartData'],
+          query: this.query,
         });
         this.saveExecuter();
       } else {
@@ -367,6 +368,7 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
       ) {
         this.onQuerySuccess.emit({
           data: result.val['ChartData'],
+          query: this.query,
         });
         this.saveExecuter();
       } else {
@@ -382,6 +384,7 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
       ) {
         this.onQuerySuccess.emit({
           data: result.val.MainTable,
+          query: this.query,
         });
         this.saveExecuter();
       } else {

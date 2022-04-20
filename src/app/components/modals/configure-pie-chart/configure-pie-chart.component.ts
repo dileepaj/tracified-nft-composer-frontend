@@ -84,6 +84,7 @@ export class ConfigurePieChartComponent implements OnInit {
   ngOnInit(): void {
     this.chartId = this.data.id;
     this.pieChart = this.data.widget;
+    this.query = this.pieChart.Query!;
   }
 
   //take value from  query result store by wigetId and se it as a barChart data
@@ -248,6 +249,7 @@ export class ConfigurePieChartComponent implements OnInit {
 
   public onQuerySuccess(event: any) {
     this.tabIndex = 1;
+    this.query = event.query;
   }
 
   private getRandomColor() {
