@@ -22,4 +22,16 @@
   <div id="image" *ngIf="isUploaded()">
     <img [src]="base64" class="img" />
   </div>
+  <div class = "widget-footer">
+     <input
+      type="file"
+      accept="image/*"
+      #fileUpload
+      (change)="onUpdateChange($event)"
+      hidden
+    />
+    <button mat-flat-button class="update-btn" (click)="triggerClick()" *ngIf="isUploaded()">
+      <mat-icon class="update-icon">edit</mat-icon> Update
+    </button>
+  </div>
 </div>
