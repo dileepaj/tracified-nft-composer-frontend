@@ -42,6 +42,7 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
   barChart: Chart;
   nftContent: NFTContent;
   @Input() widget: Widget;
+  icon: any = '../../../../assets/images/widget-icons/Bar-chart.png';
 
   constructor(
     private store: Store<AppState>,

@@ -40,6 +40,7 @@ export class TableComponent implements OnInit {
   table: Table;
   projectName: string;
   nftContent: NFTContent;
+  icon: any = '../../../../assets/images/widget-icons/Table.png';
 
   constructor(
     private store: Store<AppState>,

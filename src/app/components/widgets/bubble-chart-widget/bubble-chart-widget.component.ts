@@ -31,6 +31,7 @@ export class BubbleChartWidgetComponent implements OnInit {
   @Output() onDeleteWidget: EventEmitter<any> = new EventEmitter();
   bubbleChart: Chart;
   nftContent: NFTContent;
+  icon: any = '../../../../assets/images/widget-icons/Bubble-chart.png';
 
   constructor(
     private store: Store<AppState>,
