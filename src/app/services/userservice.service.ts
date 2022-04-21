@@ -3,6 +3,7 @@ import { ApiService } from './api.service';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { BToken } from '../entity/artifact';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -10,12 +11,8 @@ import { BToken } from '../entity/artifact';
 export class UserserviceService {
   private admin: any;
 
-  constructor(private apiService: ApiService) {
+  constructor(private apiService: ApiService, private router: Router) {
     this.admin = environment.adminUrl;
-  }
-
-  public getUser(): Observable<any> {
-    return this.apiService.get(this.admin + '/api/bc/user');
   }
 
   public getCurrentUser(): any {
@@ -24,6 +21,8 @@ export class UserserviceService {
       sessionStorage.getItem('User') !== ''
     )
       return JSON.parse(sessionStorage.getItem('User') || '');
-    else return '';
+    else {
+      this.router.navigate([`/login`]);
+    }
   }
 }

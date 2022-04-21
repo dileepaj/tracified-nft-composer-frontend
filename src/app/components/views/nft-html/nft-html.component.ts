@@ -4,6 +4,8 @@ import { Store } from '@ngrx/store';
 import { NFTContent } from 'src/models/nft-content/nft.content';
 import { AppState } from 'src/app/store/app.state';
 import { selectNFTContent } from 'src/app/store/nft-state-store/nft.selector';
+import { MatDialog } from '@angular/material/dialog';
+import { HtmlCodebehindComponent } from '../../modals/html-codebehind/html-codebehind.component';
 
 @Component({
   selector: 'app-nft-html',
@@ -16,12 +18,14 @@ export class NftHtmlComponent implements OnInit {
   sidenav: boolean = true;
   htmlStr: any;
   nftContent: NFTContent;
+  loaded: boolean = false;
 
   @ViewChild('iframe', { static: false }) iframe: ElementRef;
 
   constructor(
     private _composerService: ComposerBackendService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -29,6 +33,7 @@ export class NftHtmlComponent implements OnInit {
   }
 
   public ngAfterViewInit() {
+    this.loaded = true;
     this.populateIframe(this.iframe.nativeElement);
   }
 
@@ -48,7 +53,14 @@ export class NftHtmlComponent implements OnInit {
           iframe.contentWindow.document.open();
           iframe.contentWindow.document.write(content);
           iframe.contentWindow.document.close();
+          this.loaded = false;
         }
       });
+  }
+
+  openCodebehindPopup(){
+    this.dialog.open(HtmlCodebehindComponent,{
+      data: {htmlCode: this.htmlStr}
+    });
   }
 }

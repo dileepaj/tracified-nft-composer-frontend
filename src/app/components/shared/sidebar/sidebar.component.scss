@@ -84,3 +84,20 @@ mat-list-item:hover {
 
   font-size: $fontSize;
 }
+
+#sidebar-back {
+  padding-left: 10px;
+  padding: 10px;
+  padding-right: 30px;
+  border-radius: 30px;
+  font-size: $fontSize;
+
+}
+
+.back-to-project {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 30px;
+  background: whitesmoke;
+  cursor: pointer;
+}

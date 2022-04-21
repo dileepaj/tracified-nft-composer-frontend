@@ -29,6 +29,8 @@ export class ApiService {
 
   //GET request
   public get(path: string): Observable<any> {
+    this.auth_token = this.jwt.getToken();
+    this.sToken = 'Bearer ' + this.auth_token;
     return this.http.get(`${this.api_url}${path}`, {
       headers: this.setHeaders(),
     });
@@ -36,6 +38,8 @@ export class ApiService {
 
   //post request
   public post(path: string, body: any): Observable<any> {
+    this.auth_token = this.jwt.getToken();
+    this.sToken = 'Bearer ' + this.auth_token;
     return this.http.post(`${this.api_url}${path}`, body, {
       headers: this.setHeaders(),
     });

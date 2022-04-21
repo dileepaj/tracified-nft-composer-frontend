@@ -10,6 +10,7 @@ import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
+import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
 import { AppState } from 'src/app/store/app.state';
 import {
   addTable,
@@ -44,7 +45,8 @@ export class TableComponent implements OnInit {
     private store: Store<AppState>,
     public dialog: MatDialog,
     private service: DndServiceService,
-    private composerService: ComposerBackendService
+    private composerService: ComposerBackendService,
+    private popupMsgService: PopupMessageService
   ) {
     this.store.select(selectNFTContent).subscribe((content) => {
       this.nftContent = content;
@@ -98,7 +100,9 @@ export class TableComponent implements OnInit {
     this.composerService.deleteTable(this.id).subscribe({
       next: (res) => {},
       error: (err) => {
-        alert(err);
+        this.popupMsgService.openSnackBar(
+          'An unexpected error occured. Please try again later'
+        );
       },
       complete: () => {
         this.store.dispatch(deleteTable({ table: this.table }));

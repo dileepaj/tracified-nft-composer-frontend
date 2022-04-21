@@ -1,6 +1,6 @@
 <div class="widget-div" f>
   <div>
-    <h2>
+    <h2 style="font-size: medium; font-weight: 200;">
       Proofbot
       <button mat-icon-button (click)="deleteWidget()">
         <mat-icon>clear</mat-icon>
@@ -10,16 +10,19 @@
   <div class="content-div">
     <mat-icon class="pb-icon" *ngIf="!otpAdded"> ondemand_video </mat-icon>
     <div class="proofbot-content" *ngIf="otpAdded">
-      <ul *ngFor="let proof of proofUrls">
-        <li class="caret">
-          <span class="proof-type">{{ proof.type.toUpperCase() }}</span>
-        </li>
-        <ul class="urls" *ngFor="let url of proof.urls">
-          <li class="child-caret">
-            <a class="proof-url" [href]="url" target="_blank">{{ url }}</a>
-          </li>
-        </ul>
-      </ul>
+      <div class="proof-card" *ngFor="let data of proofbot.Data!">
+        <label>Transaction Id - {{ data.TxnHash }}</label>
+        <label>Product Name - {{ proofbot.ProductName }}</label>
+        <label>Batch - {{ data.BatchId }}</label>
+        <label>Proofs - </label>
+        <div class="url-list">
+          <div *ngFor="let url of data.Urls">
+            <a class="proof-url" [href]="url.Url" target="_blank">{{
+              url.Type.toUpperCase()
+            }}</a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <div class="widget-footer">

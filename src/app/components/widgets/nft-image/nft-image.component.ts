@@ -9,10 +9,12 @@ import {
   EventEmitter,
   Output,
 } from '@angular/core';
+
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
+import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
 import { AppState } from 'src/app/store/app.state';
 import {
   addNFTImage,
@@ -24,6 +26,7 @@ import {
   selectNFTImages,
 } from 'src/app/store/nft-state-store/nft.selector';
 import { Image } from 'src/models/nft-content/image';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-nft-image',
@@ -42,11 +45,14 @@ export class NftImageComponent implements OnInit {
   img: any = '';
   projectId: string;
   src: string = '';
+  saving: boolean = false;
 
   constructor(
     private store: Store<AppState>,
     private service: DndServiceService,
-    private composerService: ComposerBackendService
+    private composerService: ComposerBackendService,
+    private popupMsgService: PopupMessageService,
+    public dialog: MatDialog,
   ) {
     this.store.select(selectNFTContent).subscribe((content) => {
       this.projectId = content.ProjectId;
@@ -117,7 +123,9 @@ export class NftImageComponent implements OnInit {
     this.composerService.deleteImage(this.id).subscribe({
       next: (res) => {},
       error: (err) => {
-        alert(err);
+        this.popupMsgService.openSnackBar(
+          'An unexpected error occured. Please try again later'
+        );
       },
       complete: () => {
         this.store.dispatch(deleteNFTImage({ image: this.image }));
@@ -154,8 +162,73 @@ export class NftImageComponent implements OnInit {
   }
 
   public saveImage() {
-    this.composerService.saveImage(this.image).subscribe((res) => {
-      console.log(res);
+    this.composerService.saveImage(this.image).subscribe({
+      next: (res) => {},
+      error: (err) => {
+        this.saving = false;
+        this.popupMsgService.openSnackBar(
+          'An unexpected error occured. Please try again later'
+        );
+      },
+      complete: () => {
+        this.saving = false;
+        this.popupMsgService.openSnackBar('Image saved');
+        this.service.setSavedStatus(this.image.WidgetId);
+        this.dialog.closeAll();
+      },
+    });
+  }
+
+  //called when user updates the image
+  public onUpdateChange(event: any) {
+    this.file = event.target.files[0];
+    this.uploadUpdatedImage(event);
+  }
+
+  public uploadUpdatedImage(event: Event) {
+    this.loading = !this.loading;
+    const reader = new FileReader();
+    reader.readAsDataURL(this.file);
+    reader.onload = this._updateHadleRederLoaded.bind(this);
+    reader.readAsBinaryString(this.file);
+    this.loading = false;
+  }
+
+  //create base64 updated image
+  private _updateHadleRederLoaded(readerEvt: any) {
+    this.base64 = readerEvt.target.result;
+    this.updateNewImage();
+    this.updateHTML();
+  }
+
+  //update the redux state on update image
+  private updateNewImage() {
+    this.image = {
+      ...this.image,
+      Type: this.file.type,
+      Base64Image: this.base64,
+    };
+
+    this.updateImageInDB();
+    this.store.dispatch(updateNFTImage({ image: this.image }));
+  }
+
+  //calling the endpoint for updating the image in the project
+  public updateImageInDB() {
+    this.composerService.updateImage(this.image).subscribe({
+      next: (res) => {},
+      error: (err) => {
+        this.saving = false;
+        this.popupMsgService.openSnackBar(
+          'An unexpected error occured. Please try again later'
+        );
+      },
+      complete: () => {
+        this.saving = false;
+        this.popupMsgService.openSnackBar('Image updated');
+        this.service.setSavedStatus(this.image.WidgetId);
+        this.dialog.closeAll();
+      },
     });
   }
 }

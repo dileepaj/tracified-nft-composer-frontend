@@ -205,7 +205,7 @@ export const nftReducer = createReducer(
       ...nft.nftContent,
       NFTContent: {
         ...nft.nftContent.NFTContent,
-        ProofBotData: [...nft.nftContent.NFTContent.ProofBot, proofBot],
+        ProofBot: [...nft.nftContent.NFTContent.ProofBot, proofBot],
       },
     },
   })),

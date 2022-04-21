@@ -103,8 +103,9 @@
         <!-- <button class="btn" mat-flat-button>
           <mat-icon class="icon">visibility</mat-icon>Generate SVG
         </button> -->
-        <button class="btn" mat-flat-button (click)="generateHTML()">
-          <mat-icon class="icon">visibility</mat-icon>Generate HTML
+        <button class="btn" mat-flat-button (click)="generateHTML()" [disabled]="generated">
+          <mat-icon class="icon">visibility</mat-icon>
+          <span [class.spinner]="generated"> </span>Generate HTML
         </button>
       </div>
     </mat-drawer-content>

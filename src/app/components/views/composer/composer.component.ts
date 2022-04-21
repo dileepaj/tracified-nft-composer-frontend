@@ -40,14 +40,10 @@ import {
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 import { SidenavService } from 'src/app/services/sidenav.service';
 import { Observable } from 'rxjs';
-import {
-  MatSnackBar,
-  MatSnackBarHorizontalPosition,
-  MatSnackBarVerticalPosition,
-} from '@angular/material/snack-bar';
 import { NewProjectComponent } from '../../modals/new-project/new-project.component';
 import { projectStatus } from 'src/app/store/nft-state-store/nft.actions';
 import { SelectMasterDataTypeComponent } from '../../modals/select-master-data-type/select-master-data-type.component';
+import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
 
 export interface Widget {
   type: string;
@@ -72,8 +68,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   id: string;
   private sub: any;
   saving: boolean = false;
-  horizontalPosition: MatSnackBarHorizontalPosition = 'end';
-  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+  generated: boolean = false;
 
   widgetTypes: any = {
     timeline: timeline,
@@ -163,7 +158,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private composerService: ComposerBackendService,
     private sidebarService: SidenavService,
-    private _snackBar: MatSnackBar
+    private popupMsgService: PopupMessageService
   ) {
     //this.openAddData();
     this.sidebarService.getStatus().subscribe((val) => {
@@ -198,9 +193,6 @@ export class ComposerComponent implements OnInit, AfterViewInit {
           event.previousIndex,
           event.currentIndex
         );
-
-        console.log('prev', event.previousIndex);
-        console.log('cur', event.currentIndex);
         this.stateService.rewriteWidgetArr(this.usedWidgets);
       }
     } else {
@@ -301,14 +293,19 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   }
 
   public generateHTML() {
+    this.generated = true;
     this.getNftContent();
     this.composerService.generateHTML(this.nftContent).subscribe({
       next: (data: any) => {
+        this.generated = false;
         const decodedRes = atob(data.Response);
         this.downloadFile(decodedRes, this.nftContent.NFTName, 'html');
       },
       error: (err) => {
-        alert('An unexpected error occured. Please try again later');
+        this.generated = false;
+        this.popupMsgService.openSnackBar(
+          'An unexpected error occured. Please try again later'
+        );
       },
     });
   }
@@ -335,12 +332,14 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     this.composerService.saveProject(project).subscribe({
       next: (res) => {},
       error: (err) => {
-        alert('An unexpected error occured. Please try again later');
+        this.popupMsgService.openSnackBar(
+          'An unexpected error occured. Please try again later'
+        );
         this.saving = false;
       },
       complete: () => {
         this.store.dispatch(projectStatus({ status: false }));
-        this.openSnackBar('Project Saved!!');
+        this.popupMsgService.openSnackBar('Project Saved!!');
         this.saving = false;
       },
     });
@@ -368,14 +367,14 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     this.composerService.updateProject(project).subscribe({
       next: (res) => {},
       error: (err) => {
-        this.openSnackBar(
+        this.popupMsgService.openSnackBar(
           'An unexpected error occured. Please try again later'
         );
 
         this.saving = false;
       },
       complete: () => {
-        this.openSnackBar('Project Updated!!');
+        this.popupMsgService.openSnackBar('Project Updated!!');
         this.saving = false;
       },
     });
@@ -394,14 +393,5 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     } else {
       this.updateProject();
     }
-  }
-
-  public openSnackBar(msg: string) {
-    this._snackBar.open(msg, 'OK', {
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-      panelClass: ['snackbar'],
-      duration: 5 * 1000,
-    });
   }
 }

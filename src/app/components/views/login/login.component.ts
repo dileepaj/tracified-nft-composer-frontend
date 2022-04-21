@@ -39,11 +39,11 @@ export class LoginComponent implements OnInit {
   deviceXs: boolean;
 
   ngOnInit(): void {
+    this.jwt.destroyToken();
     //for create responsive Ui
     this.mediaSub = this.mediaObserver.media$.subscribe(
       (result: MediaChange) => {
         this.deviceXs = result.mqAlias === 'xs' ? true : false;
-        //console.log(result.mqAlias);
       }
     );
 
