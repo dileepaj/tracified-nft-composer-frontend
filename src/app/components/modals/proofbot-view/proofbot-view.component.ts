@@ -8,7 +8,7 @@ import { ProofBot } from 'src/models/nft-content/proofbot';
   styleUrls: ['./proofbot-view.component.scss'],
 })
 export class ProofbotViewComponent implements OnInit {
-  proofUrls: any[] = [];
+  proofbot: ProofBot;
 
   constructor(
     public dialog: MatDialog,
@@ -16,6 +16,6 @@ export class ProofbotViewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.proofUrls = this.data.proofUrls;
+    this.proofbot = this.data.proofbot;
   }
 }
