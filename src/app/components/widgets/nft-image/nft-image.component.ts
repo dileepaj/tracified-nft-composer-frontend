@@ -46,13 +46,14 @@ export class NftImageComponent implements OnInit {
   projectId: string;
   src: string = '';
   saving: boolean = false;
+  icon: any = '../../../../assets/images/widget-icons/Image-upload.png';
 
   constructor(
     private store: Store<AppState>,
     private service: DndServiceService,
     private composerService: ComposerBackendService,
     private popupMsgService: PopupMessageService,
-    public dialog: MatDialog,
+    public dialog: MatDialog
   ) {
     this.store.select(selectNFTContent).subscribe((content) => {
       this.projectId = content.ProjectId;
