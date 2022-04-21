@@ -23,14 +23,11 @@ import { Timeline } from 'src/models/nft-content/timeline';
 import { NewProjectComponent } from '../../modals/new-project/new-project.component';
 import { Widget } from '../composer/composer.component';
 import { ComposerUser } from 'src/models/user';
-import {
-  MatSnackBar,
-  MatSnackBarHorizontalPosition,
-  MatSnackBarVerticalPosition,
-} from '@angular/material/snack-bar';
 import { CardStatus, QueryResult } from 'src/models/nft-content/cardStatus';
 
 import * as MomentAll from 'moment';
+import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
+import { UserserviceService } from 'src/app/services/userservice.service';
 
 @Component({
   selector: 'app-projects',
@@ -47,8 +44,6 @@ export class ProjectsComponent implements OnInit {
   loading: boolean = false;
   projToBeLoaded: string = '';
   projToBeDeleted: string = '';
-  horizontalPosition: MatSnackBarHorizontalPosition = 'end';
-  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
   constructor(
     private store: Store<AppState>,
@@ -57,14 +52,12 @@ export class ProjectsComponent implements OnInit {
     private apiService: ComposerBackendService,
     private dndService: DndServiceService,
     public dialog: MatDialog,
-    private _snackBar: MatSnackBar
+    private popupMsgService: PopupMessageService,
+    private userServices: UserserviceService
   ) {}
 
   ngOnInit(): void {
-    let user: string = sessionStorage.getItem('User') || '';
-    if (user !== '') {
-      this.user = JSON.parse(user);
-    }
+    this.user = this.userServices.getCurrentUser();
     this.route.paramMap.subscribe((params) => {
       this.userId = params.get('userId') || '';
     });
@@ -83,11 +76,9 @@ export class ProjectsComponent implements OnInit {
 
   public convertDate(date: any): string {
     const stillUtc = MomentAll.utc(date).toDate();
-    // MomentAll(date).zone((new Date()).getTimezoneOffset()).format('YYYY-MM-DD hh:mm A')
     const local = MomentAll(date)
       .zone(new Date().getTimezoneOffset())
       .format('MMM D, YYYY');
-    // MomentAll(stillUtc).local().format('LLLL');
     return local;
   }
 
@@ -122,6 +113,8 @@ export class ProjectsComponent implements OnInit {
       next: (data) => {
         const proj = data.Response;
         let contOrder: any[] = [];
+        let widgetsInOrderArr: any[] = [];
+        let widgetsNotNull: any[] = [];
         let cardStatus: CardStatus[] = [];
         let queryResult: QueryResult[] = [];
         let barcharts: Chart[] = [];
@@ -134,6 +127,7 @@ export class ProjectsComponent implements OnInit {
 
         proj.Project.ContentOrderData.map((widget: any) => {
           contOrder.push({ WidgetId: widget.WidgetId, Type: widget.Type });
+          widgetsInOrderArr.push(widget.WidgetId);
           cardStatus.push({
             WidgetId: widget.WidgetId,
             WidgetType: widget.Type,
@@ -145,96 +139,123 @@ export class ProjectsComponent implements OnInit {
         if (proj.BarCharts) {
           proj.BarCharts.map((chart: any) => {
             let ch: Chart = chart.Chart;
-            ch = {
-              ...ch,
-              BactchId: chart.Widget.BatchId,
-              ArtifactId: chart.Widget.ArtifactId,
-              ProductName: chart.Widget.productName,
-              TenentId: chart.Widget.TenentiD,
-              UserId: chart.Widget.UserId,
-              OTPType: chart.Widget.OTPType,
-              OTP: chart.Widget.OTP,
-              Query: chart.Widget.Query,
-              WidgetType: chart.Widget.WidgetType,
-            };
-            barcharts.push(ch);
+            if (widgetsInOrderArr.includes(ch.WidgetId)) {
+              ch = {
+                ...ch,
+                BactchId: chart.Widget.BatchId,
+                ArtifactId: chart.Widget.ArtifactId,
+                ProductName: chart.Widget.productName,
+                TenentId: chart.Widget.TenentiD,
+                UserId: chart.Widget.UserId,
+                OTPType: chart.Widget.OTPType,
+                OTP: chart.Widget.OTP,
+                Query: chart.Widget.Query,
+                WidgetType: chart.Widget.WidgetType,
+              };
+              barcharts.push(ch);
+              widgetsNotNull.push(ch.WidgetId);
+            }
           });
         }
 
         if (proj.PieCharts) {
           proj.PieCharts.map((chart: any) => {
             let ch: Chart = chart.Chart;
-            ch = {
-              ...ch,
-              BactchId: chart.Widget.BatchId,
-              ArtifactId: chart.Widget.ArtifactId,
-              ProductName: chart.Widget.productName,
-              TenentId: chart.Widget.TenentiD,
-              UserId: chart.Widget.UserId,
-              OTPType: chart.Widget.OTPType,
-              OTP: chart.Widget.OTP,
-              Query: chart.Widget.Query,
-              WidgetType: chart.Widget.WidgetType,
-            };
-            piecharts.push(ch);
+            if (widgetsInOrderArr.includes(ch.WidgetId)) {
+              ch = {
+                ...ch,
+                BactchId: chart.Widget.BatchId,
+                ArtifactId: chart.Widget.ArtifactId,
+                ProductName: chart.Widget.productName,
+                TenentId: chart.Widget.TenentiD,
+                UserId: chart.Widget.UserId,
+                OTPType: chart.Widget.OTPType,
+                OTP: chart.Widget.OTP,
+                Query: chart.Widget.Query,
+                WidgetType: chart.Widget.WidgetType,
+              };
+              piecharts.push(ch);
+              widgetsNotNull.push(ch.WidgetId);
+            }
           });
         }
         if (proj.BubbleCharts) {
           proj.BubbleCharts.map((chart: any) => {
             let ch: Chart = chart.Chart;
-            ch = {
-              ...ch,
-              BactchId: chart.Widget.BatchId,
-              ArtifactId: chart.Widget.ArtifactId,
-              ProductName: chart.Widget.productName,
-              TenentId: chart.Widget.TenentiD,
-              UserId: chart.Widget.UserId,
-              OTPType: chart.Widget.OTPType,
-              OTP: chart.Widget.OTP,
-              Query: chart.Widget.Query,
-              WidgetType: chart.Widget.WidgetType,
-            };
-            bubblecharts.push(ch);
+            if (widgetsInOrderArr.includes(ch.WidgetId)) {
+              ch = {
+                ...ch,
+                BactchId: chart.Widget.BatchId,
+                ArtifactId: chart.Widget.ArtifactId,
+                ProductName: chart.Widget.productName,
+                TenentId: chart.Widget.TenentiD,
+                UserId: chart.Widget.UserId,
+                OTPType: chart.Widget.OTPType,
+                OTP: chart.Widget.OTP,
+                Query: chart.Widget.Query,
+                WidgetType: chart.Widget.WidgetType,
+              };
+              bubblecharts.push(ch);
+              widgetsNotNull.push(ch.WidgetId);
+            }
           });
         }
 
         if (proj.Tables) {
           proj.Tables.map((table: any) => {
             let tb: Table = table.Table;
-            tb = {
-              ...tb,
-              BactchId: table.Widget.BatchId,
-              ArtifactId: table.Widget.ArtifactId,
-              ProductName: table.Widget.productName,
-              TenentId: table.Widget.TenentiD,
-              UserId: table.Widget.UserId,
-              OTPType: table.Widget.OTPType,
-              OTP: table.Widget.OTP,
-              Query: table.Widget.Query,
-              WidgetType: table.Widget.WidgetType,
-            };
-            tables.push(tb);
+            if (widgetsInOrderArr.includes(tb.WidgetId)) {
+              tb = {
+                ...tb,
+                BactchId: table.Widget.BatchId,
+                ArtifactId: table.Widget.ArtifactId,
+                ProductName: table.Widget.productName,
+                TenentId: table.Widget.TenentiD,
+                UserId: table.Widget.UserId,
+                OTPType: table.Widget.OTPType,
+                OTP: table.Widget.OTP,
+                Query: table.Widget.Query,
+                WidgetType: table.Widget.WidgetType,
+              };
+              tables.push(tb);
+              widgetsNotNull.push(tb.WidgetId);
+            }
           });
         }
 
         if (proj.Images) {
           proj.Images.map((image: any) => {
-            let img: Image = image;
-            images.push(img);
+            if (widgetsInOrderArr.includes(image.WidgetId)) {
+              let img: Image = image;
+              images.push(img);
+              widgetsNotNull.push(img.WidgetId);
+            }
           });
         }
 
         if (proj.Timeline) {
           proj.Timeline.map((tl: any) => {
-            timeline.push(tl);
+            if (widgetsInOrderArr.includes(tl.WidgetId)) {
+              timeline.push(tl);
+              widgetsNotNull.push(tl.WidgetId);
+            }
           });
         }
 
         if (proj.ProofBot) {
           proj.ProofBot.map((pb: any) => {
-            proofbot.push(pb);
+            if (widgetsInOrderArr.includes(pb.WidgetId)) {
+              proofbot.push(pb);
+              widgetsNotNull.push(pb.WidgetId);
+            }
           });
         }
+
+        contOrder = contOrder.filter((widget) => {
+          if (widgetsNotNull.includes(widget.WidgetId)) {
+            return widget;
+          }
+        });
 
         this.loadedProject = {
           ProjectId: proj.Project.ProjectId,
@@ -269,7 +290,7 @@ export class ProjectsComponent implements OnInit {
         this.router.navigate([`/layout/home/${proj.Project.ProjectId}`]);
       },
       error: (err) => {
-        this.openSnackBar(
+        this.popupMsgService.openSnackBar(
           'An unexpected error occured. Please try again later.'
         );
         this.projToBeLoaded = '';
@@ -283,7 +304,7 @@ export class ProjectsComponent implements OnInit {
     this.apiService.deleteProject(projectId).subscribe({
       next: (res) => {},
       error: (err) => {
-        this.openSnackBar(
+        this.popupMsgService.openSnackBar(
           'An unexpected error occured. Please try again later.'
         );
         this.projToBeDeleted = '';
@@ -291,17 +312,8 @@ export class ProjectsComponent implements OnInit {
       complete: () => {
         this.projToBeDeleted = '';
         this.getRecentProjects();
-        this.openSnackBar('Project deleted!!');
+        this.popupMsgService.openSnackBar('Project deleted!!');
       },
-    });
-  }
-
-  public openSnackBar(msg: string) {
-    this._snackBar.open(msg, 'OK', {
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-      panelClass: ['snackbar'],
-      duration: 5 * 1000,
     });
   }
 }

@@ -1,5 +1,5 @@
 <div class="widget-div">
-  <h2>
+  <h2 style="font-size: medium; font-weight: 200;">
     Image
     <button mat-icon-button (click)="deleteWidget()">
       <mat-icon>clear</mat-icon>
@@ -15,11 +15,23 @@
       (change)="onChange($event)"
       hidden
     />
-    <button mat-flat-button class="btn" (click)="triggerClick()">
+    <button mat-flat-button class="btn" style="font-size: small; font-weight: 200;" (click)="triggerClick()">
       Browse Files
     </button>
   </div>
   <div id="image" *ngIf="isUploaded()">
     <img [src]="base64" class="img" />
+  </div>
+  <div class = "widget-footer">
+     <input
+      type="file"
+      accept="image/*"
+      #fileUpload
+      (change)="onUpdateChange($event)"
+      hidden
+    />
+    <button mat-flat-button class="btn"   style="float: right; font-size: small; font-weight: 200;" (click)="triggerClick()" *ngIf="isUploaded()">
+      <mat-icon class="update-icon">edit</mat-icon> Update
+    </button>
   </div>
 </div>

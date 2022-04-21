@@ -1,4 +1,4 @@
-import { Component,Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -8,17 +8,17 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./html-codebehind.component.scss'],
 })
 export class HtmlCodebehindComponent implements OnInit {
-
   code: any;
+  loaded: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<HtmlCodebehindComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
-
   ngOnInit(): void {
-     console.log('modal dialog opened:' + this.data.htmlCode);
-     this.code = this.data.htmlCode;
+    this.loaded = true;
+    this.code = this.data.htmlCode;
+    this.loaded = false;
   }
 }

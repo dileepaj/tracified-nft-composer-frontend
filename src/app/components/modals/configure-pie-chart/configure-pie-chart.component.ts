@@ -6,6 +6,7 @@ import { AppState } from 'src/app/store/app.state';
 import {
   addBarChart,
   addPieChart,
+  deleteQueryResult,
   projectStatus,
   updatePieChart,
 } from 'src/app/store/nft-state-store/nft.actions';
@@ -21,12 +22,8 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 import { piechart } from 'src/models/nft-content/widgetTypes';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
-import {
-  MatSnackBar,
-  MatSnackBarHorizontalPosition,
-  MatSnackBarVerticalPosition,
-} from '@angular/material/snack-bar';
 import { ChartOptions } from 'chart.js';
+import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
 
 @Component({
   selector: 'app-configure-pie-chart',
@@ -68,8 +65,6 @@ export class ConfigurePieChartComponent implements OnInit {
 
   saving: boolean = false;
 
-  horizontalPosition: MatSnackBarHorizontalPosition = 'end';
-  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   labels: any[];
   values: any[];
 
@@ -79,7 +74,7 @@ export class ConfigurePieChartComponent implements OnInit {
     public dialog: MatDialog,
     private composerService: ComposerBackendService,
     private dndService: DndServiceService,
-    private _snackBar: MatSnackBar
+    private popupMsgService: PopupMessageService
   ) {
     this.nft$ = this.store.select(selectNFTContent);
     this.store.select(selectProjectStatus).subscribe((status) => {
@@ -88,11 +83,9 @@ export class ConfigurePieChartComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //this.updateChart();
-    //this.CheckQuerySavingStatus();
-    //this.setValueToPieChart();
     this.chartId = this.data.id;
     this.pieChart = this.data.widget;
+    this.query = this.pieChart.Query!;
   }
 
   //take value from  query result store by wigetId and se it as a barChart data
@@ -105,7 +98,6 @@ export class ConfigurePieChartComponent implements OnInit {
         pieChartvalue != undefined &&
         pieChartvalue.queryResult != ''
       ) {
-        console.log(true);
         let pcData = JSON.stringify(pieChartvalue.queryResult);
         let dta = eval(pcData);
         let a = JSON.parse(dta);
@@ -137,7 +129,6 @@ export class ConfigurePieChartComponent implements OnInit {
   //called when user moves to a different tab
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     if (tabChangeEvent.index === 1) {
-      //this.getPieChart();
       this.assignValues();
 
       this.setValueToPieChart();
@@ -186,7 +177,6 @@ export class ConfigurePieChartComponent implements OnInit {
             this.pieChartData = chart.ChartData!.filter((data) => data);
           }
           this.fieldColors = chart.Color!.filter((data) => data);
-          console.log(this.fieldColors);
           this.fontColor = chart.FontColor!;
           this.fontSize = chart.FontSize!;
           this.height = chart.Height!;
@@ -194,6 +184,19 @@ export class ConfigurePieChartComponent implements OnInit {
         }
       });
     });
+  }
+
+  public onCancel() {
+    if (this.pieChart.Query === undefined || this.pieChart.Query === '') {
+      this.store.dispatch(
+        deleteQueryResult({
+          queryResult: { WidgetId: this.pieChart.WidgetId, queryResult: '' },
+        })
+      );
+      this.dialog.closeAll();
+    } else {
+      this.dialog.closeAll();
+    }
   }
 
   private assignValues() {
@@ -206,7 +209,6 @@ export class ConfigurePieChartComponent implements OnInit {
         this.pieChartData = this.pieChart.ChartData!.filter((data) => data);
       }
       this.fieldColors = this.pieChart.Color!.filter((data) => data);
-      console.log(this.fieldColors);
       this.fontColor = this.pieChart.FontColor!;
       this.fontSize = this.pieChart.FontSize!;
       this.height = this.pieChart.Height!;
@@ -219,7 +221,6 @@ export class ConfigurePieChartComponent implements OnInit {
   }
 
   private saveChart(chart: any) {
-    console.log('chart', chart);
     chart = {
       ...chart,
       Type: piechart,
@@ -231,14 +232,13 @@ export class ConfigurePieChartComponent implements OnInit {
         next: (res) => {},
         error: (err) => {
           this.saving = false;
-          console.log(err);
-          this.openSnackBar(
+          this.popupMsgService.openSnackBar(
             'An unexpected error occured. Please try again later'
           );
         },
         complete: () => {
           this.saving = false;
-          this.openSnackBar('Saved!!');
+          this.popupMsgService.openSnackBar('Saved!!');
           this.dndService.setSavedStatus(chart.WidgetId);
           this.dialog.closeAll();
         },
@@ -248,14 +248,13 @@ export class ConfigurePieChartComponent implements OnInit {
         next: (res) => {},
         error: (err) => {
           this.saving = false;
-          console.log(err);
-          this.openSnackBar(
+          this.popupMsgService.openSnackBar(
             'An unexpected error occured. Please try again later'
           );
         },
         complete: () => {
           this.saving = false;
-          this.openSnackBar('Saved!!');
+          this.popupMsgService.openSnackBar('Saved!!');
           this.dialog.closeAll();
         },
       });
@@ -264,6 +263,7 @@ export class ConfigurePieChartComponent implements OnInit {
 
   public onQuerySuccess(event: any) {
     this.tabIndex = 1;
+    this.query = event.query;
   }
 
   private getRandomColor() {
@@ -292,22 +292,12 @@ export class ConfigurePieChartComponent implements OnInit {
   }
 
   private setColors() {
-    console.log(this.fieldColors.length);
     if (this.fieldColors.length === 0) {
       let count = this.pieChartData.length;
       for (let i = 0; i < count; i++) {
         this.fieldColors.push(this.getRandomColor());
       }
     }
-  }
-
-  public openSnackBar(msg: string) {
-    this._snackBar.open(msg, 'OK', {
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-      panelClass: ['snackbar'],
-      duration: 5 * 1000,
-    });
   }
 
   public drawChart() {

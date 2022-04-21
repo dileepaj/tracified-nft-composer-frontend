@@ -12,7 +12,11 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatStepper } from '@angular/material/stepper';
 import { MatTableDataSource } from '@angular/material/table';
@@ -43,15 +47,11 @@ import {
   timeline,
 } from 'src/models/nft-content/widgetTypes';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
-import {
-  MatSnackBar,
-  MatSnackBarHorizontalPosition,
-  MatSnackBarVerticalPosition,
-} from '@angular/material/snack-bar';
 import { UserserviceService } from 'src/app/services/userservice.service';
 import { Children, TimelineData } from 'src/models/nft-content/timeline';
 import { selectNFTContent } from 'src/app/store/nft-state-store/nft.selector';
 import { ProofBot, ProofData, ProofURL } from 'src/models/nft-content/proofbot';
+import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
 
 @Component({
   selector: 'app-select-batch',
@@ -67,15 +67,13 @@ export class SelectBatchComponent implements OnInit {
   chart: any;
   totalBatches: number = 10;
   page: number = 0;
-  horizontalPosition: MatSnackBarHorizontalPosition = 'end';
-  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   productsLoading: boolean = true;
   batchesLoading: boolean = true;
   dateRange = new FormGroup({
     start: new FormControl(),
     end: new FormControl(),
   });
-  continueSaving: boolean = false;
+
   saving: boolean = false;
 
   tdpStep: number = 0;
@@ -117,13 +115,13 @@ export class SelectBatchComponent implements OnInit {
     private batchesService: BatchesService,
     private composerService: ComposerBackendService,
     private dndService: DndServiceService,
-    private _snackBar: MatSnackBar,
-    private user: UserserviceService
+    private popupMsgService: PopupMessageService,
+    private user: UserserviceService,
+    public dialogRef: MatDialogRef<SelectBatchComponent>
   ) {}
 
   ngOnInit() {
     this.id = this.data.id;
-    console.log('first', this.user.getCurrentUser());
     this.userId = this.user.getCurrentUser().UserID;
     this.widget = this.data.widget;
     this.products.filterPredicate = (data: any, filter: string) =>
@@ -180,38 +178,43 @@ export class SelectBatchComponent implements OnInit {
           OTPType: 'Batch',
         };
 
-        if (this.widget.WidgetType === barchart) {
-          this.store.dispatch(updateBarChart({ chart: this.widget }));
-          this.continueSaving = true;
-        } else if (this.widget.WidgetType === piechart) {
-          this.store.dispatch(updatePieChart({ chart: this.widget }));
-          this.continueSaving = true;
-        } else if (this.widget.WidgetType === bubblechart) {
-          this.store.dispatch(updateBubbleChart({ chart: this.widget }));
-          this.continueSaving = true;
-        } else if (this.widget.WidgetType === proofbot) {
-          this.getProofbotData();
-          this.continueSaving = true;
-        } else if (this.widget.WidgetType === timeline) {
-          this.getTimelineData();
-        } else if (this.widget.WidgetType === carbonFp) {
-          this.store.dispatch(
-            updateCarbonFootprint({ carbonFootprint: this.widget })
-          );
-          this.continueSaving = true;
-        } else if (this.widget.WidgetType === table) {
-          this.store.dispatch(updateTable({ table: this.widget }));
-          this.continueSaving = true;
-        }
-
-        if (this.continueSaving) {
-          this.saveWidget();
+        switch (this.widget.WidgetType) {
+          case barchart:
+            this.store.dispatch(updateBarChart({ chart: this.widget }));
+            this.saveWidget();
+            break;
+          case piechart:
+            this.store.dispatch(updatePieChart({ chart: this.widget }));
+            this.saveWidget();
+            break;
+          case bubblechart:
+            this.store.dispatch(updateBubbleChart({ chart: this.widget }));
+            this.saveWidget();
+            break;
+          case proofbot:
+            this.getProofbotData();
+            break;
+          case timeline:
+            this.getTimelineData();
+            break;
+          case carbonFp:
+            this.store.dispatch(
+              updateCarbonFootprint({ carbonFootprint: this.widget })
+            );
+            this.saveWidget();
+            break;
+          case table:
+            this.store.dispatch(updateTable({ table: this.widget }));
+            this.saveWidget();
+            break;
         }
       } else {
-        this.openSnackBar('Please select a batch that has traceability data');
+        this.popupMsgService.openSnackBar(
+          'Please select a batch that has traceability data'
+        );
       }
     } else {
-      this.openSnackBar('Please select a product and batch!');
+      this.popupMsgService.openSnackBar('Please select a product and batch!');
     }
   }
 
@@ -222,6 +225,8 @@ export class SelectBatchComponent implements OnInit {
         widget: this.widget,
       },
     });
+
+    this.dialogRef.close();
   }
 
   public close() {
@@ -254,9 +259,7 @@ export class SelectBatchComponent implements OnInit {
           this.page = index;
         },
         error: (err) => {
-          console.log('err', err);
-          //this.openSnackBar(JSON.parse(err.error.message));
-          this.openSnackBar(
+          this.popupMsgService.openSnackBar(
             'An unexpected error occured. Please try again later'
           );
         },
@@ -272,11 +275,9 @@ export class SelectBatchComponent implements OnInit {
       next: (data: any) => {
         this.products = data;
         this.productsFilter = this.products;
-        console.log(data);
       },
       error: (err) => {
-        //this.openSnackBar(JSON.parse(err.error.message));
-        this.openSnackBar(
+        this.popupMsgService.openSnackBar(
           'An unexpected error occured. Please try again later'
         );
       },
@@ -290,14 +291,15 @@ export class SelectBatchComponent implements OnInit {
     this.batchesService.getStages().subscribe({
       next: (data: any) => {
         this.workflow = data.workflow;
-        this.workflow[this.workflow.length - 1].stages.map((stage: any) => {
+        this.workflow.stages.map((stage: any) => {
           let stg: any = {};
           this.stages[stage.stageId] = stage.name;
-          //this.stages.push(stg);
         });
       },
       error: (err) => {
-        this.openSnackBar(JSON.parse(err.error.message));
+        this.popupMsgService.openSnackBar(
+          'An unexpected error occured. Please try again later'
+        );
       },
     });
   }
@@ -360,12 +362,13 @@ export class SelectBatchComponent implements OnInit {
         next: (res) => {},
         error: (err) => {
           this.saving = false;
-          console.log('err', err);
-          this.openSnackBar(err);
+          this.popupMsgService.openSnackBar(
+            'An unexpected error occured. Please try again later'
+          );
         },
         complete: () => {
           this.saving = false;
-          this.openSnackBar('Saved!!');
+          this.popupMsgService.openSnackBar('Saved!!');
           //put the Data save status to sti
           this.store.dispatch(
             addCardtStatus({
@@ -385,14 +388,13 @@ export class SelectBatchComponent implements OnInit {
         next: (res) => {},
         error: (err) => {
           this.saving = false;
-          //this.openSnackBar(JSON.parse(err.error.message));
-          this.openSnackBar(
+          this.popupMsgService.openSnackBar(
             'An unexpected error occured. Please try again later'
           );
         },
         complete: () => {
           this.saving = false;
-          this.openSnackBar('Saved!!');
+          this.popupMsgService.openSnackBar('Saved!!');
           this.close();
         },
       });
@@ -419,8 +421,10 @@ export class SelectBatchComponent implements OnInit {
     let timelineData: TimelineData[] = [];
     this.batchesService.getTimeline(b64BatchId).subscribe((data) => {
       if (data.name === 'Error') {
-        this.openSnackBar('Please select a suitable batch for timeline.');
-        this.continueSaving = false;
+        this.popupMsgService.openSnackBar(
+          'Please select a suitable batch for timeline.'
+        );
+
         this.saving = false;
       } else {
         let tabs = data.tabs;
@@ -472,38 +476,36 @@ export class SelectBatchComponent implements OnInit {
             this.composerService.saveTimeline(this.widget).subscribe({
               next: (res) => {},
               error: (err) => {
-                this.openSnackBar(
+                this.popupMsgService.openSnackBar(
                   'An unexpected error occured. Please try again later'
                 );
               },
               complete: () => {
                 this.dndService.setSavedStatus(this.widget.WidgetId);
-
-                this.openSnackBar('Saved!!');
-                this.dialog.closeAll();
+                this.dndService.setBatchStatus(this.widget.WidgetId);
+                this.saving = false;
+                this.popupMsgService.openSnackBar('Saved!!');
+                this.close();
               },
             });
           } else {
             this.composerService.updateTimeline(this.widget).subscribe({
               next: (res) => {},
               error: (err) => {
-                this.openSnackBar(
+                this.popupMsgService.openSnackBar(
                   'An unexpected error occured. Please try again later'
                 );
               },
               complete: () => {
-                this.dndService.setSavedStatus(this.widget.WidgetId);
-
-                this.openSnackBar('Saved!!');
-                this.dialog.closeAll();
+                this.saving = false;
+                this.popupMsgService.openSnackBar('Saved!!');
+                this.close();
               },
             });
           }
-
-          this.continueSaving = true;
         } else {
-          this.openSnackBar('Timeline has no children');
-          this.continueSaving = false;
+          this.popupMsgService.openSnackBar('Timeline has no children');
+
           this.saving = false;
         }
       }
@@ -516,7 +518,6 @@ export class SelectBatchComponent implements OnInit {
       .getProofbotData(this.selectedBatch.identifier.identifier)
       .subscribe({
         next: (data) => {
-          console.log(data);
           let proofData: ProofData[] = [];
           for (let i = 0; i < data.length; i++) {
             let urls: ProofURL[] = [];
@@ -551,38 +552,33 @@ export class SelectBatchComponent implements OnInit {
           if (status === false) {
             this.composerService.saveProofbot(proofbot).subscribe({
               error: (err) => {
-                this.openSnackBar('Error!');
+                this.popupMsgService.openSnackBar('Error!');
               },
               complete: () => {
                 this.saving = false;
-                this.continueSaving = true;
+                this.dndService.setSavedStatus(this.widget.WidgetId);
+                this.dndService.setBatchStatus(this.widget.WidgetId);
+                this.popupMsgService.openSnackBar('Saved!!');
+                this.close();
               },
             });
           } else {
             this.composerService.updateProofbot(proofbot).subscribe({
               error: (err) => {
-                this.openSnackBar('Error!');
+                this.popupMsgService.openSnackBar('Error!');
               },
               complete: () => {
                 this.saving = false;
-                this.continueSaving = true;
+                this.popupMsgService.openSnackBar('Saved!!');
+                this.close();
               },
             });
           }
         },
         error: (err) => {
-          this.openSnackBar('Error!');
+          this.popupMsgService.openSnackBar('Error!');
           this.saving = false;
         },
       });
-  }
-
-  public openSnackBar(msg: string) {
-    this._snackBar.open(msg, 'OK', {
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-      panelClass: ['snackbar'],
-      duration: 5 * 1000,
-    });
   }
 }

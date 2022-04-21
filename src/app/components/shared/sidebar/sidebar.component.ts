@@ -15,6 +15,8 @@ import {
 } from 'src/app/store/nft-state-store/nft.selector';
 import { Store } from '@ngrx/store';
 import { NFTContent } from 'src/models/nft-content/nft.content';
+import { UserserviceService } from 'src/app/services/userservice.service';
+import { ComposerUser } from 'src/models/user';
 
 @Component({
   selector: 'app-sidebar',
@@ -38,7 +40,7 @@ export class SidebarComponent implements OnInit {
   nft$: Observable<NFTContent>;
   projId: string = '';
   layoutLink: string = '/layout/home/';
-
+  user: ComposerUser;
   widgets = [
     {
       _id: 1,
@@ -77,7 +79,10 @@ export class SidebarComponent implements OnInit {
     },
   ];
 
-  constructor(private store: Store<AppState>) {
+  constructor(
+    private store: Store<AppState>,
+    private userService: UserserviceService
+  ) {
     this.store.select(selectNFTContent).subscribe((nft) => {
       this.title = nft.ProjectName;
       this.projId = nft.ProjectId;
@@ -86,6 +91,7 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.user = this.userService.getCurrentUser();
     this.store.select(selectNoOfBarCharts).subscribe((c) => {
       this.barChartCount = c;
     });

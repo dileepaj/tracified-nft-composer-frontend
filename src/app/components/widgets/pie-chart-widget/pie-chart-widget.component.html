@@ -1,6 +1,6 @@
 <div class="widget-div" (dblclick)="openDialog()" f>
   <div>
-    <h2>
+    <h2 style="font-size: medium; font-weight: 200">
       Pie Chart
       <button mat-icon-button (click)="deleteWidget()">
         <mat-icon>clear</mat-icon>
@@ -8,7 +8,7 @@
     </h2>
   </div>
   <div class="chart-div">
-    <mat-icon>pie_chart</mat-icon>
+    <img class="widget-card-icon" [src]="icon" />
   </div>
   <div class="widget-footer">
     <button mat-button class="btn" style="float: right" (click)="openAddData()">
