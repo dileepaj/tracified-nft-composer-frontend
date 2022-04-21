@@ -38,15 +38,15 @@
       fxFlex="20"
       fxLayoutAlign="end center"
     >
-      <label id="userName">{{ userName }}</label>
+      <label id="userName">{{ user.UserName }}</label>
     </div>
     <div fxFlex="20" fxLayoutAlign="end center">
       <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>account_circle</mat-icon>
+                <img src="../../../../assets/images/default-user.png" width="30px" height="30px" class=" rounded-circle" />
       </button>
       <mat-menu #menu="matMenu" xPosition="before">
         <label class="account-username" mat-menu-item id="userName">{{
-          userName
+          user.UserName
         }}</label>
         <button mat-menu-item>
           <mat-icon class="menu-icon">help</mat-icon>

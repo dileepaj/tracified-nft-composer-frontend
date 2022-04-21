@@ -1,12 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { JwtserviceService } from 'src/app/services/jwtservice.service';
 import { SidenavService } from 'src/app/services/sidenav.service';
+import { UserserviceService } from 'src/app/services/userservice.service';
 import { AppState } from 'src/app/store/app.state';
 import {
   selectUserDetail,
   selectUserName,
 } from 'src/app/store/user-state-store/user.selector';
+import { ComposerUser } from 'src/models/user';
 
 @Component({
   selector: 'app-header',
@@ -14,18 +17,16 @@ import {
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  userName: string = '';
+  user: ComposerUser;
   constructor(
     private router: Router,
     private sidenav: SidenavService,
-    private route: Router,
-    private store: Store<AppState>
+private userServices:UserserviceService,
+private jwtServices:JwtserviceService
   ) {}
 
   ngOnInit(): void {
-    this.store.select(selectUserName).subscribe((username) => {
-      this.userName = username;
-    });
+ this.user=this.userServices.getCurrentUser()
   }
 
   public logout() {
@@ -35,8 +36,7 @@ export class HeaderComponent implements OnInit {
 
   public toggleSideBar() {
     this.sidenav.toggleNav();
-    let user = JSON.parse(sessionStorage.getItem('User') || '');
-    this.userName = user.UserName;
+    this.user = this.userServices.getCurrentUser();
   }
 
   public isProjectsView() {
