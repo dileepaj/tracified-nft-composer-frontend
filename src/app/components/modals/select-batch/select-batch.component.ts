@@ -12,7 +12,11 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatStepper } from '@angular/material/stepper';
 import { MatTableDataSource } from '@angular/material/table';
@@ -112,7 +116,8 @@ export class SelectBatchComponent implements OnInit {
     private composerService: ComposerBackendService,
     private dndService: DndServiceService,
     private popupMsgService: PopupMessageService,
-    private user: UserserviceService
+    private user: UserserviceService,
+    public dialogRef: MatDialogRef<SelectBatchComponent>
   ) {}
 
   ngOnInit() {
@@ -220,6 +225,8 @@ export class SelectBatchComponent implements OnInit {
         widget: this.widget,
       },
     });
+
+    this.dialogRef.close();
   }
 
   public close() {
@@ -284,7 +291,7 @@ export class SelectBatchComponent implements OnInit {
     this.batchesService.getStages().subscribe({
       next: (data: any) => {
         this.workflow = data.workflow;
-        this.workflow[this.workflow.length - 1].stages.map((stage: any) => {
+        this.workflow.stages.map((stage: any) => {
           let stg: any = {};
           this.stages[stage.stageId] = stage.name;
         });

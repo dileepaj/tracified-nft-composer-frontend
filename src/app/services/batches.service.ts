@@ -44,7 +44,7 @@ export class BatchesService {
    * @screen - the products view(popup screens)
    */
   public getStages(): Observable<Workflow[]> {
-    return this.apiService.get(this.admin + '/api/workflow/' + this._tenantId);
+    return this.apiService.get(this.admin + '/api/getlatestworkflow');
   }
 
   /**
