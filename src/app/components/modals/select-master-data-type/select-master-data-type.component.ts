@@ -18,6 +18,7 @@ export class SelectMasterDataTypeComponent implements OnInit {
   widget: any;
   artifacts: any = [];
   loading: boolean = false;
+  artifactsLoading: boolean = true;
   constructor(
     public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -30,6 +31,7 @@ export class SelectMasterDataTypeComponent implements OnInit {
     this.widget = this.data.widget;
     this.artifactService.getArtifacts().subscribe((data) => {
       this.artifacts = data;
+      this.artifactsLoading = false;
     });
   }
 

@@ -12,6 +12,10 @@
 </div>
 <mat-dialog-content class="mat-typography modal-content">
   <h2>Created Artifact Templates</h2>
+  <mat-progress-bar
+          class="progressbar"
+          mode="indeterminate"
+          *ngIf="artifactsLoading"></mat-progress-bar>
   <div class="content">
     <div fxLayout="row wrap" style="width: 100%">
       <mat-card fxFlex="24%" *ngFor="let item of artifacts">
