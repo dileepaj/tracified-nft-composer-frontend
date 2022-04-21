@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
+import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
 import { AppState } from 'src/app/store/app.state';
 import {
   addPieChart,
@@ -29,12 +30,14 @@ export class PieChartWidgetComponent implements OnInit {
   @Output() onDeleteWidget: EventEmitter<any> = new EventEmitter();
   pieChart: Chart;
   nftContent: NFTContent;
+  icon: any = '../../../../assets/images/widget-icons/Pie-chart.png';
 
   constructor(
     private store: Store<AppState>,
     public dialog: MatDialog,
     private service: DndServiceService,
-    private composerService: ComposerBackendService
+    private composerService: ComposerBackendService,
+    private popupMsgService: PopupMessageService
   ) {
     this.store.select(selectNFTContent).subscribe((content) => {
       this.nftContent = content;
@@ -83,7 +86,9 @@ export class PieChartWidgetComponent implements OnInit {
     this.composerService.deleteChart(this.id).subscribe({
       next: (res) => {},
       error: (err) => {
-        alert('Error');
+        this.popupMsgService.openSnackBar(
+          'An unexpected error occured. Please try again later'
+        );
       },
       complete: () => {
         this.store.dispatch(deletePieChart({ chart: this.pieChart }));

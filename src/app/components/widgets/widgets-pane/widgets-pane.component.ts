@@ -13,6 +13,7 @@ import {
 export class WidgetsPaneComponent implements OnInit {
   opened = true;
   @Input() widgets: any = [];
+  icon: any = '../../../../assets/images/widget-icons/Table.png';
 
   constructor() {}
 

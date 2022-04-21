@@ -1,29 +1,71 @@
 <mat-toolbar class="header" fxFlex="row" fxLayoutAlign="space-between center">
-  <div fxFlex.lg="80" fxFlex.md="80" fxFlex.sm="70" fxFlex.xs="90" fxLayoutAlign="start center">
-    <mat-icon fxHide.sm="false" fxHide.md="false" fxHide.lg="false" fxHide.xl="false" fxHide.xs="false" class="menu"
-      (click)="toggleSideBar()">menu</mat-icon>
-    <span><label>Tracified<span id="title"> | NFT Composer</span></label></span>
+  <div
+    fxFlex.lg="80"
+    fxFlex.md="80"
+    fxFlex.sm="70"
+    fxFlex.xs="90"
+    fxLayoutAlign="start center"
+  >
+    <mat-icon
+      fxHide.sm="false"
+      fxHide.md="false"
+      fxHide.lg="false"
+      fxHide.xl="false"
+      fxHide.xs="false"
+      class="menu"
+      (click)="toggleSideBar()"
+      *ngIf="!isProjectsView()"
+      style="padding-right: 5px;"
+      >menu</mat-icon
+    >
+    <span style="display: flex;
+        align-items: center;
+        justify-content: center">
+        <img src="../../../../assets/images/tracified-header.png" style="flex-basis: 40%" width="130px"/>
+        <label>
+          <span id="title" style="font-size: 20px;
+        padding-left: 10px; font-weight: 200;"> | NFT Composer</span>
+        </label>
+    </span>
+    
+
   </div>
-  <div fxFlex.lg="20" fxFlex.md="20" fxFlex.sm="30" fxFlex.xs="10" fxLayoutAlign="end center">
-    <div fxFlex="80" fxHide.xs="true" fxHide.md="false" fxHide.sm="false" fxHide.lg="false" fxHide.xl="false"
-      fxFlex="20" fxLayoutAlign="end center">
-      <label id="userName">{{userName}}</label>
+  <div
+    fxFlex.lg="20"
+    fxFlex.md="20"
+    fxFlex.sm="30"
+    fxFlex.xs="10"
+    fxLayoutAlign="end center"
+  >
+    <div
+      fxFlex="80"
+      fxHide.xs="true"
+      fxHide.md="false"
+      fxHide.sm="false"
+      fxHide.lg="false"
+      fxHide.xl="false"
+      fxFlex="20"
+      fxLayoutAlign="end center"
+    >
+      <label id="userName">{{ user.UserName }}</label>
     </div>
     <div fxFlex="20" fxLayoutAlign="end center">
       <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>account_circle</mat-icon>
+                <img src="../../../../assets/images/default-user.png" width="30px" height="30px" class=" rounded-circle" />
       </button>
       <mat-menu #menu="matMenu" xPosition="before">
-        <label class="account-username"  mat-menu-item id="userName">{{userName}}</label>
-        <button mat-menu-item>
+        <label style="color: #00C853;" class="account-username" mat-menu-item id="userName">{{
+          user.UserName
+        }}</label>
+        <button style="color: #00C853;" mat-menu-item>
           <mat-icon class="menu-icon">help</mat-icon>
           <span class="menu-item">Help</span>
         </button>
-        <button mat-menu-item>
+        <button style="color: #00C853;" mat-menu-item>
           <mat-icon class="menu-icon">lightbulb_circle</mat-icon>
           <span class="menu-item">FAQ</span>
         </button>
-        <button mat-menu-item (click)="logout()">
+        <button style="color: red;" mat-menu-item (click)="logout()">
           <mat-icon class="menu-icon">logout</mat-icon>
           <span class="menu-item">Log Out</span>
         </button>

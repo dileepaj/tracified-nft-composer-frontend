@@ -1,4 +1,8 @@
-<mat-dialog-content class="mat-typography modal-content" fxLayout="row">
+<mat-dialog-content
+  class="mat-typography modal-content"
+  fxLayout="row"
+  disableClose
+>
   <mat-tab-group
     (selectedTabChange)="tabChanged($event)"
     fxFlex="100%"
@@ -24,7 +28,7 @@
           <div class="bar-chart">
             <canvas
               baseChart
-              class="canvas"
+              class="bar-chart-canvas"
               [data]="chartData"
               [type]="'bar'"
               [options]="barChartOptions"
@@ -115,7 +119,7 @@
   </mat-tab-group>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button (click)="onCancel()">Cancel</button>
 
   <button
     mat-button

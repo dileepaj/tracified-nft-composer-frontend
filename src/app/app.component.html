@@ -1,5 +1,12 @@
-<app-header></app-header>
-<mat-drawer-container class="sidebar-container" fxLayout="column" *ngIf="authorized" else login>
+<app-header *ngIf="!isLogIn()"></app-header>
+<mat-drawer-container
+  class="sidebar-container"
+  [ngStyle]="{ top: !isLogIn() ? '70px' : '0' }"
+  fxLayout="column"
+  *ngIf="authorized"
+  else
+  login
+>
   <mat-drawer-content>
     <router-outlet> </router-outlet>
   </mat-drawer-content>

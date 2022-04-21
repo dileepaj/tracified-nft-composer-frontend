@@ -280,4 +280,15 @@ export class ComposerBackendService {
       }
     );
   }
+
+  /**
+   * @function updateImage - update image widget with base64 converted image
+   * @param - image
+   * @component - nft-image widget
+   */
+  public updateImage(image: Image): Observable<Image> {
+    return this.http.put<Image>(`${this.apiUrl}/html/image`, image, {
+      headers: this.setHeaders(),
+    });
+  }
 }

@@ -2,9 +2,10 @@
   <div class="breadcrumb">
     <h2 mat-dialog-title>
       <a class="previous" (click)="openWidgetContent()" mat-dialog-close
-        >Widget Content /</a
+        ><mat-icon class="material-symbols-outlined back-icon">
+          arrow_back </mat-icon
+        >Back</a
       >
-      <a mat-dialog-close>Select Batch</a>
     </h2>
   </div>
   <mat-icon style="cursor: pointer" (click)="close()">close</mat-icon>
@@ -17,7 +18,7 @@
         <mat-icon>done</mat-icon>
       </ng-template>
       <mat-step label="Select Product">
-        <mat-form-field appearance="outline" style="float: right">
+        <mat-form-field appearance="outline" style="float: left">
           <mat-label>Search</mat-label>
           <input
             type="text"
@@ -57,7 +58,7 @@
               </td>
               <td fxLayout="row wrap">
                 <span class="stage" *ngFor="let stage of product.stages">
-                  {{ stages[stage] }}
+                  <label *ngIf="stages[stage]"> {{ stages[stage] }}</label>
                 </span>
               </td>
             </tr>
@@ -66,7 +67,7 @@
       </mat-step>
       <mat-step label="Select Batch">
         <!--Search bar-->
-        <mat-form-field appearance="outline" style="float: right">
+        <mat-form-field appearance="outline" style="float: left">
           <mat-label>Search</mat-label>
           <mat-icon matPrefix>search</mat-icon>
           <input
@@ -81,7 +82,7 @@
         <!--Date time picker-->
         <mat-form-field
           appearance="outline"
-          style="float: right; margin-right: 10px"
+          style="float: left; margin-left: 5px"
         >
           <mat-label>Select date range</mat-label>
           <mat-date-range-input [rangePicker]="picker" [formGroup]="dateRange">
@@ -168,10 +169,7 @@
           <div>
             <mat-accordion class="headers-align" *ngIf="batchIsSelected">
               <mat-expansion-panel
-                *ngFor="
-                  let stage of workflow[this.workflow.length - 1].stages;
-                  index as i
-                "
+                *ngFor="let stage of workflow.stages; index as i"
                 [expanded]="tdpStep === i + 1"
                 (opened)="setTdpStep(i + 1)"
               >

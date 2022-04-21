@@ -1,15 +1,17 @@
 <div class="widget-div" f>
   <div>
-    <h2>
+    <h2 style="font-size: medium; font-weight: 200">
       Timeline<button mat-icon-button (click)="deleteWidget()">
         <mat-icon>clear</mat-icon>
       </button>
     </h2>
   </div>
   <div class="content-div">
-    <mat-icon class="tl-icon" *ngIf="childrenOne.length === 0">
-      event_note
-    </mat-icon>
+    <img
+      class="widget-card-icon"
+      [src]="icon"
+      *ngIf="childrenOne.length === 0"
+    />
 
     <div class="timeline-content" *ngIf="childrenOne.length > 0">
       <ul class="timeline">
