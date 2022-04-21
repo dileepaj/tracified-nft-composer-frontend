@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.state';
 import {
   addTable,
+  deleteQueryResult,
   updateTable,
 } from 'src/app/store/nft-state-store/nft.actions';
 import {
@@ -199,5 +200,18 @@ export class ConfigureTableComponent implements OnInit {
   public onQuerySuccess(event: any) {
     this.tabIndex = 1;
     this.query = event.query;
+  }
+
+  public onCancel() {
+    if (this.table.Query === undefined || this.table.Query === '') {
+      this.store.dispatch(
+        deleteQueryResult({
+          queryResult: { WidgetId: this.table.WidgetId, queryResult: '' },
+        })
+      );
+      this.dialog.closeAll();
+    } else {
+      this.dialog.closeAll();
+    }
   }
 }

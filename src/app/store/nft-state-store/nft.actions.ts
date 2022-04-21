@@ -168,6 +168,11 @@ export const addQueryResult = createAction(
   props<{ queryResult: QueryResult }>()
 );
 
+export const deleteQueryResult = createAction(
+  '[delete card query Result] Delete card Query Result',
+  props<{ queryResult: QueryResult }>()
+);
+
 export const setCardStatus = createAction(
   '[set card status] Set card status ',
   props<{ cardStatus: CardStatus[] }>()

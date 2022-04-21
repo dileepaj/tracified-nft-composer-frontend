@@ -9,6 +9,7 @@ import { PopupMessageService } from 'src/app/services/popup-message/popup-messag
 import { AppState } from 'src/app/store/app.state';
 import {
   addBubbleChart,
+  deleteQueryResult,
   updateBubbleChart,
 } from 'src/app/store/nft-state-store/nft.actions';
 import {
@@ -127,6 +128,19 @@ export class ConfigureBubbleChartComponent implements OnInit {
       this.assignValues();
       this.setValueToBubblerChart();
       this.drawChart();
+    }
+  }
+
+  public onCancel() {
+    if (this.bubbleChart.Query === undefined || this.bubbleChart.Query === '') {
+      this.store.dispatch(
+        deleteQueryResult({
+          queryResult: { WidgetId: this.bubbleChart.WidgetId, queryResult: '' },
+        })
+      );
+      this.dialog.closeAll();
+    } else {
+      this.dialog.closeAll();
     }
   }
 
