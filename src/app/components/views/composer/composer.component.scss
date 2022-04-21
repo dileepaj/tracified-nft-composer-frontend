@@ -104,6 +104,8 @@
 .btn {
   @include btn-primary;
   margin: 5px;
+  font-weight: 200;
+  font-size: small;
 }
 
 .btn-container {
