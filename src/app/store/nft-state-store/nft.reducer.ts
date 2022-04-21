@@ -17,6 +17,7 @@ import {
   deleteNFTImage,
   deletePieChart,
   deleteProofBot,
+  deleteQueryResult,
   deleteTable,
   deleteTimeline,
   loadProject,
@@ -95,6 +96,14 @@ export const nftReducer = createReducer(
       nftClone.queryResult = [...nftClone.queryResult];
       nftClone.queryResult[index] = queryResult;
     }
+    return nftClone;
+  }),
+  on(deleteQueryResult, (nft, { queryResult }) => {
+    const nftClone: NFTState = JSON.parse(JSON.stringify(nft));
+    let i = 0;
+    nftClone.queryResult = nftClone.queryResult.filter(
+      (data) => data.WidgetId !== queryResult.WidgetId
+    );
     return nftClone;
   }),
 
