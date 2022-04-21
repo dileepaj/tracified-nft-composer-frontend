@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
 import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
+import { UserserviceService } from 'src/app/services/userservice.service';
 import { AppState } from 'src/app/store/app.state';
 import { newProject } from 'src/app/store/nft-state-store/nft.actions';
 import { NFTContent } from 'src/models/nft-content/nft.content';
@@ -25,14 +26,12 @@ export class NewProjectComponent implements OnInit {
     private dndService: DndServiceService,
     private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private popupMsgService: PopupMessageService
+    private popupMsgService: PopupMessageService,
+    private userServices: UserserviceService
   ) {}
 
   ngOnInit(): void {
-    let user: string = sessionStorage.getItem('User') || '';
-    if (user !== '') {
-      this.user = JSON.parse(user);
-    }
+    this.user = this.userServices.getCurrentUser();
   }
 
   public createProject() {

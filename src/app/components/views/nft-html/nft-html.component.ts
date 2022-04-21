@@ -18,6 +18,7 @@ export class NftHtmlComponent implements OnInit {
   sidenav: boolean = true;
   htmlStr: any;
   nftContent: NFTContent;
+  loaded: boolean = false;
 
   @ViewChild('iframe', { static: false }) iframe: ElementRef;
 
@@ -32,6 +33,7 @@ export class NftHtmlComponent implements OnInit {
   }
 
   public ngAfterViewInit() {
+    this.loaded = true;
     this.populateIframe(this.iframe.nativeElement);
   }
 
@@ -42,15 +44,18 @@ export class NftHtmlComponent implements OnInit {
   }
   private populateIframe(iframe: any) {
     //get from backend
-    this._composerService.generateHTML(this.nftContent).subscribe((data: any) => {
-      if (!!data && !!data.Response && data.Response !== '') {
-        this.htmlStr = atob(data.Response);    
-        const content = this.htmlStr;
-        iframe.contentWindow.document.open();
-        iframe.contentWindow.document.write(content);
-        iframe.contentWindow.document.close();
-      }
-    });
+    this._composerService
+      .generateHTML(this.nftContent)
+      .subscribe((data: any) => {
+        if (!!data && !!data.Response && data.Response !== '') {
+          this.htmlStr = atob(data.Response);
+          const content = this.htmlStr;
+          iframe.contentWindow.document.open();
+          iframe.contentWindow.document.write(content);
+          iframe.contentWindow.document.close();
+          this.loaded = false;
+        }
+      });
   }
 
   openCodebehindPopup(){

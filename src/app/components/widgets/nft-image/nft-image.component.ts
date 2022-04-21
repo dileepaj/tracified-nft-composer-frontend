@@ -26,6 +26,7 @@ import {
   selectNFTImages,
 } from 'src/app/store/nft-state-store/nft.selector';
 import { Image } from 'src/models/nft-content/image';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-nft-image',
@@ -44,12 +45,15 @@ export class NftImageComponent implements OnInit {
   img: any = '';
   projectId: string;
   src: string = '';
+  saving: boolean = false;
+  icon: any = '../../../../assets/images/widget-icons/Image-upload.png';
 
   constructor(
     private store: Store<AppState>,
     private service: DndServiceService,
     private composerService: ComposerBackendService,
-    private popupMsgService: PopupMessageService
+    private popupMsgService: PopupMessageService,
+    public dialog: MatDialog
   ) {
     this.store.select(selectNFTContent).subscribe((content) => {
       this.projectId = content.ProjectId;
@@ -159,6 +163,73 @@ export class NftImageComponent implements OnInit {
   }
 
   public saveImage() {
-    this.composerService.saveImage(this.image).subscribe((res) => {});
+    this.composerService.saveImage(this.image).subscribe({
+      next: (res) => {},
+      error: (err) => {
+        this.saving = false;
+        this.popupMsgService.openSnackBar(
+          'An unexpected error occured. Please try again later'
+        );
+      },
+      complete: () => {
+        this.saving = false;
+        this.popupMsgService.openSnackBar('Image saved');
+        this.service.setSavedStatus(this.image.WidgetId);
+        this.dialog.closeAll();
+      },
+    });
+  }
+
+  //called when user updates the image
+  public onUpdateChange(event: any) {
+    this.file = event.target.files[0];
+    this.uploadUpdatedImage(event);
+  }
+
+  public uploadUpdatedImage(event: Event) {
+    this.loading = !this.loading;
+    const reader = new FileReader();
+    reader.readAsDataURL(this.file);
+    reader.onload = this._updateHadleRederLoaded.bind(this);
+    reader.readAsBinaryString(this.file);
+    this.loading = false;
+  }
+
+  //create base64 updated image
+  private _updateHadleRederLoaded(readerEvt: any) {
+    this.base64 = readerEvt.target.result;
+    this.updateNewImage();
+    this.updateHTML();
+  }
+
+  //update the redux state on update image
+  private updateNewImage() {
+    this.image = {
+      ...this.image,
+      Type: this.file.type,
+      Base64Image: this.base64,
+    };
+
+    this.updateImageInDB();
+    this.store.dispatch(updateNFTImage({ image: this.image }));
+  }
+
+  //calling the endpoint for updating the image in the project
+  public updateImageInDB() {
+    this.composerService.updateImage(this.image).subscribe({
+      next: (res) => {},
+      error: (err) => {
+        this.saving = false;
+        this.popupMsgService.openSnackBar(
+          'An unexpected error occured. Please try again later'
+        );
+      },
+      complete: () => {
+        this.saving = false;
+        this.popupMsgService.openSnackBar('Image updated');
+        this.service.setSavedStatus(this.image.WidgetId);
+        this.dialog.closeAll();
+      },
+    });
   }
 }

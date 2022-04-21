@@ -1,6 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { timeline } from 'src/models/nft-content/widgetTypes';
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
+import { proofbot, timeline } from 'src/models/nft-content/widgetTypes';
 import { SelectBatchComponent } from '../select-batch/select-batch.component';
 import { SelectMasterDataTypeComponent } from '../select-master-data-type/select-master-data-type.component';
 
@@ -14,15 +18,25 @@ export class WidgetContentComponent implements OnInit {
   userId: string;
   widget: any;
   timeline = timeline;
+  showMasterDataSelection: boolean = true;
   constructor(
     public dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialogRef: MatDialogRef<WidgetContentComponent>
   ) {}
 
   ngOnInit(): void {
     this.id = this.data.id;
     this.userId = this.data.userId;
     this.widget = this.data.widget;
+    if (
+      this.widget.WidgetType === timeline ||
+      this.widget.WidgetType === proofbot
+    ) {
+      this.showMasterDataSelection = false;
+    } else {
+      this.showMasterDataSelection = true;
+    }
   }
 
   //open batch selection popup
@@ -35,6 +49,8 @@ export class WidgetContentComponent implements OnInit {
       },
     });
 
+    this.dialogRef.close();
+
     dialogRef.afterClosed().subscribe((result) => {});
   }
 
@@ -46,5 +62,7 @@ export class WidgetContentComponent implements OnInit {
         widget: this.widget,
       },
     });
+
+    this.dialogRef.close();
   }
 }

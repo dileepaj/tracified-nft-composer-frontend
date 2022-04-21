@@ -2,15 +2,16 @@
   <div class="breadcrumb">
     <h2 mat-dialog-title>
       <a class="previous" (click)="openWidgetContent()" mat-dialog-close
-        >Widget Content
-      </a>
-      /
-      <a>Select Master Data Type</a>
+        ><mat-icon class="material-symbols-outlined back-icon">
+          arrow_back </mat-icon
+        >Back</a
+      >
     </h2>
   </div>
   <mat-icon style="cursor: pointer" (click)="close()">close</mat-icon>
 </div>
 <mat-dialog-content class="mat-typography modal-content">
+  <h2>Created Artifact Templates</h2>
   <div class="content">
     <div fxLayout="row wrap" style="width: 100%">
       <mat-card fxFlex="24%" *ngFor="let item of artifacts">

@@ -8,7 +8,7 @@
 }
 
 .content {
-  height: calc($modalHeight);
+  height: calc($modalHeight - 50px);
   width: 100%;
   overflow: auto;
 }
@@ -20,6 +20,17 @@
 
 .previous {
   color: rgb(134, 134, 134);
+  text-decoration: none;
+}
+
+.previous:hover {
+  color: $green;
+  text-decoration: none !important;
+}
+
+.back-icon {
+  vertical-align: middle;
+  margin-right: 5px;
 }
 
 .master-data-card {

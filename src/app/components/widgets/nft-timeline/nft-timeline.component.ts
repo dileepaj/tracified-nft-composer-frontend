@@ -42,6 +42,7 @@ export class NftTimelineComponent implements OnInit {
   key: any;
   value: any;
   viewBtn: boolean = false;
+  icon: any = '../../../../assets/images/widget-icons/timeline.png';
 
   constructor(
     private store: Store<AppState>,

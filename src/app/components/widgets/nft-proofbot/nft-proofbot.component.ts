@@ -29,12 +29,10 @@ import { WidgetContentComponent } from '../../modals/widget-content/widget-conte
 export class NftProofbotComponent implements OnInit {
   @Input() id: any;
   @Output() onDeleteWidget: EventEmitter<any> = new EventEmitter();
-  image$: Observable<ProofBot[]>;
   proofbot: ProofBot;
-  data: any[] = [];
   otpAdded: boolean = false;
   projectId: string;
-  proofUrls: any[] = [];
+  icon: any = '../../../../assets/images/widget-icons/Proofbot.png';
 
   constructor(
     private store: Store<AppState>,
@@ -59,8 +57,6 @@ export class NftProofbotComponent implements OnInit {
         if (widget.WidgetId == this.id) {
           this.proofbot = widget;
           if (widget.Data!.length > 0) {
-            this.proofUrls = [];
-            this.buildProofsArray(widget.Data!);
             this.otpAdded = true;
           }
         }
@@ -111,7 +107,7 @@ export class NftProofbotComponent implements OnInit {
     const dialogRef = this.dialog.open(ProofbotViewComponent, {
       data: {
         id: this.id,
-        proofUrls: this.proofUrls,
+        proofbot: this.proofbot,
       },
     });
   }
@@ -119,28 +115,5 @@ export class NftProofbotComponent implements OnInit {
   public CamelcaseToWord(string: string) {
     string = string.charAt(0).toUpperCase() + string.slice(1);
     return string.replace(/([A-Z]+)/g, ' $1').replace(/([A-Z][a-z])/g, ' $1');
-  }
-
-  public buildProofsArray(proofData: ProofData[]) {
-    let proofs: any[] = [];
-    let urls: ProofURL[] = [];
-    proofData.map((data) => {
-      data.Urls.map((proofUrl) => {
-        if (!proofs.includes(proofUrl.Type)) {
-          proofs.push(proofUrl.Type);
-        }
-        urls.push(proofUrl);
-      });
-    });
-
-    for (let i = 0; i < proofs.length; i++) {
-      let urlSet: string[] = [];
-      urls.map((url) => {
-        if (url.Type === proofs[i]) {
-          urlSet.push(url.Url);
-        }
-      });
-      this.proofUrls.push({ type: proofs[i], urls: urlSet });
-    }
   }
 }

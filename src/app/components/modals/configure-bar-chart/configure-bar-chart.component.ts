@@ -214,6 +214,7 @@ export class ConfigureBarChartComponent implements OnInit {
   }
 
   private saveChart(chart: any) {
+    this.getBarChart();
     chart = {
       ...chart,
       Type: barchart,
@@ -246,7 +247,7 @@ export class ConfigureBarChartComponent implements OnInit {
         },
         complete: () => {
           this.saving = false;
-          this.popupMsgService.openSnackBar('Saved!!');
+          this.popupMsgService.openSnackBar('Updated!!');
           this.dialog.closeAll();
         },
       });
