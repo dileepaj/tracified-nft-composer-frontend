@@ -69,7 +69,7 @@ export class SelectBatchComponent implements OnInit {
     start: new FormControl(),
     end: new FormControl(),
   });
-  continueSaving: boolean = false;
+
   saving: boolean = false;
 
   tdpStep: number = 0;
@@ -176,19 +176,18 @@ export class SelectBatchComponent implements OnInit {
         switch (this.widget.WidgetType) {
           case barchart:
             this.store.dispatch(updateBarChart({ chart: this.widget }));
-            this.continueSaving = true;
+            this.saveWidget();
             break;
           case piechart:
             this.store.dispatch(updatePieChart({ chart: this.widget }));
-            this.continueSaving = true;
+            this.saveWidget();
             break;
           case bubblechart:
             this.store.dispatch(updateBubbleChart({ chart: this.widget }));
-            this.continueSaving = true;
+            this.saveWidget();
             break;
           case proofbot:
             this.getProofbotData();
-            this.continueSaving = true;
             break;
           case timeline:
             this.getTimelineData();
@@ -197,16 +196,12 @@ export class SelectBatchComponent implements OnInit {
             this.store.dispatch(
               updateCarbonFootprint({ carbonFootprint: this.widget })
             );
-            this.continueSaving = true;
+            this.saveWidget();
             break;
           case table:
             this.store.dispatch(updateTable({ table: this.widget }));
-            this.continueSaving = true;
+            this.saveWidget();
             break;
-        }
-
-        if (this.continueSaving) {
-          this.saveWidget();
         }
       } else {
         this.popupMsgService.openSnackBar(
@@ -422,7 +417,7 @@ export class SelectBatchComponent implements OnInit {
         this.popupMsgService.openSnackBar(
           'Please select a suitable batch for timeline.'
         );
-        this.continueSaving = false;
+
         this.saving = false;
       } else {
         let tabs = data.tabs;
@@ -480,9 +475,10 @@ export class SelectBatchComponent implements OnInit {
               },
               complete: () => {
                 this.dndService.setSavedStatus(this.widget.WidgetId);
-
+                this.dndService.setBatchStatus(this.widget.WidgetId);
+                this.saving = false;
                 this.popupMsgService.openSnackBar('Saved!!');
-                this.dialog.closeAll();
+                this.close();
               },
             });
           } else {
@@ -494,18 +490,15 @@ export class SelectBatchComponent implements OnInit {
                 );
               },
               complete: () => {
-                this.dndService.setSavedStatus(this.widget.WidgetId);
-
+                this.saving = false;
                 this.popupMsgService.openSnackBar('Saved!!');
-                this.dialog.closeAll();
+                this.close();
               },
             });
           }
-
-          this.continueSaving = true;
         } else {
           this.popupMsgService.openSnackBar('Timeline has no children');
-          this.continueSaving = false;
+
           this.saving = false;
         }
       }
@@ -549,6 +542,7 @@ export class SelectBatchComponent implements OnInit {
           this.store.dispatch(updateProofBot({ proofBot: proofbot }));
 
           let status = this.dndService.getBatchStatus(this.widget.WidgetId);
+          console.log(status);
           if (status === false) {
             this.composerService.saveProofbot(proofbot).subscribe({
               error: (err) => {
@@ -556,7 +550,10 @@ export class SelectBatchComponent implements OnInit {
               },
               complete: () => {
                 this.saving = false;
-                this.continueSaving = true;
+                this.dndService.setSavedStatus(this.widget.WidgetId);
+                this.dndService.setBatchStatus(this.widget.WidgetId);
+                this.popupMsgService.openSnackBar('Saved!!');
+                this.close();
               },
             });
           } else {
@@ -566,7 +563,8 @@ export class SelectBatchComponent implements OnInit {
               },
               complete: () => {
                 this.saving = false;
-                this.continueSaving = true;
+                this.popupMsgService.openSnackBar('Saved!!');
+                this.close();
               },
             });
           }

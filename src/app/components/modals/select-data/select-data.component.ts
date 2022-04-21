@@ -124,12 +124,6 @@ export class SelectDataComponent implements OnInit {
       case bubblechart:
         this.store.dispatch(updateBubbleChart({ chart: this.widget }));
         break;
-      case proofbot:
-        this.store.dispatch(updateProofBot({ proofBot: this.widget }));
-        break;
-      case timeline:
-        this.store.dispatch(updateTimeline({ timeline: this.widget }));
-        break;
       case carbonFp:
         this.store.dispatch(
           updateCarbonFootprint({ carbonFootprint: this.widget })

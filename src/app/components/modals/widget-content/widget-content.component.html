@@ -16,16 +16,11 @@
           </button>
         </div>
       </div>
-      <div class="option">
+      <div class="option" *ngIf="showMasterDataSelection">
         <div class="option-header">Master Data</div>
         <div class="option-content">
           <mat-icon class="option-icon">boy</mat-icon>
-          <button
-            mat-button
-            class="btn"
-            (click)="openMasterDataSelection()"
-            [disabled]="widget.WidgetType === timeline"
-          >
+          <button mat-button class="btn" (click)="openMasterDataSelection()">
             Add Master Data
           </button>
         </div>
