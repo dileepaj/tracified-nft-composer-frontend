@@ -267,7 +267,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   }
 
   public openAddData() {
-    const dialogRef = this.dialog.open(SelectMasterDataTypeComponent, {
+    const dialogRef = this.dialog.open(WidgetContentComponent, {
       data: {
         id: 'abc123',
       },
