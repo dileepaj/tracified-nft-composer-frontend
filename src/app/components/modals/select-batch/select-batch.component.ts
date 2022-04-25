@@ -549,7 +549,6 @@ export class SelectBatchComponent implements OnInit {
           this.store.dispatch(updateProofBot({ proofBot: proofbot }));
 
           let status = this.dndService.getBatchStatus(this.widget.WidgetId);
-          console.log(status);
           if (status === false) {
             this.composerService.saveProofbot(proofbot).subscribe({
               error: (err) => {
