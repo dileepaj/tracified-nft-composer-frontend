@@ -65,7 +65,9 @@ export class ConfigureTableComponent implements OnInit {
 
   private showChart() {}
 
-  //check , executed query save or not  use this function for show the congigure button
+  /**
+   * @function CheckQuerySavingStatus - check , executed query save or not  use this function for show the congigure button
+   */
   public CheckQuerySavingStatus(): boolean {
     let buttonState = false;
     this.store.select(selectQueryResult).subscribe((data) => {
@@ -76,6 +78,9 @@ export class ConfigureTableComponent implements OnInit {
     return buttonState;
   }
 
+  /**
+   * @function setValueToTable - set values to the table from redux
+   */
   private setValueToTable() {
     this.store.select(selectQueryResult).subscribe((data) => {
       let tableData = data.find((v) => v.WidgetId === this.data.id);
@@ -93,7 +98,10 @@ export class ConfigureTableComponent implements OnInit {
     });
   }
 
-  //called when user moves to a different tab
+  /**
+   * @function tabChanged - called when user moves to a different tab
+   * @param tabChangeEvent
+   */
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     if (tabChangeEvent.index === 1) {
       this.assignValues();
@@ -102,7 +110,9 @@ export class ConfigureTableComponent implements OnInit {
     }
   }
 
-  //update redux state
+  /**
+   * @function updateReduxState - update redux state
+   */
   public updateReduxState() {
     this.saving = true;
     this.table = {
@@ -118,7 +128,9 @@ export class ConfigureTableComponent implements OnInit {
     this.showChart();
   }
 
-  //get table from redux
+  /**
+   * @function getTable - get table from redux
+   */
   private getTable() {
     this.store.select(selectTable).subscribe((data) => {
       data.map((table) => {
@@ -130,12 +142,17 @@ export class ConfigureTableComponent implements OnInit {
     });
   }
 
+  /**
+   * @function assignValues - assign table title and content
+   */
   private assignValues() {
     this.title = this.table.TableTitle;
     this.tableContent = this.table.TableContent!;
   }
 
-  //generate table html
+  /**
+   * @function generateTable - generate table HTML
+   */
   private generateTable() {
     if (this.dataSource.length > 0) {
       let tableString = '<thead><tr>';
@@ -161,6 +178,10 @@ export class ConfigureTableComponent implements OnInit {
     this.tableHtml = '<table>' + this.tableContent + '</table>';
   }
 
+  /**
+   * @function saveTable - save the table on DB
+   * @param table
+   */
   private saveTable(table: Table) {
     let status = this.dndService.getSavedStatus(table.WidgetId);
     if (status === false) {
@@ -197,11 +218,18 @@ export class ConfigureTableComponent implements OnInit {
     }
   }
 
+  /**
+   * @function onQuerySuccess - Query success event
+   * @param event
+   */
   public onQuerySuccess(event: any) {
     this.tabIndex = 1;
     this.query = event.query;
   }
 
+  /**
+   * @function onCancel - on cancel close the dialog
+   */
   public onCancel() {
     if (this.table.Query === undefined || this.table.Query === '') {
       this.store.dispatch(

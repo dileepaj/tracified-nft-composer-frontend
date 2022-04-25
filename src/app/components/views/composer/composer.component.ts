@@ -184,7 +184,10 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     this.sub.unsubscribe();
   }
 
-  //Called when a widget is dropped to drap and drop area.
+  /**
+   * @function drop - Called when a widget is dropped to drap and drop area.
+   * @param event
+   */
   public drop(event: any) {
     if (event.previousContainer === event.container) {
       if (event.container.data === this.usedWidgets) {
@@ -216,11 +219,18 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     }
   }
 
-  //get drag position
+  /**
+   * @function dragMoved - get drag position
+   * @param event
+   */
   public dragMoved(event: any) {
     this.position = `> Position X: ${event.pointerPosition.x} - Y: ${event.pointerPosition.y}`;
   }
 
+  /**
+   * @function dragEntered - get drag position
+   * @param event
+   */
   public dragEntered(event: CdkDragEnter<number>) {
     const drag = event.item;
     const dropList = event.container;
@@ -239,7 +249,10 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     return false;
   }
 
-  //Used to rearrange usedWidgets array when a widget is dropped to the drag and drop area
+  /**
+   * @function rearrangeArray - Used to rearrange usedWidgets array when a widget is dropped to the drag and drop area
+   * @param item, index
+   */
   private rearrangeArray(item: any, index: any) {
     let oldItem: any;
     let i: number;
@@ -252,7 +265,10 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     this.usedWidgets.push(item);
   }
 
-  //delete a widget
+  /**
+   * @function deleteWidget - delete a widget
+   * @param id
+   */
   public deleteWidget(id: any) {
     let index: number = 0;
     this.usedWidgets.map((widget) => {
@@ -266,6 +282,9 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     this.saveOrUpdateProject(true);
   }
 
+  /**
+   * @function openAddData - open master data type popup
+   */
   public openAddData() {
     const dialogRef = this.dialog.open(SelectMasterDataTypeComponent, {
       data: {
@@ -278,12 +297,19 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     });
   }
 
+  /**
+   * @function getNftContent - get NFT contents from redux
+   */
   private getNftContent() {
     this.store.select(selectNFTContent).subscribe((data) => {
       this.nftContent = data;
     });
   }
 
+  /**
+   * @function downloadFile - download HTML file
+   * @param content, name, type
+   */
   private downloadFile(content: any, name: string, type: string) {
     var a = document.createElement('a');
     var blob = new Blob([content], { type: type });
@@ -292,6 +318,9 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     a.click();
   }
 
+  /**
+   * @function generateHTML - get the generated HTML from the backend
+   */
   public generateHTML() {
     this.generated = true;
     this.getNftContent();
@@ -310,6 +339,9 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     });
   }
 
+  /**
+   * @function saveProject - save project in the DB
+   */
   private saveProject() {
     this.saving = true;
     let widgetArr: any = [];
