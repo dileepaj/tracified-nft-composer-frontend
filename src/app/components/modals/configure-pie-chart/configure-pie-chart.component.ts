@@ -6,6 +6,7 @@ import { AppState } from 'src/app/store/app.state';
 import {
   addBarChart,
   addPieChart,
+  deleteQueryResult,
   projectStatus,
   updatePieChart,
 } from 'src/app/store/nft-state-store/nft.actions';
@@ -183,6 +184,19 @@ export class ConfigurePieChartComponent implements OnInit {
         }
       });
     });
+  }
+
+  public onCancel() {
+    if (this.pieChart.Query === undefined || this.pieChart.Query === '') {
+      this.store.dispatch(
+        deleteQueryResult({
+          queryResult: { WidgetId: this.pieChart.WidgetId, queryResult: '' },
+        })
+      );
+      this.dialog.closeAll();
+    } else {
+      this.dialog.closeAll();
+    }
   }
 
   private assignValues() {

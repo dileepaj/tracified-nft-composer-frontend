@@ -29,38 +29,55 @@
   justify-content: center;
 }
 
-.batch-table tr {
-  cursor: pointer;
+table.batch-table {
+  border-collapse: collapse;
+  box-shadow: 0 5px 10px #e1e5ee;
+  background-color: white;
+  text-align: left;
+  width: 100%;
+  border-radius: 6px;
+  table-layout: fixed;
+
+  thead {
+    box-shadow: 0 5px 10px #e1e5ee;
+    padding: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    font-size: 0.7rem;
+    font-weight: 900;
+  }
+
+  tbody {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  th {
+    padding: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    font-size: 0.7rem;
+    font-weight: 900;
+  }
+
+  td {
+    padding-left: 1rem;
+    padding-top: 0.7rem;
+    padding-bottom: 0.7rem;
+    font-size: 0.8rem;
+  }
+
+  tr {
+    cursor: pointer;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f4f6fb;
+  }
 }
 
 .batch-table tbody tr:hover {
   background: whitesmoke;
-}
-
-.batch-table {
-  width: 100%;
-  border-collapse: collapse;
-  overflow: auto;
-  border: none;
-  @include shadow;
-  td {
-    border: none;
-    padding: 10px;
-  }
-  th {
-    border: none;
-    padding: 10px;
-  }
-}
-.batch-table thead {
-  background: $background;
-  color: white;
-  padding: 20px;
-  font-weight: bold;
-}
-
-.batch-table tbody {
-  background: white;
 }
 
 .data-row {
@@ -122,6 +139,12 @@ mat-step {
 
 .previous {
   color: rgb(134, 134, 134);
+  text-decoration: none;
+}
+
+.previous:hover {
+  color: $green;
+  text-decoration: none !important;
 }
 
 .breadcrumb a:hover {
@@ -252,6 +275,11 @@ mat-step {
   }
 }
 
+.back-icon {
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
 .spinner:before {
   content: "";
   box-sizing: border-box;
@@ -274,4 +302,17 @@ mat-step {
   .mat-simple-snackbar-action {
     color: $green !important;
   }
+}
+
+.mat-stepper-horizontal-line {
+  max-width: 10px !important;
+}
+
+.mat-horizontal-stepper-header-container {
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.mat-input {
+  transform: scale(0.8);
 }

@@ -1,5 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { ArtifactService } from 'src/app/services/artifact.service';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
@@ -55,7 +59,8 @@ export class SelectDataComponent implements OnInit {
     private composerService: ComposerBackendService,
     private dndService: DndServiceService,
     private popupMsgService: PopupMessageService,
-    private userService: UserserviceService
+    private userService: UserserviceService,
+    public dialogRef: MatDialogRef<SelectDataComponent>
   ) {}
 
   ngOnInit(): void {
@@ -82,6 +87,8 @@ export class SelectDataComponent implements OnInit {
         widget: this.widget,
       },
     });
+
+    this.dialogRef.close();
   }
 
   public openWidgetContent() {
@@ -91,6 +98,8 @@ export class SelectDataComponent implements OnInit {
         widget: this.widget,
       },
     });
+
+    this.dialogRef.close();
   }
 
   public close() {

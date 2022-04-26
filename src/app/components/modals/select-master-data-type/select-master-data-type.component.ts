@@ -1,5 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 import { ArtifactService } from 'src/app/services/artifact.service';
 import { SelectDataComponent } from '../select-data/select-data.component';
 import { WidgetContentComponent } from '../widget-content/widget-content.component';
@@ -14,9 +18,11 @@ export class SelectMasterDataTypeComponent implements OnInit {
   widget: any;
   artifacts: any = [];
   loading: boolean = false;
+  artifactsLoading: boolean = true;
   constructor(
     public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialogRef: MatDialogRef<SelectMasterDataTypeComponent>,
     private artifactService: ArtifactService
   ) {}
 
@@ -25,6 +31,7 @@ export class SelectMasterDataTypeComponent implements OnInit {
     this.widget = this.data.widget;
     this.artifactService.getArtifacts().subscribe((data) => {
       this.artifacts = data;
+      this.artifactsLoading = false;
     });
   }
 
@@ -36,6 +43,8 @@ export class SelectMasterDataTypeComponent implements OnInit {
         artifact: artifact,
       },
     });
+
+    this.dialogRef.close();
   }
 
   public openWidgetContent() {
@@ -45,6 +54,8 @@ export class SelectMasterDataTypeComponent implements OnInit {
         widget: this.widget,
       },
     });
+
+    this.dialogRef.close();
   }
 
   public close() {

@@ -1,6 +1,6 @@
 <div class="widget-div" f>
   <div>
-    <h2 style="font-size: medium; font-weight: 200;">
+    <h2 style="font-size: medium; font-weight: 200">
       Proofbot
       <button mat-icon-button (click)="deleteWidget()">
         <mat-icon>clear</mat-icon>
@@ -8,7 +8,8 @@
     </h2>
   </div>
   <div class="content-div">
-    <mat-icon class="pb-icon" *ngIf="!otpAdded"> ondemand_video </mat-icon>
+    <img class="widget-card-icon" *ngIf="!otpAdded" [src]="icon" />
+
     <div class="proofbot-content" *ngIf="otpAdded">
       <div class="proof-card" *ngFor="let data of proofbot.Data!">
         <label>Transaction Id - {{ data.TxnHash }}</label>

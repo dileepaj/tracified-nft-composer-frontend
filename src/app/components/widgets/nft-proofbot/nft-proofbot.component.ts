@@ -32,6 +32,7 @@ export class NftProofbotComponent implements OnInit {
   proofbot: ProofBot;
   otpAdded: boolean = false;
   projectId: string;
+  icon: any = '../../../../assets/images/widget-icons/Proofbot.png';
 
   constructor(
     private store: Store<AppState>,

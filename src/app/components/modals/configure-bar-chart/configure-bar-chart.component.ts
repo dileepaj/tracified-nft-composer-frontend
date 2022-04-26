@@ -5,6 +5,8 @@ import { Chart, Data } from '../../../../models/nft-content/chart';
 import { AppState } from 'src/app/store/app.state';
 import {
   addBarChart,
+  addQueryResult,
+  deleteQueryResult,
   updateBarChart,
 } from 'src/app/store/nft-state-store/nft.actions';
 import { NFTState } from 'src/app/store/nft-state-store/nft.reducer';
@@ -214,6 +216,7 @@ export class ConfigureBarChartComponent implements OnInit {
   }
 
   private saveChart(chart: any) {
+    this.getBarChart();
     chart = {
       ...chart,
       Type: barchart,
@@ -246,7 +249,7 @@ export class ConfigureBarChartComponent implements OnInit {
         },
         complete: () => {
           this.saving = false;
-          this.popupMsgService.openSnackBar('Saved!!');
+          this.popupMsgService.openSnackBar('Updated!!');
           this.dialog.closeAll();
         },
       });
@@ -256,6 +259,19 @@ export class ConfigureBarChartComponent implements OnInit {
   public onQuerySuccess(event: any) {
     this.tabIndex = 1;
     this.query = event.query;
+  }
+
+  public onCancel() {
+    if (this.barChart.Query === undefined || this.barChart.Query === '') {
+      this.store.dispatch(
+        deleteQueryResult({
+          queryResult: { WidgetId: this.barChart.WidgetId, queryResult: '' },
+        })
+      );
+      this.dialog.closeAll();
+    } else {
+      this.dialog.closeAll();
+    }
   }
 
   private setLabels() {

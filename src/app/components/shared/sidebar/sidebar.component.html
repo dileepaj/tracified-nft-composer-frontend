@@ -1,4 +1,5 @@
 <div>
+  <div>
   <div id="project-title" mat-list-item>
     <mat-icon mat-list-icon class="title-icon">handyman</mat-icon>
     <!--<input type="text" [(ngModel)]="title" />-->
@@ -104,4 +105,17 @@
       </div>
     </mat-list-item>
   </mat-nav-list>
+  </div>
+  <div>
+    <div id="sidebar-back" mat-list-item [routerLink]="['/layout/projects/'+user.TenentId]">
+      <mat-list-item disableRipple>
+        <div class="back-to-project">
+          <mat-icon mat-list-icon class="icon"><span class="material-icons-outlined">
+              arrow_back
+            </span></mat-icon>
+          Back to Projects
+        </div>
+      </mat-list-item>
+    </div>
+  </div>
 </div>
