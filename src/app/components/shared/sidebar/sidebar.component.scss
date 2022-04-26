@@ -91,7 +91,6 @@ mat-list-item:hover {
   padding-right: 30px;
   border-radius: 30px;
   font-size: $fontSize;
-
 }
 
 .back-to-project {
@@ -100,4 +99,9 @@ mat-list-item:hover {
   border-radius: 30px;
   background: whitesmoke;
   cursor: pointer;
+}
+
+#sidebar-widgets {
+  max-height: 300px;
+  overflow-y: auto;
 }

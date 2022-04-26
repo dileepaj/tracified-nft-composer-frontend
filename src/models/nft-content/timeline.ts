@@ -1,5 +1,6 @@
 export interface Timeline {
   WidgetId: string;
+  Title?: string;
   BactchId?: string;
   ArtifactId?: string;
   ProductId?: string;
