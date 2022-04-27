@@ -88,7 +88,9 @@ export class ConfigurePieChartComponent implements OnInit {
     this.query = this.pieChart.Query!;
   }
 
-  //take value from  query result store by wigetId and se it as a barChart data
+  /**
+   * @function setValueToPieChart - take value from  query result store by wigetId and se it as a barChart data
+   */
   private setValueToPieChart() {
     this.store.select(selectQueryResult).subscribe((data) => {
       let pieChartvalue = data.find((v) => v.WidgetId === this.data.id);
@@ -115,7 +117,10 @@ export class ConfigurePieChartComponent implements OnInit {
       }
     });
   }
-  //check , executed query save or not  use this function for show the congigure button
+
+  /**
+   * @function CheckQuerySavingStatus - check , executed query save or not  use this function for show the congigure button
+   */
   public CheckQuerySavingStatus(): boolean {
     let buttonState = false;
     this.store.select(selectQueryResult).subscribe((data) => {
@@ -126,7 +131,9 @@ export class ConfigurePieChartComponent implements OnInit {
     return buttonState;
   }
 
-  //called when user moves to a different tab
+  /**
+   * @function tabChanged - called when user moves to a different tab
+   */
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     if (tabChangeEvent.index === 1) {
       this.assignValues();
@@ -137,7 +144,9 @@ export class ConfigurePieChartComponent implements OnInit {
     }
   }
 
-  //update redux state
+  /**
+   * @function updateReduxState - update redux state
+   */
   public updateReduxState() {
     this.saving = true;
 
@@ -164,7 +173,9 @@ export class ConfigurePieChartComponent implements OnInit {
     this.store.dispatch(updatePieChart({ chart: this.pieChart }));
   }
 
-  //get chart from redux store
+  /**
+   * @function getPieChart - get chart from redux store
+   */
   private getPieChart() {
     this.store.select(selectPieCharts).subscribe((data) => {
       data.map((chart) => {
@@ -186,6 +197,9 @@ export class ConfigurePieChartComponent implements OnInit {
     });
   }
 
+  /**
+   * @function onCancel - delete chart data from redux and delete the pie chart widget
+   */
   public onCancel() {
     if (this.pieChart.Query === undefined || this.pieChart.Query === '') {
       this.store.dispatch(
@@ -199,6 +213,9 @@ export class ConfigurePieChartComponent implements OnInit {
     }
   }
 
+  /**
+   * @function assignValues - assign values to the pie chart
+   */
   private assignValues() {
     if (!this.loadedFromRedux) {
       this.title = this.pieChart.ChartTitle!;
@@ -220,6 +237,10 @@ export class ConfigurePieChartComponent implements OnInit {
     }
   }
 
+  /**
+   * @function saveChart - delete chart data from redux and delete the pie chart widget
+   * @param chart
+   */
   private saveChart(chart: any) {
     chart = {
       ...chart,
@@ -261,11 +282,18 @@ export class ConfigurePieChartComponent implements OnInit {
     }
   }
 
+  /**
+   * @function onQuerySuccess - event on query success
+   * @param event
+   */
   public onQuerySuccess(event: any) {
     this.tabIndex = 1;
     this.query = event.query;
   }
 
+  /**
+   * @function getRandomColor - return a randomly generated color code
+   */
   private getRandomColor() {
     let letters = '0123456789ABCDEF';
     let color = '#';
@@ -275,6 +303,9 @@ export class ConfigurePieChartComponent implements OnInit {
     return color;
   }
 
+  /**
+   * @function setLables - set lables for the pie chart
+   */
   private setLabels() {
     this.labels = [];
     this.pieChartData.map((data) => {
@@ -284,6 +315,9 @@ export class ConfigurePieChartComponent implements OnInit {
     });
   }
 
+  /**
+   * @function setValues - set values for the pie chart
+   */
   private setValues() {
     this.values = [];
     this.pieChartData.map((data) => {
@@ -291,6 +325,9 @@ export class ConfigurePieChartComponent implements OnInit {
     });
   }
 
+  /**
+   * @function setColors - set colors for the pie chart
+   */
   private setColors() {
     if (this.fieldColors.length === 0) {
       let count = this.pieChartData.length;
@@ -300,6 +337,9 @@ export class ConfigurePieChartComponent implements OnInit {
     }
   }
 
+  /**
+   * @function drawChart - draw the pie chart
+   */
   public drawChart() {
     this.chartData = {
       labels: this.labels,
