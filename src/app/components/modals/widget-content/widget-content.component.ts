@@ -19,6 +19,8 @@ export class WidgetContentComponent implements OnInit {
   widget: any;
   timeline = timeline;
   showMasterDataSelection: boolean = true;
+  masterDataIcon = '../../../../assets/images/Master-data.png';
+  batchSelectionIcon = '../../../../assets/images/Batch-selection.png';
   constructor(
     public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
