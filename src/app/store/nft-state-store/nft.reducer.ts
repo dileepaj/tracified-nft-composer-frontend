@@ -17,6 +17,7 @@ import {
   deleteNFTImage,
   deletePieChart,
   deleteProofBot,
+  deleteQueryResult,
   deleteTable,
   deleteTimeline,
   loadProject,
@@ -25,6 +26,7 @@ import {
   removeFromOrderArray,
   setCardStatus,
   setQueryResult,
+  setWidgetCount,
   setWidgetOrder,
   updateBarChart,
   updateBubbleChart,
@@ -38,12 +40,14 @@ import {
 import { NFTContent } from '../../../models/nft-content/nft.content';
 import { CardStatus, QueryResult } from 'src/models/nft-content/cardStatus';
 import { ComposerUser } from 'src/models/user';
+import { WidgetCount } from 'src/models/nft-content/widgetCount';
 
 export interface NFTState {
   nftContent: NFTContent;
   newProj: boolean;
   cardStatus: CardStatus[];
   queryResult: QueryResult[];
+  widgetCount: WidgetCount;
   error: string;
 }
 
@@ -74,6 +78,15 @@ export const initialNft: NFTState = {
   newProj: true,
   cardStatus: [],
   queryResult: [],
+  widgetCount: {
+    BarCharts: 0,
+    PieCharts: 0,
+    BubbleCharts: 0,
+    Tables: 0,
+    Images: 0,
+    Timelines: 0,
+    ProofBots: 0,
+  },
   error: '',
 };
 
@@ -97,10 +110,23 @@ export const nftReducer = createReducer(
     }
     return nftClone;
   }),
+  on(deleteQueryResult, (nft, { queryResult }) => {
+    const nftClone: NFTState = JSON.parse(JSON.stringify(nft));
+    let i = 0;
+    nftClone.queryResult = nftClone.queryResult.filter(
+      (data) => data.WidgetId !== queryResult.WidgetId
+    );
+    return nftClone;
+  }),
 
   on(setQueryResult, (nft, { queryResult }) => ({
     ...nft,
     queryResult: queryResult,
+  })),
+
+  on(setWidgetCount, (nft, { widgetCount }) => ({
+    ...nft,
+    widgetCount: widgetCount,
   })),
 
   on(addCardtStatus, (nft, { cardStatus }) => ({
@@ -136,8 +162,18 @@ export const nftReducer = createReducer(
       ...nft.nftContent,
       NFTContent: {
         ...nft.nftContent.NFTContent,
-        BarCharts: [...nft.nftContent.NFTContent.BarCharts, chart],
+        BarCharts: [
+          ...nft.nftContent.NFTContent.BarCharts,
+          {
+            ...chart,
+            ChartTitle: 'Bar Chart ' + (nft.widgetCount.BarCharts + 1),
+          },
+        ],
       },
+    },
+    widgetCount: {
+      ...nft.widgetCount,
+      BarCharts: nft.widgetCount.BarCharts + 1,
     },
   })),
 
@@ -147,8 +183,18 @@ export const nftReducer = createReducer(
       ...nft.nftContent,
       NFTContent: {
         ...nft.nftContent.NFTContent,
-        PieCharts: [...nft.nftContent.NFTContent.PieCharts, chart],
+        PieCharts: [
+          ...nft.nftContent.NFTContent.PieCharts,
+          {
+            ...chart,
+            ChartTitle: 'Pie Chart ' + (nft.widgetCount.PieCharts + 1),
+          },
+        ],
       },
+    },
+    widgetCount: {
+      ...nft.widgetCount,
+      PieCharts: nft.widgetCount.PieCharts + 1,
     },
   })),
 
@@ -158,8 +204,18 @@ export const nftReducer = createReducer(
       ...nft.nftContent,
       NFTContent: {
         ...nft.nftContent.NFTContent,
-        BubbleCharts: [...nft.nftContent.NFTContent.BubbleCharts, chart],
+        BubbleCharts: [
+          ...nft.nftContent.NFTContent.BubbleCharts,
+          {
+            ...chart,
+            ChartTitle: 'Bubble Chart ' + (nft.widgetCount.BubbleCharts + 1),
+          },
+        ],
       },
+    },
+    widgetCount: {
+      ...nft.widgetCount,
+      BubbleCharts: nft.widgetCount.BubbleCharts + 1,
     },
   })),
 
@@ -169,8 +225,15 @@ export const nftReducer = createReducer(
       ...nft.nftContent,
       NFTContent: {
         ...nft.nftContent.NFTContent,
-        Timeline: [...nft.nftContent.NFTContent.Timeline, timeline],
+        Timeline: [
+          ...nft.nftContent.NFTContent.Timeline,
+          { ...timeline, Title: 'Timeline ' + (nft.widgetCount.Timelines + 1) },
+        ],
       },
+    },
+    widgetCount: {
+      ...nft.widgetCount,
+      Timelines: nft.widgetCount.Timelines + 1,
     },
   })),
 
@@ -194,8 +257,15 @@ export const nftReducer = createReducer(
       ...nft.nftContent,
       NFTContent: {
         ...nft.nftContent.NFTContent,
-        Images: [...nft.nftContent.NFTContent.Images, image],
+        Images: [
+          ...nft.nftContent.NFTContent.Images,
+          { ...image, Title: 'Image ' + (nft.widgetCount.Images + 1) },
+        ],
       },
+    },
+    widgetCount: {
+      ...nft.widgetCount,
+      Images: nft.widgetCount.Images + 1,
     },
   })),
 
@@ -205,8 +275,15 @@ export const nftReducer = createReducer(
       ...nft.nftContent,
       NFTContent: {
         ...nft.nftContent.NFTContent,
-        ProofBot: [...nft.nftContent.NFTContent.ProofBot, proofBot],
+        ProofBot: [
+          ...nft.nftContent.NFTContent.ProofBot,
+          { ...proofBot, Title: 'ProofBot ' + (nft.widgetCount.ProofBots + 1) },
+        ],
       },
+    },
+    widgetCount: {
+      ...nft.widgetCount,
+      ProofBots: nft.widgetCount.ProofBots + 1,
     },
   })),
 
@@ -216,8 +293,15 @@ export const nftReducer = createReducer(
       ...nft.nftContent,
       NFTContent: {
         ...nft.nftContent.NFTContent,
-        Tables: [...nft.nftContent.NFTContent.Tables, table],
+        Tables: [
+          ...nft.nftContent.NFTContent.Tables,
+          { ...table, TableTitle: 'Table ' + (nft.widgetCount.Tables + 1) },
+        ],
       },
+    },
+    widgetCount: {
+      ...nft.widgetCount,
+      Tables: nft.widgetCount.Tables + 1,
     },
   })),
 

@@ -1,5 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 import { proofbot, timeline } from 'src/models/nft-content/widgetTypes';
 import { SelectBatchComponent } from '../select-batch/select-batch.component';
 import { SelectMasterDataTypeComponent } from '../select-master-data-type/select-master-data-type.component';
@@ -15,9 +19,12 @@ export class WidgetContentComponent implements OnInit {
   widget: any;
   timeline = timeline;
   showMasterDataSelection: boolean = true;
+  masterDataIcon = '../../../../assets/images/Master-data.png';
+  batchSelectionIcon = '../../../../assets/images/Batch-selection.png';
   constructor(
     public dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialogRef: MatDialogRef<WidgetContentComponent>
   ) {}
 
   ngOnInit(): void {
@@ -34,7 +41,9 @@ export class WidgetContentComponent implements OnInit {
     }
   }
 
-  //open batch selection popup
+  /**
+   * @function openBatchSelection - open batch selection popup
+   */
   public openBatchSelection() {
     const dialogRef = this.dialog.open(SelectBatchComponent, {
       data: {
@@ -44,9 +53,14 @@ export class WidgetContentComponent implements OnInit {
       },
     });
 
+    this.dialogRef.close();
+
     dialogRef.afterClosed().subscribe((result) => {});
   }
 
+  /**
+   * @function openMasterDataSelection - open artifact selection popup
+   */
   public openMasterDataSelection() {
     const dialogRef = this.dialog.open(SelectMasterDataTypeComponent, {
       data: {
@@ -55,5 +69,7 @@ export class WidgetContentComponent implements OnInit {
         widget: this.widget,
       },
     });
+
+    this.dialogRef.close();
   }
 }

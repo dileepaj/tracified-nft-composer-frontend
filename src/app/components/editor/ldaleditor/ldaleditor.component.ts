@@ -227,6 +227,9 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
     this.setWordCompleter(this.keyWordList, this.keyWordList2);
   }
 
+  /**
+   * @function setLanguageTools - set language tools on the editor
+   */
   private setLanguageTools(): void {
     this.aceEditor = ace.edit(this.editor.nativeElement);
     this.aceEditor.session.setValue('');
@@ -248,6 +251,10 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
     });
   }
 
+  /**
+   * @function setWordCompleter
+   * @param wordList
+   */
   private setWordCompleter(wordList: any, wordList2: any): void {
     this.staticWordCompleter = {
       getCompletions: function (
@@ -284,6 +291,9 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
     };
   }
 
+  /**
+   * @function saveExecuter - save the query
+   */
   private saveExecuter() {
     if (!!this.res && !!this.res.Response.result) {
       this.store.dispatch(
@@ -301,6 +311,9 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * @function queryExecuter - executes the query
+   */
   public queryExecuter() {
     this.loading = true;
     let queryObject = {
@@ -330,6 +343,9 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
     });
   }
 
+  /**
+   * @function checkOutput - executes the query
+   */
   private checkOutput() {
     //{"type": 4, "val": {"ChartData":[{"Name":"averageAnnualTemperature","Value":"24"}]}} - charts
     //{"type": 4, "val": {"MainTable":[{"Farm Name":"Medathennawaththa","Temperature":"24","Humidity":"80%","Rainfall":"1800 mm"}]}} - table
@@ -348,6 +364,7 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
       ) {
         this.onQuerySuccess.emit({
           data: result.val['ChartData'],
+          query: this.query,
         });
         this.saveExecuter();
       } else {
@@ -367,6 +384,7 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
       ) {
         this.onQuerySuccess.emit({
           data: result.val['ChartData'],
+          query: this.query,
         });
         this.saveExecuter();
       } else {
@@ -382,6 +400,7 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
       ) {
         this.onQuerySuccess.emit({
           data: result.val.MainTable,
+          query: this.query,
         });
         this.saveExecuter();
       } else {
@@ -399,10 +418,17 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
     this.newResults = true;
   }
 
+  /**
+   * @function outputJson - stringify the json
+   * @param data
+   */
   public outputJson(data: any) {
     this.jsonPretty = JSON.stringify(JSON.parse(data), null, 2);
   }
 
+  /**
+   * @function toggleOutput 
+   */
   public toggleOutput() {
     this.showOutput = !this.showOutput;
     this.newResults = false;

@@ -1,4 +1,8 @@
-<mat-dialog-content class="mat-typography modal-content" fxLayout.="row">
+<mat-dialog-content
+  class="mat-typography modal-content"
+  fxLayout.="row"
+  disableClose
+>
   <mat-tab-group
     (selectedTabChange)="tabChanged($event)"
     [(selectedIndex)]="tabIndex"
@@ -121,7 +125,7 @@
   </mat-tab-group>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button (click)="onCancel()" class="btn-cancel">Cancel</button>
 
   <button
     mat-button

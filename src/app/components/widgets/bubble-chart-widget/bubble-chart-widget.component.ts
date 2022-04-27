@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
 import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
+import { WidgethighlightingService } from 'src/app/services/widgethighlighting.service';
 import { AppState } from 'src/app/store/app.state';
 import {
   addBubbleChart,
@@ -31,13 +32,16 @@ export class BubbleChartWidgetComponent implements OnInit {
   @Output() onDeleteWidget: EventEmitter<any> = new EventEmitter();
   bubbleChart: Chart;
   nftContent: NFTContent;
+  icon: any = '../../../../assets/images/widget-icons/Bubble-chart.png';
+  public highlight = false;
 
   constructor(
     private store: Store<AppState>,
     public dialog: MatDialog,
     private service: DndServiceService,
     private composerService: ComposerBackendService,
-    private popupMsgService: PopupMessageService
+    private popupMsgService: PopupMessageService,
+    private highlightService: WidgethighlightingService
   ) {
     this.store.select(selectNFTContent).subscribe((content) => {
       this.nftContent = content;
@@ -55,6 +59,14 @@ export class BubbleChartWidgetComponent implements OnInit {
           this.bubbleChart = chart;
         }
       });
+    });
+
+    this.highlightService.selectedWidgetChange.subscribe((id) => {
+      if (this.bubbleChart.WidgetId === id) {
+        this.highlight = true;
+      } else {
+        this.highlight = false;
+      }
     });
   }
 

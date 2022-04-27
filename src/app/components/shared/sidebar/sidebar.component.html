@@ -1,106 +1,146 @@
 <div>
-  <div id="project-title" mat-list-item>
-    <mat-icon mat-list-icon class="title-icon">handyman</mat-icon>
-    <!--<input type="text" [(ngModel)]="title" />-->
-    <label>{{ title }}</label>
-  </div>
-  <div id="header" mat-list-item>
-    <mat-icon mat-list-icon class="icon">app_registration</mat-icon>
-    Project Content
-  </div>
-  <mat-nav-list>
-    <mat-list-item
-      id="layouts"
-      [routerLinkActive]="['is-active']"
-      disableRipple
-    >
-      <div id="layoutsDiv">
-        <div fxLayout="row" fxLayoutAlign="space-between center">
-          <div [routerLink]="layoutLink">
-            <mat-icon mat-list-icon class="icon">notes</mat-icon>
-            <label class="nav-title">Layouts</label>
+  <div>
+    <div id="project-title" mat-list-item>
+      <mat-icon mat-list-icon class="title-icon">handyman</mat-icon>
+      <!--<input type="text" [(ngModel)]="title" />-->
+      <label style="font-size: small; font-weight: 700">{{ title }}</label>
+    </div>
+    <div style="font-size: small; font-weight: 700" id="header" mat-list-item>
+      <mat-icon mat-list-icon class="icon">app_registration</mat-icon>
+      Project Content
+    </div>
+    <mat-nav-list>
+      <mat-list-item
+        id="layouts"
+        [routerLinkActive]="['is-active']"
+        disableRipple
+      >
+        <div id="layoutsDiv">
+          <div fxLayout="row" fxLayoutAlign="space-between center">
+            <div [routerLink]="layoutLink">
+              <mat-icon mat-list-icon class="icon">notes</mat-icon>
+              <label
+                style="font-size: small; font-weight: 700"
+                class="nav-title"
+                >Layouts</label
+              >
+            </div>
+
+            <button
+              class="icon"
+              mat-icon-button
+              (click)="toggleLayouts()"
+              id="collapseBtn"
+            >
+              <mat-icon>{{ layouts ? "expand_less" : "expand_more" }}</mat-icon>
+            </button>
           </div>
 
-          <button
-            class="icon"
-            mat-icon-button
-            (click)="toggleLayouts()"
-            id="collapseBtn"
+          <mat-list
+            id="sidebar-widgets"
+            [ngStyle]="{ display: !layouts ? 'none' : 'block' }"
           >
-            <mat-icon>{{ layouts ? "expand_less" : "expand_more" }}</mat-icon>
-          </button>
+            <mat-list-item
+              *ngFor="let item of contOrder"
+              (click)="selectWidget(item.WidgetId)"
+            >
+              <mat-icon
+                mat-list-icon
+                class="icon"
+                *ngIf="item.Type === timelineType"
+                >event_note</mat-icon
+              >
+              <mat-icon
+                mat-list-icon
+                class="icon"
+                *ngIf="item.Type === proofbotType"
+                >ondemand_video</mat-icon
+              >
+              <mat-icon
+                mat-list-icon
+                class="icon"
+                *ngIf="item.Type === carbonfpType"
+                >filter_drama</mat-icon
+              >
+              <mat-icon
+                mat-list-icon
+                class="icon"
+                *ngIf="item.Type === imageType"
+                >wallpaper</mat-icon
+              >
+              <mat-icon
+                mat-list-icon
+                class="icon"
+                *ngIf="item.Type === barChartType"
+                >bar_chart</mat-icon
+              >
+              <mat-icon
+                mat-list-icon
+                class="icon"
+                *ngIf="item.Type === pieChartType"
+                >pie_chart</mat-icon
+              >
+              <mat-icon
+                mat-list-icon
+                class="icon"
+                *ngIf="item.Type === bubbleChartType"
+                >bubble_chart</mat-icon
+              >
+              <mat-icon
+                mat-list-icon
+                class="icon"
+                *ngIf="item.Type === tableType"
+                >table_view</mat-icon
+              >
+              <label style="font-size: small; font-weight: 400">{{
+                getTitle(item)
+              }}</label>
+            </mat-list-item>
+          </mat-list>
         </div>
-
-        <mat-list
-          id="widgets"
-          [ngStyle]="{ display: !layouts ? 'none' : 'block' }"
-        >
-          <mat-list-item *ngIf="timelineCount > 0">
-            <mat-icon mat-list-icon class="icon">event_note</mat-icon>
-            <label>Timeline</label>
-          </mat-list-item>
-
-          <mat-list-item *ngIf="proofBotCount > 0">
-            <mat-icon mat-list-icon class="icon">ondemand_video</mat-icon>
-            <label>Proofbot</label>
-          </mat-list-item>
-
-          <mat-list-item *ngIf="carbonFPCount > 0">
-            <mat-icon mat-list-icon class="icon">filter_drama</mat-icon>
-            <label>Carbon Footprint</label>
-          </mat-list-item>
-
-          <mat-list-item *ngIf="imageCount > 0">
+      </mat-list-item>
+      <mat-list-item
+        routerLink="/nft-html"
+        [routerLinkActive]="['is-active']"
+        disableRipple
+      >
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <div>
+            <mat-icon mat-list-icon class="icon">code_off</mat-icon>
+            <label
+              style="font-size: small; font-weight: 700"
+              [routerLink]="['/layout/nft-html']"
+              routerLinkActive="router-link-active"
+              class="nav-title"
+              >NFT HTML</label
+            >
+          </div>
+        </div>
+      </mat-list-item>
+      <mat-list-item disableRipple>
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <div hidden>
             <mat-icon mat-list-icon class="icon">wallpaper</mat-icon>
-            <label>NFT Image</label>
-          </mat-list-item>
-
-          <mat-list-item *ngIf="barChartCount > 0">
-            <mat-icon mat-list-icon class="icon">bar_chart</mat-icon>
-            <label>Bar Chart</label>
-          </mat-list-item>
-
-          <mat-list-item *ngIf="pieChartCount > 0">
-            <mat-icon mat-list-icon class="icon">pie_chart</mat-icon>
-            <label>Pie Chart</label>
-          </mat-list-item>
-
-          <mat-list-item *ngIf="bubbleChartCount > 0">
-            <mat-icon mat-list-icon class="icon">bubble_chart</mat-icon>
-            <label>Bubble Chart</label>
-          </mat-list-item>
-
-          <mat-list-item *ngIf="tableCount > 0">
-            <mat-icon mat-list-icon class="icon">table_view</mat-icon>
-            <label>Table</label>
-          </mat-list-item>
-        </mat-list>
-      </div>
-    </mat-list-item>
-    <mat-list-item
-      routerLink="/nft-html"
-      [routerLinkActive]="['is-active']"
-      disableRipple
+            <label class="nav-title">NFT SVG</label>
+          </div>
+        </div>
+      </mat-list-item>
+    </mat-nav-list>
+  </div>
+  <div>
+    <div
+      id="sidebar-back"
+      mat-list-item
+      [routerLink]="['/layout/projects/' + user.TenentId]"
     >
-      <div fxLayout="row" fxLayoutAlign="space-between center">
-        <div>
-          <mat-icon mat-list-icon class="icon">code_off</mat-icon>
-          <label
-            [routerLink]="['/layout/nft-html']"
-            routerLinkActive="router-link-active"
-            class="nav-title"
-            >NFT HTML</label
+      <mat-list-item disableRipple>
+        <div class="back-to-project">
+          <mat-icon mat-list-icon class="icon"
+            ><span class="material-icons-outlined"> arrow_back </span></mat-icon
           >
+          Back to Projects
         </div>
-      </div>
-    </mat-list-item>
-    <mat-list-item disableRipple>
-      <div fxLayout="row" fxLayoutAlign="space-between center">
-        <div>
-          <mat-icon mat-list-icon class="icon">wallpaper</mat-icon>
-          <label class="nav-title">NFT SVG</label>
-        </div>
-      </div>
-    </mat-list-item>
-  </mat-nav-list>
+      </mat-list-item>
+    </div>
+  </div>
 </div>

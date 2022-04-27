@@ -22,6 +22,7 @@ import { BatchesService } from 'src/app/services/batches.service';
 import { TracibilityProfileWithTimeline } from 'src/app/entity/timeline';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
+import { WidgethighlightingService } from 'src/app/services/widgethighlighting.service';
 
 @Component({
   selector: 'app-nft-timeline',
@@ -31,7 +32,7 @@ import { PopupMessageService } from 'src/app/services/popup-message/popup-messag
 export class NftTimelineComponent implements OnInit {
   @Input() id: any;
   @Output() onDeleteWidget: EventEmitter<any> = new EventEmitter();
-  private timeline: Timeline;
+  public timeline: Timeline;
   data: TimelineData[];
   projectId: string;
   nftContent: NFTContent;
@@ -42,6 +43,8 @@ export class NftTimelineComponent implements OnInit {
   key: any;
   value: any;
   viewBtn: boolean = false;
+  icon: any = '../../../../assets/images/widget-icons/timeline.png';
+  public highlight = false;
 
   constructor(
     private store: Store<AppState>,
@@ -49,7 +52,8 @@ export class NftTimelineComponent implements OnInit {
     public dialog: MatDialog,
     private _batchService: BatchesService,
     private composerService: ComposerBackendService,
-    private popupMsgService: PopupMessageService
+    private popupMsgService: PopupMessageService,
+    private highlightService: WidgethighlightingService
   ) {
     this.store.select(selectNFTContent).subscribe((content) => {
       this.nftContent = content;
@@ -71,6 +75,14 @@ export class NftTimelineComponent implements OnInit {
           }
         }
       });
+    });
+
+    this.highlightService.selectedWidgetChange.subscribe((id) => {
+      if (this.timeline.WidgetId === id) {
+        this.highlight = true;
+      } else {
+        this.highlight = false;
+      }
     });
   }
 

@@ -30,6 +30,7 @@ import { barchart } from 'src/models/nft-content/widgetTypes';
 import { NFTContent } from 'src/models/nft-content/nft.content';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
+import { WidgethighlightingService } from 'src/app/services/widgethighlighting.service';
 
 @Component({
   selector: 'app-bar-chart-widget',
@@ -42,13 +43,16 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
   barChart: Chart;
   nftContent: NFTContent;
   @Input() widget: Widget;
+  icon: any = '../../../../assets/images/widget-icons/Bar-chart.png';
+  public highlight = false;
 
   constructor(
     private store: Store<AppState>,
     public dialog: MatDialog,
     private service: DndServiceService,
     private composerService: ComposerBackendService,
-    private popupMsgService: PopupMessageService
+    private popupMsgService: PopupMessageService,
+    private highlightService: WidgethighlightingService
   ) {
     this.store.select(selectNFTContent).subscribe((content) => {
       this.nftContent = content;
@@ -68,6 +72,14 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
           this.barChart = chart;
         }
       });
+    });
+
+    this.highlightService.selectedWidgetChange.subscribe((id) => {
+      if (this.barChart.WidgetId === id) {
+        this.highlight = true;
+      } else {
+        this.highlight = false;
+      }
     });
   }
 

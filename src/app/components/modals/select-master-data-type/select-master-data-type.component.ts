@@ -1,5 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 import { ArtifactService } from 'src/app/services/artifact.service';
 import { SelectDataComponent } from '../select-data/select-data.component';
 import { WidgetContentComponent } from '../widget-content/widget-content.component';
@@ -14,9 +18,11 @@ export class SelectMasterDataTypeComponent implements OnInit {
   widget: any;
   artifacts: any = [];
   loading: boolean = false;
+  artifactsLoading: boolean = true;
   constructor(
     public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialogRef: MatDialogRef<SelectMasterDataTypeComponent>,
     private artifactService: ArtifactService
   ) {}
 
@@ -25,9 +31,14 @@ export class SelectMasterDataTypeComponent implements OnInit {
     this.widget = this.data.widget;
     this.artifactService.getArtifacts().subscribe((data) => {
       this.artifacts = data;
+      this.artifactsLoading = false;
     });
   }
 
+  /**
+   * @function openDataSelection - open artifact selection popup
+   * @param artifact
+   */
   public openDataSelection(artifact: any) {
     const dialogRef = this.dialog.open(SelectDataComponent, {
       data: {
@@ -36,8 +47,13 @@ export class SelectMasterDataTypeComponent implements OnInit {
         artifact: artifact,
       },
     });
+
+    this.dialogRef.close();
   }
 
+  /**
+   * @function openWidgetContent - open widget content popup
+   */
   public openWidgetContent() {
     const dialogRef = this.dialog.open(WidgetContentComponent, {
       data: {
@@ -45,8 +61,13 @@ export class SelectMasterDataTypeComponent implements OnInit {
         widget: this.widget,
       },
     });
+
+    this.dialogRef.close();
   }
 
+  /**
+   * @function close - close widget content popup
+   */
   public close() {
     this.dialog.closeAll();
   }

@@ -5,7 +5,9 @@
       <div class="option">
         <div class="option-header">Batches</div>
         <div class="option-content">
-          <mat-icon class="option-icon">inventory_2</mat-icon>
+          <img class="option-icon" [src]="batchSelectionIcon" />
+        </div>
+        <div class="option-footer">
           <button
             mat-button
             class="btn"
@@ -19,7 +21,9 @@
       <div class="option" *ngIf="showMasterDataSelection">
         <div class="option-header">Master Data</div>
         <div class="option-content">
-          <mat-icon class="option-icon">boy</mat-icon>
+          <img class="option-icon" [src]="masterDataIcon" />
+        </div>
+        <div class="option-footer">
           <button mat-button class="btn" (click)="openMasterDataSelection()">
             Add Master Data
           </button>
@@ -29,5 +33,5 @@
   </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button mat-dialog-close class="btn-cancel">Cancel</button>
 </mat-dialog-actions>

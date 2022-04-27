@@ -8,8 +8,8 @@
 }
 
 .content {
-  height: calc($modalHeight - 50px);
-  padding: 20px;
+  height: calc($modalHeight - 100px);
+
   overflow: auto;
 }
 
@@ -38,6 +38,17 @@
 
 .previous {
   color: rgb(134, 134, 134);
+  text-decoration: none;
+}
+
+.previous:hover {
+  color: $green;
+  text-decoration: none !important;
+}
+
+.back-icon {
+  vertical-align: middle;
+  margin-right: 5px;
 }
 
 .mat-row .mat-cell {
@@ -80,32 +91,6 @@ mat-card {
   text-decoration: underline;
 }
 
-table,
-td,
-th {
-  padding: 10px;
-}
-
-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0px 10px;
-}
-thead {
-  background: white;
-  color: black;
-  padding: 20px;
-  font-weight: bold;
-}
-
-tr {
-  @include shadow;
-}
-
-.data-row {
-  background: whitesmoke;
-}
-
 .btn {
   @include btn-primary;
 }
@@ -130,4 +115,51 @@ tr {
   border: 2px solid #ffffff;
   border-top-color: #000000;
   animation: spinner 0.8s linear infinite;
+}
+
+table.master-data-table {
+  border-collapse: collapse;
+  box-shadow: 0 5px 10px #e1e5ee;
+  background-color: white;
+  text-align: left;
+  width: 100%;
+  border-radius: 6px;
+  margin: 10px;
+
+  thead {
+    box-shadow: 0 5px 10px #e1e5ee;
+    padding: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    font-size: 0.7rem;
+    font-weight: 900;
+  }
+
+  tbody {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  th {
+    padding: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    font-size: 0.7rem;
+    font-weight: 900;
+  }
+
+  td {
+    padding-left: 1rem;
+    padding-top: 0.7rem;
+    padding-bottom: 0.7rem;
+    font-size: 0.8rem;
+  }
+
+  tr {
+    cursor: pointer;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f4f6fb;
+  }
 }

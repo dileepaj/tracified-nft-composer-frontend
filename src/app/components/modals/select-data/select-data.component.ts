@@ -1,5 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { ArtifactService } from 'src/app/services/artifact.service';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
@@ -55,7 +59,8 @@ export class SelectDataComponent implements OnInit {
     private composerService: ComposerBackendService,
     private dndService: DndServiceService,
     private popupMsgService: PopupMessageService,
-    private userService: UserserviceService
+    private userService: UserserviceService,
+    public dialogRef: MatDialogRef<SelectDataComponent>
   ) {}
 
   ngOnInit(): void {
@@ -75,6 +80,9 @@ export class SelectDataComponent implements OnInit {
       });
   }
 
+  /**
+   * @function openMasterDataSelection - open master data selection popup
+   */
   public openMasterDataSelection() {
     const dialogRef = this.dialog.open(SelectMasterDataTypeComponent, {
       data: {
@@ -82,8 +90,13 @@ export class SelectDataComponent implements OnInit {
         widget: this.widget,
       },
     });
+
+    this.dialogRef.close();
   }
 
+  /**
+   * @function openWidgetContent - open widget popup
+   */
   public openWidgetContent() {
     const dialogRef = this.dialog.open(WidgetContentComponent, {
       data: {
@@ -91,12 +104,20 @@ export class SelectDataComponent implements OnInit {
         widget: this.widget,
       },
     });
+
+    this.dialogRef.close();
   }
 
+  /**
+   * @function close - close the popup
+   */
   public close() {
     this.dialog.closeAll();
   }
 
+  /**
+   * @function createColumns - create the columns
+   */
   private createColumns() {
     this.artifact.fields.map((field: any) => {
       this.columns.push(field.name);
@@ -104,6 +125,9 @@ export class SelectDataComponent implements OnInit {
     });
   }
 
+  /**
+   * @function updateReduxState - update the redux state
+   */
   public updateReduxState() {
     this.saving = true;
     this.widget = {
@@ -137,6 +161,9 @@ export class SelectDataComponent implements OnInit {
     this.saveWidget();
   }
 
+  /**
+   * @function saveWidget - save the widget in the DB
+   */
   private saveWidget() {
     const widget = {
       Timestamp: new Date().toISOString(),

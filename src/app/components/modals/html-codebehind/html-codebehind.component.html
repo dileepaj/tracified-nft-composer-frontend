@@ -1,10 +1,17 @@
-<div class="widget-div" f>
-  <div>
-    <h2>HTML Code</h2>
-  </div>
-  <div class="content-div">
-    <div class="code-content">
-      <pre><code data-ln-start-from="1" [highlight]="code"></code></pre>
+<h2 mat-dialog-title>HTML Code</h2>
+<mat-dialog-content>
+  <div class="modal-content">
+    <div class="content-div">
+      <div class="code-content">
+        <mat-progress-bar
+          mode="indeterminate"
+          *ngIf="loaded"
+        ></mat-progress-bar>
+        <pre><code data-ln-start-from="1" [highlight]="code" [hidden]="loaded"></code></pre>
+      </div>
     </div>
   </div>
-</div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close class="btn-cancel">Cancel</button>
+</mat-dialog-actions>

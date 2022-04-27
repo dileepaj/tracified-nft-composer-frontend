@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
 import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
+import { WidgethighlightingService } from 'src/app/services/widgethighlighting.service';
 import { AppState } from 'src/app/store/app.state';
 import {
   addPieChart,
@@ -30,13 +31,16 @@ export class PieChartWidgetComponent implements OnInit {
   @Output() onDeleteWidget: EventEmitter<any> = new EventEmitter();
   pieChart: Chart;
   nftContent: NFTContent;
+  icon: any = '../../../../assets/images/widget-icons/Pie-chart.png';
+  public highlight = false;
 
   constructor(
     private store: Store<AppState>,
     public dialog: MatDialog,
     private service: DndServiceService,
     private composerService: ComposerBackendService,
-    private popupMsgService: PopupMessageService
+    private popupMsgService: PopupMessageService,
+    private highlightService: WidgethighlightingService
   ) {
     this.store.select(selectNFTContent).subscribe((content) => {
       this.nftContent = content;
@@ -53,6 +57,14 @@ export class PieChartWidgetComponent implements OnInit {
           this.pieChart = chart;
         }
       });
+    });
+
+    this.highlightService.selectedWidgetChange.subscribe((id) => {
+      if (this.pieChart.WidgetId === id) {
+        this.highlight = true;
+      } else {
+        this.highlight = false;
+      }
     });
   }
 

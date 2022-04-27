@@ -5,6 +5,8 @@ import { Chart, Data } from '../../../../models/nft-content/chart';
 import { AppState } from 'src/app/store/app.state';
 import {
   addBarChart,
+  addQueryResult,
+  deleteQueryResult,
   updateBarChart,
 } from 'src/app/store/nft-state-store/nft.actions';
 import { NFTState } from 'src/app/store/nft-state-store/nft.reducer';
@@ -91,9 +93,12 @@ export class ConfigureBarChartComponent implements OnInit {
   ngOnInit(): void {
     this.chartId = this.data.id;
     this.barChart = this.data.widget;
+    this.query = this.barChart.Query!;
   }
 
-  //take value from  query result store by wigetId and se it as a barChart data
+  /**
+   * @function setValueToBarChart - take value from  query result store by wigetId and se it as a barChart data
+   */
   private setValueToBarChart() {
     this.store.select(selectQueryResult).subscribe((data) => {
       let barChartvalue = data.find((v) => v.WidgetId === this.data.id);
@@ -121,7 +126,9 @@ export class ConfigureBarChartComponent implements OnInit {
     });
   }
 
-  //check , executed query save or not  use this function for show the congigure button
+  /**
+   * @function CheckQuerySavingStatus - check , executed query save or not  use this function for show the congigure button
+   */
   public CheckQuerySavingStatus(): boolean {
     let buttonState = false;
     this.store.select(selectQueryResult).subscribe((data) => {
@@ -132,7 +139,10 @@ export class ConfigureBarChartComponent implements OnInit {
     return buttonState;
   }
 
-  //called when user moves to a different tab
+  /**
+   * @function tabChanged - called when user moves to a different tab
+   * @param tabChangeEvent
+   */
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     if (tabChangeEvent.index === 1) {
       this.assignValues();
@@ -141,7 +151,9 @@ export class ConfigureBarChartComponent implements OnInit {
     }
   }
 
-  //update redux store
+  /**
+   * @function updateReduxState - update redux store
+   */
   public updateReduxState() {
     this.saving = true;
     this.barChart = {
@@ -155,6 +167,7 @@ export class ConfigureBarChartComponent implements OnInit {
       YAxis: this.yName,
       Height: 200,
       Width: 500,
+      Query: this.query,
       Domain: [0, this.max],
     };
 
@@ -162,7 +175,9 @@ export class ConfigureBarChartComponent implements OnInit {
     this.store.dispatch(updateBarChart({ chart: this.barChart }));
   }
 
-  //get chart from redux store
+  /**
+   * @function getBarChart - get chart from redux store
+   */
   private getBarChart() {
     this.store.select(selectBarCharts).subscribe((data) => {
       data.map((chart) => {
@@ -187,6 +202,9 @@ export class ConfigureBarChartComponent implements OnInit {
     });
   }
 
+  /**
+   * @function assignValues - assign values from the redux
+   */
   private assignValues() {
     if (!this.loadedFromRedux) {
       this.title = this.barChart.ChartTitle!;
@@ -211,7 +229,12 @@ export class ConfigureBarChartComponent implements OnInit {
     }
   }
 
+  /**
+   * @function saveChart - save the chart on DB
+   * @param chart
+   */
   private saveChart(chart: any) {
+    this.getBarChart();
     chart = {
       ...chart,
       Type: barchart,
@@ -244,17 +267,41 @@ export class ConfigureBarChartComponent implements OnInit {
         },
         complete: () => {
           this.saving = false;
-          this.popupMsgService.openSnackBar('Saved!!');
+          this.popupMsgService.openSnackBar('Updated!!');
           this.dialog.closeAll();
         },
       });
     }
   }
 
+  /**
+   * @function onQuerySuccess - query success event
+   * @param event
+   */
   public onQuerySuccess(event: any) {
     this.tabIndex = 1;
+    this.query = event.query;
   }
 
+  /**
+   * @function onCancel - cancel even
+   */
+  public onCancel() {
+    if (this.barChart.Query === undefined || this.barChart.Query === '') {
+      this.store.dispatch(
+        deleteQueryResult({
+          queryResult: { WidgetId: this.barChart.WidgetId, queryResult: '' },
+        })
+      );
+      this.dialog.closeAll();
+    } else {
+      this.dialog.closeAll();
+    }
+  }
+
+  /**
+   * @function setLabels - set labels on the chart
+   */
   private setLabels() {
     this.labels = [];
     this.barChartData.map((data) => {
@@ -262,6 +309,9 @@ export class ConfigureBarChartComponent implements OnInit {
     });
   }
 
+  /**
+   * @function setValues - set values on the chart
+   */
   private setValues() {
     this.values = [];
     this.barChartData.map((data) => {
@@ -269,6 +319,9 @@ export class ConfigureBarChartComponent implements OnInit {
     });
   }
 
+  /**
+   * @function setColors - set colors on the chart
+   */
   private setColors() {
     if (this.barColors.length === 0) {
       let count = this.barChartData.length;
@@ -278,6 +331,9 @@ export class ConfigureBarChartComponent implements OnInit {
     }
   }
 
+  /**
+   * @function drawChart - draws the bar chart
+   */
   public drawChart() {
     this.chartData = {
       labels: this.labels,
