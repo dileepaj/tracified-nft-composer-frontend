@@ -138,7 +138,7 @@ th {
   color: #212121;
 }
 
-table,
+/* table,
 td,
 th {
   border: 1px solid #e0e0e0;
@@ -150,7 +150,7 @@ table {
 
   border-collapse: collapse;
 }
-
+ */
 mat-tab-group.mat-primary .mat-ink-bar {
   background-color: $background !important;
 }
@@ -182,5 +182,52 @@ mat-tab-group.mat-primary .mat-ink-bar {
   color: black;
   .mat-simple-snackbar-action {
     color: $green !important;
+  }
+}
+
+.table table {
+  border-collapse: collapse;
+  box-shadow: 0 5px 10px #e1e5ee;
+  background-color: white;
+  text-align: left;
+  width: 100%;
+  border-radius: 6px;
+  margin: 10px;
+
+  thead {
+    box-shadow: 0 5px 10px #e1e5ee;
+    padding: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    font-size: 0.7rem;
+    font-weight: 900;
+  }
+
+  tbody {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  th {
+    padding: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    font-size: 0.7rem;
+    font-weight: 900;
+  }
+
+  td {
+    padding-left: 1rem;
+    padding-top: 0.7rem;
+    padding-bottom: 0.7rem;
+    font-size: 0.8rem;
+  }
+
+  tr {
+    cursor: pointer;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f4f6fb;
   }
 }
