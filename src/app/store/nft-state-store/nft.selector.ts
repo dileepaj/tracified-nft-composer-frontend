@@ -107,3 +107,8 @@ export const selectQueryResult = createSelector(
   selectNFT,
   (state: NFTState) => state.queryResult
 );
+
+export const selectWidgetCount = createSelector(
+  selectNFT,
+  (state: NFTState) => state.widgetCount
+);

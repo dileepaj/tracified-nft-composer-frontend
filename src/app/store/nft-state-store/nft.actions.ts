@@ -6,6 +6,7 @@ import { NFTContent } from 'src/models/nft-content/nft.content';
 import { ProofBot } from 'src/models/nft-content/proofbot';
 import { Table } from 'src/models/nft-content/table';
 import { Timeline } from 'src/models/nft-content/timeline';
+import { WidgetCount } from 'src/models/nft-content/widgetCount';
 import { Chart } from '../../../models/nft-content/chart';
 
 export const addBarChart = createAction(
@@ -181,4 +182,9 @@ export const setCardStatus = createAction(
 export const setQueryResult = createAction(
   '[set card query Result] Set card Query Result',
   props<{ queryResult: QueryResult[] }>()
+);
+
+export const setWidgetCount = createAction(
+  '[set widget count] Set widget count',
+  props<{ widgetCount: WidgetCount }>()
 );

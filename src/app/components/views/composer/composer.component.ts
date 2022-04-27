@@ -44,6 +44,7 @@ import { NewProjectComponent } from '../../modals/new-project/new-project.compon
 import { projectStatus } from 'src/app/store/nft-state-store/nft.actions';
 import { SelectMasterDataTypeComponent } from '../../modals/select-master-data-type/select-master-data-type.component';
 import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
+import { WidgethighlightingService } from 'src/app/services/widgethighlighting.service';
 
 export interface Widget {
   type: string;
@@ -158,7 +159,8 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private composerService: ComposerBackendService,
     private sidebarService: SidenavService,
-    private popupMsgService: PopupMessageService
+    private popupMsgService: PopupMessageService,
+    private highlightService: WidgethighlightingService
   ) {
     //this.openAddData();
     this.sidebarService.getStatus().subscribe((val) => {
@@ -175,6 +177,12 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     if (!!this.id) {
       this.loadExistingProjectdata(this.id);
     }
+
+    this.highlightService.selectedWidgetChange.subscribe((val) => {
+      if (val !== '') {
+        this.scrollToElement(val);
+      }
+    });
   }
 
   //load the recentproject base on nft id
@@ -219,30 +227,9 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     }
   }
 
-  /**
-   * @function dragMoved - get drag position
-   * @param event
-   */
-  public dragMoved(event: any) {
-    this.position = `> Position X: ${event.pointerPosition.x} - Y: ${event.pointerPosition.y}`;
-  }
-
-  /**
-   * @function dragEntered - get drag position
-   * @param event
-   */
-  public dragEntered(event: CdkDragEnter<number>) {
-    const drag = event.item;
-    const dropList = event.container;
-    const dragIndex = drag.data;
-    const dropIndex = dropList.data;
-
-    const phContainer = dropList.element.nativeElement;
-    const phElement = phContainer.querySelector('.cdk-drag-placeholder');
-    phContainer.removeChild(phElement!);
-    phContainer.parentElement!.insertBefore(phElement!, phContainer);
-
-    moveItemInArray(this.usedWidgets, dragIndex, dropIndex);
+  public scrollToElement(id: string) {
+    const element = document.getElementById(id)!;
+    element.scrollIntoView();
   }
 
   public noReturnPredicate() {
