@@ -127,4 +127,9 @@ export class NftProofbotComponent implements OnInit {
     string = string.charAt(0).toUpperCase() + string.slice(1);
     return string.replace(/([A-Z]+)/g, ' $1').replace(/([A-Z][a-z])/g, ' $1');
   }
+
+  //called when user clicks on a proof link
+  public openProofLink(url: string) {
+    window.open(url, '_blank');
+  }
 }
