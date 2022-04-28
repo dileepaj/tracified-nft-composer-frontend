@@ -21,24 +21,33 @@ export class HeaderComponent implements OnInit {
   constructor(
     private router: Router,
     private sidenav: SidenavService,
-private userServices:UserserviceService,
-private jwtServices:JwtserviceService
+    private userServices:UserserviceService,
+    private jwtServices:JwtserviceService
   ) {}
 
   ngOnInit(): void {
- this.user=this.userServices.getCurrentUser()
+    this.user=this.userServices.getCurrentUser()
   }
 
+  /**
+   * @function logout - when click on logout go back to login page and release the token
+   */
   public logout() {
     this.router.navigate(['/login']);
     sessionStorage.setItem('Token', '');
   }
 
+  /**
+   * @function toggleSideBar - open the side menu
+   */
   public toggleSideBar() {
     this.sidenav.toggleNav();
     this.user = this.userServices.getCurrentUser();
   }
 
+  /**
+   * @function isProjectsView - check if the current view is project view
+   */
   public isProjectsView() {
     let tenentId = JSON.parse(sessionStorage.getItem('User') || '').TenentId!;
     if (this.router.url === `/layout/projects/${tenentId}`) {

@@ -12,6 +12,7 @@ import {
   newProject,
   setCardStatus,
   setQueryResult,
+  setWidgetCount,
 } from 'src/app/store/nft-state-store/nft.actions';
 import { Chart } from 'src/models/nft-content/chart';
 import { RecentProject } from 'src/models/nft-content/htmlGenerator';
@@ -282,6 +283,19 @@ export class ProjectsComponent implements OnInit {
         this.store.dispatch(loadProject({ nftContent: this.loadedProject }));
         this.store.dispatch(setCardStatus({ cardStatus: cardStatus }));
         this.store.dispatch(setQueryResult({ queryResult: queryResult }));
+        this.store.dispatch(
+          setWidgetCount({
+            widgetCount: {
+              BarCharts: barcharts.length,
+              PieCharts: piecharts.length,
+              BubbleCharts: bubblecharts.length,
+              Tables: tables.length,
+              Images: images.length,
+              Timelines: timeline.length,
+              ProofBots: proofbot.length,
+            },
+          })
+        );
 
         this.addDragAndDropArray(this.loadedProject.ContentOrderData);
 

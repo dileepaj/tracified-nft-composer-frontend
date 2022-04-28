@@ -11,6 +11,7 @@ import { Store } from '@ngrx/store';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
 import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
+import { WidgethighlightingService } from 'src/app/services/widgethighlighting.service';
 import { AppState } from 'src/app/store/app.state';
 import {
   addTable,
@@ -41,13 +42,15 @@ export class TableComponent implements OnInit {
   projectName: string;
   nftContent: NFTContent;
   icon: any = '../../../../assets/images/widget-icons/Table.png';
+  public highlight = false;
 
   constructor(
     private store: Store<AppState>,
     public dialog: MatDialog,
     private service: DndServiceService,
     private composerService: ComposerBackendService,
-    private popupMsgService: PopupMessageService
+    private popupMsgService: PopupMessageService,
+    private highlightService: WidgethighlightingService
   ) {
     this.store.select(selectNFTContent).subscribe((content) => {
       this.nftContent = content;
@@ -65,6 +68,14 @@ export class TableComponent implements OnInit {
           this.table = table;
         }
       });
+    });
+
+    this.highlightService.selectedWidgetChange.subscribe((id) => {
+      if (this.table.WidgetId === id) {
+        this.highlight = true;
+      } else {
+        this.highlight = false;
+      }
     });
   }
 

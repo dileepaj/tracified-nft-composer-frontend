@@ -84,7 +84,9 @@ export class ConfigureBubbleChartComponent implements OnInit {
     this.query = this.bubbleChart.Query!;
   }
 
-  //check , executed query save or not  use this function for show the congigure button
+  /**
+   * @function CheckQuerySavingStatus - check , executed query save or not  use this function for show the congigure button
+   */
   public CheckQuerySavingStatus(): boolean {
     let buttonState = false;
     this.store.select(selectQueryResult).subscribe((data) => {
@@ -95,6 +97,9 @@ export class ConfigureBubbleChartComponent implements OnInit {
     return buttonState;
   }
 
+  /**
+   * @function setValueToBubblerChart - set values to bubble chart
+   */
   private setValueToBubblerChart() {
     this.store.select(selectQueryResult).subscribe((data) => {
       let Chartvalue = data.find((v) => v.WidgetId === this.data.id);
@@ -122,7 +127,10 @@ export class ConfigureBubbleChartComponent implements OnInit {
     });
   }
 
-  //called when user moves to a different tab
+  /**
+   * @function tabChanged - called when user moves to a different tab
+   * @param tabChangeEvent
+   */
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     if (tabChangeEvent.index === 1) {
       this.assignValues();
@@ -131,6 +139,9 @@ export class ConfigureBubbleChartComponent implements OnInit {
     }
   }
 
+  /**
+   * @function onCancel - removes the bar chart from redux
+   */
   public onCancel() {
     if (this.bubbleChart.Query === undefined || this.bubbleChart.Query === '') {
       this.store.dispatch(
@@ -144,7 +155,9 @@ export class ConfigureBubbleChartComponent implements OnInit {
     }
   }
 
-  //update redux store
+  /**
+   * @function updateReduxState - update redux store
+   */
   public updateReduxState() {
     this.saving = true;
     this.bubbleChart = {
@@ -169,7 +182,9 @@ export class ConfigureBubbleChartComponent implements OnInit {
     this.store.dispatch(updateBubbleChart({ chart: this.bubbleChart }));
   }
 
-  //get chart from redux store
+  /**
+   * @function getBubbleChart - get chart from redux store
+   */
   private getBubbleChart() {
     this.store.select(selectBubbleCharts).subscribe((data) => {
       data.map((chart) => {
@@ -191,6 +206,9 @@ export class ConfigureBubbleChartComponent implements OnInit {
     });
   }
 
+  /**
+   * @function assignValues - assign values to the bubble chart
+   */
   private assignValues() {
     if (!this.loadedFromRedux) {
       this.title = this.bubbleChart.ChartTitle!;
@@ -214,6 +232,10 @@ export class ConfigureBubbleChartComponent implements OnInit {
     }
   }
 
+  /**
+   * @function saveChart - calls the save chart endpoint and save chart data on DB
+   * @param chart
+   */
   private saveChart(chart: any) {
     chart = {
       ...chart,
@@ -255,11 +277,18 @@ export class ConfigureBubbleChartComponent implements OnInit {
     }
   }
 
+  /**
+   * @function onQuerySuccess - calls the save chart endpoint and save chart data on DB
+   * @param event
+   */
   public onQuerySuccess(event: any) {
     this.tabIndex = 1;
     this.query = event.query;
   }
 
+  /**
+   * @function setLabels - set labels to the chart
+   */
   private setLabels() {
     this.labels = [];
     this.bubbleChartData.map((data) => {
@@ -267,6 +296,9 @@ export class ConfigureBubbleChartComponent implements OnInit {
     });
   }
 
+  /**
+   * @function setValues - set values to the chart
+   */
   private setValues() {
     this.values = [];
     let i = 0;
@@ -282,6 +314,9 @@ export class ConfigureBubbleChartComponent implements OnInit {
     });
   }
 
+  /**
+   * @function setColors - set colors to the chart
+   */
   private setColors() {
     if (this.bubbleColors.length === 0) {
       let count = this.bubbleChartData.length;
@@ -291,6 +326,9 @@ export class ConfigureBubbleChartComponent implements OnInit {
     }
   }
 
+  /**
+   * @function drawChart - draw the bubble chart
+   */
   public drawChart() {
     this.setColors();
     this.setValues();

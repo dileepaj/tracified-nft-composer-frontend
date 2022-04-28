@@ -35,6 +35,10 @@ export class SelectMasterDataTypeComponent implements OnInit {
     });
   }
 
+  /**
+   * @function openDataSelection - open artifact selection popup
+   * @param artifact
+   */
   public openDataSelection(artifact: any) {
     const dialogRef = this.dialog.open(SelectDataComponent, {
       data: {
@@ -47,6 +51,9 @@ export class SelectMasterDataTypeComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  /**
+   * @function openWidgetContent - open widget content popup
+   */
   public openWidgetContent() {
     const dialogRef = this.dialog.open(WidgetContentComponent, {
       data: {
@@ -58,6 +65,9 @@ export class SelectMasterDataTypeComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  /**
+   * @function close - close widget content popup
+   */
   public close() {
     this.dialog.closeAll();
   }

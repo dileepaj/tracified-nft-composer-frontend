@@ -80,6 +80,9 @@ export class SelectDataComponent implements OnInit {
       });
   }
 
+  /**
+   * @function openMasterDataSelection - open master data selection popup
+   */
   public openMasterDataSelection() {
     const dialogRef = this.dialog.open(SelectMasterDataTypeComponent, {
       data: {
@@ -91,6 +94,9 @@ export class SelectDataComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  /**
+   * @function openWidgetContent - open widget popup
+   */
   public openWidgetContent() {
     const dialogRef = this.dialog.open(WidgetContentComponent, {
       data: {
@@ -102,10 +108,16 @@ export class SelectDataComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  /**
+   * @function close - close the popup
+   */
   public close() {
     this.dialog.closeAll();
   }
 
+  /**
+   * @function createColumns - create the columns
+   */
   private createColumns() {
     this.artifact.fields.map((field: any) => {
       this.columns.push(field.name);
@@ -113,6 +125,9 @@ export class SelectDataComponent implements OnInit {
     });
   }
 
+  /**
+   * @function updateReduxState - update the redux state
+   */
   public updateReduxState() {
     this.saving = true;
     this.widget = {
@@ -146,6 +161,9 @@ export class SelectDataComponent implements OnInit {
     this.saveWidget();
   }
 
+  /**
+   * @function saveWidget - save the widget in the DB
+   */
   private saveWidget() {
     const widget = {
       Timestamp: new Date().toISOString(),

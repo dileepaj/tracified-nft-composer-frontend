@@ -44,6 +44,7 @@ import { NewProjectComponent } from '../../modals/new-project/new-project.compon
 import { projectStatus } from 'src/app/store/nft-state-store/nft.actions';
 import { SelectMasterDataTypeComponent } from '../../modals/select-master-data-type/select-master-data-type.component';
 import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
+import { WidgethighlightingService } from 'src/app/services/widgethighlighting.service';
 
 export interface Widget {
   type: string;
@@ -158,7 +159,8 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private composerService: ComposerBackendService,
     private sidebarService: SidenavService,
-    private popupMsgService: PopupMessageService
+    private popupMsgService: PopupMessageService,
+    private highlightService: WidgethighlightingService
   ) {
     //this.openAddData();
     this.sidebarService.getStatus().subscribe((val) => {
@@ -175,6 +177,12 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     if (!!this.id) {
       this.loadExistingProjectdata(this.id);
     }
+
+    this.highlightService.selectedWidgetChange.subscribe((val) => {
+      if (val !== '') {
+        this.scrollToElement(val);
+      }
+    });
   }
 
   //load the recentproject base on nft id
@@ -184,7 +192,10 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     this.sub.unsubscribe();
   }
 
-  //Called when a widget is dropped to drap and drop area.
+  /**
+   * @function drop - Called when a widget is dropped to drap and drop area.
+   * @param event
+   */
   public drop(event: any) {
     if (event.previousContainer === event.container) {
       if (event.container.data === this.usedWidgets) {
@@ -216,30 +227,19 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     }
   }
 
-  //get drag position
-  public dragMoved(event: any) {
-    this.position = `> Position X: ${event.pointerPosition.x} - Y: ${event.pointerPosition.y}`;
-  }
-
-  public dragEntered(event: CdkDragEnter<number>) {
-    const drag = event.item;
-    const dropList = event.container;
-    const dragIndex = drag.data;
-    const dropIndex = dropList.data;
-
-    const phContainer = dropList.element.nativeElement;
-    const phElement = phContainer.querySelector('.cdk-drag-placeholder');
-    phContainer.removeChild(phElement!);
-    phContainer.parentElement!.insertBefore(phElement!, phContainer);
-
-    moveItemInArray(this.usedWidgets, dragIndex, dropIndex);
+  public scrollToElement(id: string) {
+    const element = document.getElementById(id)!;
+    element.scrollIntoView();
   }
 
   public noReturnPredicate() {
     return false;
   }
 
-  //Used to rearrange usedWidgets array when a widget is dropped to the drag and drop area
+  /**
+   * @function rearrangeArray - Used to rearrange usedWidgets array when a widget is dropped to the drag and drop area
+   * @param item, index
+   */
   private rearrangeArray(item: any, index: any) {
     let oldItem: any;
     let i: number;
@@ -252,7 +252,10 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     this.usedWidgets.push(item);
   }
 
-  //delete a widget
+  /**
+   * @function deleteWidget - delete a widget
+   * @param id
+   */
   public deleteWidget(id: any) {
     let index: number = 0;
     this.usedWidgets.map((widget) => {
@@ -266,6 +269,9 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     this.saveOrUpdateProject(true);
   }
 
+  /**
+   * @function openAddData - open master data type popup
+   */
   public openAddData() {
     const dialogRef = this.dialog.open(WidgetContentComponent, {
       data: {
@@ -278,12 +284,19 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     });
   }
 
+  /**
+   * @function getNftContent - get NFT contents from redux
+   */
   private getNftContent() {
     this.store.select(selectNFTContent).subscribe((data) => {
       this.nftContent = data;
     });
   }
 
+  /**
+   * @function downloadFile - download HTML file
+   * @param content, name, type
+   */
   private downloadFile(content: any, name: string, type: string) {
     var a = document.createElement('a');
     var blob = new Blob([content], { type: type });
@@ -292,6 +305,9 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     a.click();
   }
 
+  /**
+   * @function generateHTML - get the generated HTML from the backend
+   */
   public generateHTML() {
     this.generated = true;
     this.getNftContent();
@@ -310,6 +326,9 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     });
   }
 
+  /**
+   * @function saveProject - save project in the DB
+   */
   private saveProject() {
     this.saving = true;
     let widgetArr: any = [];

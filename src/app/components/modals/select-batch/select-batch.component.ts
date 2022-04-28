@@ -130,7 +130,10 @@ export class SelectBatchComponent implements OnInit {
     this.getItems();
   }
 
-  //called when user selects a product
+  /**
+   * @function selectProduct - called when user selects a product
+   * @param row
+   */
   public selectProduct(row: any) {
     this.selectedProduct = row;
     this.page = 0;
@@ -140,7 +143,10 @@ export class SelectBatchComponent implements OnInit {
     this.goForward();
   }
 
-  //called when user selects a batch
+  /**
+   * @function searchBatch - called when user selects a batch
+   * @param row
+   */
   public selectBatch(row: any) {
     this.selectedBatch = row;
     this.batchIsSelected = true;
@@ -148,23 +154,32 @@ export class SelectBatchComponent implements OnInit {
     this.goForward();
   }
 
-  //called when user selects a tdp
+  /**
+   * @function selectTdp - called when user selects a TDP
+   * @param row
+   */
   public selectTdp(row: any) {
     this.selectedTdp = row;
     this.tdpIsSelected = true;
   }
 
-  //go back to previous step
+  /**
+   * @function goBack - called when user go back to previous step
+   */
   public goBack() {
     this.myStepper.previous();
   }
 
-  //move to next step
+  /**
+   * @function goForward - moves to next step
+   */
   public goForward() {
     this.myStepper.next();
   }
 
-  //update redux state
+  /**
+   * @function updateReduxState - mupdate redux state
+   */
   public updateReduxState() {
     if (this.productIsSelected && this.batchIsSelected) {
       if (this.selectedBatch.traceabilityDataPackets.length !== 0) {
@@ -218,6 +233,9 @@ export class SelectBatchComponent implements OnInit {
     }
   }
 
+  /**
+   * @function openWidgetContent - open widget content
+   */
   public openWidgetContent() {
     const dialogRef = this.dialog.open(WidgetContentComponent, {
       data: {
@@ -229,14 +247,25 @@ export class SelectBatchComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  /**
+   * @function close - close the popup
+   */
   public close() {
     this.dialog.closeAll();
   }
 
+  /**
+   * @function getItemCount - get the item count
+   * @param index
+   */
   public getItemCount(index: number) {
     return this.page * 10 + index + 1;
   }
 
+  /**
+   * @function convertDate - convert the date format
+   * @param date
+   */
   public convertDate(date: any): string {
     const stillUtc = MomentAll.utc(date).toDate();
     // MomentAll(date).zone((new Date()).getTimezoneOffset()).format('YYYY-MM-DD hh:mm A')
@@ -247,6 +276,10 @@ export class SelectBatchComponent implements OnInit {
     return local;
   }
 
+  /**
+   * @function getBatches - get the item count
+   * @param index
+   */
   public getBatches(index: number, searchKey: string) {
     this.batchesLoading = true;
     this.batchesService
@@ -269,6 +302,9 @@ export class SelectBatchComponent implements OnInit {
       });
   }
 
+  /**
+   * @function getItems - get the items
+   */
   private getItems() {
     this.productsLoading = true;
     this.batchesService.getItems().subscribe({
@@ -287,6 +323,9 @@ export class SelectBatchComponent implements OnInit {
     });
   }
 
+  /**
+   * @function getStages - get stages
+   */
   private getStages() {
     this.batchesService.getStages().subscribe({
       next: (data: any) => {
@@ -304,6 +343,10 @@ export class SelectBatchComponent implements OnInit {
     });
   }
 
+  /**
+   * @function searchProduct - called when product is searched
+   * @param event
+   */
   public searchProduct(event: any) {
     this.productsFilter = this.products.filter((product: any) => {
       if (event.target.value !== '') {
@@ -321,24 +364,41 @@ export class SelectBatchComponent implements OnInit {
     });
   }
 
+  /**
+   * @function searchBatch - called when a batch is seaarched
+   */
   public searchBatch() {
     this.page = 0;
     this.getBatches(this.page, this.searchKey);
   }
 
+  /**
+   * @function onDateChange - called when searching using dates
+   */
   public onDateChange() {
     this.page = 0;
   }
 
+  /**
+   * @function onStepChange - event occures when steps are changed on the batch selection
+   * @param event
+   */
   public onStepChange(event: any) {
     let index = event.selectedIndex;
   }
 
+  /**
+   * @function CamelcaseToWord - change the string to an upper case
+   * @param string
+   */
   public CamelcaseToWord(string: string) {
     string = string.charAt(0).toUpperCase() + string.slice(1);
     return string.replace(/([A-Z]+)/g, ' $1').replace(/([A-Z][a-z])/g, ' $1');
   }
 
+  /**
+   * @function saveWidget - save the selected batch for the widget
+   */
   private saveWidget() {
     const widget = {
       Timestamp: this.widget.Timestamp,
@@ -401,10 +461,18 @@ export class SelectBatchComponent implements OnInit {
     }
   }
 
+  /**
+   * @function setTdpStep - set TDP steps
+   * @param index
+   */
   public setTdpStep(index: number) {
     this.tdpStep = index;
   }
 
+  /**
+   * @function getTraceabilityData - get the traceability data
+   * @param stageId
+   */
   private getTraceabilityData(stageId: number) {
     let tdArr: any = [];
     this.selectedBatch.traceabilityDataPackets.map((data: any) => {
@@ -416,6 +484,9 @@ export class SelectBatchComponent implements OnInit {
     return tdArr;
   }
 
+  /**
+   * @function getTimelineData - get timeline data
+   */
   private getTimelineData() {
     let b64BatchId = btoa(this.selectedBatch.identifier.identifier);
     let timelineData: TimelineData[] = [];
@@ -512,6 +583,9 @@ export class SelectBatchComponent implements OnInit {
     });
   }
 
+  /**
+   * @function getProofbotData - get proofbot data
+   */
   public getProofbotData() {
     let proofbot: ProofBot;
     this.batchesService
