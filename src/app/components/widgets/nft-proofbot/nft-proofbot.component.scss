@@ -66,20 +66,8 @@ h2 button {
   width: 100%;
 }
 
-.proof-url {
-  text-decoration: none;
-  font-size: small;
+.proof-chip {
   cursor: pointer;
-  color: $green;
-  background-color: whitesmoke;
-  border-radius: 25px;
-  padding: 5px;
-  margin-right: 5px;
-  margin-bottom: 5px;
-}
-
-.proof-url:hover {
-  border: $green solid 1px;
 }
 
 .pb-icon {
