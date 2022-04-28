@@ -2,17 +2,42 @@
 <mat-dialog-content>
   <div class="proofbot-content">
     <div class="proof-card" *ngFor="let data of proofbot.Data!">
-      <label>Transaction Id - {{ data.TxnHash }}</label>
-      <label>Product Name - {{ proofbot.ProductName }}</label>
-      <label>Batch - {{ data.BatchId }}</label>
-      <label>Proofs - </label>
-      <div class="url-list">
-        <div *ngFor="let url of data.Urls">
-          <a class="proof-url" [href]="url.Url" target="_blank">{{
-            url.Type.toUpperCase()
-          }}</a>
-        </div>
+      <div class="close-action-div">
+        <mat-icon class="close-icon" (click)="removeProofData(data)"
+          >cancel</mat-icon
+        >
       </div>
+      <label><b>TxnHash: </b> {{ data.TxnHash }}</label>
+      <label><b>Product Nam: </b> {{ proofbot.ProductName }}</label>
+      <label><b>Batch Id: </b> {{ data.BatchId }}</label>
+      <label><b>Proofs: </b> </label>
+      <mat-chip-list #chipList>
+        <mat-chip
+          class="proof-chip"
+          *ngFor="let url of data.Urls"
+          (click)="openProofLink(url.Url)"
+          (removed)="removeProofLink(data, url)"
+        >
+          {{ url.Type.toUpperCase() }}
+          <button matChipRemove>
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip>
+      </mat-chip-list>
     </div>
   </div>
 </mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close class="btn-cancel">Cancel</button>
+  <button
+    mat-button
+    [disabled]="saving"
+    class="btn"
+    (click)="save()"
+    cdkFocusInitial
+  >
+    <mat-icon>save</mat-icon>
+    <span [class.spinner]="saving"> </span>
+    Save
+  </button>
+</mat-dialog-actions>

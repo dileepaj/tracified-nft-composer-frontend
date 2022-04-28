@@ -1,6 +1,13 @@
-<div class="widget-div" f>
+<div
+  class="widget-div"
+  [ngStyle]="{ border: highlight ? 'solid 3px #00D6A0' : 'solid 1px #ccc;' }"
+  [id]="proofbot.WidgetId"
+>
   <div>
-    <h2 style="font-size: medium; font-weight: 200">
+    <h2
+      style="font-size: medium; font-weight: 200"
+      [ngStyle]="{ color: highlight ? '#00D6A0' : 'black' }"
+    >
       Proofbot
       <button mat-icon-button (click)="deleteWidget()">
         <mat-icon>clear</mat-icon>
@@ -12,17 +19,19 @@
 
     <div class="proofbot-content" *ngIf="otpAdded">
       <div class="proof-card" *ngFor="let data of proofbot.Data!">
-        <label>Transaction Id - {{ data.TxnHash }}</label>
-        <label>Product Name - {{ proofbot.ProductName }}</label>
-        <label>Batch - {{ data.BatchId }}</label>
-        <label>Proofs - </label>
-        <div class="url-list">
-          <div *ngFor="let url of data.Urls">
-            <a class="proof-url" [href]="url.Url" target="_blank">{{
-              url.Type.toUpperCase()
-            }}</a>
-          </div>
-        </div>
+        <label><b>TxnHash: </b> {{ data.TxnHash }}</label>
+        <label><b>Product Nam: </b> {{ proofbot.ProductName }}</label>
+        <label><b>Batch Id: </b> {{ data.BatchId }}</label>
+        <label><b>Proofs: </b> </label>
+        <mat-chip-list #chipList>
+          <mat-chip
+            class="proof-chip"
+            *ngFor="let url of data.Urls"
+            (click)="openProofLink(url.Url)"
+          >
+            {{ url.Type.toUpperCase() }}
+          </mat-chip>
+        </mat-chip-list>
       </div>
     </div>
   </div>
@@ -38,8 +47,8 @@
       style="float: right"
       (click)="openProofBotView()"
     >
-      <mat-icon>visibility</mat-icon>
-      View
+      <mat-icon>edit</mat-icon>
+      Configure
     </button>
   </div>
 </div>

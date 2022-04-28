@@ -16,6 +16,9 @@ export class BarChartComponent implements OnInit {
   private height = 400 - this.margin * 2;
   constructor() {}
 
+  /**
+   * @function createSvg - creates the SVG
+   */
   private createSvg(): void {
     this.svg = d3
       .select('#bar')
@@ -26,6 +29,10 @@ export class BarChartComponent implements OnInit {
       .attr('transform', 'translate(' + this.margin + ',' + this.margin + ')');
   }
 
+  /**
+   * @function drawBars - draw bars on the bar chart
+   * @param data
+   */
   private drawBars(data: any[]): void {
     // Create the X-axis band scale
     const x = d3

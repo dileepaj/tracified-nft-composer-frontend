@@ -34,6 +34,9 @@ export class NewProjectComponent implements OnInit {
     this.user = this.userServices.getCurrentUser();
   }
 
+  /**
+   * @function createProject - create a new NFT project
+   */
   public createProject() {
     if (this.projectName !== '' && this.nftName !== '') {
       const project: NFTContent = {

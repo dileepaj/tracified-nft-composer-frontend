@@ -27,6 +27,7 @@ import {
 } from 'src/app/store/nft-state-store/nft.selector';
 import { Image } from 'src/models/nft-content/image';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { WidgethighlightingService } from 'src/app/services/widgethighlighting.service';
 
 @Component({
   selector: 'app-nft-image',
@@ -37,7 +38,7 @@ export class NftImageComponent implements OnInit {
   @Input() id: any;
   @Output() onDeleteWidget: EventEmitter<any> = new EventEmitter();
   @ViewChild('fileUpload') fileUpload: ElementRef<HTMLElement>;
-  private image: Image;
+  public image: Image;
   file: File;
   shortLink: string = '';
   loading: boolean = false;
@@ -47,13 +48,15 @@ export class NftImageComponent implements OnInit {
   src: string = '';
   saving: boolean = false;
   icon: any = '../../../../assets/images/widget-icons/Image-upload.png';
+  public highlight = false;
 
   constructor(
     private store: Store<AppState>,
     private service: DndServiceService,
     private composerService: ComposerBackendService,
     private popupMsgService: PopupMessageService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private highlightService: WidgethighlightingService
   ) {
     this.store.select(selectNFTContent).subscribe((content) => {
       this.projectId = content.ProjectId;
@@ -72,6 +75,14 @@ export class NftImageComponent implements OnInit {
           this.base64 = img.Base64Image;
         }
       });
+    });
+
+    this.highlightService.selectedWidgetChange.subscribe((id) => {
+      if (this.image.WidgetId === id) {
+        this.highlight = true;
+      } else {
+        this.highlight = false;
+      }
     });
   }
 

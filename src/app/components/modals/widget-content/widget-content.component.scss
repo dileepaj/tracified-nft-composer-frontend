@@ -1,14 +1,14 @@
 @import "../../../../scss/mixins";
 @import "../../../../scss/variables";
 .modal-content {
-  @include modal-content;
+  width: 700px;
 }
 .btn {
   @include btn-primary;
 }
 
 .content {
-  height: calc($modalHeight - 50px);
+  height: 400px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -17,7 +17,7 @@
 }
 
 .option {
-  height: 400px;
+  height: 300px;
   width: 300px;
   background-color: whitesmoke;
   border-radius: 10px;
@@ -39,12 +39,12 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 350px;
+  height: 150px;
 }
 
 .option-header {
   width: 100%;
-  background-color: $green;
+  background-color: #00d6a0;
   height: 50px;
   justify-content: center;
   text-align: center;
@@ -54,7 +54,14 @@
   font-weight: bold;
 }
 
+.option-footer {
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .option-icon {
-  transform: scale(5);
-  margin-bottom: 100px;
+  transform: scale(1.2);
 }

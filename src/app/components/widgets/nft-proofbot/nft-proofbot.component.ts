@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
 import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
+import { WidgethighlightingService } from 'src/app/services/widgethighlighting.service';
 import { AppState } from 'src/app/store/app.state';
 import {
   addProofBot,
@@ -33,13 +34,15 @@ export class NftProofbotComponent implements OnInit {
   otpAdded: boolean = false;
   projectId: string;
   icon: any = '../../../../assets/images/widget-icons/Proofbot.png';
+  public highlight = false;
 
   constructor(
     private store: Store<AppState>,
     private service: DndServiceService,
     private composerService: ComposerBackendService,
     public dialog: MatDialog,
-    private popupMsgService: PopupMessageService
+    private popupMsgService: PopupMessageService,
+    private highlightService: WidgethighlightingService
   ) {
     this.store.select(selectNFTContent).subscribe((nft) => {
       this.projectId = nft.ProjectId;
@@ -61,6 +64,14 @@ export class NftProofbotComponent implements OnInit {
           }
         }
       });
+    });
+
+    this.highlightService.selectedWidgetChange.subscribe((id) => {
+      if (this.proofbot.WidgetId === id) {
+        this.highlight = true;
+      } else {
+        this.highlight = false;
+      }
     });
   }
 
@@ -115,5 +126,10 @@ export class NftProofbotComponent implements OnInit {
   public CamelcaseToWord(string: string) {
     string = string.charAt(0).toUpperCase() + string.slice(1);
     return string.replace(/([A-Z]+)/g, ' $1').replace(/([A-Z][a-z])/g, ' $1');
+  }
+
+  //called when user clicks on a proof link
+  public openProofLink(url: string) {
+    window.open(url, '_blank');
   }
 }

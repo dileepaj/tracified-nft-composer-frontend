@@ -24,6 +24,9 @@ export class LoginComponent implements OnInit {
   sKey = 'hackerkaidagalbanisbaby'.split('').reverse().join('');
   public userToken: string;
   public loading = false;
+  public showPassword = false;
+  public showPw = 'password';
+  public hide = true;
   constructor(
     private router: Router,
     private _authService: AuthService,
@@ -103,6 +106,17 @@ export class LoginComponent implements OnInit {
     } else {
       this.loading = false;
       this.snackBar.openSnackBar('Invalid Input');
+    }
+  }
+
+  public switchType(){
+    if(this.showPw == 'password'){
+      this.showPw = 'text';
+      this.showPassword = true;
+    }
+    else{
+      this.showPw = 'password';
+      this.showPassword = false;
     }
   }
 }
