@@ -1,15 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
 import { AppState } from 'src/app/store/app.state';
 import {
   loadProject,
-  newProject,
   setCardStatus,
   setQueryResult,
   setWidgetCount,
@@ -45,6 +43,31 @@ export class ProjectsComponent implements OnInit {
   loading: boolean = false;
   projToBeLoaded: string = '';
   projToBeDeleted: string = '';
+  backgroundColorArray: string[] = [
+    '#FFEBEE',
+    '#F3E5F5',
+    '#E3F2FD',
+    '#E0F7FA',
+    '#E8F5E9',
+    '#FFF8E1',
+    '#FBE9E7',
+    '#E8EAF6',
+    '#E0F2F1',
+    '#FCE4EC',
+  ];
+  fontColorArray: string[] = [
+    '#E57373',
+    '#BA68C8',
+    '#90CAF9',
+    '#4DD0E1',
+    '#81C784',
+    '#FFD54F',
+    '#FF8A65',
+    '#7986CB',
+    '#4DB6AC',
+    '#F06292',
+  ];
+  projectColors: any = [];
 
   constructor(
     private store: Store<AppState>,
@@ -65,16 +88,68 @@ export class ProjectsComponent implements OnInit {
     this.getRecentProjects();
   }
 
+  /**
+   * @function getRecentProjects - get user's recent projects
+   */
   public getRecentProjects() {
     this.loading = true;
     this.apiService.getRecentProjects(this.userId).subscribe((result) => {
       if (result) {
         this.projects = result.Response;
+        this.generateColors();
       }
       this.loading = false;
     });
   }
 
+  /**
+   * @function generateColors - generate colors for each project.
+   * These colors are used in projects view when displaying recent projects
+   */
+  private generateColors() {
+    this.projects.map((project) => {
+      let random = Math.floor(Math.random() * 3);
+      this.projectColors.push({
+        ProjectId: project.ProjectId,
+        bgColor: this.backgroundColorArray[random],
+        fontColor: this.fontColorArray[random],
+      });
+    });
+  }
+
+  /**
+   * @function getRandomBgColor - get bg color generated for a specific project
+   */
+  public getBgColor(projectId: string): string {
+    let color: string = '';
+    for (let i = 0; i < this.projectColors.length; i++) {
+      if (this.projectColors[i].ProjectId === projectId) {
+        color = this.projectColors[i].bgColor;
+        break;
+      }
+    }
+
+    return color;
+  }
+
+  /**
+   * @function getFontColor - get font color generated for a specific project
+   */
+  public getFontColor(projectId: string): string {
+    let color: string = '';
+    for (let i = 0; i < this.projectColors.length; i++) {
+      if (this.projectColors[i].ProjectId === projectId) {
+        color = this.projectColors[i].fontColor;
+        break;
+      }
+    }
+
+    return color;
+  }
+
+  /**
+   * @function convertDate - convert date format
+   */
   public convertDate(date: any): string {
     const stillUtc = MomentAll.utc(date).toDate();
     const local = MomentAll(date)
@@ -83,6 +158,9 @@ export class ProjectsComponent implements OnInit {
     return local;
   }
 
+  /**
+   * @function addDragAndDropArray - add loaded widgets to drag and drop array
+   */
   private addDragAndDropArray(widgets: any[]) {
     let warr: Widget[] = [];
     widgets.map((widget) => {
@@ -98,6 +176,9 @@ export class ProjectsComponent implements OnInit {
     this.dndService.rewriteWidgetArr(warr);
   }
 
+  /**
+   * @function openNewProject - open new project popup
+   */
   public openNewProject() {
     const dialogRef = this.dialog.open(NewProjectComponent, {
       data: {
@@ -108,11 +189,17 @@ export class ProjectsComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {});
   }
 
+  /**
+   * @function openExistingProject - open existing project.
+   * all the project content should be stored in the redux stroe
+   */
   public openExistingProject(id: string) {
     this.projToBeLoaded = id;
     this.apiService.openExistingProject(id).subscribe({
       next: (data) => {
         const proj = data.Response;
+
+        //arrays to store project content temporarily
         let contOrder: any[] = [];
         let widgetsInOrderArr: any[] = [];
         let widgetsNotNull: any[] = [];
@@ -126,6 +213,7 @@ export class ProjectsComponent implements OnInit {
         let timeline: Timeline[] = [];
         let proofbot: ProofBot[] = [];
 
+        //get project content order
         proj.Project.ContentOrderData.map((widget: any) => {
           contOrder.push({ WidgetId: widget.WidgetId, Type: widget.Type });
           widgetsInOrderArr.push(widget.WidgetId);
@@ -137,6 +225,7 @@ export class ProjectsComponent implements OnInit {
           queryResult.push({ WidgetId: widget.WidgetId, queryResult: '' });
         });
 
+        //get bar charts
         if (proj.BarCharts) {
           proj.BarCharts.map((chart: any) => {
             let ch: Chart = chart.Chart;
@@ -159,6 +248,7 @@ export class ProjectsComponent implements OnInit {
           });
         }
 
+        //get pie charts
         if (proj.PieCharts) {
           proj.PieCharts.map((chart: any) => {
             let ch: Chart = chart.Chart;
@@ -180,6 +270,8 @@ export class ProjectsComponent implements OnInit {
             }
           });
         }
+
+        //get buuble charts
         if (proj.BubbleCharts) {
           proj.BubbleCharts.map((chart: any) => {
             let ch: Chart = chart.Chart;
@@ -202,6 +294,7 @@ export class ProjectsComponent implements OnInit {
           });
         }
 
+        //get tables
         if (proj.Tables) {
           proj.Tables.map((table: any) => {
             let tb: Table = table.Table;
@@ -224,6 +317,7 @@ export class ProjectsComponent implements OnInit {
           });
         }
 
+        //get images
         if (proj.Images) {
           proj.Images.map((image: any) => {
             if (widgetsInOrderArr.includes(image.WidgetId)) {
@@ -234,6 +328,7 @@ export class ProjectsComponent implements OnInit {
           });
         }
 
+        //get timeline
         if (proj.Timeline) {
           proj.Timeline.map((tl: any) => {
             if (widgetsInOrderArr.includes(tl.WidgetId)) {
@@ -243,6 +338,7 @@ export class ProjectsComponent implements OnInit {
           });
         }
 
+        //get proofbot
         if (proj.ProofBot) {
           proj.ProofBot.map((pb: any) => {
             if (widgetsInOrderArr.includes(pb.WidgetId)) {
@@ -258,6 +354,7 @@ export class ProjectsComponent implements OnInit {
           }
         });
 
+        //create project object
         this.loadedProject = {
           ProjectId: proj.Project.ProjectId,
           ProjectName: proj.Project.ProjectName,
@@ -280,6 +377,7 @@ export class ProjectsComponent implements OnInit {
           },
         };
 
+        //save project in redux store
         this.store.dispatch(loadProject({ nftContent: this.loadedProject }));
         this.store.dispatch(setCardStatus({ cardStatus: cardStatus }));
         this.store.dispatch(setQueryResult({ queryResult: queryResult }));
@@ -312,6 +410,9 @@ export class ProjectsComponent implements OnInit {
     });
   }
 
+  /**
+   * @function deleteProject - delete an existing project
+   */
   public deleteProject(projectId: string) {
     this.projToBeDeleted = projectId;
 

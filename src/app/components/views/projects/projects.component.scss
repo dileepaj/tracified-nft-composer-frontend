@@ -17,13 +17,13 @@ mat-toolbar {
 }
 
 .column-label {
-  font-weight: 200; 
+  font-weight: 200;
   font-size: smaller;
   margin-right: 8px;
 }
 
 .green-button {
-  font-weight: 200; 
+  font-weight: 200;
   font-size: smaller;
   border-radius: 35;
   background-color: $green;
@@ -75,7 +75,7 @@ mat-toolbar {
 }
 
 .delete-button {
-  font-weight: 200; 
+  font-weight: 200;
   font-size: smaller;
   border-radius: 35;
   background-color: #e7e7e9;
@@ -109,7 +109,7 @@ mat-toolbar {
 }
 
 .proj-name {
-  font-weight: 600; 
+  font-weight: 600;
   font-size: medium;
   color: #212121;
 }
@@ -125,11 +125,16 @@ mat-toolbar {
 }
 
 .timestamp {
-  font-weight: 200; 
+  font-weight: 200;
   font-size: small;
   color: #9e9e9e;
 }
 
 .btn-icon {
   transform: scale(0.75);
+}
+
+.project-thumb {
+  font-size: x-large;
+  font-weight: 400;
 }

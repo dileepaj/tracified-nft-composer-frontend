@@ -6,7 +6,7 @@
     style="min-height: 100px"
   >
     <section class="mat-typography">
-      <h2 class="mat-h2" style="font-weight: 700;">Projects</h2>
+      <h2 class="mat-h2" style="font-weight: 700">Projects</h2>
     </section>
     <div class="example-button-container">
       <button
@@ -28,14 +28,23 @@
         [fxFlex]="100 / gridColumns + '%'"
         fxFlex.xs="100%"
         fxFlex.sm="33%"
-        *ngFor="let project of projects; &quot;layout-margin&quot;"
+        *ngFor="let project of projects; index as i; &quot;layout-margin&quot;"
       >
         <mat-card class="project-card">
           <mat-card-content>
             <div class="content-div">
-              <div class="icon-div">
-                <mat-icon class="material-icons-outlined customIcon"
-                  >app_registration</mat-icon
+              <div
+                class="icon-div"
+                [ngStyle]="{
+                  backgroundColor: getBgColor(project.ProjectId)
+                }"
+              >
+                <label
+                  class="project-thumb"
+                  [ngStyle]="{ color: getFontColor(project.ProjectId) }"
+                  >{{
+                    project.ProjectName.substring(0, 2).toLocaleUpperCase()
+                  }}</label
                 >
               </div>
               <div class="title-div">
