@@ -115,3 +115,22 @@ h2 button {
   transform: scale(4);
   color: $background;
 }
+
+.left-content {
+  width: 35px;
+  height: 100%;
+}
+.right-content {
+  flex-grow: 1;
+  height: 100%;
+}
+
+.vr-line {
+  height: 100%;
+  width: 2px;
+  background-color: black;
+}
+
+.content .sub-content {
+  flex-grow: 1;
+}

@@ -5,7 +5,34 @@
     </div>
     <div class="content-div">
       <div class="timeline-content">
-        <ul class="timeline">
+        <div class="time-box w-100" *ngFor="let childrenOne of childrenOne">
+          <div class="header d-flex align-items-center">
+            <div class="left-content text-left mr-4">
+              <img width="100%" [src]="childrenOne.Icon" alt="icon" />
+            </div>
+            <div class="right-content text-left">
+              <h4 class="mb-1">{{ childrenOne.title }}</h4>
+              <p class="mb-2">{{ "" }}</p>
+            </div>
+          </div>
+          <div class="content d-flex flex-row">
+            <div class="sub-content d-flex align-items-start py-4">
+              <div class="left-content d-flex justify-content-center">
+                <div class="vr-line"></div>
+              </div>
+              <div class="right-content p-3 border rounded">
+                <div *ngFor="let childrenTwo of childrenOne.Children">
+                  <li class="timeline-item">
+                    <p class="timeline-text">
+                      {{ childrenTwo.Key }} : {{ childrenTwo.Value }}
+                    </p>
+                  </li>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <ul class="timeline">
           <div *ngFor="let childrenOne of childrenOne">
             <h3 class="timeline-title">
               <b>{{ childrenOne.Title }}</b>
@@ -18,7 +45,7 @@
               </li>
             </div>
           </div>
-        </ul>
+        </ul> -->
       </div>
     </div>
     <div class="widget-footer"></div>
