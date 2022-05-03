@@ -27,6 +27,8 @@ export class LoginComponent implements OnInit {
   public showPassword = false;
   public showPw = 'password';
   public hide = true;
+  public inputText: boolean;
+  public inputPassword: boolean;
   constructor(
     private router: Router,
     private _authService: AuthService,
@@ -109,14 +111,23 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  public switchType(){
-    if(this.showPw == 'password'){
+  public switchType() {
+    if (this.showPw == 'password') {
       this.showPw = 'text';
       this.showPassword = true;
-    }
-    else{
+    } else {
       this.showPw = 'password';
       this.showPassword = false;
+    }
+  }
+
+  focusFunction(type: string) {
+    if (type == 'text') {
+      this.inputText = false;
+      this.inputPassword = true;
+    } else if (type == 'pw') {
+      this.inputText = false;
+      this.inputPassword = true;
     }
   }
 }
