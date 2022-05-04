@@ -112,7 +112,7 @@ const appRoutes: Routes = [];
     NewProjectComponent,
     TimelineViewComponent,
     ProofbotViewComponent,
-    HtmlCodebehindComponent,
+    HtmlCodebehindComponent
   ],
   imports: [
     BrowserModule,
