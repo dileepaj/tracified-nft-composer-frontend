@@ -13,8 +13,10 @@
     <div class="projects-header-container">
       <div class="button-container">
         <!--sort-->
-        <div class="btn-sort">
-          <mat-icon class="material-symbols-outlined"> swap_vert </mat-icon>
+        <div class="btn-sort" matTooltip="Sort By Date" matRipple>
+          <mat-icon class="material-symbols-outlined" (click)="toggleSort()">
+            swap_vert
+          </mat-icon>
         </div>
 
         <!--grid view option-->
@@ -43,6 +45,15 @@
           >
             format_list_bulleted
           </mat-icon>
+        </div>
+        <div class="search-input-group">
+          <input
+            type="text"
+            placeholder="Search here"
+            [(ngModel)]="searchText"
+            (keyup)="searchProject()"
+          />
+          <mat-icon class="material-symbols-outlined">search</mat-icon>
         </div>
       </div>
 
@@ -78,7 +89,11 @@
         fxFlex.xs="100%"
         fxFlex.sm="50%"
         fxFlex.md="33%"
-        *ngFor="let project of projects; index as i; &quot;layout-margin&quot;"
+        *ngFor="
+          let project of filteredProjects;
+          index as i;
+          &quot;layout-margin&quot;
+        "
       >
         <mat-card class="project-card">
           <div class="project-card-content">
@@ -167,7 +182,7 @@
       <div class="list-view">
         <div
           class="list-item-div"
-          *ngFor="let project of projects; index as i"
+          *ngFor="let project of filteredProjects; index as i"
           [ngStyle]="{ 'background-color': i % 2 !== 0 ? '#F8F8F8' : 'white' }"
         >
           <!--thumbnail-->
@@ -208,9 +223,9 @@
                 fxFlex.sm="100%"
                 fxFlex.xs="100%"
               >
-                <h3>
+                <h4>
                   <b>{{ project.ProjectName }}</b>
-                </h3>
+                </h4>
               </div>
               <div fxFlex.gt-md="10%" fxFlex.md="20%">
                 <mat-icon class="material-icons-outlined time-icon cursor"

@@ -156,27 +156,8 @@ mat-toolbar {
   }
 }
 
-.search-bar-div {
-  margin-right: 5px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 5px;
-  height: 25px;
-  background-color: #ffffff;
-  input {
-    padding: 2px;
-    border-radius: 5px;
-  }
-}
-
 .btn-list-active {
   color: $green;
-}
-
-::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
-  padding: 0.5em;
 }
 
 .list-item-div {
@@ -184,12 +165,12 @@ mat-toolbar {
   height: 100px;
   display: flex;
   flex-direction: row;
+  border-bottom: 1px solid #dadada;
 }
 
 .list-view {
   display: flex;
   flex-direction: column;
-  @include shadow;
 }
 
 .list-icon-div {
@@ -248,4 +229,37 @@ mat-toolbar {
   mat-icon {
     transform: scale(4);
   }
+}
+.search-input-group {
+  width: 216px;
+}
+.search-input-group input[type="text"] {
+  box-sizing: border-box;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #cdcdcd;
+  border-radius: 5px 0px 0px 5px;
+  float: left;
+  width: 80%;
+  height: 36px;
+  background: #ffffff;
+  border-right: none;
+}
+
+.search-input-group input[type="text"]:focus {
+  outline: none;
+}
+
+.search-input-group mat-icon {
+  box-sizing: border-box;
+  float: left;
+  width: 20%;
+  padding: 10px 10px 10px 10px;
+  font-size: 14px;
+  border: 1px solid #cdcdcd;
+  border-radius: 0px 5px 5px 0px;
+  background: #ffffff;
+  height: 36px;
+  border-left: none;
+  color: #868686;
 }

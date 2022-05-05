@@ -35,6 +35,7 @@ import { UserserviceService } from 'src/app/services/userservice.service';
 })
 export class ProjectsComponent implements OnInit {
   projects: RecentProject[];
+  filteredProjects: RecentProject[];
   loadedProject: NFTContent;
   subscription: Subscription;
   gridColumns = 4;
@@ -72,6 +73,8 @@ export class ProjectsComponent implements OnInit {
   listView: boolean = false;
   gridView: boolean = true;
 
+  searchText: string = '';
+
   constructor(
     private store: Store<AppState>,
     private router: Router,
@@ -99,6 +102,7 @@ export class ProjectsComponent implements OnInit {
     this.apiService.getRecentProjects(this.userId).subscribe((result) => {
       if (result) {
         this.projects = result.Response;
+        this.filteredProjects = this.projects;
         this.generateColors();
       }
       this.loading = false;
@@ -443,5 +447,25 @@ export class ProjectsComponent implements OnInit {
   public showListView() {
     this.listView = true;
     this.gridView = false;
+  }
+
+  public searchProject() {
+    this.filteredProjects = this.projects.filter((project: any) => {
+      if (this.searchText !== '') {
+        if (
+          project.ProjectName.trim()
+            .toLowerCase()
+            .includes(this.searchText.trim().toLowerCase())
+        ) {
+          return project;
+        }
+      } else {
+        return project;
+      }
+    });
+  }
+
+  public toggleSort() {
+    this.filteredProjects = this.filteredProjects.reverse();
   }
 }
