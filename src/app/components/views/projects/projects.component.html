@@ -8,16 +8,37 @@
     <section class="mat-typography">
       <h2 class="mat-h2" style="font-weight: 700">Projects</h2>
     </section>
-    <div class="example-button-container">
-      <button
-        mat-fab
-        color="accent"
-        class="green-color"
-        aria-label="new project"
-        (click)="openNewProject()"
-      >
-        <mat-icon>add</mat-icon>
-      </button>
+    <div class="projects-header-container">
+      <div class="button-container">
+        <div class="btn-sort">
+          <mat-icon class="material-symbols-outlined"> swap_vert </mat-icon>
+        </div>
+        <div class="btn-view-option">
+          <mat-icon
+            class="material-symbols-outlined"
+            [class.btn-list-active]="gridView"
+          >
+            view_module
+          </mat-icon>
+        </div>
+        <div class="btn-view-option" [class.btn-list-active]="listView">
+          <mat-icon class="material-symbols-outlined">
+            format_list_bulleted
+          </mat-icon>
+        </div>
+      </div>
+
+      <div>
+        <button
+          mat-fab
+          color="accent"
+          class="green-color"
+          aria-label="new project"
+          (click)="openNewProject()"
+        >
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
     </div>
   </div>
   <mat-divider></mat-divider>
@@ -25,19 +46,24 @@
   <div layout-margin class="projects-div">
     <div fxLayout="row wrap" fxLayoutGap="10px grid" class="md-margin">
       <div
+        class="project-card-div"
         [fxFlex]="100 / gridColumns + '%'"
+        fxFlex.xl="20%"
+        fxFlex.lg="25%"
         fxFlex.xs="100%"
-        fxFlex.sm="33%"
+        fxFlex.sm="50%"
+        fxFlex.md="33%"
         *ngFor="let project of projects; index as i; &quot;layout-margin&quot;"
       >
         <mat-card class="project-card">
-          <mat-card-content>
-            <div class="content-div">
+          <div class="project-card-content">
+            <div>
               <div
                 class="icon-div"
                 [ngStyle]="{
                   backgroundColor: getBgColor(project.ProjectId)
                 }"
+                (click)="openExistingProject(project.ProjectId)"
               >
                 <label
                   class="project-thumb"
@@ -46,7 +72,22 @@
                     project.ProjectName.substring(0, 2).toLocaleUpperCase()
                   }}</label
                 >
+                <!-- <img
+                  style="height: 130px; width: 140px"
+                  src="../../../../assets/images/composer-logo.png"
+                /> -->
               </div>
+            </div>
+            <div
+              style="
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+
+                width: 100%;
+              "
+              (click)="openExistingProject(project.ProjectId)"
+            >
               <div class="title-div">
                 <label class="proj-name">{{ project.ProjectName }}</label>
                 <div fxLayout="row" fxAlign="center ">
@@ -59,33 +100,35 @@
                 </div>
               </div>
             </div>
-          </mat-card-content>
-          <mat-card-actions align="end">
-            <button
-              mat-flat-button
-              color="primary"
-              class="delete-button"
-              [disabled]="projToBeDeleted === project.ProjectId"
-              (click)="deleteProject(project.ProjectId)"
-            >
-              <mat-icon class="btn-icon">delete_forever</mat-icon>
-              <span [class.spinner]="projToBeDeleted === project.ProjectId">
-              </span>
-              Delete
-            </button>
-            <button
-              mat-flat-button
-              color="primary"
-              class="green-button"
-              [disabled]="projToBeLoaded === project.ProjectId"
-              (click)="openExistingProject(project.ProjectId)"
-            >
-              <mat-icon class="btn-icon">launch</mat-icon>
-              <span [class.spinner]="projToBeLoaded === project.ProjectId">
-              </span>
-              Open
-            </button>
-          </mat-card-actions>
+
+            <div class="menu-icon-div">
+              <mat-icon
+                class="material-symbols-outlined menu-icon"
+                matRipple
+                [matMenuTriggerFor]="menu"
+              >
+                more_vert
+              </mat-icon>
+              <mat-menu #menu="matMenu">
+                <button
+                  mat-menu-item
+                  class="menu-btn"
+                  (click)="openExistingProject(project.ProjectId)"
+                >
+                  <mat-icon>launch</mat-icon>
+                  <span>Open</span>
+                </button>
+                <button
+                  mat-menu-item
+                  class="menu-btn"
+                  (click)="deleteProject(project.ProjectId)"
+                >
+                  <mat-icon>delete</mat-icon>
+                  <span>Delete</span>
+                </button>
+              </mat-menu>
+            </div>
+          </div>
         </mat-card>
       </div>
     </div>

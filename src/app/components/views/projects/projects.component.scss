@@ -89,11 +89,10 @@ mat-toolbar {
 }
 
 .icon-div {
-  width: 70px;
-  height: 70px;
+  width: 140px;
+  height: 130px;
   display: flex;
   flex-direction: column;
-  border-radius: 100%;
   justify-content: center;
   align-items: center;
   background-color: rgba(176, 221, 176, 0.199);
@@ -104,8 +103,9 @@ mat-toolbar {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-left: 10px;
+  margin-left: 30px;
   row-gap: 10px;
+  cursor: pointer;
 }
 
 .proj-name {
@@ -137,4 +137,105 @@ mat-toolbar {
 .project-thumb {
   font-size: x-large;
   font-weight: 400;
+}
+
+.project-card-content {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.mat-card {
+  padding: 0 !important;
+}
+
+.menu-icon-div {
+  min-width: 20px;
+  padding-right: 5px;
+  padding-top: 10px;
+  color: #5b5b5b;
+}
+
+.menu-icon {
+  cursor: pointer;
+}
+
+.project-card-div {
+  cursor: pointer;
+}
+
+.menu-btn {
+  font-size: smaller;
+
+  mat-icon {
+    transform: scale(0.8);
+  }
+}
+
+.btn-view-option {
+  margin-right: 5px;
+  background-color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  height: 25px;
+
+  mat-icon {
+    transform: scale(0.8);
+  }
+}
+
+.projects-header-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.button-container {
+  margin-right: 20px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+}
+
+.btn-sort {
+  margin-right: 5px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  height: 25px;
+
+  mat-icon {
+    transform: scale(0.8);
+  }
+}
+
+.search-bar-div {
+  margin-right: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  height: 25px;
+  background-color: #ffffff;
+  input {
+    padding: 2px;
+    border-radius: 5px;
+  }
+}
+
+.btn-list-active {
+  color: $green;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 0.5em;
 }

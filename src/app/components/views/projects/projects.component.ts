@@ -69,6 +69,9 @@ export class ProjectsComponent implements OnInit {
   ];
   projectColors: any = [];
 
+  listView: boolean = false;
+  gridView: boolean = true;
+
   constructor(
     private store: Store<AppState>,
     private router: Router,
