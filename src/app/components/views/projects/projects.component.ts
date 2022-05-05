@@ -41,7 +41,7 @@ export class ProjectsComponent implements OnInit {
   user: ComposerUser;
   userId: string = '';
   loading: boolean = false;
-  projToBeLoaded: string = '';
+  projLoading: boolean = false;
   projToBeDeleted: string = '';
   backgroundColorArray: string[] = [
     '#FFEBEE',
@@ -197,7 +197,7 @@ export class ProjectsComponent implements OnInit {
    * all the project content should be stored in the redux stroe
    */
   public openExistingProject(id: string) {
-    this.projToBeLoaded = id;
+    this.projLoading = true;
     this.apiService.openExistingProject(id).subscribe({
       next: (data) => {
         const proj = data.Response;
@@ -400,7 +400,7 @@ export class ProjectsComponent implements OnInit {
 
         this.addDragAndDropArray(this.loadedProject.ContentOrderData);
 
-        this.projToBeLoaded = '';
+        this.projLoading = false;
 
         this.router.navigate([`/layout/home/${proj.Project.ProjectId}`]);
       },
@@ -408,7 +408,7 @@ export class ProjectsComponent implements OnInit {
         this.popupMsgService.openSnackBar(
           'An unexpected error occured. Please try again later.'
         );
-        this.projToBeLoaded = '';
+        this.projLoading = false;
       },
     });
   }
@@ -433,5 +433,15 @@ export class ProjectsComponent implements OnInit {
         this.popupMsgService.openSnackBar('Project deleted!!');
       },
     });
+  }
+
+  public showGridView() {
+    this.gridView = true;
+    this.listView = false;
+  }
+
+  public showListView() {
+    this.listView = true;
+    this.gridView = false;
   }
 }

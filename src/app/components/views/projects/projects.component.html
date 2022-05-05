@@ -6,14 +6,23 @@
     style="min-height: 100px"
   >
     <section class="mat-typography">
-      <h2 class="mat-h2" style="font-weight: 700">Projects</h2>
+      <h2 class="mat-h2" style="font-weight: 700">
+        Select Existing or Create New Project
+      </h2>
     </section>
     <div class="projects-header-container">
       <div class="button-container">
+        <!--sort-->
         <div class="btn-sort">
           <mat-icon class="material-symbols-outlined"> swap_vert </mat-icon>
         </div>
-        <div class="btn-view-option">
+
+        <!--grid view option-->
+        <div
+          class="btn-view-option"
+          (click)="showGridView()"
+          matTooltip="Grid View"
+        >
           <mat-icon
             class="material-symbols-outlined"
             [class.btn-list-active]="gridView"
@@ -21,19 +30,30 @@
             view_module
           </mat-icon>
         </div>
-        <div class="btn-view-option" [class.btn-list-active]="listView">
-          <mat-icon class="material-symbols-outlined">
+
+        <!--list view option-->
+        <div
+          class="btn-view-option"
+          (click)="showListView()"
+          matTooltip="List View"
+        >
+          <mat-icon
+            class="material-symbols-outlined"
+            [class.btn-list-active]="listView"
+          >
             format_list_bulleted
           </mat-icon>
         </div>
       </div>
 
+      <!--new project button-->
       <div>
         <button
           mat-fab
           color="accent"
           class="green-color"
           aria-label="new project"
+          matTooltip="New Project"
           (click)="openNewProject()"
         >
           <mat-icon>add</mat-icon>
@@ -44,7 +64,12 @@
   <mat-divider></mat-divider>
   <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
   <div layout-margin class="projects-div">
-    <div fxLayout="row wrap" fxLayoutGap="10px grid" class="md-margin">
+    <div
+      fxLayout="row wrap"
+      fxLayoutGap="10px grid"
+      class="md-margin"
+      *ngIf="gridView"
+    >
       <div
         class="project-card-div"
         [fxFlex]="100 / gridColumns + '%'"
@@ -57,6 +82,7 @@
       >
         <mat-card class="project-card">
           <div class="project-card-content">
+            <!--thumbnail-->
             <div>
               <div
                 class="icon-div"
@@ -78,6 +104,8 @@
                 /> -->
               </div>
             </div>
+
+            <!--proj name  and timestamp-->
             <div
               style="
                 display: flex;
@@ -89,18 +117,21 @@
               (click)="openExistingProject(project.ProjectId)"
             >
               <div class="title-div">
-                <label class="proj-name">{{ project.ProjectName }}</label>
+                <label class="proj-name cursor">{{
+                  project.ProjectName
+                }}</label>
                 <div fxLayout="row" fxAlign="center ">
-                  <mat-icon class="material-icons-outlined time-icon"
+                  <mat-icon class="material-icons-outlined time-icon cursor"
                     >schedule</mat-icon
                   >
-                  <label class="timestamp">
+                  <label class="timestamp cursor">
                     {{ convertDate(project.Timestamp) }}</label
                   >
                 </div>
               </div>
             </div>
 
+            <!--menu-->
             <div class="menu-icon-div">
               <mat-icon
                 class="material-symbols-outlined menu-icon"
@@ -132,5 +163,99 @@
         </mat-card>
       </div>
     </div>
+    <div class="md-margin" *ngIf="listView">
+      <div class="list-view">
+        <div
+          class="list-item-div"
+          *ngFor="let project of projects; index as i"
+          [ngStyle]="{ 'background-color': i % 2 !== 0 ? '#F8F8F8' : 'white' }"
+        >
+          <!--thumbnail-->
+          <div>
+            <div
+              class="list-icon-div cursor"
+              [ngStyle]="{
+                backgroundColor: getBgColor(project.ProjectId)
+              }"
+              (click)="openExistingProject(project.ProjectId)"
+            >
+              <label
+                class="project-thumb cursor"
+                [ngStyle]="{ color: getFontColor(project.ProjectId) }"
+                >{{
+                  project.ProjectName.substring(0, 2).toLocaleUpperCase()
+                }}</label
+              >
+              <!-- <img
+            style="height: 130px; width: 140px"
+            src="../../../../assets/images/composer-logo.png"
+          /> -->
+            </div>
+          </div>
+
+          <!--proj name and timestamp and menu-->
+          <div class="list-item-content" fxLayoutAlign="space-between center">
+            <!--proj name and timestamp-->
+            <div
+              fxLayoutAlign="space-between center"
+              style="width: 90%; cursor: pointer; height: 100px"
+              fxLayout="row wrap"
+              (click)="openExistingProject(project.ProjectId)"
+            >
+              <div
+                fxFlex.gt-md="90%"
+                fxFlex.md="80%"
+                fxFlex.sm="100%"
+                fxFlex.xs="100%"
+              >
+                <h3>
+                  <b>{{ project.ProjectName }}</b>
+                </h3>
+              </div>
+              <div fxFlex.gt-md="10%" fxFlex.md="20%">
+                <mat-icon class="material-icons-outlined time-icon cursor"
+                  >schedule</mat-icon
+                >
+                <label class="timestamp cursor">
+                  {{ convertDate(project.Timestamp) }}</label
+                >
+              </div>
+            </div>
+
+            <!--menu-->
+            <div class="list-view-menu">
+              <mat-icon
+                class="material-symbols-outlined menu-icon"
+                matRipple
+                [matMenuTriggerFor]="menu"
+              >
+                more_vert
+              </mat-icon>
+              <mat-menu #menu="matMenu">
+                <button
+                  mat-menu-item
+                  class="menu-btn"
+                  (click)="openExistingProject(project.ProjectId)"
+                >
+                  <mat-icon>launch</mat-icon>
+                  <span>Open</span>
+                </button>
+                <button
+                  mat-menu-item
+                  class="menu-btn"
+                  (click)="deleteProject(project.ProjectId)"
+                >
+                  <mat-icon>delete</mat-icon>
+                  <span>Delete</span>
+                </button>
+              </mat-menu>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+</div>
+<div *ngIf="projLoading" class="loading-div">
+  <mat-icon class="material-symbols-outlined"> more_horiz </mat-icon>
 </div>
