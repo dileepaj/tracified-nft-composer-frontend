@@ -6,20 +6,8 @@
   width: max-content;
 }
 
-.proof-url {
-  text-decoration: none;
-  font-size: small;
+.proof-chip {
   cursor: pointer;
-  color: $green;
-  background-color: whitesmoke;
-  border-radius: 25px;
-  padding: 5px;
-  margin-right: 5px;
-  margin-bottom: 5px;
-}
-
-.proof-url:hover {
-  border: $green solid 1px;
 }
 
 .proof-card {
@@ -41,4 +29,46 @@
 .url-list {
   display: flex;
   flex-direction: row wrap;
+}
+
+.btn {
+  @include btn-primary;
+}
+
+.close-action-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.close-icon {
+  transform: scale(0.8);
+  color: #969696;
+  cursor: pointer;
+}
+
+.close-icon:hover {
+  color: #808080;
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner:before {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  margin-left: -10px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  border-top-color: #000000;
+  animation: spinner 0.8s linear infinite;
 }

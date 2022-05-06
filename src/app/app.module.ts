@@ -74,6 +74,7 @@ import { ProofbotViewComponent } from './components/modals/proofbot-view/proofbo
 import { HtmlCodebehindComponent } from './components/modals/html-codebehind/html-codebehind.component';
 import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatChipsModule } from '@angular/material/chips';
 
 const appRoutes: Routes = [];
 
@@ -111,7 +112,7 @@ const appRoutes: Routes = [];
     NewProjectComponent,
     TimelineViewComponent,
     ProofbotViewComponent,
-    HtmlCodebehindComponent,
+    HtmlCodebehindComponent
   ],
   imports: [
     BrowserModule,
@@ -155,6 +156,7 @@ const appRoutes: Routes = [];
     RouterModule.forRoot(appRoutes),
     StoreModule.forRoot({ nft: nftReducer, user: userReducer }),
     HighlightModule,
+    MatChipsModule,
   ],
   providers: [
     CookieService,
