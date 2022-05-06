@@ -1,13 +1,16 @@
 <div>
   <div>
     <div id="project-title" mat-list-item>
-      <mat-icon mat-list-icon class="title-icon">handyman</mat-icon>
-      <!--<input type="text" [(ngModel)]="title" />-->
-      <label style="font-size: small; font-weight: 700">{{ title }}</label>
-    </div>
-    <div style="font-size: small; font-weight: 700" id="header" mat-list-item>
-      <mat-icon mat-list-icon class="icon">app_registration</mat-icon>
-      Project Content
+      <div
+        class="title-icon"
+        [routerLink]="['/layout/projects/' + user.TenentId]"
+        matTooltip="Back To Projects"
+      >
+        <mat-icon mat-list-icon> chevron_left </mat-icon>
+      </div>
+      <div class="title-text">
+        <label>{{ title }}</label>
+      </div>
     </div>
     <mat-nav-list>
       <mat-list-item
@@ -126,21 +129,5 @@
         </div>
       </mat-list-item>
     </mat-nav-list>
-  </div>
-  <div>
-    <div
-      id="sidebar-back"
-      mat-list-item
-      [routerLink]="['/layout/projects/' + user.TenentId]"
-    >
-      <mat-list-item disableRipple>
-        <div class="back-to-project">
-          <mat-icon mat-list-icon class="icon"
-            ><span class="material-icons-outlined"> arrow_back </span></mat-icon
-          >
-          Back to Projects
-        </div>
-      </mat-list-item>
-    </div>
   </div>
 </div>
