@@ -59,20 +59,34 @@ h2 button {
   height: 240px;
 }
 
-.update-icon{
+.update-icon {
   color: white;
   padding: auto;
 }
 
 .widget-footer {
   position: absolute;
-  right: 7px;
-  left: 235px;
+  right: 0px;
+  left: 0;
   bottom: 0;
   top: 255px;
 }
 
-.update-btn{
-  @include btn-primary;
+.update-btn {
+  color: #00d6a0;
+  width: 100%;
+  mat-icon {
+    color: #00d6a0;
+    transform: scale(0.7);
+  }
 }
 
+.upload-btn {
+  color: #00d6a0;
+}
+
+.delete-btn {
+  mat-icon {
+    color: #c62929;
+  }
+}

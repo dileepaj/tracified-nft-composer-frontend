@@ -9,7 +9,12 @@
       [ngStyle]="{ color: highlight ? '#00D6A0' : 'black' }"
     >
       Table
-      <button mat-icon-button (click)="deleteWidget()">
+      <button
+        mat-icon-button
+        class="delete-btn"
+        matTooltip="Delete"
+        (click)="deleteWidget()"
+      >
         <mat-icon>clear</mat-icon>
       </button>
     </h2>
@@ -18,19 +23,26 @@
     <img class="widget-card-icon" [src]="icon" />
   </div>
   <div class="widget-footer">
-    <button mat-button class="btn" style="float: right" (click)="openAddData()">
-      <mat-icon>add_circle</mat-icon>
-      Add Data
-    </button>
     <button
-      mat-button
-      class="btn"
-      *ngIf="otpAdded()"
+      mat-flat-button
+      fxFlex="50%"
+      class="customize-btn"
       style="float: right"
+      *ngIf="otpAdded()"
       (click)="openDialog()"
     >
-      <mat-icon>edit</mat-icon>
-      Configure
+      <mat-icon class="material-symbols-outlined"> build </mat-icon>
+      Customize
+    </button>
+    <button
+      mat-flat-button
+      fxFlex="50%"
+      class="add-data-btn"
+      style="float: right"
+      (click)="openAddData()"
+    >
+      <mat-icon>add_circle</mat-icon>
+      {{ !otpAdded() ? "Add Data" : "Modify Data" }}
     </button>
   </div>
 </div>

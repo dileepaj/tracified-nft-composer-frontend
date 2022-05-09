@@ -8,7 +8,12 @@
     [ngStyle]="{ color: highlight ? '#00D6A0' : 'black' }"
   >
     Image
-    <button mat-icon-button (click)="deleteWidget()">
+    <button
+      mat-icon-button
+      class="delete-btn"
+      matTooltip="Delete"
+      (click)="deleteWidget()"
+    >
       <mat-icon>clear</mat-icon>
     </button>
   </h2>
@@ -34,7 +39,7 @@
   <div id="image" *ngIf="isUploaded()">
     <img [src]="base64" class="img" />
   </div>
-  <div class="widget-footer">
+  <div class="widget-footer" fxLayout="row wrap">
     <input
       type="file"
       accept="image/*"
@@ -44,12 +49,11 @@
     />
     <button
       mat-flat-button
-      class="btn"
-      style="float: right; font-size: small; font-weight: 200"
+      class="update-btn"
       (click)="triggerClick()"
       *ngIf="isUploaded()"
     >
-      <mat-icon class="update-icon">edit</mat-icon> Update
+      <mat-icon class="update-icon">edit</mat-icon> Change Image
     </button>
   </div>
 </div>
