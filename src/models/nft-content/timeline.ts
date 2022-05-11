@@ -23,4 +23,8 @@ export interface TimelineData {
 export interface Children {
   Key: string;
   Value: string;
+  Images: [];
 }
+
+
+

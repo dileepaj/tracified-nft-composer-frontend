@@ -5,7 +5,7 @@
   @include widget-div;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: auto;
 }
 
 .content-div {
@@ -21,6 +21,7 @@
   align-items: center;
   justify-content: center;
   gap: 40px;
+  overflow: auto;
   //background-color: #ccc;
 }
 
@@ -29,22 +30,33 @@
   width: 90%;
 }
 
+.timeline-content::before{
+      content: "";
+    position: absolute;
+    left: calc(8% + 1.5rem - 2px);
+    top: 0;
+    height: 100%;
+    width: 2px;
+    background: #00c853;
+    opacity: 1;
+    z-index: -1;
+}
+
 .timeline {
   $color: #00c853;
-  $timeline-font-color: white;
+  $timeline-font-color: black;
 
   padding: 0 25px;
   margin: 20px 0 0 0;
   position: relative;
-  counter-reset: list 0;
 
   &-item {
     list-style: none;
     border-left: 4px solid $color;
 
-    &:last-child {
-      border-left-color: transparent;
-    }
+    // &:last-child {
+    //   // border-left-color: transparent;
+    // }
   }
 
   &-title {
@@ -62,16 +74,11 @@
       text-align: center;
       border-radius: 50%;
       background-color: $color;
-      counter-increment: list;
-      content: counter(list);
     }
   }
 
   &-text {
     margin: 0;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 50px;
   }
 }
 
@@ -134,3 +141,64 @@ h2 button {
 .content .sub-content {
   flex-grow: 1;
 }
+
+.timeline-card{
+  display: block;
+  padding: 1.5rem;
+  position: relative;
+  overflow: auto;
+}
+
+// .timeline-card::before {
+//   content: "";
+//   position: absolute;
+//   left: calc(8% + 1.5rem - 2px);
+//   top: 0;
+//   height: 100%;
+//   width: 2px;
+//   background: #00c853;
+//   opacity: 1;
+//   z-index: -1;
+// }
+
+.header{
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  flex-direction: row;
+  -webkit-box-pack: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.left{
+  width: 16%;
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+.right{
+    width: calc(100% - 16%);
+}
+
+.title{
+  margin: 0 0 .2rem 0;
+}
+
+.body{
+  width: calc(100% - 16%);
+  margin-left: 7%;
+  padding: 10px 0;
+}
+
+.secondary-font {
+  color: #b1b1b1 !important;
+}
+
+.primary-font {
+  color: #4f525d !important;
+}
+

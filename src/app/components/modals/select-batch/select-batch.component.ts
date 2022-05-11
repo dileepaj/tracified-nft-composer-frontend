@@ -519,8 +519,21 @@ export class SelectBatchComponent implements OnInit {
             //creates children array
             data.map((d: any) => {
               if (d.component === 'key-value') {
-                tlchildren.push({ Key: d.key, Value: d.value });
+                tlchildren.push({
+                  Key: d.key,
+                  Value: d.value,
+                  Images: []
+                });
               }
+
+              if(d.component === 'image-slider'){
+                tlchildren.push({
+                  Key: "",
+                  Value: "",
+                  Images: d.images
+                })
+              }
+
             });
 
             //create and push timeline child to timeline data array
