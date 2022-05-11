@@ -1,13 +1,13 @@
 @import "../../../../scss/mixins";
 @import "../../../../scss/variables";
 
-.timeline-content{
+.timeline-content {
   height: calc($modalHeight - 50px);
   overflow: auto !important;
 }
 
 .timeline {
-  $color: #00C853;
+  $color: #00c853;
   $timeline-font-color: white;
 
   padding: 0 25px;
@@ -25,22 +25,22 @@
   }
 
   &-title {
-      margin: 0;
-      padding: 0;
-      &:before {
-        $size: 40px;
-        color: $timeline-font-color;
-        position: relative;
-        left: -22px;
-        display: inline-block;
-        width: $size;
-        height: $size;
-        line-height: $size;
-        text-align: center;
-        border-radius: 50%;
-        background-color: $color;
-        counter-increment: list;
-        content: counter(list);
+    margin: 0;
+    padding: 0;
+    &:before {
+      $size: 40px;
+      color: $timeline-font-color;
+      position: relative;
+      left: -22px;
+      display: inline-block;
+      width: $size;
+      height: $size;
+      line-height: $size;
+      text-align: center;
+      border-radius: 50%;
+      background-color: $color;
+      counter-increment: list;
+      content: counter(list);
     }
   }
 
@@ -88,4 +88,82 @@ h2 button {
   vertical-align: middle;
 }
 
+.left-content {
+  width: 35px;
+  height: 100%;
+}
+.right-content {
+  flex-grow: 1;
+  height: 100%;
+}
 
+.vr-line {
+  height: 100%;
+  width: 2px;
+  background-color: black;
+}
+
+.content .sub-content {
+  flex-grow: 1;
+}
+
+
+.timeline-card{
+  display: block;
+  padding: 1.5rem;
+  position: relative;
+  overflow: auto;
+}
+
+// .timeline-card::before {
+//   content: "";
+//   position: absolute;
+//   left: calc(8% + 1.5rem - 2px);
+//   top: 0;
+//   height: 100%;
+//   width: 2px;
+//   background: #00c853;
+//   opacity: 1;
+//   z-index: -1;
+// }
+
+.header{
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  flex-direction: row;
+  -webkit-box-pack: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.left{
+  width: 16%;
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+.right{
+    width: calc(100% - 16%);
+}
+
+.title{
+  margin: 0 0 .2rem 0;
+}
+
+.body{
+  width: calc(100% - 16%);
+  margin-left: 7%;
+  padding: 10px 0;
+}
+
+.secondary-font {
+  color: #b1b1b1 !important;
+}
+
+.primary-font {
+  color: #4f525d !important;
+}

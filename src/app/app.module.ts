@@ -158,7 +158,7 @@ const appRoutes: Routes = [];
     RouterModule.forRoot(appRoutes),
     StoreModule.forRoot({ nft: nftReducer, user: userReducer }),
     HighlightModule,
-    MatChipsModule,
+    MatChipsModule
   ],
   providers: [
     CookieService,

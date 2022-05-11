@@ -491,7 +491,7 @@ export class SelectBatchComponent implements OnInit {
     let b64BatchId = btoa(this.selectedBatch.identifier.identifier);
     let timelineData: TimelineData[] = [];
     this.batchesService
-      .getTimeline('S2FudGFsYXRlc3QwMDE=')
+      .getTimeline(b64BatchId)
       .subscribe((data) => {
         if (data.name === 'Error') {
           this.popupMsgService.openSnackBar(
