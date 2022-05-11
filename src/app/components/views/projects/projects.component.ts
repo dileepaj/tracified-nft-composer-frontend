@@ -248,6 +248,7 @@ export class ProjectsComponent implements OnInit {
                 OTP: chart.Widget.OTP,
                 Query: chart.Widget.Query,
                 WidgetType: chart.Widget.WidgetType,
+                ChartImage: chart.Widget.ChartImage || '',
               };
               barcharts.push(ch);
               widgetsNotNull.push(ch.WidgetId);
@@ -271,6 +272,7 @@ export class ProjectsComponent implements OnInit {
                 OTP: chart.Widget.OTP,
                 Query: chart.Widget.Query,
                 WidgetType: chart.Widget.WidgetType,
+                ChartImage: chart.Widget.ChartImage || '',
               };
               piecharts.push(ch);
               widgetsNotNull.push(ch.WidgetId);
@@ -294,6 +296,7 @@ export class ProjectsComponent implements OnInit {
                 OTP: chart.Widget.OTP,
                 Query: chart.Widget.Query,
                 WidgetType: chart.Widget.WidgetType,
+                ChartImage: chart.Widget.ChartImage || '',
               };
               bubblecharts.push(ch);
               widgetsNotNull.push(ch.WidgetId);
