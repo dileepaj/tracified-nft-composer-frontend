@@ -154,8 +154,55 @@ input::placeholder {
   color: white;
   font-weight: 400;
   opacity: 100%;
+  padding-block-end: inherit;
 }
 
 form{
     padding: 5%
+}
+
+@-webkit-keyframes autofill {
+    100%,100% {
+        color: #ffffff;
+        background: transparent;
+    }
+}
+
+input:-webkit-autofill {
+    -webkit-animation-delay: 1s; 
+    -webkit-animation-name: autofill;
+    -webkit-animation-fill-mode: both;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active,
+input:-webkit-autofill::before {
+    -webkit-box-shadow: 0 0 0 30px #00C853 inset !important;
+    -webkit-text-fill-color: white !important;
+}
+
+
+input:-internal-autofill-selected {
+    appearance: menulist-button;
+    background-image: none !important;
+    background-color: -internal-light-dark(rgb(232, 240, 254), rgba(70, 90, 126, 0.4)) !important;
+    color: -internal-light-dark(white, white) !important;
+}
+
+
+.mat-input-element {
+  caret-color: white;
+  padding-block-end: inherit;
+}
+
+.pw-field{
+        -webkit-text-security: disc;
+ }
+
+.mat-form-field-flex {
+  display: inline-flex;
+  box-sizing: border-box;
+  width: 100%;
 }

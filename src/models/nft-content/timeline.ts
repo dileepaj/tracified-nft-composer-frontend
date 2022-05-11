@@ -18,6 +18,15 @@ export interface TimelineData {
   Title: string;
   Children: Children[];
   Icon: string;
+  SubTitle?: string;
+  Description?: string;
+  Images?: string[];
+}
+
+export interface TimelineStyle {
+  PrimaryColor: string;
+  TitleColor: string;
+  SubtleColor: string;
 }
 
 export interface Children {

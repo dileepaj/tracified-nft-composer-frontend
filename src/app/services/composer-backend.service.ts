@@ -127,6 +127,21 @@ export class ComposerBackendService {
   }
 
   /**
+   * @function generateSVG - generate SVG code
+   * @param - nftContent
+   * @component - nft-svg view
+   */
+  public generateSVG(nftContent: NFTContent): Observable<NFTContent> {
+    return this.http.post<NFTContent>(
+      `http://localhost:6081/generate/svg`,
+      nftContent,
+      {
+        headers: this.setHeaders(),
+      }
+    );
+  }
+
+  /**
    * @function saveProject - save NFT project
    * @param - project
    * @component - composer view

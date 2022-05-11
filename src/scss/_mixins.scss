@@ -17,6 +17,8 @@
 @mixin project-card {
   box-sizing: border-box;
   border-radius: 7px;
+  overflow: hidden;
+
   @include shadow;
 }
 

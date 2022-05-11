@@ -27,13 +27,7 @@
         <mat-grid-tile colspan="3" style="overflow: auto">
           <!--Bar chart-->
           <div class="pie-chart">
-            <canvas
-              baseChart
-              class="pie-chart-canvas"
-              [data]="chartData"
-              [type]="'pie'"
-              [options]="pieChartOptions"
-            >
+            <canvas baseChart class="pie-chart-canvas" [id]="'pie-chart'">
             </canvas>
           </div>
         </mat-grid-tile>
