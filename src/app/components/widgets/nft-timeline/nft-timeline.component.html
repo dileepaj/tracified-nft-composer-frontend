@@ -38,7 +38,7 @@
                   </p>
               </div>
           </div>
-              
+
       </div> -->
     <!-- <ul class="timeline">
         <div *ngFor="let childrenOne of childrenOne">
@@ -84,10 +84,10 @@
                     {{ childrenTwo.Value }}
                   </h4>
                 </div>
-                <div *ngIf="childrenTwo.Images.length > 0">
-                  <div *ngFor="let images of childrenTwo.Images">
-                    <img width="100%" [src]="images" alt="image" />
-                  </div>
+              </div>
+              <div *ngIf="childrenOne.Images.length > 0">
+                <div *ngFor="let images of childrenOne.Images">
+                  <img width="100%" [src]="images" alt="image" />
                 </div>
               </div>
             </mat-card-content>
