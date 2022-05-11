@@ -32,8 +32,4 @@ export interface TimelineStyle {
 export interface Children {
   Key: string;
   Value: string;
-  Images: [];
 }
-
-
-
