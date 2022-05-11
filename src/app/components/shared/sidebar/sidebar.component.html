@@ -120,11 +120,21 @@
           </div>
         </div>
       </mat-list-item>
-      <mat-list-item disableRipple>
+      <mat-list-item
+        routerLink="/nft-svg"
+        [routerLinkActive]="['is-active']"
+        disableRipple
+      >
         <div fxLayout="row" fxLayoutAlign="space-between center">
-          <div hidden>
+          <div>
             <mat-icon mat-list-icon class="icon">wallpaper</mat-icon>
-            <label class="nav-title">NFT SVG</label>
+            <label
+              style="font-size: small; font-weight: 700"
+              class="nav-title"
+              [routerLink]="['/layout/nft-svg']"
+              routerLinkActive="router-link-active"
+              >NFT SVG</label
+            >
           </div>
         </div>
       </mat-list-item>

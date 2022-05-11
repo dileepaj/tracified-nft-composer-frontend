@@ -19,6 +19,7 @@ import {
 } from 'src/app/store/nft-state-store/nft.selector';
 import { Chart, Data } from 'src/models/nft-content/chart';
 import { bubblechart } from 'src/models/nft-content/widgetTypes';
+import { Chart as chrt } from 'chart.js';
 
 @Component({
   selector: 'app-configure-bubble-chart',
@@ -31,6 +32,7 @@ export class ConfigureBubbleChartComponent implements OnInit {
   tabIndex: number = 0;
   bubbleChart: Chart;
   chartId: any;
+  myChart: chrt;
   keyTitle: any;
   query: string = '';
   batchId: any = '';
@@ -41,13 +43,8 @@ export class ConfigureBubbleChartComponent implements OnInit {
   values: any = [];
   loadedFromRedux: boolean = false;
   //data to be displayed in the pie chart
-  bubbleChartData: Data[] = [
-    { Name: 'Item 1', X: 100, Y: 60, Value: 1350 },
-    { Name: 'Item 2', X: 30, Y: 80, Value: 2500 },
-    { Name: 'Item 3', X: 50, Y: 40, Value: 5700 },
-    { Name: 'Item 4', X: 190, Y: 100, Value: 30000 },
-    { Name: 'Item 5', X: 80, Y: 170, Value: 47500 },
-  ];
+  bubbleChartData: Data[] = [];
+  chartImage: string;
   bubbleColors: string[] = [];
   domain: number[] = [0, 1000]; //domain of the bar chart
   min: number = 0; //domain minimum value
@@ -165,6 +162,7 @@ export class ConfigureBubbleChartComponent implements OnInit {
       ChartTitle: this.title,
       Query: this.query,
       ChartData: this.bubbleChartData,
+      ChartImage: this.chartImage,
       Color: this.bubbleColors,
       Radius: this.radius,
       FontColor: this.fontColor,
@@ -196,6 +194,7 @@ export class ConfigureBubbleChartComponent implements OnInit {
           if (chart.ChartData!.length !== 0) {
             this.bubbleChartData = chart.ChartData!.filter((data) => data);
           }
+          this.chartImage = chart.ChartImage!;
           this.bubbleColors = chart.Color!.filter((data) => data);
           this.fontColor = chart.FontColor!;
           this.fontSize = chart.FontSize!;
@@ -220,6 +219,7 @@ export class ConfigureBubbleChartComponent implements OnInit {
           (data) => data
         );
       }
+      this.chartImage = this.bubbleChart.ChartImage!;
       this.bubbleColors = this.bubbleChart.Color!.filter((data) => data);
       this.fontColor = this.bubbleChart.FontColor!;
       this.fontSize = this.bubbleChart.FontSize!;
@@ -333,42 +333,51 @@ export class ConfigureBubbleChartComponent implements OnInit {
     this.setColors();
     this.setValues();
     this.setLabels();
-    this.chartData = {
-      labels: [],
-      datasets: this.values,
-    };
+    if (this.myChart !== undefined) {
+      this.myChart.destroy();
+    }
+    const canvas = <HTMLCanvasElement>document.getElementById('bubble-chart');
+    const ctx = canvas.getContext('2d')!;
+    this.myChart = new chrt(ctx, {
+      type: 'bubble',
+      data: {
+        labels: [],
+        datasets: this.values,
+      },
+      options: {
+        animation: {
+          duration: 0,
+        },
+        responsive: true,
+        scales: {
+          x: {
+            min: 0,
+            title: {
+              display: true,
+              text: this.xName,
+              font: {
+                size: this.fontSize,
+              },
+              color: this.fontColor,
+            },
+            ticks: {},
+          },
+          y: {
+            min: 0,
+            title: {
+              display: true,
+              text: this.yName,
+              font: {
+                size: this.fontSize,
+              },
+              color: this.fontColor,
+            },
+            ticks: {},
+          },
+        },
+      },
+    });
 
-    this.bubbleChartOptions = {
-      animation: {
-        duration: 0,
-      },
-      responsive: true,
-      scales: {
-        x: {
-          min: 0,
-          title: {
-            display: true,
-            text: this.xName,
-            font: {
-              size: this.fontSize,
-            },
-            color: this.fontColor,
-          },
-          ticks: {},
-        },
-        y: {
-          min: 0,
-          title: {
-            display: true,
-            text: this.yName,
-            font: {
-              size: this.fontSize,
-            },
-            color: this.fontColor,
-          },
-          ticks: {},
-        },
-      },
-    };
+    this.chartImage = this.myChart.toBase64Image();
   }
 }

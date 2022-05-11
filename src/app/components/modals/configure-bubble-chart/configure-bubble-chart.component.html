@@ -27,13 +27,7 @@
         <mat-grid-tile colspan="3">
           <!--Bar chart-->
           <div class="bubble-chart">
-            <canvas
-              baseChart
-              class="bubble-chart-canvas"
-              [data]="chartData"
-              [type]="'bubble'"
-              [options]="bubbleChartOptions"
-            >
+            <canvas baseChart class="bubble-chart-canvas" [id]="'bubble-chart'">
             </canvas>
           </div>
         </mat-grid-tile>

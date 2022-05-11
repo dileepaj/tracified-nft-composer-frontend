@@ -22,7 +22,7 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 import { piechart } from 'src/models/nft-content/widgetTypes';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
-import { ChartOptions } from 'chart.js';
+import { ChartOptions, Chart as chrt } from 'chart.js';
 import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
 
 @Component({
@@ -36,6 +36,7 @@ export class ConfigurePieChartComponent implements OnInit {
   tabIndex: number = 0;
   pieChart: Chart;
   chartId: any;
+  myChart: chrt;
   keyTitle: any;
   query: string = '';
   batchId: any = '';
@@ -46,6 +47,7 @@ export class ConfigurePieChartComponent implements OnInit {
   newProject: boolean;
   //data to be displayed in the pie chart
   pieChartData: Data[] = [];
+  chartImage: string;
 
   //pie chart field colors
   fieldColors: any[] = [];
@@ -155,6 +157,7 @@ export class ConfigurePieChartComponent implements OnInit {
       ChartTitle: this.title,
       Query: this.query,
       ChartData: this.pieChartData,
+      ChartImage: this.chartImage,
       Color: this.fieldColors,
       FontColor: this.fontColor,
       FontSize: this.fontSize,
@@ -187,6 +190,7 @@ export class ConfigurePieChartComponent implements OnInit {
           if (chart.ChartData!.length !== 0) {
             this.pieChartData = chart.ChartData!.filter((data) => data);
           }
+          this.chartImage = chart.ChartImage!;
           this.fieldColors = chart.Color!.filter((data) => data);
           this.fontColor = chart.FontColor!;
           this.fontSize = chart.FontSize!;
@@ -225,6 +229,7 @@ export class ConfigurePieChartComponent implements OnInit {
       if (this.pieChart.ChartData!.length !== 0) {
         this.pieChartData = this.pieChart.ChartData!.filter((data) => data);
       }
+      this.chartImage = this.pieChart.ChartImage!;
       this.fieldColors = this.pieChart.Color!.filter((data) => data);
       this.fontColor = this.pieChart.FontColor!;
       this.fontSize = this.pieChart.FontSize!;
@@ -341,39 +346,48 @@ export class ConfigurePieChartComponent implements OnInit {
    * @function drawChart - draw the pie chart
    */
   public drawChart() {
-    this.chartData = {
-      labels: this.labels,
-      datasets: [
-        {
-          data: this.values,
-          backgroundColor: this.fieldColors,
-          borderWidth: 0,
-          hoverBackgroundColor: this.fieldColors,
-        },
-      ],
-    };
-
-    this.pieChartOptions = {
-      animation: {
-        duration: 0,
+    if (this.myChart !== undefined) {
+      this.myChart.destroy();
+    }
+    const canvas = <HTMLCanvasElement>document.getElementById('pie-chart');
+    const ctx = canvas.getContext('2d')!;
+    this.myChart = new chrt(ctx, {
+      type: 'pie',
+      data: {
+        labels: this.labels,
+        datasets: [
+          {
+            data: this.values,
+            backgroundColor: this.fieldColors,
+            borderWidth: 0,
+            hoverBackgroundColor: this.fieldColors,
+          },
+        ],
       },
-      responsive: true,
-      plugins: {
-        legend: {
-          display: true,
-          position: 'bottom',
-          labels: {
-            font: { size: this.fontSize },
+      options: {
+        animation: {
+          duration: 0,
+        },
+        responsive: true,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'bottom',
+            labels: {
+              font: { size: this.fontSize },
+              color: this.fontColor,
+            },
+          },
+          title: {
+            display: true,
+            text: this.title,
             color: this.fontColor,
+            font: { size: this.fontSize },
           },
         },
-        title: {
-          display: true,
-          text: this.title,
-          color: this.fontColor,
-          font: { size: this.fontSize },
-        },
       },
-    };
+    });
+
+    this.chartImage = this.myChart.toBase64Image();
   }
 }
