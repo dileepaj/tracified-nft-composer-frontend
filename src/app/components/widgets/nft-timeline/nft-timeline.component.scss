@@ -53,10 +53,6 @@
   &-item {
     list-style: none;
     border-left: 4px solid $color;
-
-    // &:last-child {
-    //   // border-left-color: transparent;
-    // }
   }
 
   &-title {
@@ -172,18 +168,6 @@ h2 button {
   position: relative;
   overflow: auto;
 }
-
-// .timeline-card::before {
-//   content: "";
-//   position: absolute;
-//   left: calc(8% + 1.5rem - 2px);
-//   top: 0;
-//   height: 100%;
-//   width: 2px;
-//   background: #00c853;
-//   opacity: 1;
-//   z-index: -1;
-// }
 
 .header{
   display: flex;
