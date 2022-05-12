@@ -133,7 +133,7 @@ export class ComposerBackendService {
    */
   public generateSVG(nftContent: NFTContent): Observable<NFTContent> {
     return this.http.post<NFTContent>(
-      `http://localhost:6081/generate/svg`,
+      `${this.apiUrl}/generate/svg`,
       nftContent,
       {
         headers: this.setHeaders(),
