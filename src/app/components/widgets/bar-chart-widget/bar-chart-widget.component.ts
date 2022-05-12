@@ -140,6 +140,7 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
       Width: 450,
       Height: 100,
       Query: '',
+      ChartImage: '',
     };
     this.store.dispatch(addBarChart({ chart: this.barChart }));
     this.service.updateUsedStatus(this.id);

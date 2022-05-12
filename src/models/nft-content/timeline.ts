@@ -23,12 +23,6 @@ export interface TimelineData {
   Images?: string[];
 }
 
-export interface TimelineStyle {
-  PrimaryColor: string;
-  TitleColor: string;
-  SubtleColor: string;
-}
-
 export interface Children {
   Key: string;
   Value: string;
