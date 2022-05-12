@@ -1,11 +1,6 @@
 @import "../../../../scss/mixins";
 @import "../../../../scss/variables";
 
-.timeline-content {
-  height: calc($modalHeight - 50px);
-  overflow: auto !important;
-}
-
 .timeline {
   $color: #00c853;
   $timeline-font-color: white;
@@ -18,10 +13,6 @@
   &-item {
     list-style: none;
     border-left: 4px solid $color;
-
-    &:last-child {
-      border-left-color: transparent;
-    }
   }
 
   &-title {
@@ -39,8 +30,6 @@
       text-align: center;
       border-radius: 50%;
       background-color: $color;
-      counter-increment: list;
-      content: counter(list);
     }
   }
 
@@ -115,17 +104,6 @@ h2 button {
   overflow: auto;
 }
 
-// .timeline-card::before {
-//   content: "";
-//   position: absolute;
-//   left: calc(8% + 1.5rem - 2px);
-//   top: 0;
-//   height: 100%;
-//   width: 2px;
-//   background: #00c853;
-//   opacity: 1;
-//   z-index: -1;
-// }
 
 .header{
   display: flex;
@@ -166,4 +144,8 @@ h2 button {
 
 .primary-font {
   color: #4f525d !important;
+}
+
+img{
+  padding-right: 10px;
 }
