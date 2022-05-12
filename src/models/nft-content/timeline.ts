@@ -18,6 +18,9 @@ export interface TimelineData {
   Title: string;
   Children: Children[];
   Icon: string;
+  SubTitle?: string;
+  Description?: string;
+  Images?: string[];
 }
 
 export interface Children {

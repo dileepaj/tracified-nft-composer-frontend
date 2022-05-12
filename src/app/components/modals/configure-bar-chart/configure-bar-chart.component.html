@@ -26,13 +26,7 @@
         <mat-grid-tile colspan="3">
           <!--Bar chart-->
           <div class="bar-chart">
-            <canvas
-              baseChart
-              class="bar-chart-canvas"
-              [data]="chartData"
-              [type]="'bar'"
-              [options]="barChartOptions"
-            >
+            <canvas baseChart [id]="'bar-chart'" class="bar-chart-canvas">
             </canvas>
           </div>
         </mat-grid-tile>

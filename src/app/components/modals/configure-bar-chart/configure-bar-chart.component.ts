@@ -1,20 +1,14 @@
 import { Component, OnInit, Inject, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
-import * as d3 from 'd3';
 import { Chart, Data } from '../../../../models/nft-content/chart';
 import { AppState } from 'src/app/store/app.state';
 import {
-  addBarChart,
-  addQueryResult,
   deleteQueryResult,
   updateBarChart,
 } from 'src/app/store/nft-state-store/nft.actions';
-import { NFTState } from 'src/app/store/nft-state-store/nft.reducer';
 import {
   selectBarCharts,
-  selectNFT,
   selectNFTContent,
-  selectProjectStatus,
   selectQueryResult,
 } from 'src/app/store/nft-state-store/nft.selector';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -23,15 +17,7 @@ import { ComposerBackendService } from 'src/app/services/composer-backend.servic
 import { barchart } from 'src/models/nft-content/widgetTypes';
 
 import { DndServiceService } from 'src/app/services/dnd-service.service';
-import { color } from 'd3';
-import {
-  ChartConfiguration,
-  ChartData,
-  ChartEvent,
-  ChartType,
-  ChartOptions,
-} from 'chart.js';
-import { BaseChartDirective } from 'ng2-charts';
+import { Chart as chrt } from 'chart.js';
 import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
 
 @Component({
@@ -45,6 +31,7 @@ export class ConfigureBarChartComponent implements OnInit {
   tabIndex: number = 0;
   barChart: Chart;
   chartId: any;
+  myChart: chrt;
   projectId: string = '';
   keyTitle: string;
   batchId: any = '';
@@ -61,6 +48,7 @@ export class ConfigureBarChartComponent implements OnInit {
 
   //data that are being displayed in the bar chart
   barChartData: Data[] = [];
+  chartImage: string;
 
   barColors: any[] = []; //bar colors
   domain: number[] = [0, 1000]; //domain of the bar chart
@@ -160,6 +148,7 @@ export class ConfigureBarChartComponent implements OnInit {
       ...this.barChart,
       ChartTitle: this.title,
       ChartData: this.barChartData,
+      ChartImage: this.chartImage,
       Color: this.barColors,
       FontColor: this.fontColor,
       FontSize: this.fontSize,
@@ -190,6 +179,7 @@ export class ConfigureBarChartComponent implements OnInit {
           if (chart.ChartData!.length !== 0) {
             this.barChartData = chart.ChartData!.filter((data) => data);
           }
+          this.chartImage = chart.ChartImage!;
           this.barColors = chart.Color!.filter((data) => data);
           this.fontColor = chart.FontColor!;
           this.fontSize = chart.FontSize!;
@@ -215,6 +205,7 @@ export class ConfigureBarChartComponent implements OnInit {
       if (this.barChart.ChartData!.length !== 0) {
         this.barChartData = this.barChart.ChartData!.filter((data) => data);
       }
+      this.chartImage = this.barChart.ChartImage!;
       this.barColors = this.barChart.Color!.filter((data) => data);
       this.fontColor = this.barChart.FontColor!;
       this.fontSize = this.barChart.FontSize!;
@@ -335,48 +326,57 @@ export class ConfigureBarChartComponent implements OnInit {
    * @function drawChart - draws the bar chart
    */
   public drawChart() {
-    this.chartData = {
-      labels: this.labels,
-      datasets: [
-        {
-          label: this.title,
-          data: this.values,
-          backgroundColor: this.barColors,
-          borderWidth: 0,
-          hoverBackgroundColor: this.barColors,
+    if (this.myChart !== undefined) {
+      this.myChart.destroy();
+    }
+    const canvas = <HTMLCanvasElement>document.getElementById('bar-chart');
+    const ctx = canvas.getContext('2d')!;
+    this.myChart = new chrt(ctx, {
+      type: 'bar',
+      data: {
+        labels: this.labels,
+        datasets: [
+          {
+            label: this.title,
+            data: this.values,
+            backgroundColor: this.barColors,
+            borderWidth: 0,
+            hoverBackgroundColor: this.barColors,
+          },
+        ],
+      },
+      options: {
+        animation: {
+          duration: 0,
         },
-      ],
-    };
+        responsive: true,
+        scales: {
+          x: {
+            display: true,
+            title: {
+              display: true,
+              text: this.xName,
+              font: {
+                size: this.fontSize,
+              },
+              color: this.fontColor,
+            },
+          },
+          y: {
+            display: true,
+            title: {
+              display: true,
+              text: this.yName,
+              font: {
+                size: this.fontSize,
+              },
+              color: this.fontColor,
+            },
+          },
+        },
+      },
+    });
 
-    this.barChartOptions = {
-      animation: {
-        duration: 0,
-      },
-      responsive: true,
-      scales: {
-        x: {
-          display: true,
-          title: {
-            display: true,
-            text: this.xName,
-            font: {
-              size: this.fontSize,
-            },
-            color: this.fontColor,
-          },
-        },
-        y: {
-          display: true,
-          title: {
-            display: true,
-            text: this.yName,
-            font: {
-              size: this.fontSize,
-            },
-            color: this.fontColor,
-          },
-        },
-      },
-    };
+    this.chartImage = this.myChart.toBase64Image();
   }
 }

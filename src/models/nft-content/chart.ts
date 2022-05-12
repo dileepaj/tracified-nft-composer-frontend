@@ -16,6 +16,7 @@ export interface Chart {
   KeyTitle?: string;
   ValueTitle?: string;
   ChartData?: Data[];
+  ChartImage?: string;
   Domain?: number[];
   Color?: string[];
   FontColor?: string;

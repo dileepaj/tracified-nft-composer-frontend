@@ -515,19 +515,35 @@ export class SelectBatchComponent implements OnInit {
           children.map((child: any) => {
             let data = child.children;
             let tlchildren: Children[] = [];
+            let tlimages: string[] = [];
+            let icon: string;
 
             //creates children array
             data.map((d: any) => {
               if (d.component === 'key-value') {
                 tlchildren.push({ Key: d.key, Value: d.value });
+              } else if (d.component === 'image-slider') {
+                for (let i = 0; i < d.images.length; i++) {
+                  tlimages.push(d.images[i]);
+                }
               }
             });
+
+            if (child.icon === '' || child.icon === undefined) {
+              icon =
+                'https://s3.ap-south-1.amazonaws.com/tracified-image-storage/mobile/stage-icons/Harvesting+stage.png';
+            } else {
+              icon = child.icon;
+            }
 
             //create and push timeline child to timeline data array
             timelineData.push({
               Title: child.title,
-              Icon: child.icon,
+              SubTitle: child.subtitle,
+              Description: '',
+              Icon: icon,
               Children: tlchildren,
+              Images: tlimages,
             });
           });
 

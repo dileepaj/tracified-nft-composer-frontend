@@ -69,7 +69,8 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   id: string;
   private sub: any;
   saving: boolean = false;
-  generated: boolean = false;
+  htmlGenerated: boolean = false;
+  svgGenerated: boolean = false;
 
   widgetTypes: any = {
     timeline: timeline,
@@ -301,7 +302,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     var a = document.createElement('a');
     var blob = new Blob([content], { type: type });
     a.href = window.URL.createObjectURL(blob);
-    a.download = name + '.html';
+    a.download = name + `.${type}`;
     a.click();
   }
 
@@ -309,16 +310,37 @@ export class ComposerComponent implements OnInit, AfterViewInit {
    * @function generateHTML - get the generated HTML from the backend
    */
   public generateHTML() {
-    this.generated = true;
+    this.htmlGenerated = true;
     this.getNftContent();
     this.composerService.generateHTML(this.nftContent).subscribe({
       next: (data: any) => {
-        this.generated = false;
+        this.htmlGenerated = false;
         const decodedRes = atob(data.Response);
         this.downloadFile(decodedRes, this.nftContent.NFTName, 'html');
       },
       error: (err) => {
-        this.generated = false;
+        this.htmlGenerated = false;
+        this.popupMsgService.openSnackBar(
+          'An unexpected error occured. Please try again later'
+        );
+      },
+    });
+  }
+
+  /**
+   * @function generateSVG - get the generated SVG from the backend
+   */
+  public generateSVG() {
+    this.svgGenerated = true;
+    this.getNftContent();
+    this.composerService.generateSVG(this.nftContent).subscribe({
+      next: (data: any) => {
+        this.svgGenerated = false;
+        const decodedRes = atob(data.Response);
+        this.downloadFile(decodedRes, this.nftContent.NFTName, 'svg');
+      },
+      error: (err) => {
+        this.svgGenerated = false;
         this.popupMsgService.openSnackBar(
           'An unexpected error occured. Please try again later'
         );
