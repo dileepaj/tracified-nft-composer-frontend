@@ -37,7 +37,7 @@ export class WidgetContentComponent implements OnInit {
     ) {
       this.showMasterDataSelection = false;
     } else {
-      this.showMasterDataSelection = true;
+      this.showMasterDataSelection = false;
     }
   }
 
