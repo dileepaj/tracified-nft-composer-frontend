@@ -316,3 +316,8 @@ mat-step {
 .mat-input {
   transform: scale(0.8);
 }
+
+.btn:disabled {
+  background-color: whitesmoke;
+  color: #ccc !important;
+}
