@@ -3,8 +3,8 @@
     <div id="project-title" mat-list-item>
       <div
         class="title-icon"
-        [routerLink]="['/layout/projects/' + user.TenentId]"
         matTooltip="Back To Projects"
+        (click)="closeProject()"
       >
         <mat-icon mat-list-icon> chevron_left </mat-icon>
       </div>
