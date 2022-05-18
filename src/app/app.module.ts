@@ -77,6 +77,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatChipsModule } from '@angular/material/chips';
 import { SvgCodebehindComponent } from './components/modals/svg-codebehind/svg-codebehind.component';
 import { DeleteProjectComponent } from './components/modals/delete-project/delete-project.component';
+import { CloseProjectComponent } from './components/modals/close-project/close-project.component';
+
 
 const appRoutes: Routes = [];
 
@@ -117,6 +119,7 @@ const appRoutes: Routes = [];
     HtmlCodebehindComponent,
     SvgCodebehindComponent,
     DeleteProjectComponent
+    CloseProjectComponent
   ],
   imports: [
     BrowserModule,

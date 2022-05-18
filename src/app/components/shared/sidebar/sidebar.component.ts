@@ -34,6 +34,8 @@ import {
   timeline,
 } from 'src/models/nft-content/widgetTypes';
 import { WidgethighlightingService } from 'src/app/services/widgethighlighting.service';
+import { MatDialog } from '@angular/material/dialog';
+import { CloseProjectComponent } from '../../modals/close-project/close-project.component';
 
 @Component({
   selector: 'app-sidebar',
@@ -112,7 +114,8 @@ export class SidebarComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     private userService: UserserviceService,
-    private highlightService: WidgethighlightingService
+    private highlightService: WidgethighlightingService,
+    public dialog: MatDialog
   ) {
     //get project details
     const subscription = this.store
@@ -253,5 +256,13 @@ export class SidebarComponent implements OnInit {
   //called when user clicks on a widget
   public selectWidget(id: string) {
     this.highlightService.selectWidget(id);
+  }
+
+  public closeProject() {
+    this.dialog.open(CloseProjectComponent, {
+      data: {
+        user: this.user,
+      },
+    });
   }
 }
