@@ -28,6 +28,7 @@ import {
 import { Image } from 'src/models/nft-content/image';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { WidgethighlightingService } from 'src/app/services/widgethighlighting.service';
+import { ImagePreviewComponent } from '../../modals/image-preview/image-preview.component';
 
 @Component({
   selector: 'app-nft-image',
@@ -174,6 +175,7 @@ export class NftImageComponent implements OnInit {
   }
 
   public saveImage() {
+    this.saving = true;
     this.composerService.saveImage(this.image).subscribe({
       next: (res) => {},
       error: (err) => {
@@ -227,6 +229,7 @@ export class NftImageComponent implements OnInit {
 
   //calling the endpoint for updating the image in the project
   public updateImageInDB() {
+    this.saving = true;
     this.composerService.updateImage(this.image).subscribe({
       next: (res) => {},
       error: (err) => {
@@ -240,6 +243,14 @@ export class NftImageComponent implements OnInit {
         this.popupMsgService.openSnackBar('Image updated');
         this.service.setSavedStatus(this.image.WidgetId);
         this.dialog.closeAll();
+      },
+    });
+  }
+
+  public openImagePreview() {
+    this.dialog.open(ImagePreviewComponent, {
+      data: {
+        image: this.base64,
       },
     });
   }
