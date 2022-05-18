@@ -27,6 +27,7 @@ import { CardStatus, QueryResult } from 'src/models/nft-content/cardStatus';
 import * as MomentAll from 'moment';
 import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
 import { UserserviceService } from 'src/app/services/userservice.service';
+import { DeleteProjectComponent } from '../../modals/delete-project/delete-project.component';
 
 @Component({
   selector: 'app-projects',
@@ -420,22 +421,20 @@ export class ProjectsComponent implements OnInit {
   /**
    * @function deleteProject - delete an existing project
    */
-  public deleteProject(projectId: string) {
+  public deleteProject(projectId: string, projectName: string) {
     this.projToBeDeleted = projectId;
-
-    this.apiService.deleteProject(projectId).subscribe({
-      next: (res) => {},
-      error: (err) => {
-        this.popupMsgService.openSnackBar(
-          'An unexpected error occured. Please try again later.'
-        );
-        this.projToBeDeleted = '';
+    const dialogRef = this.dialog.open(DeleteProjectComponent, {
+      data: {
+        projectId: projectId,
+        projectName: projectName,
       },
-      complete: () => {
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
         this.projToBeDeleted = '';
         this.getRecentProjects();
-        this.popupMsgService.openSnackBar('Project deleted!!');
-      },
+      }
     });
   }
 

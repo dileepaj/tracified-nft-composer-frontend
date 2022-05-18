@@ -76,6 +76,7 @@ import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatChipsModule } from '@angular/material/chips';
 import { SvgCodebehindComponent } from './components/modals/svg-codebehind/svg-codebehind.component';
+import { DeleteProjectComponent } from './components/modals/delete-project/delete-project.component';
 
 const appRoutes: Routes = [];
 
@@ -114,7 +115,8 @@ const appRoutes: Routes = [];
     TimelineViewComponent,
     ProofbotViewComponent,
     HtmlCodebehindComponent,
-    SvgCodebehindComponent
+    SvgCodebehindComponent,
+    DeleteProjectComponent
   ],
   imports: [
     BrowserModule,

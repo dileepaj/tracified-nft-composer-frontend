@@ -167,7 +167,9 @@
                 <button
                   mat-menu-item
                   class="menu-btn"
-                  (click)="deleteProject(project.ProjectId)"
+                  (click)="
+                    deleteProject(project.ProjectId, project.ProjectName)
+                  "
                 >
                   <mat-icon>delete</mat-icon>
                   <span>Delete</span>
@@ -258,7 +260,9 @@
                 <button
                   mat-menu-item
                   class="menu-btn"
-                  (click)="deleteProject(project.ProjectId)"
+                  (click)="
+                    deleteProject(project.ProjectId, project.ProjectName)
+                  "
                 >
                   <mat-icon>delete</mat-icon>
                   <span>Delete</span>
