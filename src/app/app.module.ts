@@ -78,7 +78,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { SvgCodebehindComponent } from './components/modals/svg-codebehind/svg-codebehind.component';
 import { DeleteProjectComponent } from './components/modals/delete-project/delete-project.component';
 import { CloseProjectComponent } from './components/modals/close-project/close-project.component';
-
+import { ImagePreviewComponent } from './components/modals/image-preview/image-preview.component';
 
 const appRoutes: Routes = [];
 
@@ -118,8 +118,9 @@ const appRoutes: Routes = [];
     ProofbotViewComponent,
     HtmlCodebehindComponent,
     SvgCodebehindComponent,
-    DeleteProjectComponent
-    CloseProjectComponent
+    DeleteProjectComponent,
+    CloseProjectComponent,
+    ImagePreviewComponent,
   ],
   imports: [
     BrowserModule,
@@ -163,7 +164,7 @@ const appRoutes: Routes = [];
     RouterModule.forRoot(appRoutes),
     StoreModule.forRoot({ nft: nftReducer, user: userReducer }),
     HighlightModule,
-    MatChipsModule
+    MatChipsModule,
   ],
   providers: [
     CookieService,
