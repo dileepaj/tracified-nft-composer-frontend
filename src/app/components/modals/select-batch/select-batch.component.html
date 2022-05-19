@@ -215,7 +215,7 @@
     mat-button
     (click)="updateReduxState()"
     class="btn"
-    [disabled]="saving"
+    [disabled]="saving || !batchIsSelected"
     cdkFocusInitial
   >
     <mat-icon>save</mat-icon>

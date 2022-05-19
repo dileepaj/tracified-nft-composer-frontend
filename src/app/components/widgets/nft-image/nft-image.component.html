@@ -17,7 +17,7 @@
       <mat-icon>clear</mat-icon>
     </button>
   </h2>
-  <div id="drop-area" *ngIf="!isUploaded()">
+  <div id="drop-area" *ngIf="!isUploaded() && !saving">
     Upload or select file
     <mat-icon class="material-icons-outlined icon">cloud_upload</mat-icon>
     <input
@@ -36,7 +36,10 @@
       Browse Files
     </button>
   </div>
-  <div id="image" *ngIf="isUploaded()">
+  <div id="drop-area" *ngIf="saving">
+    <span [class.spinner]="saving"> </span>
+  </div>
+  <div id="image" *ngIf="isUploaded() && !saving">
     <img [src]="base64" class="img" />
   </div>
   <div class="widget-footer" fxLayout="row wrap">
@@ -49,9 +52,21 @@
     />
     <button
       mat-flat-button
+      class="preview-btn"
+      fxFlex="50%"
+      style="float: right"
+      (click)="openImagePreview()"
+      *ngIf="isUploaded() && !saving"
+    >
+      <mat-icon class="update-icon">visibility</mat-icon> Preview
+    </button>
+    <button
+      mat-flat-button
       class="update-btn"
+      fxFlex="50%"
+      style="float: right"
       (click)="triggerClick()"
-      *ngIf="isUploaded()"
+      *ngIf="isUploaded() && !saving"
     >
       <mat-icon class="update-icon">edit</mat-icon> Change Image
     </button>

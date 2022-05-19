@@ -74,7 +74,6 @@ h2 button {
 
 .update-btn {
   color: #00d6a0;
-  width: 100%;
   mat-icon {
     color: #00d6a0;
     transform: scale(0.7);
@@ -89,4 +88,34 @@ h2 button {
   mat-icon {
     color: #c62929;
   }
+}
+
+.preview-btn {
+  color: #969696;
+  mat-icon {
+    color: #969696;
+    transform: scale(0.7);
+  }
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner:before {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  margin-left: -10px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  border-top-color: #000000;
+  animation: spinner 0.8s linear infinite;
 }
