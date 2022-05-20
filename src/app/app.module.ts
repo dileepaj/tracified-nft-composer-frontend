@@ -38,7 +38,11 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { ColorPickerModule } from 'ngx-color-picker';
-import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
+import {
+  MatNativeDateModule,
+  MatRippleModule,
+  MAT_DATE_LOCALE,
+} from '@angular/material/core';
 import { nftReducer } from './store/nft-state-store/nft.reducer';
 import { StoreModule } from '@ngrx/store';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -175,6 +179,7 @@ const appRoutes: Routes = [];
         //lineNumbersLoader: () => import('highlightjs-line-numbers.js'),
       },
     },
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
   ],
   bootstrap: [AppComponent],
 })

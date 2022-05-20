@@ -87,21 +87,34 @@
           <mat-label>Select date range</mat-label>
           <mat-date-range-input [rangePicker]="picker" [formGroup]="dateRange">
             <input
+              #from
               matStartDate
               formControlName="start"
               placeholder="Start date"
+              readonly
             />
             <input
+              #to
               matEndDate
               formControlName="end"
               placeholder="End date"
-              (dateChange)="onDateChange()"
+              (dateChange)="onDateChange(from, to)"
+              readonly
             />
           </mat-date-range-input>
           <mat-datepicker-toggle
             matSuffix
             [for]="picker"
+            *ngIf="!showClearDate"
           ></mat-datepicker-toggle>
+          <mat-datepicker-toggle
+            matSuffix
+            (click)="resetDate()"
+            *ngIf="showClearDate"
+            ><mat-icon matDatepickerToggleIcon
+              >clear</mat-icon
+            ></mat-datepicker-toggle
+          >
           <mat-date-range-picker #picker></mat-date-range-picker>
         </mat-form-field>
 
@@ -143,7 +156,7 @@
           [length]="totalBatches"
           [pageSize]="10"
           [pageIndex]="page"
-          (page)="getBatches($event.pageIndex, searchKey)"
+          (page)="getBatches($event.pageIndex, searchKey, fromDate, toDate)"
           aria-label="Select page"
         >
         </mat-paginator>
