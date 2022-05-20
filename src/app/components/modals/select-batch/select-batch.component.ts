@@ -52,6 +52,8 @@ import { Children, TimelineData } from 'src/models/nft-content/timeline';
 import { selectNFTContent } from 'src/app/store/nft-state-store/nft.selector';
 import { ProofBot, ProofData, ProofURL } from 'src/models/nft-content/proofbot';
 import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
+import { MatInput } from '@angular/material/input';
+import { MatDateRangePicker } from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-select-batch',
@@ -61,6 +63,8 @@ import { PopupMessageService } from 'src/app/services/popup-message/popup-messag
 })
 export class SelectBatchComponent implements OnInit {
   @ViewChild('stepper') private myStepper: MatStepper;
+  @ViewChild('from', { read: MatInput }) fromInput: MatInput;
+  @ViewChild('to', { read: MatInput }) toInput: MatInput;
   id: any;
   userId: string = '';
   widget: any;
@@ -79,6 +83,9 @@ export class SelectBatchComponent implements OnInit {
   tdpStep: number = 0;
 
   searchKey: string = '';
+  fromDate: string = '';
+  toDate: string = '';
+  showClearDate: boolean = false;
 
   tdpColumns: string[] = ['stage', 'stageName', 'tdp'];
 
@@ -138,7 +145,7 @@ export class SelectBatchComponent implements OnInit {
     this.selectedProduct = row;
     this.page = 0;
     this.searchKey = '';
-    this.getBatches(this.page, this.searchKey);
+    this.getBatches(this.page, this.searchKey, '', '');
     this.productIsSelected = true;
     this.goForward();
   }
@@ -280,10 +287,22 @@ export class SelectBatchComponent implements OnInit {
    * @function getBatches - get the item count
    * @param index
    */
-  public getBatches(index: number, searchKey: string) {
+  public getBatches(
+    index: number,
+    searchKey: string,
+    fromDate: string,
+    toDate: string
+  ) {
     this.batchesLoading = true;
     this.batchesService
-      .getBatch(this.selectedProduct.itemID, 10, index, this.searchKey, '', '')
+      .getBatch(
+        this.selectedProduct.itemID,
+        10,
+        index,
+        this.searchKey,
+        fromDate,
+        toDate
+      )
       .subscribe({
         next: (data: any) => {
           this.batchesRes = data;
@@ -369,14 +388,18 @@ export class SelectBatchComponent implements OnInit {
    */
   public searchBatch() {
     this.page = 0;
-    this.getBatches(this.page, this.searchKey);
+    this.getBatches(this.page, this.searchKey, this.fromDate, this.toDate);
   }
 
   /**
    * @function onDateChange - called when searching using dates
    */
-  public onDateChange() {
+  public onDateChange(from: HTMLInputElement, to: HTMLInputElement) {
+    this.fromDate = from.value.split('/').reverse().join('-');
+    this.toDate = to.value.split('/').reverse().join('-');
     this.page = 0;
+    this.getBatches(0, this.searchKey, this.fromDate, this.toDate);
+    this.showClearDate = true;
   }
 
   /**
@@ -670,5 +693,11 @@ export class SelectBatchComponent implements OnInit {
           this.saving = false;
         },
       });
+  }
+
+  public resetDate() {
+    this.dateRange.reset();
+    this.getBatches(0, this.searchKey, '', '');
+    this.showClearDate = false;
   }
 }
