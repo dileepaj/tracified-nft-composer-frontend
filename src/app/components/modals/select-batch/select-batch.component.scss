@@ -321,3 +321,7 @@ mat-step {
   background-color: whitesmoke;
   color: #ccc !important;
 }
+
+.mat-step-header{
+  pointer-events: none !important;
+}
