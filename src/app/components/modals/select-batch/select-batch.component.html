@@ -42,12 +42,6 @@
           </thead>
           <tbody>
             <tr
-              *ngIf="productsFilter.length === 0"
-              style="text-align: center; font-size: large"
-            >
-              No data to be displayed.
-            </tr>
-            <tr
               *ngFor="let product of productsFilter; index as i"
               (click)="selectProduct(product)"
               [class.demo-row-is-clicked]="selectedProduct === product"
@@ -63,10 +57,17 @@
             </tr>
           </tbody>
         </table>
+        <p *ngIf="productsFilter.length === 0"
+              style="text-align: center; font-size: large; padding-top: 50px;">
+            No data to be displayed
+        </p>
       </mat-step>
       <mat-step label="Select Batch">
+        <button style="float: left"  mat-button matStepperPrevious>
+          <mat-icon style="color: #00C853;">arrow_back</mat-icon>
+        </button>
         <!--Search bar-->
-        <mat-form-field appearance="outline" style="float: left">
+        <mat-form-field appearance="outline" style="float: right">
           <mat-label>Search</mat-label>
           <mat-icon matPrefix>search</mat-icon>
           <input
@@ -81,7 +82,7 @@
         <!--Date time picker-->
         <mat-form-field
           appearance="outline"
-          style="float: left; margin-left: 5px"
+          style="float: right; margin-right: 5px"
         >
           <mat-label>Select date range</mat-label>
           <mat-date-range-input [rangePicker]="picker" [formGroup]="dateRange">
@@ -121,12 +122,6 @@
           </thead>
           <tbody>
             <tr
-              *ngIf="batches.length === 0"
-              style="text-align: center; font-size: large"
-            >
-              No data to be displayed.
-            </tr>
-            <tr
               *ngFor="let batch of batches; index as i"
               (click)="selectBatch(batch)"
               [class.demo-row-is-clicked]="selectedBatch === batch"
@@ -139,6 +134,10 @@
             </tr>
           </tbody>
         </table>
+        <p *ngIf="batches.length === 0"
+            style="text-align: center; font-size: large; padding-top: 50px;">
+          No data to be displayed
+        </p>
         <mat-paginator
           class="paginator"
           [length]="totalBatches"
@@ -151,6 +150,9 @@
       </mat-step>
       <mat-step label="Traceability Data">
         <div style="display: flex; flex-direction: column">
+          <button style="width: fit-content;"  mat-button matStepperPrevious>
+            <mat-icon style="color: #00C853;">arrow_back</mat-icon>
+          </button>
           <div>
             <br />
             <!--<mat-form-field appearance="outline" style="float: right">
@@ -164,7 +166,7 @@
             </mat-form-field>
 
           --></div>
-
+          
           <div>
             <mat-accordion class="headers-align" *ngIf="batchIsSelected">
               <mat-expansion-panel
