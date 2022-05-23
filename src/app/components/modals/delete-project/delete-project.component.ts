@@ -34,7 +34,7 @@ export class DeleteProjectComponent implements OnInit {
         );
       },
       complete: () => {
-        this.popupMsgService.openSnackBar('Project deleted!!');
+        this.popupMsgService.openSnackBar('Project deleted successfully!');
         this.dialogRef.close(true);
       },
     });

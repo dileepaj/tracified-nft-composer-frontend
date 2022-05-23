@@ -67,7 +67,7 @@ export class NewProjectComponent implements OnInit {
       this.dialog.closeAll();
     } else {
       this.popupMsgService.openSnackBar(
-        'Please give a project name and nft name'
+        'Please enter a project name and an NFT name'
       );
     }
   }

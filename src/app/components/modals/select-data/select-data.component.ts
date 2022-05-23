@@ -193,7 +193,7 @@ export class SelectDataComponent implements OnInit {
         },
         complete: () => {
           this.saving = false;
-          this.popupMsgService.openSnackBar('Saved!!');
+          this.popupMsgService.openSnackBar('Widget saved successfully!');
           //put the Data save status to sti
           this.store.dispatch(
             addCardtStatus({
@@ -219,7 +219,7 @@ export class SelectDataComponent implements OnInit {
         },
         complete: () => {
           this.saving = false;
-          this.popupMsgService.openSnackBar('Saved!!');
+          this.popupMsgService.openSnackBar('Widget updated successfully!');
           this.close();
         },
       });

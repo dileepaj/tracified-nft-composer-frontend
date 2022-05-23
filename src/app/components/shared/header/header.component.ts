@@ -17,6 +17,7 @@ import { ComposerUser } from 'src/models/user';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
+  public routerProjectLink: string;
   user: ComposerUser;
   constructor(
     private router: Router,
@@ -27,6 +28,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.user=this.userServices.getCurrentUser()
+    this.setLink();
   }
 
   /**
@@ -55,5 +57,13 @@ export class HeaderComponent implements OnInit {
     } else {
       return false;
     }
+  }
+
+  /**
+   * @function setLink - set the project view link
+   */
+  public setLink(){
+    let tenentId = JSON.parse(sessionStorage.getItem('User') || '').TenentId!;
+    this.routerProjectLink = `/layout/projects/${tenentId}`;
   }
 }

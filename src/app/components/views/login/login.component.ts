@@ -102,12 +102,12 @@ export class LoginComponent implements OnInit {
         },
         error: (err) => {
           this.loading = false;
-          this.snackBar.openSnackBar('Invalid email or password');
+          this.snackBar.openSnackBar('Valid username and password required');
         },
       });
     } else {
       this.loading = false;
-      this.snackBar.openSnackBar('Invalid Input');
+      this.snackBar.openSnackBar('Valid username and password required');
     }
   }
 
