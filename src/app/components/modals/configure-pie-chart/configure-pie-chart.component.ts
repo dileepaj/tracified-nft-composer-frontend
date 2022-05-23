@@ -264,7 +264,9 @@ export class ConfigurePieChartComponent implements OnInit {
         },
         complete: () => {
           this.saving = false;
-          this.popupMsgService.openSnackBar('Saved!!');
+          this.popupMsgService.openSnackBar(
+            'Chart saved successfully!'
+          );
           this.dndService.setSavedStatus(chart.WidgetId);
           this.dialog.closeAll();
         },
@@ -280,7 +282,9 @@ export class ConfigurePieChartComponent implements OnInit {
         },
         complete: () => {
           this.saving = false;
-          this.popupMsgService.openSnackBar('Saved!!');
+          this.popupMsgService.openSnackBar(
+            'Chart updated successfully!'
+          );
           this.dialog.closeAll();
         },
       });

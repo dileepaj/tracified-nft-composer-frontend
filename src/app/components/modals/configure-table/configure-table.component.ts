@@ -195,7 +195,9 @@ export class ConfigureTableComponent implements OnInit {
         },
         complete: () => {
           this.saving = false;
-          this.popupMsgService.openSnackBar('Saved!!');
+          this.popupMsgService.openSnackBar(
+            'Table saved successfully!'
+          );
           this.dndService.setSavedStatus(table.WidgetId);
           this.dialog.closeAll();
         },
@@ -211,7 +213,9 @@ export class ConfigureTableComponent implements OnInit {
         },
         complete: () => {
           this.saving = false;
-          this.popupMsgService.openSnackBar('Saved!!');
+          this.popupMsgService.openSnackBar(
+            'Table updated successfully!'
+          );
           this.dialog.closeAll();
         },
       });

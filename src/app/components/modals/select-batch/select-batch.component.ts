@@ -236,7 +236,7 @@ export class SelectBatchComponent implements OnInit {
         );
       }
     } else {
-      this.popupMsgService.openSnackBar('Please select a product and batch!');
+      this.popupMsgService.openSnackBar('Please select a product and batch');
     }
   }
 
@@ -451,7 +451,9 @@ export class SelectBatchComponent implements OnInit {
         },
         complete: () => {
           this.saving = false;
-          this.popupMsgService.openSnackBar('Saved!!');
+          this.popupMsgService.openSnackBar(
+            'Data added to the widget successfully!'
+          );
           //put the Data save status to sti
           this.store.dispatch(
             addCardtStatus({
@@ -477,7 +479,9 @@ export class SelectBatchComponent implements OnInit {
         },
         complete: () => {
           this.saving = false;
-          this.popupMsgService.openSnackBar('Saved!!');
+          this.popupMsgService.openSnackBar(
+            'Data updated in the widget successfully!'
+          );
           this.close();
         },
       });
@@ -516,7 +520,7 @@ export class SelectBatchComponent implements OnInit {
     this.batchesService.getTimeline(b64BatchId).subscribe((data) => {
       if (data.name === 'Error') {
         this.popupMsgService.openSnackBar(
-          'Please select a suitable batch for timeline.'
+          'Please select a suitable batch for timeline widget'
         );
 
         this.saving = false;
@@ -594,7 +598,9 @@ export class SelectBatchComponent implements OnInit {
                 this.dndService.setSavedStatus(this.widget.WidgetId);
                 this.dndService.setBatchStatus(this.widget.WidgetId);
                 this.saving = false;
-                this.popupMsgService.openSnackBar('Saved!!');
+                this.popupMsgService.openSnackBar(
+                  'Timeline data added successfully!'
+                );
                 this.close();
               },
             });
@@ -608,7 +614,9 @@ export class SelectBatchComponent implements OnInit {
               },
               complete: () => {
                 this.saving = false;
-                this.popupMsgService.openSnackBar('Saved!!');
+                this.popupMsgService.openSnackBar(
+                  'Timeline data updated successfully!'
+                );
                 this.close();
               },
             });
@@ -665,31 +673,37 @@ export class SelectBatchComponent implements OnInit {
           if (status === false) {
             this.composerService.saveProofbot(proofbot).subscribe({
               error: (err) => {
-                this.popupMsgService.openSnackBar('Error!');
+                this.popupMsgService.openSnackBar(
+                  'An unexpected error occured. Please try again later'
+                );
               },
               complete: () => {
                 this.saving = false;
                 this.dndService.setSavedStatus(this.widget.WidgetId);
                 this.dndService.setBatchStatus(this.widget.WidgetId);
-                this.popupMsgService.openSnackBar('Saved!!');
+                this.popupMsgService.openSnackBar('Proofbot data added successfully!');
                 this.close();
               },
             });
           } else {
             this.composerService.updateProofbot(proofbot).subscribe({
               error: (err) => {
-                this.popupMsgService.openSnackBar('Error!');
+                this.popupMsgService.openSnackBar(
+                  'An unexpected error occured. Please try again later'
+                );
               },
               complete: () => {
                 this.saving = false;
-                this.popupMsgService.openSnackBar('Saved!!');
+                this.popupMsgService.openSnackBar('Proofbot data updated successfully!');
                 this.close();
               },
             });
           }
         },
         error: (err) => {
-          this.popupMsgService.openSnackBar('Error!');
+          this.popupMsgService.openSnackBar(
+            'An unexpected error occured. Please try again later'
+          );
           this.saving = false;
         },
       });

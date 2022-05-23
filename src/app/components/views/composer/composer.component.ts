@@ -380,7 +380,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
       },
       complete: () => {
         this.store.dispatch(projectStatus({ status: false }));
-        this.popupMsgService.openSnackBar('Project Saved!!');
+        this.popupMsgService.openSnackBar('Project saved successfully!');
         this.saving = false;
       },
     });
@@ -415,7 +415,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
         this.saving = false;
       },
       complete: () => {
-        this.popupMsgService.openSnackBar('Project Updated!!');
+        this.popupMsgService.openSnackBar('Project updated successfully!');
         this.saving = false;
       },
     });
