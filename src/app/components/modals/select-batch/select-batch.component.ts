@@ -105,7 +105,7 @@ export class SelectBatchComponent implements OnInit {
   //holds the items user has selected
   selectedProduct: any;
   selectedBatch: any;
-  selectedTdp: any;
+  traceabilityDataPackets: any[] = [];
 
   //flags to keep track of user's selections
   productIsSelected: boolean = false;
@@ -151,23 +151,47 @@ export class SelectBatchComponent implements OnInit {
   }
 
   /**
-   * @function searchBatch - called when user selects a batch
+   * @function selectBatch - called when user selects a batch
    * @param row
    */
   public selectBatch(row: any) {
     this.selectedBatch = row;
     this.batchIsSelected = true;
     this.tdpStep = 0;
-    this.goForward();
+    const identifier = JSON.stringify({
+      id: row.identifier.identifier,
+      type: row.identifier.type,
+    });
+    this.batchesService
+      .getTraceablityData(btoa(identifier))
+      .subscribe((data) => {
+        this.createTdpArray(data.reverse());
+        this.goForward();
+      });
+  }
+  /**
+   * @function createTdpArray - creates an array of tdp which is used to display traceability data
+   * @param data
+   */
+  private createTdpArray(data: any) {
+    let bigArr: any = [];
+    data.map((arr: any) => {
+      let stageID: string = arr[0].stageID;
+      let tdps: any = [];
+      arr.map((data: any) => {
+        tdps = [...tdps, ...data.traceabilityDataPackets];
+      });
+      bigArr.push({ stageID: stageID, traceabilityDataPackets: tdps });
+    });
+    this.traceabilityDataPackets = bigArr;
   }
 
   /**
-   * @function selectTdp - called when user selects a TDP
-   * @param row
+   * @function getKeyArray - returns an array of keys in a object
+   * @param object
    */
-  public selectTdp(row: any) {
-    this.selectedTdp = row;
-    this.tdpIsSelected = true;
+  public getKeyArray(object: any) {
+    return Object.keys(object);
   }
 
   /**
@@ -189,7 +213,7 @@ export class SelectBatchComponent implements OnInit {
    */
   public updateReduxState() {
     if (this.productIsSelected && this.batchIsSelected) {
-      if (this.selectedBatch.traceabilityDataPackets.length !== 0) {
+      if (this.traceabilityDataPackets.length !== 0) {
         this.saving = true;
         this.widget = {
           ...this.widget,
