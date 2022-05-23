@@ -78,6 +78,12 @@ export class BatchesService {
     return this.apiService.get(url);
   }
 
+  //get traceability data of the selected batch
+  public getTraceablityData(identifier: string): Observable<any> {
+    const url = `${this.backend}/api/v2/traceabilityProfiles/generic?identifier=${identifier}`;
+    return this.apiService.get(url);
+  }
+
   //get timeline for the widget
   public getTimeline(batchId: string): Observable<any> {
     return this.apiService.get(
