@@ -12,7 +12,7 @@
         <label>{{ title }}</label>
       </div>
     </div>
-    <mat-nav-list>
+    <mat-nav-list [routerLink]="layoutLink">
       <mat-list-item
         id="layouts"
         [routerLinkActive]="['is-active']"
@@ -20,7 +20,7 @@
       >
         <div id="layoutsDiv">
           <div fxLayout="row" fxLayoutAlign="space-between center">
-            <div [routerLink]="layoutLink">
+            <div>
               <mat-icon mat-list-icon class="icon">notes</mat-icon>
               <label
                 style="font-size: small; font-weight: 700"
