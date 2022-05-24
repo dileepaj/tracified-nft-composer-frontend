@@ -52,6 +52,8 @@ import { Children, TimelineData } from 'src/models/nft-content/timeline';
 import { selectNFTContent } from 'src/app/store/nft-state-store/nft.selector';
 import { ProofBot, ProofData, ProofURL } from 'src/models/nft-content/proofbot';
 import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
+import { MatInput } from '@angular/material/input';
+import { MatDateRangePicker } from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-select-batch',
@@ -61,6 +63,8 @@ import { PopupMessageService } from 'src/app/services/popup-message/popup-messag
 })
 export class SelectBatchComponent implements OnInit {
   @ViewChild('stepper') private myStepper: MatStepper;
+  @ViewChild('from', { read: MatInput }) fromInput: MatInput;
+  @ViewChild('to', { read: MatInput }) toInput: MatInput;
   id: any;
   userId: string = '';
   widget: any;
@@ -79,6 +83,9 @@ export class SelectBatchComponent implements OnInit {
   tdpStep: number = 0;
 
   searchKey: string = '';
+  fromDate: string = '';
+  toDate: string = '';
+  showClearDate: boolean = false;
 
   tdpColumns: string[] = ['stage', 'stageName', 'tdp'];
 
@@ -98,7 +105,7 @@ export class SelectBatchComponent implements OnInit {
   //holds the items user has selected
   selectedProduct: any;
   selectedBatch: any;
-  selectedTdp: any;
+  traceabilityDataPackets: any[] = [];
 
   //flags to keep track of user's selections
   productIsSelected: boolean = false;
@@ -138,29 +145,53 @@ export class SelectBatchComponent implements OnInit {
     this.selectedProduct = row;
     this.page = 0;
     this.searchKey = '';
-    this.getBatches(this.page, this.searchKey);
+    this.getBatches(this.page, this.searchKey, '', '');
     this.productIsSelected = true;
     this.goForward();
   }
 
   /**
-   * @function searchBatch - called when user selects a batch
+   * @function selectBatch - called when user selects a batch
    * @param row
    */
   public selectBatch(row: any) {
     this.selectedBatch = row;
     this.batchIsSelected = true;
     this.tdpStep = 0;
-    this.goForward();
+    const identifier = JSON.stringify({
+      id: row.identifier.identifier,
+      type: row.identifier.type,
+    });
+    this.batchesService
+      .getTraceablityData(btoa(identifier))
+      .subscribe((data) => {
+        this.createTdpArray(data.reverse());
+        this.goForward();
+      });
+  }
+  /**
+   * @function createTdpArray - creates an array of tdp which is used to display traceability data
+   * @param data
+   */
+  private createTdpArray(data: any) {
+    let bigArr: any = [];
+    data.map((arr: any) => {
+      let stageID: string = arr[0].stageID;
+      let tdps: any = [];
+      arr.map((data: any) => {
+        tdps = [...tdps, ...data.traceabilityDataPackets];
+      });
+      bigArr.push({ stageID: stageID, traceabilityDataPackets: tdps });
+    });
+    this.traceabilityDataPackets = bigArr;
   }
 
   /**
-   * @function selectTdp - called when user selects a TDP
-   * @param row
+   * @function getKeyArray - returns an array of keys in a object
+   * @param object
    */
-  public selectTdp(row: any) {
-    this.selectedTdp = row;
-    this.tdpIsSelected = true;
+  public getKeyArray(object: any) {
+    return Object.keys(object);
   }
 
   /**
@@ -182,7 +213,7 @@ export class SelectBatchComponent implements OnInit {
    */
   public updateReduxState() {
     if (this.productIsSelected && this.batchIsSelected) {
-      if (this.selectedBatch.traceabilityDataPackets.length !== 0) {
+      if (this.traceabilityDataPackets.length !== 0) {
         this.saving = true;
         this.widget = {
           ...this.widget,
@@ -229,7 +260,7 @@ export class SelectBatchComponent implements OnInit {
         );
       }
     } else {
-      this.popupMsgService.openSnackBar('Please select a product and batch!');
+      this.popupMsgService.openSnackBar('Please select a product and batch');
     }
   }
 
@@ -280,10 +311,22 @@ export class SelectBatchComponent implements OnInit {
    * @function getBatches - get the item count
    * @param index
    */
-  public getBatches(index: number, searchKey: string) {
+  public getBatches(
+    index: number,
+    searchKey: string,
+    fromDate: string,
+    toDate: string
+  ) {
     this.batchesLoading = true;
     this.batchesService
-      .getBatch(this.selectedProduct.itemID, 10, index, this.searchKey, '', '')
+      .getBatch(
+        this.selectedProduct.itemID,
+        10,
+        index,
+        this.searchKey,
+        fromDate,
+        toDate
+      )
       .subscribe({
         next: (data: any) => {
           this.batchesRes = data;
@@ -369,14 +412,18 @@ export class SelectBatchComponent implements OnInit {
    */
   public searchBatch() {
     this.page = 0;
-    this.getBatches(this.page, this.searchKey);
+    this.getBatches(this.page, this.searchKey, this.fromDate, this.toDate);
   }
 
   /**
    * @function onDateChange - called when searching using dates
    */
-  public onDateChange() {
+  public onDateChange(from: HTMLInputElement, to: HTMLInputElement) {
+    this.fromDate = from.value.split('/').reverse().join('-');
+    this.toDate = to.value.split('/').reverse().join('-');
     this.page = 0;
+    this.getBatches(0, this.searchKey, this.fromDate, this.toDate);
+    this.showClearDate = true;
   }
 
   /**
@@ -428,7 +475,9 @@ export class SelectBatchComponent implements OnInit {
         },
         complete: () => {
           this.saving = false;
-          this.popupMsgService.openSnackBar('Saved!!');
+          this.popupMsgService.openSnackBar(
+            'Data added to the widget successfully!'
+          );
           //put the Data save status to sti
           this.store.dispatch(
             addCardtStatus({
@@ -454,7 +503,9 @@ export class SelectBatchComponent implements OnInit {
         },
         complete: () => {
           this.saving = false;
-          this.popupMsgService.openSnackBar('Saved!!');
+          this.popupMsgService.openSnackBar(
+            'Data updated in the widget successfully!'
+          );
           this.close();
         },
       });
@@ -493,7 +544,7 @@ export class SelectBatchComponent implements OnInit {
     this.batchesService.getTimeline(b64BatchId).subscribe((data) => {
       if (data.name === 'Error') {
         this.popupMsgService.openSnackBar(
-          'Please select a suitable batch for timeline.'
+          'Please select a suitable batch for timeline widget'
         );
 
         this.saving = false;
@@ -571,7 +622,9 @@ export class SelectBatchComponent implements OnInit {
                 this.dndService.setSavedStatus(this.widget.WidgetId);
                 this.dndService.setBatchStatus(this.widget.WidgetId);
                 this.saving = false;
-                this.popupMsgService.openSnackBar('Saved!!');
+                this.popupMsgService.openSnackBar(
+                  'Timeline data added successfully!'
+                );
                 this.close();
               },
             });
@@ -585,7 +638,9 @@ export class SelectBatchComponent implements OnInit {
               },
               complete: () => {
                 this.saving = false;
-                this.popupMsgService.openSnackBar('Saved!!');
+                this.popupMsgService.openSnackBar(
+                  'Timeline data updated successfully!'
+                );
                 this.close();
               },
             });
@@ -642,33 +697,45 @@ export class SelectBatchComponent implements OnInit {
           if (status === false) {
             this.composerService.saveProofbot(proofbot).subscribe({
               error: (err) => {
-                this.popupMsgService.openSnackBar('Error!');
+                this.popupMsgService.openSnackBar(
+                  'An unexpected error occured. Please try again later'
+                );
               },
               complete: () => {
                 this.saving = false;
                 this.dndService.setSavedStatus(this.widget.WidgetId);
                 this.dndService.setBatchStatus(this.widget.WidgetId);
-                this.popupMsgService.openSnackBar('Saved!!');
+                this.popupMsgService.openSnackBar('Proofbot data added successfully!');
                 this.close();
               },
             });
           } else {
             this.composerService.updateProofbot(proofbot).subscribe({
               error: (err) => {
-                this.popupMsgService.openSnackBar('Error!');
+                this.popupMsgService.openSnackBar(
+                  'An unexpected error occured. Please try again later'
+                );
               },
               complete: () => {
                 this.saving = false;
-                this.popupMsgService.openSnackBar('Saved!!');
+                this.popupMsgService.openSnackBar('Proofbot data updated successfully!');
                 this.close();
               },
             });
           }
         },
         error: (err) => {
-          this.popupMsgService.openSnackBar('Error!');
+          this.popupMsgService.openSnackBar(
+            'An unexpected error occured. Please try again later'
+          );
           this.saving = false;
         },
       });
+  }
+
+  public resetDate() {
+    this.dateRange.reset();
+    this.getBatches(0, this.searchKey, '', '');
+    this.showClearDate = false;
   }
 }

@@ -243,7 +243,9 @@ export class ConfigureBarChartComponent implements OnInit {
         complete: () => {
           this.saving = false;
           this.dndService.setSavedStatus(chart.WidgetId);
-          this.popupMsgService.openSnackBar('Saved!!');
+          this.popupMsgService.openSnackBar(
+            'Chart saved successfully!'
+          );
           this.dialog.closeAll();
         },
       });
@@ -258,7 +260,9 @@ export class ConfigureBarChartComponent implements OnInit {
         },
         complete: () => {
           this.saving = false;
-          this.popupMsgService.openSnackBar('Updated!!');
+          this.popupMsgService.openSnackBar(
+            'Chart updated successfully!'
+          );
           this.dialog.closeAll();
         },
       });

@@ -305,9 +305,9 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
         })
       );
 
-      this.popupMsgService.openSnackBar('Query Saved!!');
+      this.popupMsgService.openSnackBar('Query saved successfully!');
     } else {
-      this.popupMsgService.openSnackBar('Invalid query result formate');
+      this.popupMsgService.openSnackBar('Invalid query result format!');
     }
   }
 
@@ -369,7 +369,7 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
         this.saveExecuter();
       } else {
         this.popupMsgService.openSnackBar(
-          'Invalid output. Please check the query.'
+          'Invalid query output. Please check the query.'
         );
       }
     } else if (this.type === 'bubble') {
@@ -389,7 +389,7 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
         this.saveExecuter();
       } else {
         this.popupMsgService.openSnackBar(
-          'Invalid output. Please check the query.'
+          'Invalid query output. Please check the query.'
         );
       }
     } else if (this.type === 'table') {
@@ -405,12 +405,12 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
         this.saveExecuter();
       } else {
         this.popupMsgService.openSnackBar(
-          'Invalid output. Please check the query.'
+          'Invalid query output. Please check the query.'
         );
       }
     } else {
       this.popupMsgService.openSnackBar(
-        'Invalid output. Please check the query.'
+        'Invalid query output. Please check the query.'
       );
     }
 

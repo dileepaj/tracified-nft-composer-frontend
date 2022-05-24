@@ -186,7 +186,7 @@ export class NftImageComponent implements OnInit {
       },
       complete: () => {
         this.saving = false;
-        this.popupMsgService.openSnackBar('Image saved');
+        this.popupMsgService.openSnackBar('Image added successfully!');
         this.service.setSavedStatus(this.image.WidgetId);
         this.dialog.closeAll();
       },
@@ -240,7 +240,7 @@ export class NftImageComponent implements OnInit {
       },
       complete: () => {
         this.saving = false;
-        this.popupMsgService.openSnackBar('Image updated');
+        this.popupMsgService.openSnackBar('Image updated successfully!');
         this.service.setSavedStatus(this.image.WidgetId);
         this.dialog.closeAll();
       },

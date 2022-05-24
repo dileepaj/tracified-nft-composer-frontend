@@ -104,11 +104,13 @@ export class ProofbotViewComponent implements OnInit {
       },
       error: (err) => {
         this.saving = false;
-        this.popupService.openSnackBar('Error!');
+        this.popupService.openSnackBar(
+          'An unexpected error occured. Please try again later'
+        );
       },
       complete: () => {
         this.saving = false;
-        this.popupService.openSnackBar('Saved!!');
+        this.popupService.openSnackBar('Proofbot updated successfully!');
         this.dialogRef.close();
       },
     });

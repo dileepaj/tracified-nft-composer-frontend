@@ -57,14 +57,16 @@
             </tr>
           </tbody>
         </table>
-        <p *ngIf="productsFilter.length === 0"
-              style="text-align: center; font-size: large; padding-top: 50px;">
-            No data to be displayed
+        <p
+          *ngIf="productsFilter.length === 0"
+          style="text-align: center; font-size: large; padding-top: 50px"
+        >
+          No data to be displayed
         </p>
       </mat-step>
       <mat-step label="Select Batch">
-        <button style="float: left"  mat-button matStepperPrevious>
-          <mat-icon style="color: #00C853;">arrow_back</mat-icon>
+        <button style="float: left" mat-button matStepperPrevious>
+          <mat-icon style="color: #00c853">arrow_back</mat-icon>
         </button>
         <!--Search bar-->
         <mat-form-field appearance="outline" style="float: right">
@@ -87,21 +89,34 @@
           <mat-label>Select date range</mat-label>
           <mat-date-range-input [rangePicker]="picker" [formGroup]="dateRange">
             <input
+              #from
               matStartDate
               formControlName="start"
               placeholder="Start date"
+              readonly
             />
             <input
+              #to
               matEndDate
               formControlName="end"
               placeholder="End date"
-              (dateChange)="onDateChange()"
+              (dateChange)="onDateChange(from, to)"
+              readonly
             />
           </mat-date-range-input>
           <mat-datepicker-toggle
             matSuffix
             [for]="picker"
+            *ngIf="!showClearDate"
           ></mat-datepicker-toggle>
+          <mat-datepicker-toggle
+            matSuffix
+            (click)="resetDate()"
+            *ngIf="showClearDate"
+            ><mat-icon matDatepickerToggleIcon
+              >clear</mat-icon
+            ></mat-datepicker-toggle
+          >
           <mat-date-range-picker #picker></mat-date-range-picker>
         </mat-form-field>
 
@@ -134,8 +149,10 @@
             </tr>
           </tbody>
         </table>
-        <p *ngIf="batches.length === 0"
-            style="text-align: center; font-size: large; padding-top: 50px;">
+        <p
+          *ngIf="batches.length === 0"
+          style="text-align: center; font-size: large; padding-top: 50px"
+        >
           No data to be displayed
         </p>
         <mat-paginator
@@ -143,15 +160,15 @@
           [length]="totalBatches"
           [pageSize]="10"
           [pageIndex]="page"
-          (page)="getBatches($event.pageIndex, searchKey)"
+          (page)="getBatches($event.pageIndex, searchKey, fromDate, toDate)"
           aria-label="Select page"
         >
         </mat-paginator>
       </mat-step>
       <mat-step label="Traceability Data">
         <div style="display: flex; flex-direction: column">
-          <button style="width: fit-content;"  mat-button matStepperPrevious>
-            <mat-icon style="color: #00C853;">arrow_back</mat-icon>
+          <button style="width: fit-content" mat-button matStepperPrevious>
+            <mat-icon style="color: #00c853">arrow_back</mat-icon>
           </button>
           <div>
             <br />
@@ -166,7 +183,7 @@
             </mat-form-field>
 
           --></div>
-          
+
           <div>
             <mat-accordion class="headers-align" *ngIf="batchIsSelected">
               <mat-expansion-panel
@@ -182,25 +199,59 @@
                 </mat-expansion-panel-header>
                 <mat-action-row fxLayout="column">
                   <div
-                    *ngFor="let tdp of selectedBatch.traceabilityDataPackets"
+                    *ngFor="let item of traceabilityDataPackets"
                     fxFlex="100%"
-                    fxLayout="row wrap"
                   >
                     <div
-                      fxFlex="100%"
+                      *ngIf="stage.stageId === item.stageID"
                       fxLayout="row wrap"
-                      *ngIf="tdp.stageId === stage.stageId"
-                      class="tdp"
+                      class="tdp-stage-div"
                     >
-                      <label
-                        fxFlex="50%"
-                        *ngFor="let data of tdp.traceabilityData"
-                        ><strong>{{ CamelcaseToWord(data.key) }} - </strong>
-                        {{ data.val }}</label
+                      <div
+                        *ngFor="let tdp of item.traceabilityDataPackets"
+                        class="tdp"
+                        fxFlex="100%"
                       >
+                        <div class="tdp-added-date">
+                          <label>Added:</label> {{ convertDate(tdp.timestamp) }}
+                        </div>
+                        <div *ngFor="let data of tdp.traceabilityData">
+                          <div *ngIf="data.type === 6">
+                            <label class="data-text"
+                              ><mat-icon class="data-artifact-icon">
+                                storage </mat-icon
+                              ><strong>{{
+                                CamelcaseToWord(data.key)
+                              }}</strong></label
+                            >
+                            <ul class="data-ul-list">
+                              <li *ngFor="let d of getKeyArray(data.val)">
+                                <label class="data-text"
+                                  ><mat-icon class="data-sub-icon">
+                                    expand_circle_down </mat-icon
+                                  ><strong>{{ CamelcaseToWord(d) }} - </strong>
+                                  {{ data.val[d] }}</label
+                                >
+                              </li>
+                            </ul>
+                          </div>
+                          <label *ngIf="data.type === 3" class="data-text">
+                            <mat-icon class="data-icon"> adjust </mat-icon>
+                            <strong>{{ CamelcaseToWord(data.key) }} - </strong
+                            >{{ convertDate(data.val) }}
+                          </label>
+                          <label
+                            *ngIf="data.type !== 6 && data.type !== 3"
+                            class="data-text"
+                            ><mat-icon class="data-icon"> adjust </mat-icon
+                            ><strong>{{ CamelcaseToWord(data.key) }} - </strong>
+                            {{ data.val }}</label
+                          >
+                          <br />
+                        </div>
+                      </div>
+                      <br />
                     </div>
-
-                    <mat-divider></mat-divider>
                   </div>
                 </mat-action-row>
               </mat-expansion-panel>
