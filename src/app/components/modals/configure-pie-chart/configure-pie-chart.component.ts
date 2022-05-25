@@ -24,6 +24,7 @@ import { piechart } from 'src/models/nft-content/widgetTypes';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
 import { ChartOptions, Chart as chrt } from 'chart.js';
 import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 @Component({
   selector: 'app-configure-pie-chart',
@@ -88,6 +89,7 @@ export class ConfigurePieChartComponent implements OnInit {
     this.chartId = this.data.id;
     this.pieChart = this.data.widget;
     this.query = this.pieChart.Query!;
+    chrt.register(ChartDataLabels);
   }
 
   /**
@@ -236,8 +238,8 @@ export class ConfigurePieChartComponent implements OnInit {
       this.height = this.pieChart.Height!;
       this.width = this.pieChart.Width!;
       this.loadedFromRedux = true;
-      this.setLabels();
       this.setValues();
+      this.setLabels();
       this.setColors();
     }
   }
@@ -264,9 +266,7 @@ export class ConfigurePieChartComponent implements OnInit {
         },
         complete: () => {
           this.saving = false;
-          this.popupMsgService.openSnackBar(
-            'Chart saved successfully!'
-          );
+          this.popupMsgService.openSnackBar('Chart saved successfully!');
           this.dndService.setSavedStatus(chart.WidgetId);
           this.dialog.closeAll();
         },
@@ -282,9 +282,7 @@ export class ConfigurePieChartComponent implements OnInit {
         },
         complete: () => {
           this.saving = false;
-          this.popupMsgService.openSnackBar(
-            'Chart updated successfully!'
-          );
+          this.popupMsgService.openSnackBar('Chart updated successfully!');
           this.dialog.closeAll();
         },
       });
@@ -317,10 +315,9 @@ export class ConfigurePieChartComponent implements OnInit {
    */
   private setLabels() {
     this.labels = [];
-    this.pieChartData.map((data) => {
-      let lArr = [];
-      lArr[0] = data.Name;
-      this.labels.push(lArr);
+    this.pieChartData.map((data, index) => {
+      let percentage = this.getPercentage(this.values[index]);
+      this.labels.push(`${data.Name} - ${this.values[index]} (${percentage})`);
     });
   }
 
@@ -347,14 +344,28 @@ export class ConfigurePieChartComponent implements OnInit {
   }
 
   /**
+   * @function getPercentage - get the percentage
+   */
+  private getPercentage(value: number) {
+    let sum = 0;
+    this.values.forEach((val) => {
+      sum += val;
+    });
+    let percentage = ((value * 100) / sum).toFixed(2) + '%';
+    return percentage;
+  }
+
+  /**
    * @function drawChart - draw the pie chart
    */
   public drawChart() {
     if (this.myChart !== undefined) {
       this.myChart.destroy();
     }
+
     const canvas = <HTMLCanvasElement>document.getElementById('pie-chart');
     const ctx = canvas.getContext('2d')!;
+
     this.myChart = new chrt(ctx, {
       type: 'pie',
       data: {
@@ -387,6 +398,18 @@ export class ConfigurePieChartComponent implements OnInit {
             text: this.title,
             color: this.fontColor,
             font: { size: this.fontSize },
+          },
+          datalabels: {
+            color: this.fontColor,
+            display: 'auto',
+            font: {
+              weight: 'bold',
+              size: 12,
+            },
+            formatter: (value) => {
+              let percentage = this.getPercentage(value);
+              return percentage;
+            },
           },
         },
       },

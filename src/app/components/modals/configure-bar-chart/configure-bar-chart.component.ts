@@ -19,6 +19,7 @@ import { barchart } from 'src/models/nft-content/widgetTypes';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
 import { Chart as chrt } from 'chart.js';
 import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 @Component({
   selector: 'app-configure-bar-chart',
@@ -82,6 +83,7 @@ export class ConfigureBarChartComponent implements OnInit {
     this.chartId = this.data.id;
     this.barChart = this.data.widget;
     this.query = this.barChart.Query!;
+    chrt.unregister(ChartDataLabels);
   }
 
   /**
@@ -243,9 +245,7 @@ export class ConfigureBarChartComponent implements OnInit {
         complete: () => {
           this.saving = false;
           this.dndService.setSavedStatus(chart.WidgetId);
-          this.popupMsgService.openSnackBar(
-            'Chart saved successfully!'
-          );
+          this.popupMsgService.openSnackBar('Chart saved successfully!');
           this.dialog.closeAll();
         },
       });
@@ -260,9 +260,7 @@ export class ConfigureBarChartComponent implements OnInit {
         },
         complete: () => {
           this.saving = false;
-          this.popupMsgService.openSnackBar(
-            'Chart updated successfully!'
-          );
+          this.popupMsgService.openSnackBar('Chart updated successfully!');
           this.dialog.closeAll();
         },
       });
