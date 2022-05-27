@@ -20,6 +20,7 @@ import {
 import { Chart, Data } from 'src/models/nft-content/chart';
 import { bubblechart } from 'src/models/nft-content/widgetTypes';
 import { Chart as chrt } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 @Component({
   selector: 'app-configure-bubble-chart',
@@ -79,6 +80,7 @@ export class ConfigureBubbleChartComponent implements OnInit {
     this.chartId = this.data.id;
     this.bubbleChart = this.data.widget;
     this.query = this.bubbleChart.Query!;
+    chrt.unregister(ChartDataLabels);
   }
 
   /**
@@ -254,9 +256,7 @@ export class ConfigureBubbleChartComponent implements OnInit {
         },
         complete: () => {
           this.saving = false;
-          this.popupMsgService.openSnackBar(
-            'Chart saved successfully!'
-          );
+          this.popupMsgService.openSnackBar('Chart saved successfully!');
           this.dndService.setSavedStatus(chart.WidgetId);
           this.dialog.closeAll();
         },
@@ -272,9 +272,7 @@ export class ConfigureBubbleChartComponent implements OnInit {
         },
         complete: () => {
           this.saving = false;
-          this.popupMsgService.openSnackBar(
-            'Chart updated successfully!'
-          );
+          this.popupMsgService.openSnackBar('Chart updated successfully!');
           this.dialog.closeAll();
         },
       });
