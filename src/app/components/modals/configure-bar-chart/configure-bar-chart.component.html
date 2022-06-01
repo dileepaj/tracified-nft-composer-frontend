@@ -15,7 +15,8 @@
             [id]="barChart.WidgetId"
             [type]="'bar'"
             [query]="barChart.Query!"
-            (onQuerySuccess)="onQuerySuccess($event)"
+            [widget]="barChart"
+            (onQueryResult)="onQueryResult($event)"
           ></app-ldaleditor
         ></mat-grid-tile>
       </mat-grid-list>
