@@ -29,6 +29,7 @@ import { Image } from 'src/models/nft-content/image';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { WidgethighlightingService } from 'src/app/services/widgethighlighting.service';
 import { ImagePreviewComponent } from '../../modals/image-preview/image-preview.component';
+import { DeleteWidgetComponent } from '../../modals/delete-widget/delete-widget.component';
 
 @Component({
   selector: 'app-nft-image',
@@ -133,18 +134,18 @@ export class NftImageComponent implements OnInit {
 
   //delete image from redux store
   public deleteWidget() {
-    this.composerService.deleteImage(this.id).subscribe({
-      next: (res) => {},
-      error: (err) => {
-        this.popupMsgService.openSnackBar(
-          'An unexpected error occured. Please try again later'
-        );
-      },
-      complete: () => {
-        this.store.dispatch(deleteNFTImage({ image: this.image }));
-        this.onDeleteWidget.emit(this.id);
+    const dialogRef = this.dialog.open(DeleteWidgetComponent, {
+      data: {
+        widgetType: 'Image',
+        widgetId: this.id,
       },
     });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
+        this.store.dispatch(deleteNFTImage({ image: this.image }));
+        this.onDeleteWidget.emit(this.id);
+      }
+    })
   }
 
   //trigger file input click event
