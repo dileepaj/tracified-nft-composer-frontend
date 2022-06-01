@@ -46,6 +46,7 @@ export class ConfigurePieChartComponent implements OnInit {
   pieChartOptions: any;
   loadedFromRedux: boolean = false;
   newProject: boolean;
+  queryExecuted: boolean = false;
   //data to be displayed in the pie chart
   pieChartData: Data[] = [];
   chartImage: string;
@@ -70,6 +71,7 @@ export class ConfigurePieChartComponent implements OnInit {
 
   labels: any[];
   values: any[];
+  querySuccess: boolean = false;
 
   constructor(
     private store: Store<AppState>,
@@ -127,11 +129,22 @@ export class ConfigurePieChartComponent implements OnInit {
    */
   public CheckQuerySavingStatus(): boolean {
     let buttonState = false;
-    this.store.select(selectQueryResult).subscribe((data) => {
-      if (data.length != 0 && data.some((e) => e.WidgetId === this.data.id)) {
-        buttonState = true;
+    if (this.queryExecuted) {
+      if (this.querySuccess) {
+        this.store.select(selectQueryResult).subscribe((data) => {
+          if (data.some((e) => e.WidgetId === this.data.id)) {
+            buttonState = true;
+          }
+        });
       }
-    });
+    } else {
+      this.store.select(selectQueryResult).subscribe((data) => {
+        if (data.some((e) => e.WidgetId === this.data.id)) {
+          buttonState = true;
+        }
+      });
+    }
+
     return buttonState;
   }
 
@@ -154,18 +167,45 @@ export class ConfigurePieChartComponent implements OnInit {
   public updateReduxState() {
     this.saving = true;
 
-    this.pieChart = {
-      ...this.pieChart,
-      ChartTitle: this.title,
-      Query: this.query,
-      ChartData: this.pieChartData,
-      ChartImage: this.chartImage,
-      Color: this.fieldColors,
-      FontColor: this.fontColor,
-      FontSize: this.fontSize,
-      Height: 350,
-      Width: 500,
-    };
+    if (!this.queryExecuted || (this.queryExecuted && this.querySuccess)) {
+      this.assignValues();
+      this.pieChart = {
+        ...this.pieChart,
+        ChartTitle: this.title,
+        Query: this.query,
+        QuerySuccess: true,
+        ChartData: this.pieChartData,
+        ChartImage: this.chartImage || 'string',
+        Color: this.fieldColors,
+        FontColor: this.fontColor,
+        FontSize: this.fontSize,
+        Height: 350,
+        Width: 500,
+      };
+    } else {
+      this.store.dispatch(
+        deleteQueryResult({
+          queryResult: { WidgetId: this.data.id, queryResult: '' },
+        })
+      );
+
+      this.pieChart = {
+        ...this.pieChart,
+        WidgetType: piechart,
+        ChartTitle: 'Pie Chart',
+        KeyTitle: 'Name',
+        ValueTitle: 'Value',
+        ChartData: [],
+        Color: [],
+        FontColor: '#000000',
+        FontSize: 12,
+        Height: 500,
+        Width: 350,
+        Query: this.query,
+        QuerySuccess: false,
+        ChartImage: 'string',
+      };
+    }
 
     this.saveChart(this.pieChart);
 
@@ -215,6 +255,13 @@ export class ConfigurePieChartComponent implements OnInit {
       );
       this.dialog.closeAll();
     } else {
+      if (this.querySuccess && !this.pieChart.QuerySuccess) {
+        this.store.dispatch(
+          deleteQueryResult({
+            queryResult: { WidgetId: this.pieChart.WidgetId, queryResult: '' },
+          })
+        );
+      }
       this.dialog.closeAll();
     }
   }
@@ -290,12 +337,18 @@ export class ConfigurePieChartComponent implements OnInit {
   }
 
   /**
-   * @function onQuerySuccess - event on query success
+   * @function onQueryResult - event on query success
    * @param event
    */
-  public onQuerySuccess(event: any) {
-    this.tabIndex = 1;
+  public onQueryResult(event: any) {
     this.query = event.query;
+    this.queryExecuted = true;
+    if (event.success) {
+      this.tabIndex = 1;
+      this.querySuccess = true;
+    } else {
+      this.querySuccess = false;
+    }
   }
 
   /**

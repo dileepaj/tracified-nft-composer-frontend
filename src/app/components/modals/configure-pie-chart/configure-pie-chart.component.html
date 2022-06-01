@@ -16,7 +16,8 @@
             [id]="pieChart.WidgetId"
             [type]="'pie'"
             [query]="pieChart.Query!"
-            (onQuerySuccess)="onQuerySuccess($event)"
+            [widget]="pieChart"
+            (onQueryResult)="onQueryResult($event)"
           ></app-ldaleditor
         ></mat-grid-tile>
       </mat-grid-list>

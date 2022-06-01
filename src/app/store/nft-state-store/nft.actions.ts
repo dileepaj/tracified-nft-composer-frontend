@@ -188,3 +188,8 @@ export const setWidgetCount = createAction(
   '[set widget count] Set widget count',
   props<{ widgetCount: WidgetCount }>()
 );
+
+/* export const deleteChartData = createAction(
+  '[delete chart data] Delete Chart Data',
+  props<{}>
+) */

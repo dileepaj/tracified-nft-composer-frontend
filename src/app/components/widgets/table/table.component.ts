@@ -100,7 +100,8 @@ export class TableComponent implements OnInit {
       WidgetType: table,
       TableTitle: 'Table',
       Query: '',
-      TableContent: '',
+      QuerySuccess: false,
+      TableContent: 'No Data.',
     };
 
     this.store.dispatch(addTable({ table: this.table }));

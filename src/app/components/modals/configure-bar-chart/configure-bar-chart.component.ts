@@ -45,6 +45,7 @@ export class ConfigureBarChartComponent implements OnInit {
   values: any[] = [];
   qEvent: any;
   querySuccess: boolean = false;
+  queryExecuted: boolean = false;
   loadedFromRedux: boolean = false;
 
   //data that are being displayed in the bar chart
@@ -121,11 +122,22 @@ export class ConfigureBarChartComponent implements OnInit {
    */
   public CheckQuerySavingStatus(): boolean {
     let buttonState = false;
-    this.store.select(selectQueryResult).subscribe((data) => {
-      if (data.some((e) => e.WidgetId === this.data.id)) {
-        buttonState = true;
+    if (this.queryExecuted) {
+      if (this.querySuccess) {
+        this.store.select(selectQueryResult).subscribe((data) => {
+          if (data.some((e) => e.WidgetId === this.data.id)) {
+            buttonState = true;
+          }
+        });
       }
-    });
+    } else {
+      this.store.select(selectQueryResult).subscribe((data) => {
+        if (data.some((e) => e.WidgetId === this.data.id)) {
+          buttonState = true;
+        }
+      });
+    }
+
     return buttonState;
   }
 
@@ -146,21 +158,50 @@ export class ConfigureBarChartComponent implements OnInit {
    */
   public updateReduxState() {
     this.saving = true;
-    this.barChart = {
-      ...this.barChart,
-      ChartTitle: this.title,
-      ChartData: this.barChartData,
-      ChartImage: this.chartImage,
-      Color: this.barColors,
-      FontColor: this.fontColor,
-      FontSize: this.fontSize,
-      XAxis: this.xName,
-      YAxis: this.yName,
-      Height: 200,
-      Width: 500,
-      Query: this.query,
-      Domain: [0, this.max],
-    };
+    if (!this.queryExecuted || (this.queryExecuted && this.querySuccess)) {
+      this.assignValues();
+      this.barChart = {
+        ...this.barChart,
+        ChartTitle: this.title,
+        ChartData: this.barChartData,
+        ChartImage: this.chartImage || 'string',
+        Color: this.barColors,
+        FontColor: this.fontColor,
+        FontSize: this.fontSize,
+        XAxis: this.xName,
+        YAxis: this.yName,
+        Height: 200,
+        Width: 500,
+        Query: this.query,
+        QuerySuccess: true,
+        Domain: [0, this.max],
+      };
+    } else {
+      this.store.dispatch(
+        deleteQueryResult({
+          queryResult: { WidgetId: this.data.id, queryResult: '' },
+        })
+      );
+
+      this.barChart = {
+        ...this.barChart,
+        Domain: [0, this.max],
+        ChartTitle: 'Bar Chart',
+        KeyTitle: 'Name',
+        ValueTitle: 'Value',
+        ChartData: [],
+        Color: [],
+        FontColor: '#000000',
+        FontSize: 10,
+        XAxis: 'X Axis',
+        YAxis: 'Y Axis',
+        Width: 450,
+        Height: 100,
+        Query: this.query,
+        QuerySuccess: false,
+        ChartImage: 'string',
+      };
+    }
 
     this.saveChart(this.barChart);
     this.store.dispatch(updateBarChart({ chart: this.barChart }));
@@ -268,12 +309,18 @@ export class ConfigureBarChartComponent implements OnInit {
   }
 
   /**
-   * @function onQuerySuccess - query success event
+   * @function onQueryResult - query success event
    * @param event
    */
-  public onQuerySuccess(event: any) {
-    this.tabIndex = 1;
+  public onQueryResult(event: any) {
     this.query = event.query;
+    this.queryExecuted = true;
+    if (event.success) {
+      this.tabIndex = 1;
+      this.querySuccess = true;
+    } else {
+      this.querySuccess = false;
+    }
   }
 
   /**
@@ -288,6 +335,13 @@ export class ConfigureBarChartComponent implements OnInit {
       );
       this.dialog.closeAll();
     } else {
+      if (this.querySuccess && !this.barChart.QuerySuccess) {
+        this.store.dispatch(
+          deleteQueryResult({
+            queryResult: { WidgetId: this.barChart.WidgetId, queryResult: '' },
+          })
+        );
+      }
       this.dialog.closeAll();
     }
   }
