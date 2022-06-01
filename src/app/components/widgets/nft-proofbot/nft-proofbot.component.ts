@@ -21,6 +21,7 @@ import { ProofBot, ProofData, ProofURL } from 'src/models/nft-content/proofbot';
 import { proofbot } from 'src/models/nft-content/widgetTypes';
 import { ProofbotViewComponent } from '../../modals/proofbot-view/proofbot-view.component';
 import { WidgetContentComponent } from '../../modals/widget-content/widget-content.component';
+import { DeleteWidgetComponent } from '../../modals/delete-widget/delete-widget.component';
 
 @Component({
   selector: 'app-nft-proofbot',
@@ -91,17 +92,17 @@ export class NftProofbotComponent implements OnInit {
 
   //delete proofbot from redux
   public deleteWidget() {
-    this.composerService.deleteProofbot(this.id).subscribe({
-      next: (res) => {},
-      error: (err) => {
-        this.popupMsgService.openSnackBar(
-          'An unexpected error occured. Please try again later'
-        );
+    const dialogRef = this.dialog.open(DeleteWidgetComponent, {
+      data: {
+        widgetType: 'Proofbot',
+        widgetId: this.id,
       },
-      complete: () => {
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
         this.store.dispatch(deleteProofBot({ proofBot: this.proofbot }));
         this.onDeleteWidget.emit(this.id);
-      },
+      }
     });
   }
 

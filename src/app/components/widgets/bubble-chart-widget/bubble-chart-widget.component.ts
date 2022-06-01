@@ -21,6 +21,7 @@ import { NFTContent } from 'src/models/nft-content/nft.content';
 import { bubblechart } from 'src/models/nft-content/widgetTypes';
 import { ConfigureBubbleChartComponent } from '../../modals/configure-bubble-chart/configure-bubble-chart.component';
 import { WidgetContentComponent } from '../../modals/widget-content/widget-content.component';
+import { DeleteWidgetComponent } from '../../modals/delete-widget/delete-widget.component';
 
 @Component({
   selector: 'app-bubble-chart-widget',
@@ -92,17 +93,17 @@ export class BubbleChartWidgetComponent implements OnInit {
 
   //delete chart from redux
   public deleteWidget() {
-    this.composerService.deleteChart(this.id).subscribe({
-      next: (res) => {},
-      error: (err) => {
-        this.popupMsgService.openSnackBar(
-          'An unexpected error occured. Please try again later'
-        );
+    const dialogRef = this.dialog.open(DeleteWidgetComponent, {
+      data: {
+        widgetType: 'Bubble Chart',
+        widgetId: this.id,
       },
-      complete: () => {
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
         this.store.dispatch(deleteBubbleChart({ chart: this.bubbleChart }));
         this.onDeleteWidget.emit(this.id);
-      },
+      }
     });
   }
 

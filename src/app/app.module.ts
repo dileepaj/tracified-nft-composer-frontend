@@ -83,6 +83,7 @@ import { SvgCodebehindComponent } from './components/modals/svg-codebehind/svg-c
 import { DeleteProjectComponent } from './components/modals/delete-project/delete-project.component';
 import { CloseProjectComponent } from './components/modals/close-project/close-project.component';
 import { ImagePreviewComponent } from './components/modals/image-preview/image-preview.component';
+import { DeleteWidgetComponent } from './components/modals/delete-widget/delete-widget.component';
 
 const appRoutes: Routes = [];
 
@@ -125,6 +126,7 @@ const appRoutes: Routes = [];
     DeleteProjectComponent,
     CloseProjectComponent,
     ImagePreviewComponent,
+    DeleteWidgetComponent,
   ],
   imports: [
     BrowserModule,
