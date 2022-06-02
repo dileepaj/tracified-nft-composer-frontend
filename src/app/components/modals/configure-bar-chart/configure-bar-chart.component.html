@@ -97,7 +97,55 @@
               <h3>Bar Chart Fields</h3>
               <div class="field" *ngFor="let field of barChartData; index as i">
                 <mat-card>
-                  <label>{{ field.Name }}</label>
+                  <input
+                    type="text"
+                    class="field-name-input"
+                    [value]="field.Name"
+                    (keyup.enter)="saveFieldName()"
+                    (input)="setFieldName($event, i)"
+                    *ngIf="fieldControlEnabledIndex === i"
+                  />
+                  <label
+                    *ngIf="
+                      fieldControlEnabledIndex === -1 ||
+                      fieldControlEnabledIndex !== i
+                    "
+                    style="vertical-align: middle"
+                    >{{ field.Name }}</label
+                  >
+                  <mat-icon
+                    matRipple
+                    matTooltip="Edit field name"
+                    class="material-icons-outlined field-save-icon"
+                    style="vertical-align: middle; transform: scale(0.8)"
+                    *ngIf="
+                      fieldControlEnabledIndex === -1 ||
+                      fieldControlEnabledIndex !== i
+                    "
+                    (click)="enableFieldOptions(i)"
+                  >
+                    edit
+                  </mat-icon>
+                  <mat-icon
+                    matRipple
+                    matTooltip="Save field name"
+                    class="field-save-icon"
+                    style="vertical-align: middle; transform: scale(0.8)"
+                    *ngIf="fieldControlEnabledIndex === i"
+                    (click)="saveFieldName()"
+                  >
+                    done
+                  </mat-icon>
+                  <mat-icon
+                    matRipple
+                    matTooltip="Cancel"
+                    class="field-save-icon"
+                    style="vertical-align: middle; transform: scale(0.8)"
+                    *ngIf="fieldControlEnabledIndex === i"
+                    (click)="disableFieldOptions()"
+                  >
+                    close
+                  </mat-icon>
                   <div
                     class="colorbox"
                     [(colorPicker)]="barColors[i]"

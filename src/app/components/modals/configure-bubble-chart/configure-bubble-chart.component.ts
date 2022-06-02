@@ -59,6 +59,8 @@ export class ConfigureBubbleChartComponent implements OnInit {
   radius: number[] = [];
   queryExecuted: boolean = false;
   querySuccess: boolean = false;
+  fieldControlEnabledIndex: number = -1;
+  newFieldData: string = '';
 
   private svg: any;
   private margin = 5;
@@ -145,7 +147,12 @@ export class ConfigureBubbleChartComponent implements OnInit {
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     if (tabChangeEvent.index === 1) {
       this.assignValues();
-      this.setValueToBubblerChart();
+      if (
+        this.bubbleChartData.length === 0 ||
+        (this.queryExecuted && this.querySuccess)
+      ) {
+        this.setValueToBubblerChart();
+      }
       this.drawChart();
     }
   }
@@ -335,12 +342,42 @@ export class ConfigureBubbleChartComponent implements OnInit {
   public onQueryResult(event: any) {
     this.query = event.query;
     this.queryExecuted = true;
+    this.newFieldData = '';
+    this.fieldControlEnabledIndex = -1;
     if (event.success) {
       this.tabIndex = 1;
       this.querySuccess = true;
     } else {
       this.querySuccess = false;
     }
+  }
+
+  public enableFieldOptions(index: number) {
+    this.fieldControlEnabledIndex = index;
+  }
+
+  public disableFieldOptions() {
+    this.newFieldData = '';
+    this.fieldControlEnabledIndex = -1;
+  }
+
+  public saveFieldName() {
+    let item = this.bubbleChartData[this.fieldControlEnabledIndex];
+    item = {
+      ...item,
+      Name: this.newFieldData,
+    };
+
+    this.bubbleChartData[this.fieldControlEnabledIndex] = item;
+    this.setLabels();
+    this.drawChart();
+    this.newFieldData = '';
+    this.fieldControlEnabledIndex = -1;
+  }
+
+  public setFieldName(event: any, index: number) {
+    this.fieldControlEnabledIndex = index;
+    this.newFieldData = event.target.value;
   }
 
   /**
