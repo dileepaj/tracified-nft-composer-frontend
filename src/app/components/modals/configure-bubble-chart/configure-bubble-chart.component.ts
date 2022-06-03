@@ -57,6 +57,10 @@ export class ConfigureBubbleChartComponent implements OnInit {
   fontSize: number = 10; //font size
   fontColor: string = '#000000'; //font color
   radius: number[] = [];
+  queryExecuted: boolean = false;
+  querySuccess: boolean = false;
+  fieldControlEnabledIndex: number = -1;
+  newFieldData: string = '';
 
   private svg: any;
   private margin = 5;
@@ -88,11 +92,21 @@ export class ConfigureBubbleChartComponent implements OnInit {
    */
   public CheckQuerySavingStatus(): boolean {
     let buttonState = false;
-    this.store.select(selectQueryResult).subscribe((data) => {
-      if (data.some((e) => e.WidgetId === this.data.id)) {
-        buttonState = true;
+    if (this.queryExecuted) {
+      if (this.querySuccess) {
+        this.store.select(selectQueryResult).subscribe((data) => {
+          if (data.some((e) => e.WidgetId === this.data.id)) {
+            buttonState = true;
+          }
+        });
       }
-    });
+    } else {
+      this.store.select(selectQueryResult).subscribe((data) => {
+        if (data.some((e) => e.WidgetId === this.data.id)) {
+          buttonState = true;
+        }
+      });
+    }
     return buttonState;
   }
 
@@ -133,7 +147,12 @@ export class ConfigureBubbleChartComponent implements OnInit {
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     if (tabChangeEvent.index === 1) {
       this.assignValues();
-      this.setValueToBubblerChart();
+      if (
+        this.bubbleChartData.length === 0 ||
+        (this.queryExecuted && this.querySuccess)
+      ) {
+        this.setValueToBubblerChart();
+      }
       this.drawChart();
     }
   }
@@ -150,6 +169,16 @@ export class ConfigureBubbleChartComponent implements OnInit {
       );
       this.dialog.closeAll();
     } else {
+      if (this.querySuccess && !this.bubbleChart.QuerySuccess) {
+        this.store.dispatch(
+          deleteQueryResult({
+            queryResult: {
+              WidgetId: this.bubbleChart.WidgetId,
+              queryResult: '',
+            },
+          })
+        );
+      }
       this.dialog.closeAll();
     }
   }
@@ -159,19 +188,46 @@ export class ConfigureBubbleChartComponent implements OnInit {
    */
   public updateReduxState() {
     this.saving = true;
-    this.bubbleChart = {
-      ...this.bubbleChart,
-      ChartTitle: this.title,
-      Query: this.query,
-      ChartData: this.bubbleChartData,
-      ChartImage: this.chartImage,
-      Color: this.bubbleColors,
-      Radius: this.radius,
-      FontColor: this.fontColor,
-      FontSize: this.fontSize,
-      Height: 300,
-      Width: 500,
-    };
+    if (!this.queryExecuted || (this.queryExecuted && this.querySuccess)) {
+      this.assignValues();
+      this.bubbleChart = {
+        ...this.bubbleChart,
+        ChartTitle: this.title,
+        Query: this.query,
+        ChartData: this.bubbleChartData,
+        ChartImage: this.chartImage || 'string',
+        Color: this.bubbleColors,
+        Radius: this.radius,
+        FontColor: this.fontColor,
+        FontSize: this.fontSize,
+        Height: 300,
+        Width: 500,
+        QuerySuccess: true,
+      };
+    } else {
+      this.store.dispatch(
+        deleteQueryResult({
+          queryResult: { WidgetId: this.data.id, queryResult: '' },
+        })
+      );
+
+      this.bubbleChart = {
+        ...this.bubbleChart,
+        Domain: [0, this.max],
+        ChartTitle: 'Bubble Chart',
+        KeyTitle: 'Name',
+        ValueTitle: 'Value',
+        ChartData: [],
+        Color: [],
+        FontColor: '#000000',
+        FontSize: 12,
+        Height: 295,
+        Width: 295,
+        Query: this.query,
+        QuerySuccess: false,
+        ChartImage: 'string',
+      };
+    }
 
     this.saveChart(this.bubbleChart);
     this.bubbleChart = {
@@ -280,12 +336,48 @@ export class ConfigureBubbleChartComponent implements OnInit {
   }
 
   /**
-   * @function onQuerySuccess - calls the save chart endpoint and save chart data on DB
+   * @function onQueryResult - calls the save chart endpoint and save chart data on DB
    * @param event
    */
-  public onQuerySuccess(event: any) {
-    this.tabIndex = 1;
+  public onQueryResult(event: any) {
     this.query = event.query;
+    this.queryExecuted = true;
+    this.newFieldData = '';
+    this.fieldControlEnabledIndex = -1;
+    if (event.success) {
+      this.tabIndex = 1;
+      this.querySuccess = true;
+    } else {
+      this.querySuccess = false;
+    }
+  }
+
+  public enableFieldOptions(index: number) {
+    this.fieldControlEnabledIndex = index;
+  }
+
+  public disableFieldOptions() {
+    this.newFieldData = '';
+    this.fieldControlEnabledIndex = -1;
+  }
+
+  public saveFieldName() {
+    let item = this.bubbleChartData[this.fieldControlEnabledIndex];
+    item = {
+      ...item,
+      Name: this.newFieldData,
+    };
+
+    this.bubbleChartData[this.fieldControlEnabledIndex] = item;
+    this.setLabels();
+    this.drawChart();
+    this.newFieldData = '';
+    this.fieldControlEnabledIndex = -1;
+  }
+
+  public setFieldName(event: any, index: number) {
+    this.fieldControlEnabledIndex = index;
+    this.newFieldData = event.target.value;
   }
 
   /**

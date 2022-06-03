@@ -28,6 +28,7 @@ import { Table } from 'src/models/nft-content/table';
 import { table } from 'src/models/nft-content/widgetTypes';
 import { ConfigureTableComponent } from '../../modals/configure-table/configure-table.component';
 import { WidgetContentComponent } from '../../modals/widget-content/widget-content.component';
+import { DeleteWidgetComponent } from '../../modals/delete-widget/delete-widget.component';
 
 @Component({
   selector: 'app-table',
@@ -100,7 +101,8 @@ export class TableComponent implements OnInit {
       WidgetType: table,
       TableTitle: 'Table',
       Query: '',
-      TableContent: '',
+      QuerySuccess: false,
+      TableContent: 'No Data.',
     };
 
     this.store.dispatch(addTable({ table: this.table }));
@@ -109,17 +111,17 @@ export class TableComponent implements OnInit {
 
   //delete table from redux store
   public deleteWidget() {
-    this.composerService.deleteTable(this.id).subscribe({
-      next: (res) => {},
-      error: (err) => {
-        this.popupMsgService.openSnackBar(
-          'An unexpected error occured. Please try again later'
-        );
+    const dialogRef = this.dialog.open(DeleteWidgetComponent, {
+      data: {
+        widgetType: 'Table',
+        widgetId: this.id,
       },
-      complete: () => {
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
         this.store.dispatch(deleteTable({ table: this.table }));
         this.onDeleteWidget.emit(this.id);
-      },
+      }
     });
   }
 
