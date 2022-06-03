@@ -72,6 +72,8 @@ export class ConfigurePieChartComponent implements OnInit {
   labels: any[];
   values: any[];
   querySuccess: boolean = false;
+  fieldControlEnabledIndex: number = -1;
+  newFieldData: string = '';
 
   constructor(
     private store: Store<AppState>,
@@ -155,7 +157,12 @@ export class ConfigurePieChartComponent implements OnInit {
     if (tabChangeEvent.index === 1) {
       this.assignValues();
 
-      this.setValueToPieChart();
+      if (
+        this.pieChartData.length === 0 ||
+        (this.queryExecuted && this.querySuccess)
+      ) {
+        this.setValueToPieChart();
+      }
 
       this.drawChart();
     }
@@ -343,6 +350,8 @@ export class ConfigurePieChartComponent implements OnInit {
   public onQueryResult(event: any) {
     this.query = event.query;
     this.queryExecuted = true;
+    this.newFieldData = '';
+    this.fieldControlEnabledIndex = -1;
     if (event.success) {
       this.tabIndex = 1;
       this.querySuccess = true;
@@ -361,6 +370,34 @@ export class ConfigurePieChartComponent implements OnInit {
       color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
+  }
+
+  public enableFieldOptions(index: number) {
+    this.fieldControlEnabledIndex = index;
+  }
+
+  public disableFieldOptions() {
+    this.newFieldData = '';
+    this.fieldControlEnabledIndex = -1;
+  }
+
+  public saveFieldName() {
+    let item = this.pieChartData[this.fieldControlEnabledIndex];
+    item = {
+      ...item,
+      Name: this.newFieldData,
+    };
+
+    this.pieChartData[this.fieldControlEnabledIndex] = item;
+    this.setLabels();
+    this.drawChart();
+    this.newFieldData = '';
+    this.fieldControlEnabledIndex = -1;
+  }
+
+  public setFieldName(event: any, index: number) {
+    this.fieldControlEnabledIndex = index;
+    this.newFieldData = event.target.value;
   }
 
   /**

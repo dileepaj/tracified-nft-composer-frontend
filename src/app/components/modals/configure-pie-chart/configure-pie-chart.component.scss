@@ -85,6 +85,7 @@
 }
 
 .colorbox {
+  margin-top: 2px;
   height: 50px;
   width: 50px;
   cursor: pointer;
@@ -169,4 +170,25 @@ mat-tab-group.mat-primary .mat-ink-bar {
   .mat-simple-snackbar-action {
     color: $green !important;
   }
+}
+
+.field-name-input input[type="text"] {
+  border-bottom: 1px solid #cdcdcd;
+}
+
+.field-name-input input[type="text"]:focus {
+  border-bottom: 1px solid blue;
+}
+
+.field-save-icon {
+  transform: scale(0.2);
+  border-radius: 5px;
+  padding: 2px;
+  margin-left: 5px;
+  cursor: pointer;
+  margin-top: -2px;
+}
+
+.field-save-icon:hover {
+  background: #ccc;
 }
