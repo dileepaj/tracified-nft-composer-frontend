@@ -333,7 +333,9 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
     this.loading = true;
     let queryObject = {
       WidgetId: this.id,
-      Query: this.query,
+      Query: JSON.stringify(this.query)
+        .replace(/\\r\\n|\\n\\r|\\n/g, '\n')
+        .replace(/"/g, ''),
     };
 
     this.apiService.executeQueryAndUpdate(queryObject).subscribe({
