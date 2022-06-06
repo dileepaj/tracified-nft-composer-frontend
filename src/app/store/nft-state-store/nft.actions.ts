@@ -159,6 +159,14 @@ export const projectStatus = createAction(
   props<{ status: boolean }>()
 );
 
+export const projectSaved = createAction(
+  '[set project saved status to true] Set Project Status To True'
+);
+
+export const projectUnsaved = createAction(
+  '[set project saved status to false] Set Project Status To False'
+);
+
 export const addCardtStatus = createAction(
   '[add card status] Add card Status',
   props<{ cardStatus: CardStatus }>()

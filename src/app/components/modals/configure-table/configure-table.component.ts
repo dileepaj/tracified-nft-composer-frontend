@@ -6,6 +6,7 @@ import { AppState } from 'src/app/store/app.state';
 import {
   addTable,
   deleteQueryResult,
+  projectUnsaved,
   updateTable,
 } from 'src/app/store/nft-state-store/nft.actions';
 import {
@@ -236,6 +237,7 @@ export class ConfigureTableComponent implements OnInit {
           this.saving = false;
           this.popupMsgService.openSnackBar('Table saved successfully!');
           this.dndService.setSavedStatus(table.WidgetId);
+          this.store.dispatch(projectUnsaved());
           this.dialog.closeAll();
         },
       });
@@ -251,6 +253,7 @@ export class ConfigureTableComponent implements OnInit {
         complete: () => {
           this.saving = false;
           this.popupMsgService.openSnackBar('Table updated successfully!');
+          this.store.dispatch(projectUnsaved());
           this.dialog.closeAll();
         },
       });
