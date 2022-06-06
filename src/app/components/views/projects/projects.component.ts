@@ -191,6 +191,7 @@ export class ProjectsComponent implements OnInit {
     const dialogRef = this.dialog.open(NewProjectComponent, {
       data: {
         user: this.user,
+        existingProjects: this.projects,
       },
     });
 
