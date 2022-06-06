@@ -6,6 +6,7 @@ import { AppState } from 'src/app/store/app.state';
 import {
   addBarChart,
   addPieChart,
+  addQueryResult,
   deleteQueryResult,
   projectStatus,
   updatePieChart,
@@ -47,6 +48,7 @@ export class ConfigurePieChartComponent implements OnInit {
   loadedFromRedux: boolean = false;
   newProject: boolean;
   queryExecuted: boolean = false;
+  prevResults: string = '';
   //data to be displayed in the pie chart
   pieChartData: Data[] = [];
   chartImage: string;
@@ -268,6 +270,15 @@ export class ConfigurePieChartComponent implements OnInit {
             queryResult: { WidgetId: this.pieChart.WidgetId, queryResult: '' },
           })
         );
+      } else if (this.querySuccess && this.pieChart.QuerySuccess) {
+        this.store.dispatch(
+          addQueryResult({
+            queryResult: {
+              WidgetId: this.pieChart.WidgetId,
+              queryResult: this.prevResults,
+            },
+          })
+        );
       }
       this.dialog.closeAll();
     }
@@ -352,6 +363,7 @@ export class ConfigurePieChartComponent implements OnInit {
     this.queryExecuted = true;
     this.newFieldData = '';
     this.fieldControlEnabledIndex = -1;
+    this.prevResults = event.prevResults;
     if (event.success) {
       this.tabIndex = 1;
       this.querySuccess = true;
@@ -406,8 +418,8 @@ export class ConfigurePieChartComponent implements OnInit {
   private setLabels() {
     this.labels = [];
     this.pieChartData.map((data, index) => {
-      let percentage = this.getPercentage(this.values[index]);
-      this.labels.push(`${data.Name} - ${this.values[index]} (${percentage})`);
+      let percentage = this.getPercentage(data.Value);
+      this.labels.push(`${data.Name} - ${data.Value} (${percentage})`);
     });
   }
 
@@ -438,8 +450,8 @@ export class ConfigurePieChartComponent implements OnInit {
    */
   private getPercentage(value: number) {
     let sum = 0;
-    this.values.forEach((val) => {
-      sum += val;
+    this.pieChartData.map((data) => {
+      sum += data.Value;
     });
     let percentage = ((value * 100) / sum).toFixed(2) + '%';
     return percentage;
