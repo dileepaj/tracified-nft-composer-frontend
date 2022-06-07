@@ -65,6 +65,9 @@ export class ConfigureTableComponent implements OnInit {
     this.tableId = this.data.id;
     this.table = this.data.widget;
     this.query = this.table.Query!;
+    if (this.table.QuerySuccess) {
+      this.querySuccess = true;
+    }
     this.assignValues();
   }
 

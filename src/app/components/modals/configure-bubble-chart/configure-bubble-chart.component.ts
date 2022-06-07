@@ -87,6 +87,9 @@ export class ConfigureBubbleChartComponent implements OnInit {
     this.chartId = this.data.id;
     this.bubbleChart = this.data.widget;
     this.query = this.bubbleChart.Query!;
+    if (this.bubbleChart.QuerySuccess) {
+      this.querySuccess = true;
+    }
     chrt.unregister(ChartDataLabels);
   }
 

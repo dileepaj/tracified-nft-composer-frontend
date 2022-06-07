@@ -89,6 +89,9 @@ export class ConfigureBarChartComponent implements OnInit {
     this.chartId = this.data.id;
     this.barChart = this.data.widget;
     this.query = this.barChart.Query!;
+    if (this.barChart.QuerySuccess) {
+      this.querySuccess = true;
+    }
     chrt.unregister(ChartDataLabels);
   }
 
