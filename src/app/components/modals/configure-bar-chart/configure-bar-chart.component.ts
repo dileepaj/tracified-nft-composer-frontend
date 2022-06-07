@@ -4,6 +4,7 @@ import { Chart, Data } from '../../../../models/nft-content/chart';
 import { AppState } from 'src/app/store/app.state';
 import {
   deleteQueryResult,
+  projectUnsaved,
   updateBarChart,
 } from 'src/app/store/nft-state-store/nft.actions';
 import {
@@ -294,6 +295,7 @@ export class ConfigureBarChartComponent implements OnInit {
           this.saving = false;
           this.dndService.setSavedStatus(chart.WidgetId);
           this.popupMsgService.openSnackBar('Chart saved successfully!');
+          this.store.dispatch(projectUnsaved());
           this.dialog.closeAll();
         },
       });
@@ -309,6 +311,7 @@ export class ConfigureBarChartComponent implements OnInit {
         complete: () => {
           this.saving = false;
           this.popupMsgService.openSnackBar('Chart updated successfully!');
+          this.store.dispatch(projectUnsaved());
           this.dialog.closeAll();
         },
       });

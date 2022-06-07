@@ -8,6 +8,7 @@ import {
   addPieChart,
   deleteQueryResult,
   projectStatus,
+  projectUnsaved,
   updatePieChart,
 } from 'src/app/store/nft-state-store/nft.actions';
 import {
@@ -322,6 +323,7 @@ export class ConfigurePieChartComponent implements OnInit {
           this.saving = false;
           this.popupMsgService.openSnackBar('Chart saved successfully!');
           this.dndService.setSavedStatus(chart.WidgetId);
+          this.store.dispatch(projectUnsaved());
           this.dialog.closeAll();
         },
       });
@@ -337,6 +339,7 @@ export class ConfigurePieChartComponent implements OnInit {
         complete: () => {
           this.saving = false;
           this.popupMsgService.openSnackBar('Chart updated successfully!');
+          this.store.dispatch(projectUnsaved());
           this.dialog.closeAll();
         },
       });
