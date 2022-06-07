@@ -31,6 +31,7 @@ import { NFTContent } from 'src/models/nft-content/nft.content';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
 import { WidgethighlightingService } from 'src/app/services/widgethighlighting.service';
+import { DeleteWidgetComponent } from '../../modals/delete-widget/delete-widget.component';
 
 @Component({
   selector: 'app-bar-chart-widget',
@@ -107,17 +108,17 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
 
   //delete chart from redux
   public deleteWidget() {
-    this.composerService.deleteChart(this.id).subscribe({
-      next: (res) => {},
-      error: (err) => {
-        this.popupMsgService.openSnackBar(
-          'An unexpected error occured. Please try again later'
-        );
+    const dialogRef = this.dialog.open(DeleteWidgetComponent, {
+      data: {
+        widgetType: 'Bar Chart',
+        widgetId: this.id,
       },
-      complete: () => {
-        this.store.dispatch(deleteBarChart({ chart: this.barChart }));
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if(result === true){
+        this.store.dispatch(deleteBarChart({ chart : this.barChart}));
         this.onDeleteWidget.emit(this.id);
-      },
+      }
     });
   }
 

@@ -3,7 +3,9 @@ import { Store } from '@ngrx/store';
 import { Chart, Data } from '../../../../models/nft-content/chart';
 import { AppState } from 'src/app/store/app.state';
 import {
+  addQueryResult,
   deleteQueryResult,
+  projectUnsaved,
   updateBarChart,
 } from 'src/app/store/nft-state-store/nft.actions';
 import {
@@ -47,6 +49,7 @@ export class ConfigureBarChartComponent implements OnInit {
   querySuccess: boolean = false;
   queryExecuted: boolean = false;
   loadedFromRedux: boolean = false;
+  prevResults: string = '';
 
   //data that are being displayed in the bar chart
   barChartData: Data[] = [];
@@ -62,6 +65,8 @@ export class ConfigureBarChartComponent implements OnInit {
   yName: any = 'Y axis'; //y axis name
   fontSize: number = 10; //font size
   fontColor: string = '#000000'; //font color
+  fieldControlEnabledIndex: number = -1;
+  newFieldData: string = '';
 
   private margin = 50;
   private width = 550 - this.margin * 2;
@@ -148,7 +153,12 @@ export class ConfigureBarChartComponent implements OnInit {
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     if (tabChangeEvent.index === 1) {
       this.assignValues();
-      this.setValueToBarChart();
+      if (
+        this.barChartData.length === 0 ||
+        (this.queryExecuted && this.querySuccess)
+      ) {
+        this.setValueToBarChart();
+      }
       this.drawChart();
     }
   }
@@ -287,6 +297,7 @@ export class ConfigureBarChartComponent implements OnInit {
           this.saving = false;
           this.dndService.setSavedStatus(chart.WidgetId);
           this.popupMsgService.openSnackBar('Chart saved successfully!');
+          this.store.dispatch(projectUnsaved());
           this.dialog.closeAll();
         },
       });
@@ -302,6 +313,7 @@ export class ConfigureBarChartComponent implements OnInit {
         complete: () => {
           this.saving = false;
           this.popupMsgService.openSnackBar('Chart updated successfully!');
+          this.store.dispatch(projectUnsaved());
           this.dialog.closeAll();
         },
       });
@@ -315,6 +327,9 @@ export class ConfigureBarChartComponent implements OnInit {
   public onQueryResult(event: any) {
     this.query = event.query;
     this.queryExecuted = true;
+    this.newFieldData = '';
+    this.fieldControlEnabledIndex = -1;
+    this.prevResults = event.prevResults;
     if (event.success) {
       this.tabIndex = 1;
       this.querySuccess = true;
@@ -341,11 +356,47 @@ export class ConfigureBarChartComponent implements OnInit {
             queryResult: { WidgetId: this.barChart.WidgetId, queryResult: '' },
           })
         );
+      } else if (this.querySuccess && this.barChart.QuerySuccess) {
+        this.store.dispatch(
+          addQueryResult({
+            queryResult: {
+              WidgetId: this.barChart.WidgetId,
+              queryResult: this.prevResults,
+            },
+          })
+        );
       }
       this.dialog.closeAll();
     }
   }
 
+  public enableFieldOptions(index: number) {
+    this.fieldControlEnabledIndex = index;
+  }
+
+  public disableFieldOptions() {
+    this.newFieldData = '';
+    this.fieldControlEnabledIndex = -1;
+  }
+
+  public saveFieldName() {
+    let item = this.barChartData[this.fieldControlEnabledIndex];
+    item = {
+      ...item,
+      Name: this.newFieldData,
+    };
+
+    this.barChartData[this.fieldControlEnabledIndex] = item;
+    this.setLabels();
+    this.drawChart();
+    this.newFieldData = '';
+    this.fieldControlEnabledIndex = -1;
+  }
+
+  public setFieldName(event: any, index: number) {
+    this.fieldControlEnabledIndex = index;
+    this.newFieldData = event.target.value;
+  }
   /**
    * @function setLabels - set labels on the chart
    */
@@ -404,6 +455,17 @@ export class ConfigureBarChartComponent implements OnInit {
       options: {
         animation: {
           duration: 0,
+        },
+        plugins: {
+          legend: {
+            display: false,
+          },
+          title: {
+            display: true,
+            text: this.title,
+            color: this.fontColor,
+            font: { size: this.fontSize },
+          },
         },
         responsive: true,
         scales: {

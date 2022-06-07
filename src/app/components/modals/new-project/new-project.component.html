@@ -6,16 +6,27 @@
       <input
         matInput
         placeholder="Type project name here..."
+        [formControl]="projectNameControl"
         [(ngModel)]="projectName"
       />
+      <mat-error *ngIf="projectNameControl.hasError('required')">
+        Project name is <strong>required</strong>
+      </mat-error>
+      <mat-error *ngIf="projectNameControl.errors?.['forbiddenName']"
+        >Project name must be <strong>unique</strong></mat-error
+      >
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>NFT Name</mat-label>
       <input
         matInput
         placeholder="Type nft name here..."
+        [formControl]="nftNameControl"
         [(ngModel)]="nftName"
       />
+      <mat-error *ngIf="nftNameControl.hasError('required')">
+        NFT name is <strong>required</strong>
+      </mat-error>
     </mat-form-field>
   </div>
 </mat-dialog-content>

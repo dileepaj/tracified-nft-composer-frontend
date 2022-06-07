@@ -41,7 +41,11 @@ import { ComposerBackendService } from 'src/app/services/composer-backend.servic
 import { SidenavService } from 'src/app/services/sidenav.service';
 import { Observable } from 'rxjs';
 import { NewProjectComponent } from '../../modals/new-project/new-project.component';
-import { projectStatus } from 'src/app/store/nft-state-store/nft.actions';
+import {
+  projectSaved,
+  projectStatus,
+  projectUnsaved,
+} from 'src/app/store/nft-state-store/nft.actions';
 import { SelectMasterDataTypeComponent } from '../../modals/select-master-data-type/select-master-data-type.component';
 import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
 import { WidgethighlightingService } from 'src/app/services/widgethighlighting.service';
@@ -179,8 +183,10 @@ export class ComposerComponent implements OnInit, AfterViewInit {
       this.loadExistingProjectdata(this.id);
     }
 
+    //subscribe to widget highlighting service
     this.highlightService.selectedWidgetChange.subscribe((val) => {
       if (val !== '') {
+        //scroll to the highlithed widget
         this.scrollToElement(val);
       }
     });
@@ -225,6 +231,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
         );
       }
       this.stateService.rewriteWidgetArr(this.usedWidgets);
+      this.store.dispatch(projectUnsaved());
     }
   }
 
@@ -381,6 +388,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
       complete: () => {
         this.store.dispatch(projectStatus({ status: false }));
         this.popupMsgService.openSnackBar('Project saved successfully!');
+        this.store.dispatch(projectSaved());
         this.saving = false;
       },
     });
@@ -416,6 +424,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
       },
       complete: () => {
         this.popupMsgService.openSnackBar('Project updated successfully!');
+        this.store.dispatch(projectSaved());
         this.saving = false;
       },
     });

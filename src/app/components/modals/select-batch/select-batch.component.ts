@@ -26,6 +26,7 @@ import { BatchesService } from 'src/app/services/batches.service';
 import { AppState } from 'src/app/store/app.state';
 import {
   addCardtStatus,
+  projectUnsaved,
   updateBarChart,
   updateBubbleChart,
   updateCarbonFootprint,
@@ -489,6 +490,7 @@ export class SelectBatchComponent implements OnInit {
             })
           );
           this.dndService.setBatchStatus(widget.WidgetId);
+          this.store.dispatch(projectUnsaved());
           this.close();
         },
       });
@@ -506,6 +508,7 @@ export class SelectBatchComponent implements OnInit {
           this.popupMsgService.openSnackBar(
             'Data updated in the widget successfully!'
           );
+          this.store.dispatch(projectUnsaved());
           this.close();
         },
       });
@@ -625,6 +628,7 @@ export class SelectBatchComponent implements OnInit {
                 this.popupMsgService.openSnackBar(
                   'Timeline data added successfully!'
                 );
+                this.store.dispatch(projectUnsaved());
                 this.close();
               },
             });
@@ -641,6 +645,7 @@ export class SelectBatchComponent implements OnInit {
                 this.popupMsgService.openSnackBar(
                   'Timeline data updated successfully!'
                 );
+                this.store.dispatch(projectUnsaved());
                 this.close();
               },
             });
@@ -705,7 +710,10 @@ export class SelectBatchComponent implements OnInit {
                 this.saving = false;
                 this.dndService.setSavedStatus(this.widget.WidgetId);
                 this.dndService.setBatchStatus(this.widget.WidgetId);
-                this.popupMsgService.openSnackBar('Proofbot data added successfully!');
+                this.popupMsgService.openSnackBar(
+                  'Proofbot data added successfully!'
+                );
+                this.store.dispatch(projectUnsaved());
                 this.close();
               },
             });
@@ -718,7 +726,10 @@ export class SelectBatchComponent implements OnInit {
               },
               complete: () => {
                 this.saving = false;
-                this.popupMsgService.openSnackBar('Proofbot data updated successfully!');
+                this.popupMsgService.openSnackBar(
+                  'Proofbot data updated successfully!'
+                );
+                this.store.dispatch(projectUnsaved());
                 this.close();
               },
             });

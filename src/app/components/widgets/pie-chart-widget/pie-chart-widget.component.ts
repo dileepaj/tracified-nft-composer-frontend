@@ -20,6 +20,7 @@ import { NFTContent } from 'src/models/nft-content/nft.content';
 import { piechart } from 'src/models/nft-content/widgetTypes';
 import { ConfigurePieChartComponent } from '../../modals/configure-pie-chart/configure-pie-chart.component';
 import { WidgetContentComponent } from '../../modals/widget-content/widget-content.component';
+import { DeleteWidgetComponent } from '../../modals/delete-widget/delete-widget.component';
 
 @Component({
   selector: 'app-pie-chart-widget',
@@ -94,17 +95,17 @@ export class PieChartWidgetComponent implements OnInit {
 
   //delete pie chart
   public deleteWidget() {
-    this.composerService.deleteChart(this.id).subscribe({
-      next: (res) => {},
-      error: (err) => {
-        this.popupMsgService.openSnackBar(
-          'An unexpected error occured. Please try again later'
-        );
+    const dialogRef = this.dialog.open(DeleteWidgetComponent, {
+      data: {
+        widgetType: 'Pie Chart',
+        widgetId: this.id,
       },
-      complete: () => {
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
         this.store.dispatch(deletePieChart({ chart: this.pieChart }));
         this.onDeleteWidget.emit(this.id);
-      },
+      }
     });
   }
 

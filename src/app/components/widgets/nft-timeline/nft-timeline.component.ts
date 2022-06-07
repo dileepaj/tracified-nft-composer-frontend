@@ -23,6 +23,7 @@ import { TracibilityProfileWithTimeline } from 'src/app/entity/timeline';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
 import { WidgethighlightingService } from 'src/app/services/widgethighlighting.service';
+import { DeleteWidgetComponent } from '../../modals/delete-widget/delete-widget.component';
 
 @Component({
   selector: 'app-nft-timeline',
@@ -111,17 +112,17 @@ export class NftTimelineComponent implements OnInit {
 
   //delete timeline widget
   public deleteWidget() {
-    this.composerService.deleteTimeline(this.id).subscribe({
-      next: (res) => {},
-      error: (err) => {
-        this.popupMsgService.openSnackBar(
-          'An unexpected error occured. Please try again later'
-        );
+    const dialogRef = this.dialog.open(DeleteWidgetComponent, {
+      data: {
+        widgetType: 'Timeline',
+        widgetId: this.id,
       },
-      complete: () => {
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
         this.store.dispatch(deleteTimeline({ timeline: this.timeline }));
         this.onDeleteWidget.emit(this.id);
-      },
+      }
     });
   }
 
