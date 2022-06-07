@@ -4,6 +4,7 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.state';
 import {
+  addQueryResult,
   addTable,
   deleteQueryResult,
   projectUnsaved,
@@ -44,6 +45,7 @@ export class ConfigureTableComponent implements OnInit {
   queryExecuted: boolean = false;
   saving: boolean = false;
   querySuccess: boolean = false;
+  prevResults: string = '';
 
   constructor(
     private store: Store<AppState>,
@@ -267,6 +269,7 @@ export class ConfigureTableComponent implements OnInit {
   public onQueryResult(event: any) {
     this.query = event.query;
     this.queryExecuted = true;
+    this.prevResults = event.prevResults;
     if (event.success) {
       this.tabIndex = 1;
       this.querySuccess = true;
@@ -291,6 +294,15 @@ export class ConfigureTableComponent implements OnInit {
         this.store.dispatch(
           deleteQueryResult({
             queryResult: { WidgetId: this.table.WidgetId, queryResult: '' },
+          })
+        );
+      } else if (this.querySuccess && this.table.QuerySuccess) {
+        this.store.dispatch(
+          addQueryResult({
+            queryResult: {
+              WidgetId: this.table.WidgetId,
+              queryResult: this.prevResults,
+            },
           })
         );
       }
