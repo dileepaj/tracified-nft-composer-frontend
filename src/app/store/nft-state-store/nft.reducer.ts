@@ -22,7 +22,9 @@ import {
   deleteTimeline,
   loadProject,
   newProject,
+  projectSaved,
   projectStatus,
+  projectUnsaved,
   removeFromOrderArray,
   setCardStatus,
   setQueryResult,
@@ -49,6 +51,7 @@ export interface NFTState {
   queryResult: QueryResult[];
   widgetCount: WidgetCount;
   error: string;
+  projectSaved: boolean;
 }
 
 //let user:ComposerUser=JSON.parse(sessionStorage.getItem('User')||'');
@@ -88,6 +91,7 @@ export const initialNft: NFTState = {
     ProofBots: 0,
   },
   error: '',
+  projectSaved: false,
 };
 
 export const nftReducer = createReducer(
@@ -143,17 +147,29 @@ export const nftReducer = createReducer(
     ...nft,
     nftContent: nftContent,
     newProj: true,
+    projectSaved: false,
   })),
 
   on(loadProject, (nft, { nftContent }) => ({
     ...nft,
     nftContent: nftContent,
     newProj: false,
+    projectSaved: true,
   })),
 
   on(projectStatus, (nft, { status }) => ({
     ...nft,
     newProj: status,
+  })),
+
+  on(projectSaved, (nft) => ({
+    ...nft,
+    projectSaved: true,
+  })),
+
+  on(projectUnsaved, (nft) => ({
+    ...nft,
+    projectSaved: false,
   })),
 
   on(addBarChart, (nft, { chart }) => ({

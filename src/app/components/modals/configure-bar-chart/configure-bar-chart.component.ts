@@ -3,7 +3,9 @@ import { Store } from '@ngrx/store';
 import { Chart, Data } from '../../../../models/nft-content/chart';
 import { AppState } from 'src/app/store/app.state';
 import {
+  addQueryResult,
   deleteQueryResult,
+  projectUnsaved,
   updateBarChart,
 } from 'src/app/store/nft-state-store/nft.actions';
 import {
@@ -47,6 +49,7 @@ export class ConfigureBarChartComponent implements OnInit {
   querySuccess: boolean = false;
   queryExecuted: boolean = false;
   loadedFromRedux: boolean = false;
+  prevResults: string = '';
 
   //data that are being displayed in the bar chart
   barChartData: Data[] = [];
@@ -294,6 +297,7 @@ export class ConfigureBarChartComponent implements OnInit {
           this.saving = false;
           this.dndService.setSavedStatus(chart.WidgetId);
           this.popupMsgService.openSnackBar('Chart saved successfully!');
+          this.store.dispatch(projectUnsaved());
           this.dialog.closeAll();
         },
       });
@@ -309,6 +313,7 @@ export class ConfigureBarChartComponent implements OnInit {
         complete: () => {
           this.saving = false;
           this.popupMsgService.openSnackBar('Chart updated successfully!');
+          this.store.dispatch(projectUnsaved());
           this.dialog.closeAll();
         },
       });
@@ -324,6 +329,7 @@ export class ConfigureBarChartComponent implements OnInit {
     this.queryExecuted = true;
     this.newFieldData = '';
     this.fieldControlEnabledIndex = -1;
+    this.prevResults = event.prevResults;
     if (event.success) {
       this.tabIndex = 1;
       this.querySuccess = true;
@@ -348,6 +354,15 @@ export class ConfigureBarChartComponent implements OnInit {
         this.store.dispatch(
           deleteQueryResult({
             queryResult: { WidgetId: this.barChart.WidgetId, queryResult: '' },
+          })
+        );
+      } else if (this.querySuccess && this.barChart.QuerySuccess) {
+        this.store.dispatch(
+          addQueryResult({
+            queryResult: {
+              WidgetId: this.barChart.WidgetId,
+              queryResult: this.prevResults,
+            },
           })
         );
       }

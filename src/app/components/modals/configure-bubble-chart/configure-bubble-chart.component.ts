@@ -9,7 +9,9 @@ import { PopupMessageService } from 'src/app/services/popup-message/popup-messag
 import { AppState } from 'src/app/store/app.state';
 import {
   addBubbleChart,
+  addQueryResult,
   deleteQueryResult,
+  projectUnsaved,
   updateBubbleChart,
 } from 'src/app/store/nft-state-store/nft.actions';
 import {
@@ -61,6 +63,7 @@ export class ConfigureBubbleChartComponent implements OnInit {
   querySuccess: boolean = false;
   fieldControlEnabledIndex: number = -1;
   newFieldData: string = '';
+  prevResults: string = '';
 
   private svg: any;
   private margin = 5;
@@ -175,6 +178,15 @@ export class ConfigureBubbleChartComponent implements OnInit {
             queryResult: {
               WidgetId: this.bubbleChart.WidgetId,
               queryResult: '',
+            },
+          })
+        );
+      } else if (this.querySuccess && this.bubbleChart.QuerySuccess) {
+        this.store.dispatch(
+          addQueryResult({
+            queryResult: {
+              WidgetId: this.bubbleChart.WidgetId,
+              queryResult: this.prevResults,
             },
           })
         );
@@ -314,6 +326,7 @@ export class ConfigureBubbleChartComponent implements OnInit {
           this.saving = false;
           this.popupMsgService.openSnackBar('Chart saved successfully!');
           this.dndService.setSavedStatus(chart.WidgetId);
+          this.store.dispatch(projectUnsaved());
           this.dialog.closeAll();
         },
       });
@@ -329,6 +342,7 @@ export class ConfigureBubbleChartComponent implements OnInit {
         complete: () => {
           this.saving = false;
           this.popupMsgService.openSnackBar('Chart updated successfully!');
+          this.store.dispatch(projectUnsaved());
           this.dialog.closeAll();
         },
       });
@@ -344,6 +358,7 @@ export class ConfigureBubbleChartComponent implements OnInit {
     this.queryExecuted = true;
     this.newFieldData = '';
     this.fieldControlEnabledIndex = -1;
+    this.prevResults = event.prevResults;
     if (event.success) {
       this.tabIndex = 1;
       this.querySuccess = true;
