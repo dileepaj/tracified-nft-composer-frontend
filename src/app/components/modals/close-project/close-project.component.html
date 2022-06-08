@@ -1,8 +1,9 @@
-<h2 mat-dialog-title>Close Project</h2>
+<h2 mat-dialog-title>{{ onLogout ? "Log Out" : "Close Project" }}</h2>
 <mat-dialog-content class="mat-typography">
   <div>
     Do you want to save the changes made to the project
-    <b>"{{ nftContent.ProjectName }}"</b>?
+    <b>"{{ nftContent.ProjectName }}"</b>
+    {{ onLogout ? "before logging out?" : "?" }}
   </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">

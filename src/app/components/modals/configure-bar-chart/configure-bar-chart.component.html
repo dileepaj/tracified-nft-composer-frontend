@@ -168,7 +168,7 @@
     mat-button
     [mat-dialog-close]="false"
     class="btn"
-    [disabled]="saving"
+    [disabled]="saving || !querySuccess"
     cdkFocusInitial
     (click)="updateReduxState()"
   >

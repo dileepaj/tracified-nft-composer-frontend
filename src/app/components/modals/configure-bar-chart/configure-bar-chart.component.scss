@@ -193,3 +193,8 @@
 .field-save-icon:hover {
   background: #ccc;
 }
+
+.btn:disabled {
+  background-color: whitesmoke;
+  color: #ccc !important;
+}

@@ -367,9 +367,7 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
               success: false,
               prevResults: this.prevResults,
             });
-            this.popupMsgService.openSnackBar(
-              'An unexpected error occured. Please try again later'
-            );
+            this.popupMsgService.openSnackBar('Invalid query.');
           }
         }
       },
