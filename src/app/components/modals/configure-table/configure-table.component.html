@@ -51,7 +51,7 @@
 
   <button
     mat-button
-    [disabled]="saving"
+    [disabled]="saving || !querySuccess"
     class="btn"
     (click)="updateReduxState()"
     cdkFocusInitial

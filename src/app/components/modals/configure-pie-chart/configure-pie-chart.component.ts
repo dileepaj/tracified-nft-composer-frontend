@@ -96,6 +96,9 @@ export class ConfigurePieChartComponent implements OnInit {
     this.chartId = this.data.id;
     this.pieChart = this.data.widget;
     this.query = this.pieChart.Query!;
+    if (this.pieChart.QuerySuccess) {
+      this.querySuccess = true;
+    }
     chrt.register(ChartDataLabels);
   }
 

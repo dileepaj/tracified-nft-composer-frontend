@@ -231,3 +231,8 @@ mat-tab-group.mat-primary .mat-ink-bar {
     background-color: #f4f6fb;
   }
 }
+
+.btn:disabled {
+  background-color: whitesmoke;
+  color: #ccc !important;
+}
