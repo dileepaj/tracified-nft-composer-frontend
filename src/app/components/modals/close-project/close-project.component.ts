@@ -21,6 +21,7 @@ export class CloseProjectComponent implements OnInit {
   saving: boolean = false;
   nftContent: NFTContent;
   private user: any;
+  onLogout: boolean;
 
   constructor(
     private store: Store<AppState>,
@@ -36,6 +37,7 @@ export class CloseProjectComponent implements OnInit {
       this.nftContent = nft;
     });
     this.user = this.data.user;
+    this.onLogout = this.data.logout || false;
   }
 
   //close close project dialog
@@ -45,7 +47,12 @@ export class CloseProjectComponent implements OnInit {
 
   //close project without saving
   public dontSave() {
-    this.router.navigate(['/layout/projects/' + this.user.TenentId]);
+    if (this.onLogout) {
+      this.router.navigate(['/login']);
+      sessionStorage.setItem('Token', '');
+    } else {
+      this.router.navigate(['/layout/projects/' + this.user.TenentId]);
+    }
     this.dialogRef.close();
   }
 
@@ -83,7 +90,13 @@ export class CloseProjectComponent implements OnInit {
         complete: () => {
           this.store.dispatch(projectStatus({ status: false }));
           this.saving = false;
-          this.router.navigate(['/layout/projects/' + this.user.TenentId]);
+          if (this.onLogout) {
+            this.router.navigate(['/login']);
+            sessionStorage.setItem('Token', '');
+          } else {
+            this.router.navigate(['/layout/projects/' + this.user.TenentId]);
+          }
+
           this.dialogRef.close();
         },
       });
@@ -99,7 +112,12 @@ export class CloseProjectComponent implements OnInit {
         complete: () => {
           this.store.dispatch(projectStatus({ status: false }));
           this.saving = false;
-          this.router.navigate(['/layout/projects/' + this.user.TenentId]);
+          if (this.onLogout) {
+            this.router.navigate(['/login']);
+            sessionStorage.setItem('Token', '');
+          } else {
+            this.router.navigate(['/layout/projects/' + this.user.TenentId]);
+          }
           this.dialogRef.close();
         },
       });
