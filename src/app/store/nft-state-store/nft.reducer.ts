@@ -26,6 +26,7 @@ import {
   projectStatus,
   projectUnsaved,
   removeFromOrderArray,
+  resetStore,
   setCardStatus,
   setQueryResult,
   setWidgetCount,
@@ -530,5 +531,9 @@ export const nftReducer = createReducer(
     const nftClone: NFTState = JSON.parse(JSON.stringify(nft));
     nftClone.nftContent.ContentOrderData = widgetOrder;
     return nftClone;
-  })
+  }),
+
+  on(resetStore, () => ({
+    ...initialNft,
+  }))
 );
