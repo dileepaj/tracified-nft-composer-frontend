@@ -14,7 +14,10 @@ import { DndServiceService } from 'src/app/services/dnd-service.service';
 import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
 import { UserserviceService } from 'src/app/services/userservice.service';
 import { AppState } from 'src/app/store/app.state';
-import { newProject } from 'src/app/store/nft-state-store/nft.actions';
+import {
+  newProject,
+  resetStore,
+} from 'src/app/store/nft-state-store/nft.actions';
 import { NFTContent } from 'src/models/nft-content/nft.content';
 import { ComposerUser } from 'src/models/user';
 
@@ -79,8 +82,11 @@ export class NewProjectComponent implements OnInit {
           },
         };
         sessionStorage.setItem('NFTCom', JSON.stringify(project));
+        sessionStorage.setItem('composerNewProject', '1');
+        this.store.dispatch(resetStore());
         this.store.dispatch(newProject({ nftContent: project }));
         this.dndService.rewriteWidgetArr([]);
+        sessionStorage.setItem('composerProjectId', project.ProjectId);
         this.router.navigate([`/layout/home/${project.ProjectId}`]);
         this.dialog.closeAll();
       } else {
