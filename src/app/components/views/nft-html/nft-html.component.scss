@@ -48,3 +48,21 @@
   bottom: 10px;
   right: 40px;
 }
+
+.loading-div {
+  background: rgba(255, 255, 255, 1);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+
+  mat-icon {
+    transform: scale(4);
+  }
+}

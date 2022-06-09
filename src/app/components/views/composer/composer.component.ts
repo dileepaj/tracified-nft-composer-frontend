@@ -5,6 +5,7 @@ import {
   ViewChild,
   Input,
   OnInit,
+  HostListener,
 } from '@angular/core';
 import {
   CdkDragDrop,
@@ -21,7 +22,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.state';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
 import { WidgetContentComponent } from '../../modals/widget-content/widget-content.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   barchart,
   bubblechart,
@@ -35,6 +36,7 @@ import {
 import { NFTContent } from 'src/models/nft-content/nft.content';
 import {
   selectNFTContent,
+  selectProjectSavedState,
   selectProjectStatus,
 } from 'src/app/store/nft-state-store/nft.selector';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
@@ -49,6 +51,9 @@ import {
 import { SelectMasterDataTypeComponent } from '../../modals/select-master-data-type/select-master-data-type.component';
 import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
 import { WidgethighlightingService } from 'src/app/services/widgethighlighting.service';
+import { ProjectLoaderService } from 'src/app/services/project-loader.service';
+import { UserserviceService } from 'src/app/services/userservice.service';
+import { ComposerUser } from 'src/models/user';
 
 export interface Widget {
   type: string;
@@ -75,6 +80,10 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   saving: boolean = false;
   htmlGenerated: boolean = false;
   svgGenerated: boolean = false;
+  projectSaved: boolean;
+  user: ComposerUser;
+  projLoading: boolean = false;
+  newProj: boolean;
 
   widgetTypes: any = {
     timeline: timeline,
@@ -165,7 +174,10 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     private composerService: ComposerBackendService,
     private sidebarService: SidenavService,
     private popupMsgService: PopupMessageService,
-    private highlightService: WidgethighlightingService
+    private highlightService: WidgethighlightingService,
+    private router: Router,
+    private projectLoader: ProjectLoaderService,
+    private userService: UserserviceService
   ) {
     //this.openAddData();
     this.sidebarService.getStatus().subscribe((val) => {
@@ -174,7 +186,15 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.store.select(selectProjectStatus).subscribe((status) => {
+      this.newProj = status;
+    });
+
+    this.checkRefreshed();
+
     this.usedWidgets = this.stateService.getWidgets();
+
+    this.user = this.userService.getCurrentUser();
     //read the router paramter assign it to id
     this.sub = this.route.params.subscribe((params) => {
       this.id = params['id'];
@@ -190,13 +210,61 @@ export class ComposerComponent implements OnInit, AfterViewInit {
         this.scrollToElement(val);
       }
     });
+
+    this.store.select(selectProjectSavedState).subscribe((status) => {
+      this.projectSaved = status;
+    });
+  }
+
+  private checkRefreshed() {
+    //check whether page was refreshed or not
+    if (parseInt(sessionStorage.getItem('composerRefreshed') || '0') === 1) {
+      const projectId = sessionStorage.getItem('composerProjectId') || '';
+      const newProject = sessionStorage.getItem('composerNewProject') || '1';
+      if (projectId !== '') {
+        this.projLoading = true;
+        if (parseInt(newProject) === 1) {
+          this.projectLoader.loadNewProject((success: boolean) => {
+            if (success) {
+              this.usedWidgets = this.stateService.getWidgets();
+              sessionStorage.setItem('composerRefreshed', '0');
+              this.projLoading = false;
+            } else {
+              this.router.navigate(['/layout/projects/' + this.user.TenentId]);
+              sessionStorage.setItem('composerRefreshed', '0');
+              this.projLoading = false;
+            }
+          });
+        } else {
+          this.projectLoader.loadExistingProject(projectId, () => {
+            this.usedWidgets = this.stateService.getWidgets();
+            sessionStorage.setItem('composerRefreshed', '0');
+            this.projLoading = false;
+          });
+        }
+      } else {
+        this.router.navigate(['/layout/projects/' + this.user.TenentId]);
+      }
+    }
   }
 
   //load the recentproject base on nft id
   loadExistingProjectdata(id: string) {}
 
+  //listen to page refresh event
+  @HostListener('window:beforeunload', ['$event']) openConfirmation(e: any) {
+    e.preventDefault();
+    sessionStorage.setItem('composerRefreshed', '1');
+    sessionStorage.setItem('composerNewProject', this.newProj ? '1' : '0');
+    if (!this.projectSaved) {
+      e.returnValue = 'Changes may not be saved.';
+    }
+    return e;
+  }
+
   ngOnDestroy() {
     this.sub.unsubscribe();
+    sessionStorage.setItem('composerRefreshed', '0');
   }
 
   /**

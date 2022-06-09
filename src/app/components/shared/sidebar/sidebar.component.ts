@@ -127,11 +127,8 @@ export class SidebarComponent implements OnInit {
       .subscribe((nft) => {
         this.title = nft.ProjectName;
         this.projId = nft.ProjectId;
-        this.layoutLink += this.projId;
+        this.layoutLink = '/layout/home/' + this.projId;
       });
-
-    //unsubscribe from redux state
-    subscription.unsubscribe();
   }
 
   ngOnInit(): void {
