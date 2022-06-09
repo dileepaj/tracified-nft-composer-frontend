@@ -12,7 +12,14 @@ import {
 import * as ace from 'ace-builds';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 import { Store } from '@ngrx/store';
-import { addQueryResult } from 'src/app/store/nft-state-store/nft.actions';
+import {
+  addQueryResult,
+  deleteQueryResult,
+  updateBarChart,
+  updateBubbleChart,
+  updatePieChart,
+  updateTable,
+} from 'src/app/store/nft-state-store/nft.actions';
 import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
 import {
   selectNFT,
@@ -20,6 +27,12 @@ import {
   selectQueryResult,
 } from 'src/app/store/nft-state-store/nft.selector';
 import { AppState } from 'src/app/store/app.state';
+import {
+  barchart,
+  bubblechart,
+  piechart,
+  table,
+} from 'src/models/nft-content/widgetTypes';
 
 @Component({
   selector: 'app-ldaleditor',
@@ -32,7 +45,8 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
   @Input() id: string;
   @Input() type: string;
   @Input() query: string = '';
-  @Output() onQuerySuccess: EventEmitter<any> = new EventEmitter();
+  @Input() widget: any;
+  @Output() onQueryResult: EventEmitter<any> = new EventEmitter();
   text: string = '';
   staticWordCompleter: any;
   aceEditor: ace.Ace.Editor;
@@ -43,6 +57,8 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
   jsonString = '';
   jsonPretty: any = '// No Output';
   newResults: boolean = false;
+  prevResults: string = '';
+  tempQueryResults: string = '';
   keyWordList2: any = [
     'If',
     'FilterSubtree',
@@ -291,6 +307,17 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
     };
   }
 
+  private getPreviousQueryResults() {
+    let sub = this.store.select(selectQueryResult).subscribe((data) => {
+      let results = data.find((v) => v.WidgetId === this.id);
+      if (!!results && results != undefined && results.queryResult != '') {
+        this.prevResults = results.queryResult;
+      }
+    });
+
+    sub.unsubscribe();
+  }
+
   /**
    * @function saveExecuter - save the query
    */
@@ -316,9 +343,13 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
    */
   public queryExecuter() {
     this.loading = true;
+    this.getPreviousQueryResults();
+
     let queryObject = {
       WidgetId: this.id,
-      Query: this.query,
+      Query: JSON.stringify(this.query)
+        .replace(/\\r\\n|\\n\\r|\\n/g, '\n')
+        .replace(/"/g, ''),
     };
 
     this.apiService.executeQueryAndUpdate(queryObject).subscribe({
@@ -327,12 +358,26 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
           //get result
 
           this.loading = false;
-          this.res = result;
-          this.checkOutput();
+          if (result.Response !== 'invalid Query') {
+            this.res = result;
+            this.checkOutput();
+          } else {
+            this.onQueryResult.emit({
+              query: this.query,
+              success: false,
+              prevResults: this.prevResults,
+            });
+            this.popupMsgService.openSnackBar('Invalid query.');
+          }
         }
       },
       error: (err) => {
         this.loading = false;
+        this.onQueryResult.emit({
+          query: this.query,
+          success: false,
+          prevResults: this.prevResults,
+        });
         this.popupMsgService.openSnackBar(
           'An unexpected error occured. Please try again later'
         );
@@ -362,12 +407,19 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
         Object.keys(result.val['ChartData'][0]).includes('Name') &&
         Object.keys(result.val['ChartData'][0]).includes('Value')
       ) {
-        this.onQuerySuccess.emit({
+        this.onQueryResult.emit({
           data: result.val['ChartData'],
           query: this.query,
+          prevResults: this.prevResults,
+          success: true,
         });
         this.saveExecuter();
       } else {
+        this.onQueryResult.emit({
+          query: this.query,
+          prevResults: this.prevResults,
+          success: false,
+        });
         this.popupMsgService.openSnackBar(
           'Invalid query output. Please check the query.'
         );
@@ -382,12 +434,19 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
         Object.keys(result.val['ChartData'][0]).includes('X') &&
         Object.keys(result.val['ChartData'][0]).includes('Y')
       ) {
-        this.onQuerySuccess.emit({
+        this.onQueryResult.emit({
           data: result.val['ChartData'],
           query: this.query,
+          prevResults: this.prevResults,
+          success: true,
         });
         this.saveExecuter();
       } else {
+        this.onQueryResult.emit({
+          query: this.query,
+          prevResults: this.prevResults,
+          success: false,
+        });
         this.popupMsgService.openSnackBar(
           'Invalid query output. Please check the query.'
         );
@@ -398,17 +457,29 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
         result.val['MainTable'] !== undefined &&
         result.val.MainTable.length > 0
       ) {
-        this.onQuerySuccess.emit({
+        this.onQueryResult.emit({
           data: result.val.MainTable,
           query: this.query,
+          prevResults: this.prevResults,
+          success: true,
         });
         this.saveExecuter();
       } else {
+        this.onQueryResult.emit({
+          query: this.query,
+          prevResults: this.prevResults,
+          success: false,
+        });
         this.popupMsgService.openSnackBar(
           'Invalid query output. Please check the query.'
         );
       }
     } else {
+      this.onQueryResult.emit({
+        query: this.query,
+        prevResults: this.prevResults,
+        success: false,
+      });
       this.popupMsgService.openSnackBar(
         'Invalid query output. Please check the query.'
       );
@@ -427,7 +498,7 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
   }
 
   /**
-   * @function toggleOutput 
+   * @function toggleOutput
    */
   public toggleOutput() {
     this.showOutput = !this.showOutput;

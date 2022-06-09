@@ -124,7 +124,8 @@ export class BubbleChartWidgetComponent implements OnInit {
       Height: 295,
       Width: 295,
       Query: '',
-      ChartImage: '',
+      QuerySuccess: false,
+      ChartImage: 'string',
     };
     this.store.dispatch(addBubbleChart({ chart: this.bubbleChart }));
     this.service.updateUsedStatus(this.id);

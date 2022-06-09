@@ -9,6 +9,7 @@ import {
   selectNFTContent,
   selectNFTImages,
   selectPieCharts,
+  selectProjectSavedState,
   selectProofBot,
   selectTable,
   selectTimeline,
@@ -36,6 +37,7 @@ import {
 import { WidgethighlightingService } from 'src/app/services/widgethighlighting.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CloseProjectComponent } from '../../modals/close-project/close-project.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -46,6 +48,7 @@ export class SidebarComponent implements OnInit {
   title = 'project_name';
   layouts = true;
   green = '#ccc';
+  projectSaved: boolean;
 
   image$: Observable<Image[]>;
   timeline = false;
@@ -115,7 +118,8 @@ export class SidebarComponent implements OnInit {
     private store: Store<AppState>,
     private userService: UserserviceService,
     private highlightService: WidgethighlightingService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private router: Router
   ) {
     //get project details
     const subscription = this.store
@@ -133,6 +137,11 @@ export class SidebarComponent implements OnInit {
   ngOnInit(): void {
     //get logged user's details
     this.user = this.userService.getCurrentUser();
+
+    //subscribe project saved state
+    this.store.select(selectProjectSavedState).subscribe((status) => {
+      this.projectSaved = status;
+    });
 
     //read widget arrays in redux store
     this.store.select(selectBarCharts).subscribe((data) => {
@@ -259,10 +268,15 @@ export class SidebarComponent implements OnInit {
   }
 
   public closeProject() {
-    this.dialog.open(CloseProjectComponent, {
-      data: {
-        user: this.user,
-      },
-    });
+    //check whether all the changes are already saved or not
+    if (!this.projectSaved) {
+      this.dialog.open(CloseProjectComponent, {
+        data: {
+          user: this.user,
+        },
+      });
+    } else {
+      this.router.navigate(['/layout/projects/' + this.user.TenentId]);
+    }
   }
 }

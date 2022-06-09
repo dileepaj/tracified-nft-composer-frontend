@@ -16,7 +16,8 @@
             [id]="table.WidgetId"
             [type]="'table'"
             [query]="table.Query!"
-            (onQuerySuccess)="onQuerySuccess($event)"
+            [widget]="table"
+            (onQueryResult)="onQueryResult($event)"
           ></app-ldaleditor
         ></mat-grid-tile>
       </mat-grid-list>
@@ -50,7 +51,7 @@
 
   <button
     mat-button
-    [disabled]="saving"
+    [disabled]="saving || !querySuccess"
     class="btn"
     (click)="updateReduxState()"
     cdkFocusInitial

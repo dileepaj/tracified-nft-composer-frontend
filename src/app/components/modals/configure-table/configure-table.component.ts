@@ -4,8 +4,10 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.state';
 import {
+  addQueryResult,
   addTable,
   deleteQueryResult,
+  projectUnsaved,
   updateTable,
 } from 'src/app/store/nft-state-store/nft.actions';
 import {
@@ -40,8 +42,10 @@ export class ConfigureTableComponent implements OnInit {
   dataSource = [];
   tableContent: string = '';
   tableHtml: string = '';
-
+  queryExecuted: boolean = false;
   saving: boolean = false;
+  querySuccess: boolean = false;
+  prevResults: string = '';
 
   constructor(
     private store: Store<AppState>,
@@ -61,6 +65,10 @@ export class ConfigureTableComponent implements OnInit {
     this.tableId = this.data.id;
     this.table = this.data.widget;
     this.query = this.table.Query!;
+    if (this.table.QuerySuccess) {
+      this.querySuccess = true;
+    }
+    this.assignValues();
   }
 
   private showChart() {}
@@ -70,11 +78,22 @@ export class ConfigureTableComponent implements OnInit {
    */
   public CheckQuerySavingStatus(): boolean {
     let buttonState = false;
-    this.store.select(selectQueryResult).subscribe((data) => {
-      if (data.some((e) => e.WidgetId === this.data.id)) {
-        buttonState = true;
+    if (this.queryExecuted) {
+      if (this.querySuccess) {
+        this.store.select(selectQueryResult).subscribe((data) => {
+          if (data.some((e) => e.WidgetId === this.data.id)) {
+            buttonState = true;
+          }
+        });
       }
-    });
+    } else {
+      this.store.select(selectQueryResult).subscribe((data) => {
+        if (data.some((e) => e.WidgetId === this.data.id)) {
+          buttonState = true;
+        }
+      });
+    }
+
     return buttonState;
   }
 
@@ -115,12 +134,38 @@ export class ConfigureTableComponent implements OnInit {
    */
   public updateReduxState() {
     this.saving = true;
-    this.table = {
-      ...this.table,
-      TableTitle: this.title,
-      Query: this.query,
-      TableContent: this.tableContent,
-    };
+    if (!this.queryExecuted) {
+      this.table = {
+        ...this.table,
+        TableTitle: this.title,
+        Query: this.query,
+        QuerySuccess: true,
+      };
+    } else {
+      if (this.querySuccess) {
+        this.table = {
+          ...this.table,
+          TableTitle: this.title,
+          Query: this.query,
+          TableContent: this.tableContent,
+          QuerySuccess: true,
+        };
+      } else {
+        this.store.dispatch(
+          deleteQueryResult({
+            queryResult: { WidgetId: this.data.id, queryResult: '' },
+          })
+        );
+
+        this.table = {
+          ...this.table,
+          TableTitle: 'Table',
+          Query: this.query,
+          TableContent: 'No Data.',
+          QuerySuccess: false,
+        };
+      }
+    }
 
     this.saveTable(this.table);
     this.store.dispatch(updateTable({ table: this.table }));
@@ -195,10 +240,9 @@ export class ConfigureTableComponent implements OnInit {
         },
         complete: () => {
           this.saving = false;
-          this.popupMsgService.openSnackBar(
-            'Table saved successfully!'
-          );
+          this.popupMsgService.openSnackBar('Table saved successfully!');
           this.dndService.setSavedStatus(table.WidgetId);
+          this.store.dispatch(projectUnsaved());
           this.dialog.closeAll();
         },
       });
@@ -213,9 +257,8 @@ export class ConfigureTableComponent implements OnInit {
         },
         complete: () => {
           this.saving = false;
-          this.popupMsgService.openSnackBar(
-            'Table updated successfully!'
-          );
+          this.popupMsgService.openSnackBar('Table updated successfully!');
+          this.store.dispatch(projectUnsaved());
           this.dialog.closeAll();
         },
       });
@@ -223,12 +266,19 @@ export class ConfigureTableComponent implements OnInit {
   }
 
   /**
-   * @function onQuerySuccess - Query success event
+   * @function onQueryResult - Query success event
    * @param event
    */
-  public onQuerySuccess(event: any) {
-    this.tabIndex = 1;
+  public onQueryResult(event: any) {
     this.query = event.query;
+    this.queryExecuted = true;
+    this.prevResults = event.prevResults;
+    if (event.success) {
+      this.tabIndex = 1;
+      this.querySuccess = true;
+    } else {
+      this.querySuccess = false;
+    }
   }
 
   /**
@@ -243,6 +293,22 @@ export class ConfigureTableComponent implements OnInit {
       );
       this.dialog.closeAll();
     } else {
+      if (this.querySuccess && !this.table.QuerySuccess) {
+        this.store.dispatch(
+          deleteQueryResult({
+            queryResult: { WidgetId: this.table.WidgetId, queryResult: '' },
+          })
+        );
+      } else if (this.querySuccess && this.table.QuerySuccess) {
+        this.store.dispatch(
+          addQueryResult({
+            queryResult: {
+              WidgetId: this.table.WidgetId,
+              queryResult: this.prevResults,
+            },
+          })
+        );
+      }
       this.dialog.closeAll();
     }
   }

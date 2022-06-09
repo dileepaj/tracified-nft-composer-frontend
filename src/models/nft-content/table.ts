@@ -11,6 +11,7 @@ export interface Table {
   OTPType?: string;
   OTP?: string;
   Query?: string;
+  QuerySuccess?: boolean;
   WidgetType?: string;
   TableTitle?: string;
   TableContent?: string;

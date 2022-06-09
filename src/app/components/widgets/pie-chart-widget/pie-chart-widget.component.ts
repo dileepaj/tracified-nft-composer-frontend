@@ -126,6 +126,7 @@ export class PieChartWidgetComponent implements OnInit {
       Height: 500,
       Width: 350,
       Query: '',
+      QuerySuccess: false,
       ChartImage: 'string',
     };
     this.store.dispatch(addPieChart({ chart: this.pieChart }));

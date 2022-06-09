@@ -11,6 +11,7 @@ export interface Chart {
   OTPType?: string;
   OTP?: string;
   Query?: string;
+  QuerySuccess?: boolean;
   WidgetType?: string;
   ChartTitle?: string;
   KeyTitle?: string;
