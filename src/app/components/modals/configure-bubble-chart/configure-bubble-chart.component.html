@@ -1,183 +1,191 @@
-<mat-dialog-content
-  class="mat-typography modal-content"
-  fxLayout.="row"
-  disableClose
->
-  <mat-tab-group
-    (selectedTabChange)="tabChanged($event)"
-    [(selectedIndex)]="tabIndex"
-    fxFlex="100%"
+<div class="modal-parent">
+  <mat-dialog-content
+    class="mat-typography modal-content"
+    fxLayout.="row"
+    disableClose
   >
-    <mat-tab label="Query">
-      <mat-grid-list cols="5" rowHeight="550px">
-        <!--Column that displays the bar chart-->
-        <mat-grid-tile colspan="5" style="overflow: auto">
-          <app-ldaleditor
-            [id]="bubbleChart.WidgetId"
-            [type]="'bubble'"
-            [query]="bubbleChart.Query!"
-            [widget]="bubbleChart"
-            (onQueryResult)="onQueryResult($event)"
-          ></app-ldaleditor
-        ></mat-grid-tile>
-      </mat-grid-list>
-    </mat-tab>
-    <mat-tab label="Chart Configuration" *ngIf="CheckQuerySavingStatus()">
-      <mat-grid-list cols="5" rowHeight="550px">
-        <!--Column that displays the bar chart-->
-        <mat-grid-tile colspan="3">
-          <!--Bar chart-->
-          <div class="bubble-chart">
-            <canvas baseChart class="bubble-chart-canvas" [id]="'bubble-chart'">
-            </canvas>
-          </div>
-        </mat-grid-tile>
-
-        <!--Column that displays the configuration panel-->
-        <mat-grid-tile colspan="2" class="form-tile">
-          <div class="form-div">
-            <h2><mat-icon class="title-icon">tune</mat-icon>Configure Chart</h2>
-            <div fxLayout="row wrap">
-              <!--input field for setting x axis name-->
-              <mat-form-field appearance="fill" color="primary" fxFlex="100%">
-                <mat-label>Title</mat-label>
-                <input
-                  matInput
-                  type="text"
-                  [(ngModel)]="title"
-                  (ngModelChange)="drawChart()"
-                />
-              </mat-form-field>
-              <!--input field for setting x axis name-->
-              <mat-form-field appearance="fill" color="primary" fxFlex="45%">
-                <mat-label>X Axis Name</mat-label>
-                <input
-                  matInput
-                  type="text"
-                  [(ngModel)]="xName"
-                  (ngModelChange)="drawChart()"
-                />
-              </mat-form-field>
-
-              <!--input field for setting y axis name-->
-              <mat-form-field
-                appearance="fill"
-                color="primary"
-                fxFlex="45%"
-                style="float: right"
+    <mat-tab-group
+      (selectedTabChange)="tabChanged($event)"
+      [(selectedIndex)]="tabIndex"
+      fxFlex="100%"
+    >
+      <mat-tab label="Query">
+        <mat-grid-list cols="5" rowHeight="550px">
+          <!--Column that displays the bar chart-->
+          <mat-grid-tile colspan="5" style="overflow: auto">
+            <app-ldaleditor
+              [id]="bubbleChart.WidgetId"
+              [type]="'bubble'"
+              [query]="bubbleChart.Query!"
+              [widget]="bubbleChart"
+              (onQueryResult)="onQueryResult($event)"
+            ></app-ldaleditor
+          ></mat-grid-tile>
+        </mat-grid-list>
+      </mat-tab>
+      <mat-tab label="Chart Configuration" *ngIf="CheckQuerySavingStatus()">
+        <mat-grid-list cols="5" rowHeight="550px">
+          <!--Column that displays the bar chart-->
+          <mat-grid-tile colspan="3">
+            <!--Bar chart-->
+            <div class="bubble-chart">
+              <canvas
+                baseChart
+                class="bubble-chart-canvas"
+                [id]="'bubble-chart'"
               >
-                <mat-label>Y Axis Name</mat-label>
-                <input
-                  matInput
-                  type="text"
-                  [(ngModel)]="yName"
-                  (ngModelChange)="drawChart()"
-                />
-              </mat-form-field>
-              <mat-form-field appearance="fill" fxFlex="45%">
-                <mat-label>Font size</mat-label>
-                <input
-                  matInput
-                  type="number"
-                  placeholder="Ex. 12"
-                  [(ngModel)]="fontSize"
-                  (ngModelChange)="drawChart()"
-                />
-                <span matSuffix>px</span>
-              </mat-form-field>
-              <div
-                class="colorbox"
-                [(colorPicker)]="fontColor"
-                [style.background]="fontColor"
-                (colorPickerChange)="drawChart()"
-              ></div>
+              </canvas>
             </div>
+          </mat-grid-tile>
 
-            <div class="domain"></div>
-
-            <!--Values displayed in the bar chart-->
-            <div class="bubble-chart-fields">
-              <h3>Bubble Chart Fields</h3>
-              <div
-                class="field"
-                *ngFor="let field of bubbleChartData; index as i"
-              >
-                <mat-card>
+          <!--Column that displays the configuration panel-->
+          <mat-grid-tile colspan="2" class="form-tile">
+            <div class="form-div">
+              <h2>
+                <mat-icon class="title-icon">tune</mat-icon>Configure Chart
+              </h2>
+              <div fxLayout="row wrap">
+                <!--input field for setting x axis name-->
+                <mat-form-field appearance="fill" color="primary" fxFlex="100%">
+                  <mat-label>Title</mat-label>
                   <input
+                    matInput
                     type="text"
-                    class="field-name-input"
-                    [value]="field.Name"
-                    (keyup.enter)="saveFieldName()"
-                    (input)="setFieldName($event, i)"
-                    *ngIf="fieldControlEnabledIndex === i"
+                    [(ngModel)]="title"
+                    (ngModelChange)="drawChart()"
                   />
-                  <label
-                    *ngIf="
-                      fieldControlEnabledIndex === -1 ||
-                      fieldControlEnabledIndex !== i
-                    "
-                    style="vertical-align: middle"
-                    >{{ field.Name }}</label
-                  >
-                  <mat-icon
-                    matRipple
-                    matTooltip="Edit field name"
-                    class="material-icons-outlined field-save-icon"
-                    style="vertical-align: middle; transform: scale(0.8)"
-                    *ngIf="
-                      fieldControlEnabledIndex === -1 ||
-                      fieldControlEnabledIndex !== i
-                    "
-                    (click)="enableFieldOptions(i)"
-                  >
-                    edit
-                  </mat-icon>
-                  <mat-icon
-                    matRipple
-                    matTooltip="Save field name"
-                    class="field-save-icon"
-                    style="vertical-align: middle; transform: scale(0.8)"
-                    *ngIf="fieldControlEnabledIndex === i"
-                    (click)="saveFieldName()"
-                  >
-                    done
-                  </mat-icon>
-                  <mat-icon
-                    matRipple
-                    matTooltip="Cancel"
-                    class="field-save-icon"
-                    style="vertical-align: middle; transform: scale(0.8)"
-                    *ngIf="fieldControlEnabledIndex === i"
-                    (click)="disableFieldOptions()"
-                  >
-                    close
-                  </mat-icon>
-                  <div
-                    class="colorbox"
-                    [(colorPicker)]="bubbleColors[i]"
-                    [style.background]="bubbleColors[i]"
-                    (colorPickerChange)="drawChart()"
-                  ></div>
-                </mat-card>
+                </mat-form-field>
+                <!--input field for setting x axis name-->
+                <mat-form-field appearance="fill" color="primary" fxFlex="45%">
+                  <mat-label>X Axis Name</mat-label>
+                  <input
+                    matInput
+                    type="text"
+                    [(ngModel)]="xName"
+                    (ngModelChange)="drawChart()"
+                  />
+                </mat-form-field>
+
+                <!--input field for setting y axis name-->
+                <mat-form-field
+                  appearance="fill"
+                  color="primary"
+                  fxFlex="45%"
+                  style="float: right"
+                >
+                  <mat-label>Y Axis Name</mat-label>
+                  <input
+                    matInput
+                    type="text"
+                    [(ngModel)]="yName"
+                    (ngModelChange)="drawChart()"
+                  />
+                </mat-form-field>
+                <mat-form-field appearance="fill" fxFlex="45%">
+                  <mat-label>Font size</mat-label>
+                  <input
+                    matInput
+                    type="number"
+                    placeholder="Ex. 12"
+                    [(ngModel)]="fontSize"
+                    (ngModelChange)="drawChart()"
+                  />
+                  <span matSuffix>px</span>
+                </mat-form-field>
+                <div
+                  class="colorbox"
+                  [(colorPicker)]="fontColor"
+                  [style.background]="fontColor"
+                  (colorPickerChange)="drawChart()"
+                ></div>
+              </div>
+
+              <div class="domain"></div>
+
+              <!--Values displayed in the bar chart-->
+              <div class="bubble-chart-fields">
+                <h3>Bubble Chart Fields</h3>
+                <div
+                  class="field"
+                  *ngFor="let field of bubbleChartData; index as i"
+                >
+                  <mat-card>
+                    <input
+                      type="text"
+                      class="field-name-input"
+                      [value]="field.Name"
+                      (keyup.enter)="saveFieldName()"
+                      (input)="setFieldName($event, i)"
+                      *ngIf="fieldControlEnabledIndex === i"
+                    />
+                    <label
+                      *ngIf="
+                        fieldControlEnabledIndex === -1 ||
+                        fieldControlEnabledIndex !== i
+                      "
+                      style="vertical-align: middle"
+                      >{{ field.Name }}</label
+                    >
+                    <mat-icon
+                      matRipple
+                      matTooltip="Edit field name"
+                      class="material-icons-outlined field-save-icon"
+                      style="vertical-align: middle; transform: scale(0.8)"
+                      *ngIf="
+                        fieldControlEnabledIndex === -1 ||
+                        fieldControlEnabledIndex !== i
+                      "
+                      (click)="enableFieldOptions(i)"
+                    >
+                      edit
+                    </mat-icon>
+                    <mat-icon
+                      matRipple
+                      matTooltip="Save field name"
+                      class="field-save-icon"
+                      style="vertical-align: middle; transform: scale(0.8)"
+                      *ngIf="fieldControlEnabledIndex === i"
+                      (click)="saveFieldName()"
+                    >
+                      done
+                    </mat-icon>
+                    <mat-icon
+                      matRipple
+                      matTooltip="Cancel"
+                      class="field-save-icon"
+                      style="vertical-align: middle; transform: scale(0.8)"
+                      *ngIf="fieldControlEnabledIndex === i"
+                      (click)="disableFieldOptions()"
+                    >
+                      close
+                    </mat-icon>
+                    <div
+                      class="colorbox"
+                      [(colorPicker)]="bubbleColors[i]"
+                      [style.background]="bubbleColors[i]"
+                      (colorPickerChange)="drawChart()"
+                    ></div>
+                  </mat-card>
+                </div>
               </div>
             </div>
-          </div>
-        </mat-grid-tile>
-      </mat-grid-list>
-    </mat-tab>
-  </mat-tab-group>
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-button (click)="onCancel()" class="btn-cancel">Cancel</button>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()" class="btn-cancel">Cancel</button>
 
-  <button
-    mat-button
-    [disabled]="saving || !querySuccess"
-    class="btn"
-    (click)="updateReduxState()"
-  >
-    <mat-icon>save</mat-icon>
-    <span [class.spinner]="saving"> </span>
-    Save
-  </button>
-</mat-dialog-actions>
+    <button
+      mat-button
+      [disabled]="saving || !querySuccess"
+      class="btn"
+      (click)="updateReduxState()"
+    >
+      <mat-icon>save</mat-icon>
+      <span [class.spinner]="saving"> </span>
+      Save
+    </button>
+  </mat-dialog-actions>
+</div>
