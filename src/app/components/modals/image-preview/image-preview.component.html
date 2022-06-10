@@ -1,10 +1,12 @@
-<h2 mat-dialog-title>Preview</h2>
-<mat-dialog-content class="mat-typography" disableClose>
-  <div
-    class="img-div"
-    [ngStyle]="{ 'background-image': 'url(;' + image + ')' }"
-  ></div>
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-button class="btn-cancel" (click)="cancel()">Cancel</button>
-</mat-dialog-actions>
+<div class="modal-parent">
+  <h2 mat-dialog-title>Preview</h2>
+  <mat-dialog-content class="mat-typography" disableClose>
+    <div
+      class="img-div"
+      [ngStyle]="{ 'background-image': 'url(;' + image + ')' }"
+    ></div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button class="btn-cancel" (click)="cancel()">Cancel</button>
+  </mat-dialog-actions>
+</div>

@@ -1,42 +1,47 @@
-<div fxLayout="row" fxLayoutAlign="space-between center">
-  <div class="breadcrumb">
-    <h2 mat-dialog-title>
-      <a class="previous" (click)="openWidgetContent()" mat-dialog-close
-        ><mat-icon class="material-symbols-outlined back-icon">
-          arrow_back </mat-icon
-        >Back</a
-      >
-    </h2>
-  </div>
-</div>
-<mat-dialog-content class="mat-typography modal-content">
-  <h2>Created Artifact Templates</h2>
-  <mat-progress-bar
-    class="progressbar"
-    mode="indeterminate"
-    *ngIf="artifactsLoading"
-  ></mat-progress-bar>
-  <div class="content">
-    <div fxLayout="row wrap" style="width: 100%">
-      <mat-card fxFlex="24%" *ngFor="let item of artifacts">
-        <mat-card-title>
-          <mat-icon class="master-data-icon material-icons-outlined"
-            >contact_page</mat-icon
-          >
-        </mat-card-title>
-        <mat-card-title class="artifact-title">{{ item.name }}</mat-card-title>
-        <mat-card-actions align="end">
-          <a id="more" (click)="openDataSelection(item)" mat-dialog-close
-            >View More
-            <mat-icon style="vertical-align: middle; transform: rotate(270deg)"
-              >expand_circle_down</mat-icon
-            ></a
-          >
-        </mat-card-actions>
-      </mat-card>
+<div class="modal-parent">
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <div class="breadcrumb">
+      <h2 mat-dialog-title>
+        <a class="previous" (click)="openWidgetContent()" mat-dialog-close
+          ><mat-icon class="material-symbols-outlined back-icon">
+            arrow_back </mat-icon
+          >Back</a
+        >
+      </h2>
     </div>
   </div>
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close class="btn-cancel">Cancel</button>
-</mat-dialog-actions>
+  <mat-dialog-content class="mat-typography modal-content">
+    <h2>Created Artifact Templates</h2>
+    <mat-progress-bar
+      class="progressbar"
+      mode="indeterminate"
+      *ngIf="artifactsLoading"
+    ></mat-progress-bar>
+    <div class="content">
+      <div fxLayout="row wrap" style="width: 100%">
+        <mat-card fxFlex="24%" *ngFor="let item of artifacts">
+          <mat-card-title>
+            <mat-icon class="master-data-icon material-icons-outlined"
+              >contact_page</mat-icon
+            >
+          </mat-card-title>
+          <mat-card-title class="artifact-title">{{
+            item.name
+          }}</mat-card-title>
+          <mat-card-actions align="end">
+            <a id="more" (click)="openDataSelection(item)" mat-dialog-close
+              >View More
+              <mat-icon
+                style="vertical-align: middle; transform: rotate(270deg)"
+                >expand_circle_down</mat-icon
+              ></a
+            >
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close class="btn-cancel">Cancel</button>
+  </mat-dialog-actions>
+</div>
