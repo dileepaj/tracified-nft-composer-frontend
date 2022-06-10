@@ -58,7 +58,7 @@
       fxFlex="20"
       fxLayoutAlign="end center"
     >
-      <label id="userName">{{ user.UserName }}</label>
+      <label id="userName" *ngIf="user!==undefined">{{ user.UserName }}</label>
     </div>
     <div fxFlex="20" fxLayoutAlign="end center">
       <button mat-icon-button [matMenuTriggerFor]="menu">
@@ -75,6 +75,7 @@
           class="account-username"
           mat-menu-item
           id="userName"
+          *ngIf="user!==undefined"
           >{{ user.UserName }}</label
         >
         <button style="color: #00c853" mat-menu-item>
