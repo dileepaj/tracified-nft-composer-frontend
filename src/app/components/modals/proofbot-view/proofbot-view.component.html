@@ -1,43 +1,45 @@
-<h2 mat-dialog-title>Available Proofs</h2>
-<mat-dialog-content>
-  <div class="proofbot-content">
-    <div class="proof-card" *ngFor="let data of proofbot.Data!">
-      <div class="close-action-div">
-        <mat-icon class="close-icon" (click)="removeProofData(data)"
-          >cancel</mat-icon
-        >
+<div class="modal-parent">
+  <h2 mat-dialog-title>Available Proofs</h2>
+  <mat-dialog-content>
+    <div class="proofbot-content">
+      <div class="proof-card" *ngFor="let data of proofbot.Data!">
+        <div class="close-action-div">
+          <mat-icon class="close-icon" (click)="removeProofData(data)"
+            >cancel</mat-icon
+          >
+        </div>
+        <label><b>TxnHash: </b> {{ data.TxnHash }}</label>
+        <label><b>Product Name: </b> {{ proofbot.ProductName }}</label>
+        <label><b>Batch Id: </b> {{ data.BatchId }}</label>
+        <label><b>Proofs: </b> </label>
+        <mat-chip-list #chipList>
+          <mat-chip
+            class="proof-chip"
+            *ngFor="let url of data.Urls"
+            (click)="openProofLink(url.Url)"
+            (removed)="removeProofLink(data, url)"
+          >
+            {{ url.Type.toUpperCase() }}
+            <button matChipRemove>
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+        </mat-chip-list>
       </div>
-      <label><b>TxnHash: </b> {{ data.TxnHash }}</label>
-      <label><b>Product Name: </b> {{ proofbot.ProductName }}</label>
-      <label><b>Batch Id: </b> {{ data.BatchId }}</label>
-      <label><b>Proofs: </b> </label>
-      <mat-chip-list #chipList>
-        <mat-chip
-          class="proof-chip"
-          *ngFor="let url of data.Urls"
-          (click)="openProofLink(url.Url)"
-          (removed)="removeProofLink(data, url)"
-        >
-          {{ url.Type.toUpperCase() }}
-          <button matChipRemove>
-            <mat-icon>cancel</mat-icon>
-          </button>
-        </mat-chip>
-      </mat-chip-list>
     </div>
-  </div>
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close class="btn-cancel">Cancel</button>
-  <button
-    mat-button
-    [disabled]="saving"
-    class="btn"
-    (click)="save()"
-    cdkFocusInitial
-  >
-    <mat-icon>save</mat-icon>
-    <span [class.spinner]="saving"> </span>
-    Save
-  </button>
-</mat-dialog-actions>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close class="btn-cancel">Cancel</button>
+    <button
+      mat-button
+      [disabled]="saving"
+      class="btn"
+      (click)="save()"
+      cdkFocusInitial
+    >
+      <mat-icon>save</mat-icon>
+      <span [class.spinner]="saving"> </span>
+      Save
+    </button>
+  </mat-dialog-actions>
+</div>
