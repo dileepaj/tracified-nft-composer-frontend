@@ -16,13 +16,9 @@ export class UserserviceService {
   }
 
   public getCurrentUser(): any {
-    if (
-      !!sessionStorage.getItem('User') ||
-      sessionStorage.getItem('User') !== ''
-    )
+    if (!!sessionStorage.getItem('User'))
       return JSON.parse(sessionStorage.getItem('User') || '');
-    else {
+    else 
       this.router.navigate([`/login`]);
-    }
   }
 }
