@@ -87,6 +87,7 @@
                     matInput
                     type="number"
                     placeholder="Ex. 12"
+                    [max]="15"
                     [(ngModel)]="fontSize"
                     (ngModelChange)="drawChart()"
                   />
@@ -113,6 +114,7 @@
                     <input
                       type="text"
                       class="field-name-input"
+                      maxlength="20"
                       [value]="field.Name"
                       (keyup.enter)="saveFieldName()"
                       (input)="setFieldName($event, i)"
@@ -123,7 +125,11 @@
                         fieldControlEnabledIndex === -1 ||
                         fieldControlEnabledIndex !== i
                       "
-                      style="vertical-align: middle"
+                      style="
+                        vertical-align: middle;
+                        max-width: 230px;
+                        overflow: hidden;
+                      "
                       >{{ field.Name }}</label
                     >
                     <mat-icon

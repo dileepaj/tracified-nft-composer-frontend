@@ -113,7 +113,7 @@ export class ConfigureBarChartComponent implements OnInit {
         //let val : string;
         a.val.ChartData.map((data: any) => {
           let val = parseFloat(data.Value);
-          b.push({ Name: data.Name, Value: val });
+          b.push({ Name: data.Name.substring(0, 20), Value: val });
         });
 
         this.barChartData = b;
