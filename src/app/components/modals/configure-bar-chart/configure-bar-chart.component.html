@@ -83,6 +83,8 @@
                     type="number"
                     placeholder="Ex. 12"
                     [max]="15"
+                    [min]="1"
+                    (keydown)="fontSizeInput($event)"
                     [(ngModel)]="fontSize"
                     (ngModelChange)="drawChart()"
                   />

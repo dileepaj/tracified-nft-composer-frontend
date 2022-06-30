@@ -500,4 +500,8 @@ export class ConfigureBarChartComponent implements OnInit {
 
     this.chartImage = this.myChart.toBase64Image();
   }
+
+  public fontSizeInput(e: any) {
+    e.preventDefault();
+  }
 }
