@@ -27,7 +27,7 @@ export class AuthService {
         !!decoded.permissions[0] &&
         !!decoded.tenantID &&
         !!decoded.username &&
-        decoded.permissions[0].includes('10')
+        decoded.permissions[0].includes('97')
       )
         return true;
       else {
