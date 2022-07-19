@@ -94,7 +94,6 @@ export class ProjectsComponent implements OnInit {
     });
     this.getRecentProjects();
     sessionStorage.setItem('composerRefreshed', '0');
-    sessionStorage.removeItem('composerProjectId');
   }
 
   /**
