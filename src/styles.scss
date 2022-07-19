@@ -17,3 +17,10 @@ body {
 .btn-cancel {
   color: #c32d2d;
 }
+
+.modal-parent {
+  margin: -24px;
+  padding: 24px;
+  max-height: calc(100vh - 50px);
+  overflow: auto;
+}

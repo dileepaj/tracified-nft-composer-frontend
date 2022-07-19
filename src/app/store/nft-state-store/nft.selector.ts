@@ -112,3 +112,8 @@ export const selectWidgetCount = createSelector(
   selectNFT,
   (state: NFTState) => state.widgetCount
 );
+
+export const selectProjectSavedState = createSelector(
+  selectNFT,
+  (state: NFTState) => state.projectSaved
+);

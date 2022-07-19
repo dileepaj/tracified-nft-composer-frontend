@@ -13,6 +13,7 @@ import { UserserviceService } from 'src/app/services/userservice.service';
 import { AppState } from 'src/app/store/app.state';
 import {
   addCardtStatus,
+  projectUnsaved,
   updateBarChart,
   updateBubbleChart,
   updateCarbonFootprint,
@@ -205,6 +206,7 @@ export class SelectDataComponent implements OnInit {
             })
           );
           this.dndService.setBatchStatus(widget.WidgetId);
+          this.store.dispatch(projectUnsaved());
           this.close();
         },
       });
@@ -220,6 +222,7 @@ export class SelectDataComponent implements OnInit {
         complete: () => {
           this.saving = false;
           this.popupMsgService.openSnackBar('Widget updated successfully!');
+          this.store.dispatch(projectUnsaved());
           this.close();
         },
       });

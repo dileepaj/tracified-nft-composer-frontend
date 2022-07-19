@@ -57,6 +57,7 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
   jsonString = '';
   jsonPretty: any = '// No Output';
   newResults: boolean = false;
+  prevResults: string = '';
   tempQueryResults: string = '';
   keyWordList2: any = [
     'If',
@@ -306,6 +307,17 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
     };
   }
 
+  private getPreviousQueryResults() {
+    let sub = this.store.select(selectQueryResult).subscribe((data) => {
+      let results = data.find((v) => v.WidgetId === this.id);
+      if (!!results && results != undefined && results.queryResult != '') {
+        this.prevResults = results.queryResult;
+      }
+    });
+
+    sub.unsubscribe();
+  }
+
   /**
    * @function saveExecuter - save the query
    */
@@ -331,6 +343,8 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
    */
   public queryExecuter() {
     this.loading = true;
+    this.getPreviousQueryResults();
+
     let queryObject = {
       WidgetId: this.id,
       Query: JSON.stringify(this.query)
@@ -351,10 +365,9 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
             this.onQueryResult.emit({
               query: this.query,
               success: false,
+              prevResults: this.prevResults,
             });
-            this.popupMsgService.openSnackBar(
-              'An unexpected error occured. Please try again later'
-            );
+            this.popupMsgService.openSnackBar('Invalid query.');
           }
         }
       },
@@ -363,6 +376,7 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
         this.onQueryResult.emit({
           query: this.query,
           success: false,
+          prevResults: this.prevResults,
         });
         this.popupMsgService.openSnackBar(
           'An unexpected error occured. Please try again later'
@@ -396,12 +410,14 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
         this.onQueryResult.emit({
           data: result.val['ChartData'],
           query: this.query,
+          prevResults: this.prevResults,
           success: true,
         });
         this.saveExecuter();
       } else {
         this.onQueryResult.emit({
           query: this.query,
+          prevResults: this.prevResults,
           success: false,
         });
         this.popupMsgService.openSnackBar(
@@ -421,12 +437,14 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
         this.onQueryResult.emit({
           data: result.val['ChartData'],
           query: this.query,
+          prevResults: this.prevResults,
           success: true,
         });
         this.saveExecuter();
       } else {
         this.onQueryResult.emit({
           query: this.query,
+          prevResults: this.prevResults,
           success: false,
         });
         this.popupMsgService.openSnackBar(
@@ -442,12 +460,14 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
         this.onQueryResult.emit({
           data: result.val.MainTable,
           query: this.query,
+          prevResults: this.prevResults,
           success: true,
         });
         this.saveExecuter();
       } else {
         this.onQueryResult.emit({
           query: this.query,
+          prevResults: this.prevResults,
           success: false,
         });
         this.popupMsgService.openSnackBar(
@@ -457,6 +477,7 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
     } else {
       this.onQueryResult.emit({
         query: this.query,
+        prevResults: this.prevResults,
         success: false,
       });
       this.popupMsgService.openSnackBar(

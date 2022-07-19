@@ -9,7 +9,9 @@ import { PopupMessageService } from 'src/app/services/popup-message/popup-messag
 import { AppState } from 'src/app/store/app.state';
 import {
   addBubbleChart,
+  addQueryResult,
   deleteQueryResult,
+  projectUnsaved,
   updateBubbleChart,
 } from 'src/app/store/nft-state-store/nft.actions';
 import {
@@ -61,6 +63,7 @@ export class ConfigureBubbleChartComponent implements OnInit {
   querySuccess: boolean = false;
   fieldControlEnabledIndex: number = -1;
   newFieldData: string = '';
+  prevResults: string = '';
 
   private svg: any;
   private margin = 5;
@@ -84,6 +87,9 @@ export class ConfigureBubbleChartComponent implements OnInit {
     this.chartId = this.data.id;
     this.bubbleChart = this.data.widget;
     this.query = this.bubbleChart.Query!;
+    if (this.bubbleChart.QuerySuccess) {
+      this.querySuccess = true;
+    }
     chrt.unregister(ChartDataLabels);
   }
 
@@ -128,7 +134,7 @@ export class ConfigureBubbleChartComponent implements OnInit {
         //let val : string;
         a.val.ChartData.map((data: any) => {
           let val = parseFloat(data.Value);
-          b.push({ Name: data.Name, Value: val });
+          b.push({ Name: data.Name.substring(0, 20), Value: val });
         });
 
         this.bubbleChartData = b;
@@ -175,6 +181,15 @@ export class ConfigureBubbleChartComponent implements OnInit {
             queryResult: {
               WidgetId: this.bubbleChart.WidgetId,
               queryResult: '',
+            },
+          })
+        );
+      } else if (this.querySuccess && this.bubbleChart.QuerySuccess) {
+        this.store.dispatch(
+          addQueryResult({
+            queryResult: {
+              WidgetId: this.bubbleChart.WidgetId,
+              queryResult: this.prevResults,
             },
           })
         );
@@ -314,6 +329,7 @@ export class ConfigureBubbleChartComponent implements OnInit {
           this.saving = false;
           this.popupMsgService.openSnackBar('Chart saved successfully!');
           this.dndService.setSavedStatus(chart.WidgetId);
+          this.store.dispatch(projectUnsaved());
           this.dialog.closeAll();
         },
       });
@@ -329,6 +345,7 @@ export class ConfigureBubbleChartComponent implements OnInit {
         complete: () => {
           this.saving = false;
           this.popupMsgService.openSnackBar('Chart updated successfully!');
+          this.store.dispatch(projectUnsaved());
           this.dialog.closeAll();
         },
       });
@@ -344,6 +361,7 @@ export class ConfigureBubbleChartComponent implements OnInit {
     this.queryExecuted = true;
     this.newFieldData = '';
     this.fieldControlEnabledIndex = -1;
+    this.prevResults = event.prevResults;
     if (event.success) {
       this.tabIndex = 1;
       this.querySuccess = true;
@@ -473,5 +491,9 @@ export class ConfigureBubbleChartComponent implements OnInit {
     });
 
     this.chartImage = this.myChart.toBase64Image();
+  }
+
+  public fontSizeInput(e: any) {
+    e.preventDefault();
   }
 }

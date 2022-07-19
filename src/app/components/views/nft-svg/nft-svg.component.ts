@@ -1,11 +1,24 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
+import { ProjectLoaderService } from 'src/app/services/project-loader.service';
 import { SidenavService } from 'src/app/services/sidenav.service';
 import { AppState } from 'src/app/store/app.state';
-import { selectNFTContent } from 'src/app/store/nft-state-store/nft.selector';
+import {
+  selectNFTContent,
+  selectProjectSavedState,
+  selectProjectStatus,
+} from 'src/app/store/nft-state-store/nft.selector';
 import { NFTContent } from 'src/models/nft-content/nft.content';
+import { ComposerUser } from 'src/models/user';
 import { SvgCodebehindComponent } from '../../modals/svg-codebehind/svg-codebehind.component';
 
 @Component({
@@ -18,6 +31,10 @@ export class NftSvgComponent implements OnInit {
   nftContent: NFTContent;
   svgStr: string;
   loading: boolean = true;
+  user: ComposerUser;
+  projectSaved: boolean;
+  projLoading: boolean = false;
+  newProj: boolean;
 
   @ViewChild('iframe', { static: false }) iframe: ElementRef;
 
@@ -25,7 +42,9 @@ export class NftSvgComponent implements OnInit {
     private sidebarService: SidenavService,
     private store: Store<AppState>,
     private _composerService: ComposerBackendService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private router: Router,
+    private projectLoader: ProjectLoaderService
   ) {
     this.sidebarService.getStatus().subscribe((val) => {
       this.sidenav = val;
@@ -36,11 +55,25 @@ export class NftSvgComponent implements OnInit {
     this.store.select(selectNFTContent).subscribe((content) => {
       this.nftContent = content;
     });
+    this.store.select(selectProjectSavedState).subscribe((status) => {
+      this.projectSaved = status;
+    });
+    this.store.select(selectProjectStatus).subscribe((status) => {
+      this.newProj = status;
+    });
+  }
+
+  ngOnDestroy() {
+    sessionStorage.setItem('composerRefreshed', '0');
   }
 
   public ngAfterViewInit() {
     this.loading = false;
-    this.populateIframe(this.iframe.nativeElement);
+    if (parseInt(sessionStorage.getItem('composerRefreshed') || '0') === 1) {
+      this.pageRefreshed();
+    } else {
+      this.populateIframe(this.iframe.nativeElement);
+    }
   }
 
   private populateIframe(iframe: any) {
@@ -64,5 +97,46 @@ export class NftSvgComponent implements OnInit {
     this.dialog.open(SvgCodebehindComponent, {
       data: { svgCode: this.svgStr },
     });
+  }
+
+  //listen to page refresh event
+  @HostListener('window:beforeunload', ['$event']) openConfirmation(e: any) {
+    e.preventDefault();
+    sessionStorage.setItem('composerRefreshed', '1');
+    sessionStorage.setItem('composerNewProject', this.newProj ? '1' : '0');
+    if (!this.projectSaved) {
+      e.returnValue = 'Changes may not be saved.';
+    }
+    return e;
+  }
+
+  //check whether page was refreshed or not
+  private pageRefreshed() {
+    const projectId = sessionStorage.getItem('composerProjectId') || '';
+    const newProject = sessionStorage.getItem('composerNewProject') || '1';
+    if (projectId !== '') {
+      this.projLoading = true;
+      if (parseInt(newProject) === 1) {
+        this.projectLoader.loadNewProject((success: boolean) => {
+          if (success) {
+            this.populateIframe(this.iframe.nativeElement);
+            sessionStorage.setItem('composerRefreshed', '0');
+            this.projLoading = false;
+          } else {
+            this.router.navigate(['/layout/projects/' + this.user.TenentId]);
+            sessionStorage.setItem('composerRefreshed', '0');
+            this.projLoading = false;
+          }
+        });
+      } else {
+        this.projectLoader.loadExistingProject(projectId, () => {
+          this.populateIframe(this.iframe.nativeElement);
+          sessionStorage.setItem('composerRefreshed', '0');
+          this.projLoading = false;
+        });
+      }
+    } else {
+      this.router.navigate(['/layout/projects/' + this.user.TenentId]);
+    }
   }
 }

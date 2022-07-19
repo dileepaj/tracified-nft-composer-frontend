@@ -53,7 +53,7 @@
 }
 
 .pie-chart-canvas {
-  margin: 150px;
+  margin: 150px 50px 150px 50px;
 }
 .mat-form-field + .mat-form-field {
   margin-left: 8px;
@@ -191,4 +191,9 @@ mat-tab-group.mat-primary .mat-ink-bar {
 
 .field-save-icon:hover {
   background: #ccc;
+}
+
+.btn:disabled {
+  background-color: whitesmoke;
+  color: #ccc !important;
 }

@@ -1,51 +1,64 @@
-<mat-dialog-content>
-  <div class="widget-div" f>
-    <div>
-      <h2>Timeline</h2>
-    </div>
-    <div class="content-div">
-      <div class="timeline-content">
-        <div class="timeline-card" *ngIf="childrenOne.length > 0">
-          <div *ngFor="let childrenOne of childrenOne">
-            <div class="header">
-              <div class="left">
-                <img width="50%" height="100%" [src]="childrenOne.Icon" alt="icon" />
+<div class="modal-parent">
+  <mat-dialog-content>
+    <div class="widget-div" f>
+      <div>
+        <h2>Timeline</h2>
+      </div>
+      <div class="content-div">
+        <div class="timeline-content">
+          <div class="timeline-card" *ngIf="childrenOne.length > 0">
+            <div *ngFor="let childrenOne of childrenOne">
+              <div class="header">
+                <div class="left">
+                  <img
+                    width="50%"
+                    height="100%"
+                    [src]="childrenOne.Icon"
+                    alt="icon"
+                  />
+                </div>
+                <div class="right">
+                  <h3 class="title">
+                    <b>{{ childrenOne.Title }}</b>
+                  </h3>
+                </div>
               </div>
-              <div class="right">
-                <h3 class="title">
-                  <b>{{ childrenOne.Title }}</b>
-                </h3>
-              </div>
-            </div>
-            <div class="body timeline-item">
-              <mat-card class="timeline-card card card-md">
-                <mat-card-content class="card-content card-content-md">
-                  <div
-                    *ngFor="let childrenTwo of childrenOne.Children"
-                    class="timeline-text"
-                  >
-                    <h4 class="secondary-font">
-                      {{ childrenTwo.Key }}
-                    </h4>
-                    <h4 class="primary-font">
-                      {{ childrenTwo.Value }}
-                    </h4>
-                  </div>
-                  <div *ngIf="childrenOne.Images.length > 0">
-                    <div *ngFor="let images of childrenOne.Images">
-                      <img width="50%" height="50%" style="padding-left: 20% !important" [src]="images" alt="image" />
+              <div class="body timeline-item">
+                <mat-card class="timeline-card card card-md">
+                  <mat-card-content class="card-content card-content-md">
+                    <div
+                      *ngFor="let childrenTwo of childrenOne.Children"
+                      class="timeline-text"
+                    >
+                      <h4 class="secondary-font">
+                        {{ childrenTwo.Key }}
+                      </h4>
+                      <h4 class="primary-font">
+                        {{ childrenTwo.Value }}
+                      </h4>
                     </div>
-                  </div>
-                </mat-card-content>
-              </mat-card>
+                    <div *ngIf="childrenOne.Images.length > 0">
+                      <div *ngFor="let images of childrenOne.Images">
+                        <img
+                          width="50%"
+                          height="50%"
+                          style="padding-left: 20% !important"
+                          [src]="images"
+                          alt="image"
+                        />
+                      </div>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <div class="widget-footer"></div>
     </div>
-    <div class="widget-footer"></div>
-  </div>
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close class="btn-cancel">Cancel</button>
-</mat-dialog-actions>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close class="btn-cancel">Cancel</button>
+  </mat-dialog-actions>
+</div>

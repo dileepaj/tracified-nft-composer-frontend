@@ -22,8 +22,11 @@ import {
   deleteTimeline,
   loadProject,
   newProject,
+  projectSaved,
   projectStatus,
+  projectUnsaved,
   removeFromOrderArray,
+  resetStore,
   setCardStatus,
   setQueryResult,
   setWidgetCount,
@@ -49,6 +52,7 @@ export interface NFTState {
   queryResult: QueryResult[];
   widgetCount: WidgetCount;
   error: string;
+  projectSaved: boolean;
 }
 
 //let user:ComposerUser=JSON.parse(sessionStorage.getItem('User')||'');
@@ -88,6 +92,7 @@ export const initialNft: NFTState = {
     ProofBots: 0,
   },
   error: '',
+  projectSaved: false,
 };
 
 export const nftReducer = createReducer(
@@ -143,17 +148,29 @@ export const nftReducer = createReducer(
     ...nft,
     nftContent: nftContent,
     newProj: true,
+    projectSaved: false,
   })),
 
   on(loadProject, (nft, { nftContent }) => ({
     ...nft,
     nftContent: nftContent,
     newProj: false,
+    projectSaved: true,
   })),
 
   on(projectStatus, (nft, { status }) => ({
     ...nft,
     newProj: status,
+  })),
+
+  on(projectSaved, (nft) => ({
+    ...nft,
+    projectSaved: true,
+  })),
+
+  on(projectUnsaved, (nft) => ({
+    ...nft,
+    projectSaved: false,
   })),
 
   on(addBarChart, (nft, { chart }) => ({
@@ -514,5 +531,9 @@ export const nftReducer = createReducer(
     const nftClone: NFTState = JSON.parse(JSON.stringify(nft));
     nftClone.nftContent.ContentOrderData = widgetOrder;
     return nftClone;
-  })
+  }),
+
+  on(resetStore, () => ({
+    ...initialNft,
+  }))
 );

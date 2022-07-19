@@ -1,8 +1,18 @@
-import { Component, OnInit, Inject, Output, EventEmitter, AfterContentInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Inject,
+  Output,
+  EventEmitter,
+  AfterContentInit,
+} from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
-import { deleteBarChart } from 'src/app/store/nft-state-store/nft.actions';
+import {
+  deleteBarChart,
+  projectUnsaved,
+} from 'src/app/store/nft-state-store/nft.actions';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.state';
 
@@ -16,6 +26,7 @@ export class DeleteWidgetComponent implements OnInit {
   widgetId: string = '';
 
   constructor(
+    private store: Store<AppState>,
     private composerService: ComposerBackendService,
     private popupMsgService: PopupMessageService,
     private storeService: Store<AppState>,
@@ -40,6 +51,7 @@ export class DeleteWidgetComponent implements OnInit {
           },
           complete: () => {
             this.popupMsgService.openSnackBar('Bar chart deleted');
+            this.store.dispatch(projectUnsaved());
             this.dialogRef.close(true);
           },
         });
@@ -54,6 +66,7 @@ export class DeleteWidgetComponent implements OnInit {
           },
           complete: () => {
             this.popupMsgService.openSnackBar('Pie chart deleted');
+            this.store.dispatch(projectUnsaved());
             this.dialogRef.close(true);
           },
         });
@@ -68,6 +81,7 @@ export class DeleteWidgetComponent implements OnInit {
           },
           complete: () => {
             this.popupMsgService.openSnackBar('Bubble chart deleted');
+            this.store.dispatch(projectUnsaved());
             this.dialogRef.close(true);
           },
         });
@@ -82,6 +96,7 @@ export class DeleteWidgetComponent implements OnInit {
           },
           complete: () => {
             this.popupMsgService.openSnackBar('Table deleted');
+            this.store.dispatch(projectUnsaved());
             this.dialogRef.close(true);
           },
         });
@@ -96,23 +111,25 @@ export class DeleteWidgetComponent implements OnInit {
           },
           complete: () => {
             this.popupMsgService.openSnackBar('Timeline deleted');
+            this.store.dispatch(projectUnsaved());
             this.dialogRef.close(true);
           },
         });
         break;
       case 'Proofbot':
-       this.composerService.deleteProofbot(this.widgetId).subscribe({
-         next: (res) => {},
-         error: (err) => {
-           this.popupMsgService.openSnackBar(
-             'An unexpected error occured. Please try again later'
-           );
-         },
-         complete: () => {
-           this.popupMsgService.openSnackBar('Proofbot deleted');
-           this.dialogRef.close(true);
-         },
-       });
+        this.composerService.deleteProofbot(this.widgetId).subscribe({
+          next: (res) => {},
+          error: (err) => {
+            this.popupMsgService.openSnackBar(
+              'An unexpected error occured. Please try again later'
+            );
+          },
+          complete: () => {
+            this.popupMsgService.openSnackBar('Proofbot deleted');
+            this.store.dispatch(projectUnsaved());
+            this.dialogRef.close(true);
+          },
+        });
         break;
       case 'Image':
         this.composerService.deleteImage(this.widgetId).subscribe({
@@ -124,6 +141,7 @@ export class DeleteWidgetComponent implements OnInit {
           },
           complete: () => {
             this.popupMsgService.openSnackBar('Image deleted');
+            this.store.dispatch(projectUnsaved());
             this.dialogRef.close(true);
           },
         });
