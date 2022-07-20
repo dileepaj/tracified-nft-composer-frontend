@@ -538,125 +538,100 @@ export class SelectBatchComponent implements OnInit {
     return tdArr;
   }
 
-  /**
-   * @function getTimelineData - get timeline data
-   */
   private getTimelineData() {
-    let b64BatchId = btoa(this.selectedBatch.identifier.identifier);
     let timelineData: TimelineData[] = [];
-    this.batchesService.getTimeline(b64BatchId).subscribe((data) => {
-      if (data.name === 'Error') {
-        this.popupMsgService.openSnackBar(
-          'Please select a suitable batch for timeline widget'
-        );
+    let count = 0;
 
-        this.saving = false;
-      } else {
-        let tabs = data.tabs;
-        let children: any[] = [];
+    for (let i = 0; i < this.workflow.stages.length; i++) {
+      this.traceabilityDataPackets.map((data) => {
+        let Title = '';
+        let children: Children[] = [];
+        let images: string[] = [];
 
-        //loop through tabs array to find timeline object
-        for (let i = 0; i < tabs.length; i++) {
-          if (data.tabs[i].title == 'Timeline') {
-            children = data.tabs[i].children;
-            break;
-          }
-        }
-
-        //check whether the timeline has children or not
-        if (children.length > 0) {
-          //creates timeline data array
-          children.map((child: any) => {
-            let data = child.children;
-            let tlchildren: Children[] = [];
-            let tlimages: string[] = [];
-            let icon: string;
-
-            //creates children array
-            data.map((d: any) => {
-              if (d.component === 'key-value') {
-                tlchildren.push({ Key: d.key, Value: d.value });
-              } else if (d.component === 'image-slider') {
-                for (let i = 0; i < d.images.length; i++) {
-                  tlimages.push(d.images[i]);
-                }
+        if (this.workflow.stages[i].stageId === data.stageID) {
+          Title = this.workflow.stages[i].name;
+          data.traceabilityDataPackets.map((tdp: any) => {
+            tdp.traceabilityData.map((d: any) => {
+              if (d.type === 3) {
+                children.push({
+                  Key: this.CamelcaseToWord(d.key),
+                  Value: this.convertDate(d.val),
+                });
+                count++;
+              } else if (d.type === 4) {
+                d.val.map((img: any) => {
+                  images.push(img.image);
+                });
+                count++;
               }
-            });
-
-            if (child.icon === '' || child.icon === undefined) {
-              icon =
-                'https://s3.ap-south-1.amazonaws.com/tracified-image-storage/mobile/stage-icons/Harvesting+stage.png';
-            } else {
-              icon = child.icon;
-            }
-
-            //create and push timeline child to timeline data array
-            timelineData.push({
-              Title: child.title,
-              SubTitle: child.subtitle,
-              Description: '',
-              Icon: icon,
-              Children: tlchildren,
-              Images: tlimages,
             });
           });
 
-          //add timeline data to widget object
-          this.widget = {
-            ...this.widget,
-            TimelineData: timelineData,
-            Timestamp: new Date().toISOString(),
-          };
-
-          //Update timeline redux state
-          this.store.dispatch(updateTimeline({ timeline: this.widget }));
-          let status = this.dndService.getSavedStatus(this.widget.WidgetId);
-
-          //check whether timeline is already saved or not
-          if (status === false) {
-            this.composerService.saveTimeline(this.widget).subscribe({
-              next: (res) => {},
-              error: (err) => {
-                this.popupMsgService.openSnackBar(
-                  'An unexpected error occured. Please try again later'
-                );
-              },
-              complete: () => {
-                this.dndService.setSavedStatus(this.widget.WidgetId);
-                this.dndService.setBatchStatus(this.widget.WidgetId);
-                this.saving = false;
-                this.popupMsgService.openSnackBar(
-                  'Timeline data added successfully!'
-                );
-                this.store.dispatch(projectUnsaved());
-                this.close();
-              },
-            });
-          } else {
-            this.composerService.updateTimeline(this.widget).subscribe({
-              next: (res) => {},
-              error: (err) => {
-                this.popupMsgService.openSnackBar(
-                  'An unexpected error occured. Please try again later'
-                );
-              },
-              complete: () => {
-                this.saving = false;
-                this.popupMsgService.openSnackBar(
-                  'Timeline data updated successfully!'
-                );
-                this.store.dispatch(projectUnsaved());
-                this.close();
-              },
-            });
-          }
-        } else {
-          this.popupMsgService.openSnackBar('Timeline has no children');
-
-          this.saving = false;
+          timelineData.push({
+            Title: Title,
+            SubTitle: '',
+            Children: children,
+            Images: images,
+            Icon: 'https://s3.ap-south-1.amazonaws.com/tracified-image-storage/mobile/stage-icons/Harvesting+stage.png',
+          });
         }
+      });
+    }
+
+    if (count > 0) {
+      //add timeline data to widget object
+      this.widget = {
+        ...this.widget,
+        TimelineData: timelineData,
+        Timestamp: new Date().toISOString(),
+      };
+
+      //Update timeline redux state
+      this.store.dispatch(updateTimeline({ timeline: this.widget }));
+      let status = this.dndService.getSavedStatus(this.widget.WidgetId);
+
+      //check whether timeline is already saved or not
+      if (status === false) {
+        this.composerService.saveTimeline(this.widget).subscribe({
+          next: (res) => {},
+          error: (err) => {
+            this.popupMsgService.openSnackBar(
+              'An unexpected error occured. Please try again later'
+            );
+          },
+          complete: () => {
+            this.dndService.setSavedStatus(this.widget.WidgetId);
+            this.dndService.setBatchStatus(this.widget.WidgetId);
+            this.saving = false;
+            this.popupMsgService.openSnackBar(
+              'Timeline data added successfully!'
+            );
+            this.store.dispatch(projectUnsaved());
+            this.close();
+          },
+        });
+      } else {
+        this.composerService.updateTimeline(this.widget).subscribe({
+          next: (res) => {},
+          error: (err) => {
+            this.popupMsgService.openSnackBar(
+              'An unexpected error occured. Please try again later'
+            );
+          },
+          complete: () => {
+            this.saving = false;
+            this.popupMsgService.openSnackBar(
+              'Timeline data updated successfully!'
+            );
+            this.store.dispatch(projectUnsaved());
+            this.close();
+          },
+        });
       }
-    });
+    } else {
+      this.saving = false;
+      this.popupMsgService.openSnackBar('Not enough data to create timeline');
+    }
   }
 
   /**
