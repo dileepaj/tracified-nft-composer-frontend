@@ -540,6 +540,7 @@ export class SelectBatchComponent implements OnInit {
 
   private getTimelineData() {
     let timelineData: TimelineData[] = [];
+    let count = 0;
 
     for (let i = 0; i < this.workflow.stages.length; i++) {
       this.traceabilityDataPackets.map((data) => {
@@ -556,10 +557,12 @@ export class SelectBatchComponent implements OnInit {
                   Key: this.CamelcaseToWord(d.key),
                   Value: this.convertDate(d.val),
                 });
+                count++;
               } else if (d.type === 4) {
                 d.val.map((img: any) => {
                   images.push(img.image);
                 });
+                count++;
               }
             });
           });
@@ -575,54 +578,59 @@ export class SelectBatchComponent implements OnInit {
       });
     }
 
-    //add timeline data to widget object
-    this.widget = {
-      ...this.widget,
-      TimelineData: timelineData,
-      Timestamp: new Date().toISOString(),
-    };
+    if (count > 0) {
+      //add timeline data to widget object
+      this.widget = {
+        ...this.widget,
+        TimelineData: timelineData,
+        Timestamp: new Date().toISOString(),
+      };
 
-    //Update timeline redux state
-    this.store.dispatch(updateTimeline({ timeline: this.widget }));
-    let status = this.dndService.getSavedStatus(this.widget.WidgetId);
+      //Update timeline redux state
+      this.store.dispatch(updateTimeline({ timeline: this.widget }));
+      let status = this.dndService.getSavedStatus(this.widget.WidgetId);
 
-    //check whether timeline is already saved or not
-    if (status === false) {
-      this.composerService.saveTimeline(this.widget).subscribe({
-        next: (res) => {},
-        error: (err) => {
-          this.popupMsgService.openSnackBar(
-            'An unexpected error occured. Please try again later'
-          );
-        },
-        complete: () => {
-          this.dndService.setSavedStatus(this.widget.WidgetId);
-          this.dndService.setBatchStatus(this.widget.WidgetId);
-          this.saving = false;
-          this.popupMsgService.openSnackBar(
-            'Timeline data added successfully!'
-          );
-          this.store.dispatch(projectUnsaved());
-          this.close();
-        },
-      });
+      //check whether timeline is already saved or not
+      if (status === false) {
+        this.composerService.saveTimeline(this.widget).subscribe({
+          next: (res) => {},
+          error: (err) => {
+            this.popupMsgService.openSnackBar(
+              'An unexpected error occured. Please try again later'
+            );
+          },
+          complete: () => {
+            this.dndService.setSavedStatus(this.widget.WidgetId);
+            this.dndService.setBatchStatus(this.widget.WidgetId);
+            this.saving = false;
+            this.popupMsgService.openSnackBar(
+              'Timeline data added successfully!'
+            );
+            this.store.dispatch(projectUnsaved());
+            this.close();
+          },
+        });
+      } else {
+        this.composerService.updateTimeline(this.widget).subscribe({
+          next: (res) => {},
+          error: (err) => {
+            this.popupMsgService.openSnackBar(
+              'An unexpected error occured. Please try again later'
+            );
+          },
+          complete: () => {
+            this.saving = false;
+            this.popupMsgService.openSnackBar(
+              'Timeline data updated successfully!'
+            );
+            this.store.dispatch(projectUnsaved());
+            this.close();
+          },
+        });
+      }
     } else {
-      this.composerService.updateTimeline(this.widget).subscribe({
-        next: (res) => {},
-        error: (err) => {
-          this.popupMsgService.openSnackBar(
-            'An unexpected error occured. Please try again later'
-          );
-        },
-        complete: () => {
-          this.saving = false;
-          this.popupMsgService.openSnackBar(
-            'Timeline data updated successfully!'
-          );
-          this.store.dispatch(projectUnsaved());
-          this.close();
-        },
-      });
+      this.saving = false;
+      this.popupMsgService.openSnackBar('Not enough data to create timeline');
     }
   }
 
