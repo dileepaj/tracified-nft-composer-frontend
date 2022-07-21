@@ -10,6 +10,10 @@
   background: $background;
 }
 
+.inner-div{
+  overflow: auto;
+}
+
 .available-widget-box {
   padding: 10px 0px 10px 0px;
   color: white;
