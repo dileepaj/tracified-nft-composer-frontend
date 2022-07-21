@@ -35,6 +35,7 @@ export class NftSvgComponent implements OnInit {
   projectSaved: boolean;
   projLoading: boolean = false;
   newProj: boolean;
+  codeLoaded: boolean = false;
 
   @ViewChild('iframe', { static: false }) iframe: ElementRef;
 
@@ -94,9 +95,13 @@ export class NftSvgComponent implements OnInit {
   }
 
   openCodebehindPopup() {
-    this.dialog.open(SvgCodebehindComponent, {
-      data: { svgCode: this.svgStr },
-    });
+    this.codeLoaded = true;
+    setTimeout(()=>{                           
+      this.dialog.open(SvgCodebehindComponent, {
+        data: { svgCode: this.svgStr },
+      });
+      this.codeLoaded = false;
+    },100);
   }
 
   //listen to page refresh event

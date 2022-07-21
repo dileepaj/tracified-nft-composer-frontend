@@ -36,6 +36,7 @@ export class NftHtmlComponent implements OnInit {
   projectSaved: boolean;
   projLoading: boolean = false;
   newProj: boolean;
+  codeLoaded: boolean = false;
 
   @ViewChild('iframe', { static: false }) iframe: ElementRef;
 
@@ -92,9 +93,13 @@ export class NftHtmlComponent implements OnInit {
   }
 
   openCodebehindPopup() {
-    this.dialog.open(HtmlCodebehindComponent, {
-      data: { htmlCode: this.htmlStr },
-    });
+    this.codeLoaded = true;
+    setTimeout(()=>{                           
+      this.dialog.open(HtmlCodebehindComponent, {
+        data: { htmlCode: this.htmlStr },
+      });
+      this.codeLoaded = false;
+    }, 100);
   }
   //listen to page refresh event
   @HostListener('window:beforeunload', ['$event']) openConfirmation(e: any) {
