@@ -298,13 +298,7 @@ mat-step {
   animation: spinner 0.8s linear infinite;
 }
 
-.snackbar {
-  background: white;
-  color: black;
-  .mat-simple-snackbar-action {
-    color: $green !important;
-  }
-}
+
 
 .mat-stepper-horizontal-line {
   max-width: 10px !important;

@@ -164,13 +164,7 @@ mat-tab-group.mat-primary .mat-ink-bar {
   animation: spinner 0.8s linear infinite;
 }
 
-.snackbar {
-  background: white;
-  color: black;
-  .mat-simple-snackbar-action {
-    color: $green !important;
-  }
-}
+
 
 .field-name-input input[type="text"] {
   border-bottom: 1px solid #cdcdcd;
