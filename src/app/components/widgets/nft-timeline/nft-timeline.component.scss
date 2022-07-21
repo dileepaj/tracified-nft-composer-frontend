@@ -30,16 +30,16 @@
   width: 90%;
 }
 
-.timeline-content::before{
-      content: "";
-    position: absolute;
-    left: calc(8% + 1.5rem - 2px);
-    top: 0;
-    height: 100%;
-    width: 2px;
-    background: #00c853;
-    opacity: 1;
-    z-index: -1;
+.timeline-content::before {
+  content: "";
+  position: absolute;
+  left: calc(8% + 1.5rem - 2px);
+  top: 0;
+  height: 100%;
+  width: 2px;
+  background: #00c853;
+  opacity: 1;
+  z-index: -1;
 }
 
 .timeline {
@@ -74,7 +74,7 @@
   }
 
   &-text {
-    margin: 0;
+    margin: 0 0 0 1.5rem;
   }
 }
 
@@ -120,7 +120,6 @@ h2 button {
   color: $background;
 }
 
-
 .add-data-btn {
   color: #00d6a0;
   mat-icon {
@@ -162,14 +161,15 @@ h2 button {
   flex-grow: 1;
 }
 
-.timeline-card{
+.timeline-card {
   display: block;
-  padding: 1.5rem;
+  padding: 1.5rem 0 1.5rem 0;
   position: relative;
+  width: 95%;
   overflow: auto;
 }
 
-.header{
+.header {
   display: flex;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
@@ -179,7 +179,7 @@ h2 button {
   width: 100%;
 }
 
-.left{
+.left {
   width: 16%;
   display: flex;
   -webkit-box-pack: center;
@@ -188,15 +188,16 @@ h2 button {
   align-items: center;
 }
 
-.right{
-    width: calc(100% - 16%);
+.right {
+  width: calc(100% - 16%);
 }
 
-.title{
-  margin: 0 0 .2rem 0;
+.title {
+  margin: 0 0 0.2rem 0;
+  font-size: 12px;
 }
 
-.body{
+.body {
   width: calc(100% - 16%);
   margin-left: 7%;
   padding: 10px 0;
@@ -204,9 +205,10 @@ h2 button {
 
 .secondary-font {
   color: #b1b1b1 !important;
+  font-size: 11px;
 }
 
 .primary-font {
   color: #4f525d !important;
+  font-size: 11px;
 }
-
