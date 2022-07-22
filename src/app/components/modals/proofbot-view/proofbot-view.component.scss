@@ -1,0 +1,74 @@
+@import "../../../../scss/mixins";
+@import "../../../../scss/variables";
+
+.proofbot-content {
+  overflow: auto;
+  width: max-content;
+}
+
+.proof-chip {
+  cursor: pointer;
+}
+
+.proof-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  background: rgba(176, 221, 176, 0.137) !important;
+  margin: 10px;
+  width: 500px;
+  padding: 10px;
+  overflow: hidden;
+}
+
+.proof-card label {
+  font-size: small;
+  margin-bottom: 5px;
+}
+
+.url-list {
+  display: flex;
+  flex-direction: row wrap;
+}
+
+.btn {
+  @include btn-primary;
+}
+
+.close-action-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.close-icon {
+  transform: scale(0.8);
+  color: #969696;
+  cursor: pointer;
+}
+
+.close-icon:hover {
+  color: #808080;
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner:before {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  margin-left: -10px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  border-top-color: #000000;
+  animation: spinner 0.8s linear infinite;
+}

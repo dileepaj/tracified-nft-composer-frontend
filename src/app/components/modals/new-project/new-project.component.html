@@ -1,0 +1,38 @@
+<h2 mat-dialog-title>New Project</h2>
+<mat-dialog-content class="mat-typography">
+  <div class="container">
+    <mat-form-field appearance="outline">
+      <mat-label>Project Name</mat-label>
+      <input
+        matInput
+        placeholder="Type project name here..."
+        [formControl]="projectNameControl"
+        [(ngModel)]="projectName"
+      />
+      <mat-error *ngIf="projectNameControl.hasError('required')">
+        Project name is <strong>required</strong>
+      </mat-error>
+      <mat-error *ngIf="projectNameControl.errors?.['forbiddenName']"
+        >Project name must be <strong>unique</strong></mat-error
+      >
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>NFT Name</mat-label>
+      <input
+        matInput
+        placeholder="Type NFT name here..."
+        [formControl]="nftNameControl"
+        [(ngModel)]="nftName"
+      />
+      <mat-error *ngIf="nftNameControl.hasError('required')">
+        NFT name is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close class="btn-cancel">Cancel</button>
+  <button mat-button cdkFocusInitial class="btn" (click)="createProject()">
+    Create
+  </button>
+</mat-dialog-actions>

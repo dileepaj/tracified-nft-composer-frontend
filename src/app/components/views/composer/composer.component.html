@@ -1,0 +1,127 @@
+<div class="composer-div" cdkDropListGroup>
+  <mat-drawer-container class="sidebar-container">
+    <mat-drawer
+      class="side-nav"
+      mode="side"
+      position="start"
+      [opened]="sidenav"
+    >
+      <app-sidebar></app-sidebar>
+    </mat-drawer>
+    <mat-drawer
+      mode="side"
+      [opened]="opened"
+      position="end"
+      class="sidebar-items"
+    >
+      <div
+        cdkDropList
+        [cdkDropListData]="availableWidgets"
+        (cdkDropListDropped)="drop($event)"
+        cdkDropListSortingDisabled
+        [cdkDropListEnterPredicate]="noReturnPredicate"
+      >
+        <app-widget-pane
+          *ngIf="opened"
+          [widgets]="availableWidgets"
+        ></app-widget-pane>
+      </div>
+    </mat-drawer>
+    <mat-drawer-content>
+      <div class="nft-content-area">
+        <div
+          cdkDropList
+          [cdkDropListData]="usedWidgets"
+          class="drap-and-drop-area"
+          (cdkDropListDropped)="drop($event)"
+        >
+          <div fxLayout="row wrap" fxLayoutGap="10px grid">
+            <div
+              fxFlex.lg="33%"
+              fxFlex.md="50%"
+              fxFlex.xs="100%"
+              fxFlex.sm="100%"
+              fxFlex.xl="25%"
+              *ngFor="let widget of usedWidgets; index as i"
+              style="cursor: move"
+              cdkDrag
+            >
+              <app-nft-timeline
+                *ngIf="widget.type === widgetTypes.timeline"
+                [id]="usedWidgets[i]._Id"
+                (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
+              ></app-nft-timeline>
+              <app-nft-proofbot
+                *ngIf="widget.type === widgetTypes.proofbot"
+                [id]="usedWidgets[i]._Id"
+                (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
+              ></app-nft-proofbot>
+              <app-nft-carbonfootprint
+                *ngIf="widget.type === widgetTypes.carbon"
+                [id]="usedWidgets[i]._Id"
+                (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
+              ></app-nft-carbonfootprint>
+              <app-nft-image
+                *ngIf="widget.type === widgetTypes.image"
+                [id]="usedWidgets[i]._Id"
+                (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
+              ></app-nft-image>
+              <app-bar-chart-widget
+                *ngIf="widget.type === widgetTypes.bar"
+                [id]="usedWidgets[i]._Id"
+                (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
+              ></app-bar-chart-widget>
+              <app-pie-chart-widget
+                *ngIf="widget.type === widgetTypes.pie"
+                [id]="usedWidgets[i]._Id"
+                (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
+              ></app-pie-chart-widget>
+              <app-bubble-chart-widget
+                *ngIf="widget.type === widgetTypes.bubble"
+                [id]="usedWidgets[i]._Id"
+                (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
+              ></app-bubble-chart-widget>
+              <app-table
+                *ngIf="widget.type === widgetTypes.table"
+                [id]="usedWidgets[i]._Id"
+                (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
+              ></app-table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="btn-container">
+        <button
+          class="btn"
+          mat-flat-button
+          (click)="generateHTML()"
+          [disabled]="htmlGenerated"
+        >
+          <mat-icon class="icon">download</mat-icon>
+          <span [class.spinner]="htmlGenerated"> </span>Download HTML
+        </button>
+        <button
+          class="btn"
+          mat-flat-button
+          (click)="generateSVG()"
+          [disabled]="svgGenerated"
+        >
+          <mat-icon class="icon">download</mat-icon>
+          <span [class.spinner]="svgGenerated"> </span>Download SVG
+        </button>
+        <button
+          class="btn"
+          mat-flat-button
+          (click)="saveOrUpdateProject(false)"
+          [disabled]="saving"
+        >
+          <mat-icon class="icon">save</mat-icon>
+          <span [class.spinner]="saving"> </span>Save Project
+        </button>
+      </div>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</div>
+<div *ngIf="projLoading" class="loading-div">
+  <mat-icon class="material-symbols-outlined"> more_horiz </mat-icon>
+</div>

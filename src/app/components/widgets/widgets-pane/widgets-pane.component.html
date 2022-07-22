@@ -1,0 +1,8 @@
+<div class="available-widget-list">
+  <div class="inner-div">
+    <div class="available-widget-box" *ngFor="let widget of widgets" cdkDrag>
+      <mat-icon aria-hidden="false" class="icon">{{ widget.icon }}</mat-icon>
+      <label>{{ widget.name }}</label>
+    </div>
+  </div> 
+</div>

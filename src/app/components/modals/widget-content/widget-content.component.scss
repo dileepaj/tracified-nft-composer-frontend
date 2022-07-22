@@ -1,0 +1,67 @@
+@import "../../../../scss/mixins";
+@import "../../../../scss/variables";
+.modal-content {
+  width: 700px;
+}
+.btn {
+  @include btn-primary;
+}
+
+.content {
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: auto;
+}
+
+.option {
+  height: 300px;
+  width: 300px;
+  background-color: whitesmoke;
+  border-radius: 10px;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.option-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.option-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 150px;
+}
+
+.option-header {
+  width: 100%;
+  background-color: #00d6a0;
+  height: 50px;
+  justify-content: center;
+  text-align: center;
+  padding-top: 23px;
+  font-size: large;
+  color: white;
+  font-weight: bold;
+}
+
+.option-footer {
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.option-icon {
+  transform: scale(1.2);
+}

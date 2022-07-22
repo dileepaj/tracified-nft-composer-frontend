@@ -1,0 +1,66 @@
+<div
+  class="widget-div"
+  [ngStyle]="{ border: highlight ? 'solid 3px #00D6A0' : 'solid 1px #ccc;' }"
+  [id]="proofbot.WidgetId"
+>
+  <div>
+    <h2
+      style="font-size: medium; font-weight: 200"
+      [ngStyle]="{ color: highlight ? '#00D6A0' : 'black' }"
+    >
+      Proofbot
+      <button
+        mat-icon-button
+        class="delete-btn"
+        matTooltip="Delete"
+        (click)="deleteWidget()"
+      >
+        <mat-icon>clear</mat-icon>
+      </button>
+    </h2>
+  </div>
+  <div class="content-div">
+    <img class="widget-card-icon" *ngIf="!otpAdded" [src]="icon" />
+
+    <div class="proofbot-content" *ngIf="otpAdded">
+      <div class="proof-card" *ngFor="let data of proofbot.Data!">
+        <label><b>TxnHash: </b> {{ data.TxnHash }}</label>
+        <label><b>Product Name: </b> {{ proofbot.ProductName }}</label>
+        <label><b>Batch Id: </b> {{ data.BatchId }}</label>
+        <label><b>Proofs: </b> </label>
+        <mat-chip-list #chipList>
+          <mat-chip
+            class="proof-chip"
+            *ngFor="let url of data.Urls"
+            (click)="openProofLink(url.Url)"
+          >
+            {{ url.Type.toUpperCase() }}
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+    </div>
+  </div>
+  <div class="widget-footer">
+    <button
+      mat-flat-button
+      fxFlex="50%"
+      class="customize-btn"
+      style="float: right"
+      *ngIf="otpAdded"
+      (click)="openProofBotView()"
+    >
+      <mat-icon class="material-symbols-outlined"> build </mat-icon>
+      Customize
+    </button>
+    <button
+      mat-flat-button
+      fxFlex="50%"
+      class="add-data-btn"
+      style="float: right"
+      (click)="openAddData()"
+    >
+      <mat-icon>add_circle</mat-icon>
+      {{ !otpAdded ? "Add Data" : "Modify Data" }}
+    </button>
+  </div>
+</div>

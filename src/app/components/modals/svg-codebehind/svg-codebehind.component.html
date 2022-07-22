@@ -1,0 +1,19 @@
+<div class="modal-parent">
+  <h2 mat-dialog-title>SVG Code</h2>
+  <mat-dialog-content>
+    <div class="modal-content">
+      <div class="content-div">
+        <div class="code-content">
+          <mat-progress-bar
+            mode="indeterminate"
+            *ngIf="loaded"
+          ></mat-progress-bar>
+          <pre><code data-ln-start-from="1" [highlight]="code" [hidden]="loaded"></code></pre>
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close class="btn-cancel">Cancel</button>
+  </mat-dialog-actions>
+</div>

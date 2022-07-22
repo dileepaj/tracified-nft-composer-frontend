@@ -1,0 +1,51 @@
+<div class="ldal-div">
+  <div class="ldal-header" fxLayout="row" fxLayoutAlign="space-between center">
+    <div>Enter Query :</div>
+    <div fxLayoutAlign="space-end center">
+      <button
+        mat-icon-button
+        class="btn-execute"
+        matTooltip="Execute Query"
+        (click)="queryExecuter()"
+        [disabled]="loading"
+      >
+        <span [class.spinner]="loading"> </span>
+        <mat-icon>play_arrow</mat-icon>
+      </button>
+      <button
+        matTooltip="View Output"
+        mat-icon-button
+        class="btn-output"
+        (click)="toggleOutput()"
+      >
+        <mat-icon
+          matBadge="1"
+          matBadgePosition="before"
+          matBadgeColor="warn"
+          [matBadgeHidden]="!newResults"
+          >terminal</mat-icon
+        >
+      </button>
+    </div>
+  </div>
+
+  <div class="query-area" fxLayout="row wrap">
+    <div
+      class="ace-editor"
+      [fxFlex]="showOutput ? '60%' : '100%'"
+      #editor
+    ></div>
+    <div class="output" fxFlex="40%" *ngIf="showOutput">
+      Output <br />
+      <pre>{{ jsonPretty }}</pre>
+    </div>
+  </div>
+  <div>
+    <div class="note">
+      <mat-icon class="material-icons-outlined note-icon">note_alt</mat-icon>
+      {{
+        "Note : Output format should be  [{Name: 'Sri Lanka',Value: 200,},{Name: 'US',Value: 400}] for charts."
+      }}
+    </div>
+  </div>
+</div>

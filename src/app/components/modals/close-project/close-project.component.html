@@ -1,0 +1,30 @@
+<h2 mat-dialog-title>{{ onLogout ? "Log Out" : "Close Project" }}</h2>
+<mat-dialog-content class="mat-typography">
+  <div>
+    Do you want to save the changes made to the project
+    <b>"{{ nftContent.ProjectName }}"</b>
+    {{ onLogout ? "before logging out?" : "?" }}
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close class="btn-cancel" (click)="cancel()">
+    Cancel
+  </button>
+  <button
+    mat-button
+    mat-dialog-close
+    class="btn-dont-save"
+    (click)="dontSave()"
+  >
+    Don't Save
+  </button>
+  <button
+    mat-button
+    cdkFocusInitial
+    class="btn"
+    [disabled]="saving"
+    (click)="save()"
+  >
+    <mat-icon>save</mat-icon> <span [class.spinner]="saving"> </span>Save
+  </button>
+</mat-dialog-actions>

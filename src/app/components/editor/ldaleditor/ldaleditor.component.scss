@@ -1,0 +1,112 @@
+@import "../../../../scss/variables";
+@import "../../../../scss/mixins";
+
+.ace-editor {
+  height: $queryIDEHeight;
+}
+
+.ldal-div {
+  display: flex;
+  flex-direction: column;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  position: absolute;
+}
+
+.btn-execute {
+  margin: 5px;
+  color: $green;
+  transform: scale(0.9);
+  //float: right;
+}
+
+.btn-execute:hover {
+  background-color: whitesmoke;
+}
+.btn-output {
+  color: #424242;
+  margin: 5px;
+  transform: scale(0.9);
+  //float: right;
+}
+
+.btn-output:hover {
+  background-color: whitesmoke;
+}
+
+.progressbar {
+  background-color: $green !important;
+}
+
+.loader {
+  transform: scale(0.2);
+}
+
+
+.query-area {
+}
+
+.results {
+  width: 100%;
+  min-height: 200px;
+  border-radius: 5px;
+  border: 1px solid rgb(211, 211, 211);
+}
+
+.btn-execute-save {
+  background-color: rgb(243, 197, 44);
+  margin: 5px;
+  //float: right;
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner:before {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  margin-left: -10px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  border-top-color: #000000;
+  animation: spinner 0.8s linear infinite;
+}
+
+.note {
+  color: #212121;
+  border-radius: 5px;
+  font-size: smaller;
+  padding: 10px 0px 0px 0px;
+}
+
+.note-icon {
+  vertical-align: middle;
+  transform: scale(0.8);
+}
+
+.btn-tgl-div {
+  margin-left: 2px;
+}
+
+.btn-tgl {
+}
+
+.output {
+  background: #212121;
+  height: $queryIDEHeight;
+  overflow: auto;
+  font-family: Courier New;
+  color: white;
+  padding: 10px;
+}

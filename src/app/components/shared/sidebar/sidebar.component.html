@@ -1,0 +1,143 @@
+<div>
+  <div>
+    <div id="project-title" mat-list-item>
+      <div
+        class="title-icon"
+        matTooltip="Back To Projects"
+        (click)="closeProject()"
+      >
+        <mat-icon mat-list-icon> chevron_left </mat-icon>
+      </div>
+      <div class="title-text">
+        <label>{{ title }}</label>
+      </div>
+    </div>
+    <mat-nav-list [routerLink]="layoutLink">
+      <mat-list-item
+        id="layouts"
+        [routerLinkActive]="['is-active']"
+        disableRipple
+      >
+        <div id="layoutsDiv">
+          <div fxLayout="row" fxLayoutAlign="space-between center">
+            <div>
+              <mat-icon mat-list-icon class="icon">notes</mat-icon>
+              <label
+                style="font-size: small; font-weight: 700"
+                class="nav-title"
+                >Layouts</label
+              >
+            </div>
+
+            <button
+              class="icon"
+              mat-icon-button
+              (click)="toggleLayouts()"
+              id="collapseBtn"
+            >
+              <mat-icon>{{ layouts ? "expand_less" : "expand_more" }}</mat-icon>
+            </button>
+          </div>
+
+          <mat-list
+            id="sidebar-widgets"
+            [ngStyle]="{ display: !layouts ? 'none' : 'block' }"
+          >
+            <mat-list-item
+              *ngFor="let item of contOrder"
+              (click)="selectWidget(item.WidgetId)"
+            >
+              <mat-icon
+                mat-list-icon
+                class="icon"
+                *ngIf="item.Type === timelineType"
+                >event_note</mat-icon
+              >
+              <mat-icon
+                mat-list-icon
+                class="icon"
+                *ngIf="item.Type === proofbotType"
+                >ondemand_video</mat-icon
+              >
+              <mat-icon
+                mat-list-icon
+                class="icon"
+                *ngIf="item.Type === carbonfpType"
+                >filter_drama</mat-icon
+              >
+              <mat-icon
+                mat-list-icon
+                class="icon"
+                *ngIf="item.Type === imageType"
+                >wallpaper</mat-icon
+              >
+              <mat-icon
+                mat-list-icon
+                class="icon"
+                *ngIf="item.Type === barChartType"
+                >bar_chart</mat-icon
+              >
+              <mat-icon
+                mat-list-icon
+                class="icon"
+                *ngIf="item.Type === pieChartType"
+                >pie_chart</mat-icon
+              >
+              <mat-icon
+                mat-list-icon
+                class="icon"
+                *ngIf="item.Type === bubbleChartType"
+                >bubble_chart</mat-icon
+              >
+              <mat-icon
+                mat-list-icon
+                class="icon"
+                *ngIf="item.Type === tableType"
+                >table_view</mat-icon
+              >
+              <label style="font-size: small; font-weight: 400">{{
+                getTitle(item)
+              }}</label>
+            </mat-list-item>
+          </mat-list>
+        </div>
+      </mat-list-item>
+      <mat-list-item
+        routerLink="/nft-html"
+        [routerLinkActive]="['is-active']"
+        disableRipple
+      >
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <div>
+            <mat-icon mat-list-icon class="icon">code_off</mat-icon>
+            <label
+              style="font-size: small; font-weight: 700"
+              [routerLink]="['/layout/nft-html']"
+              routerLinkActive="router-link-active"
+              class="nav-title"
+              >NFT HTML</label
+            >
+          </div>
+        </div>
+      </mat-list-item>
+      <mat-list-item
+        routerLink="/nft-svg"
+        [routerLinkActive]="['is-active']"
+        disableRipple
+      >
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <div>
+            <mat-icon mat-list-icon class="icon">wallpaper</mat-icon>
+            <label
+              style="font-size: small; font-weight: 700"
+              class="nav-title"
+              [routerLink]="['/layout/nft-svg']"
+              routerLinkActive="router-link-active"
+              >NFT SVG</label
+            >
+          </div>
+        </div>
+      </mat-list-item>
+    </mat-nav-list>
+  </div>
+</div>

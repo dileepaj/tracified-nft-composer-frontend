@@ -1,0 +1,151 @@
+@import "../../../../scss/mixins";
+@import "../../../../scss/variables";
+
+.timeline {
+  $color: #00c853;
+  $timeline-font-color: white;
+
+  padding: 0 25px;
+  margin: 20px 0 0 0;
+  position: relative;
+  counter-reset: list 0;
+
+  &-item {
+    list-style: none;
+    border-left: 4px solid $color;
+  }
+
+  &-title {
+    margin: 0;
+    padding: 0;
+    &:before {
+      $size: 40px;
+      color: $timeline-font-color;
+      position: relative;
+      left: -22px;
+      display: inline-block;
+      width: $size;
+      height: $size;
+      line-height: $size;
+      text-align: center;
+      border-radius: 50%;
+      background-color: $color;
+    }
+  }
+
+  &-text {
+    margin: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 50px;
+  }
+}
+
+.chrt {
+  margin: 10px;
+  transform: scale(0.4);
+}
+
+.btn {
+  @include btn-primary;
+  transform: scale(0.9);
+}
+
+mat-icon {
+  color: $green;
+}
+.btn mat-icon {
+  color: white;
+}
+
+.widget-footer {
+  position: absolute;
+  right: 7px;
+  left: 0;
+  bottom: 0;
+  top: 255px;
+}
+
+h2 mat-icon {
+  color: black;
+  float: right;
+  cursor: pointer;
+}
+
+h2 button {
+  float: right;
+  vertical-align: middle;
+}
+
+.left-content {
+  width: 35px;
+  height: 100%;
+}
+.right-content {
+  flex-grow: 1;
+  height: 100%;
+}
+
+.vr-line {
+  height: 100%;
+  width: 2px;
+  background-color: black;
+}
+
+.content .sub-content {
+  flex-grow: 1;
+}
+
+
+.timeline-card{
+  display: block;
+  padding: 1.5rem;
+  position: relative;
+  overflow: auto;
+}
+
+
+.header{
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  flex-direction: row;
+  -webkit-box-pack: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.left{
+  width: 16%;
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+.right{
+    width: calc(100% - 16%);
+}
+
+.title{
+  margin: 0 0 .2rem 0;
+}
+
+.body{
+  width: calc(100% - 16%);
+  margin-left: 7%;
+  padding: 10px 0;
+}
+
+.secondary-font {
+  color: #b1b1b1 !important;
+}
+
+.primary-font {
+  color: #4f525d !important;
+}
+
+img{
+  padding-right: 10px;
+}

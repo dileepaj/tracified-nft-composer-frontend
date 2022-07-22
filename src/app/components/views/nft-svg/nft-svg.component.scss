@@ -1,0 +1,90 @@
+@import "../../../../scss/variables";
+@import "../../../../scss/mixins";
+
+.sidebar-container {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  top: 0;
+  background: whitesmoke;
+}
+.side-nav {
+  width: 250px;
+}
+
+.container {
+  background: white;
+  position: absolute;
+  top: 10px;
+  right: 0px;
+  left: 10px;
+  bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.content {
+  border-radius: 5px;
+  border: 1px rgb(206, 206, 206) solid;
+  position: absolute;
+  top: 50px;
+  bottom: 50px;
+  left: 50px;
+  right: 50px;
+}
+
+.btn {
+  @include btn-primary;
+  margin-right: 8px;
+}
+
+.btn-container {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  bottom: 10px;
+  right: 40px;
+}
+
+.loading-div {
+  background: rgba(255, 255, 255, 1);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+
+  mat-icon {
+    transform: scale(4);
+  }
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner:before {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  margin-left: -10px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  border-top-color: #000000;
+  animation: spinner 0.8s linear infinite;
+}

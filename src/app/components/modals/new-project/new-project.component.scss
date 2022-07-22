@@ -1,0 +1,17 @@
+@import "../../../../scss/variables";
+@import "../../../../scss/mixins";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+}
+
+.btn {
+  @include btn-primary;
+}
+
+/* ::ng-deep .mat-focused .mat-form-field-label {
+
+  color: unset !important;
+} */

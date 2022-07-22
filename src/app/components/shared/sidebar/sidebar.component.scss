@@ -1,0 +1,134 @@
+@import "../../../../scss/variables";
+@import "../../../../scss/mixins";
+
+.sidebar-container {
+  position: absolute;
+  top: 0;
+}
+
+.side-link {
+  font-size: smaller;
+}
+
+#project-title {
+  background: whitesmoke;
+  height: 45px;
+  font-size: $fontSize;
+  display: flex;
+  flex-direction: row;
+}
+
+.icon {
+  @include icon;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+.title-icon {
+  background-color: #ccc;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  mat-icon {
+    vertical-align: middle;
+    transform: scale(0.9);
+    margin-left: 2px;
+    margin-right: 2px;
+    color: rgb(114, 114, 114);
+  }
+
+  mat-icon:hover {
+    color: rgb(82, 82, 82);
+  }
+}
+
+.title-text {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 10px;
+  label {
+    font-size: small;
+    font-weight: 700;
+  }
+}
+
+mat-list-item {
+  border-radius: 5px;
+  font-size: $fontSize !important;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 2px 0px 2px 0px !important;
+  height: fit-content !important;
+  transition: 0.3s;
+}
+
+mat-nav-list {
+  margin: 10px;
+}
+
+.is-active {
+  color: $green;
+  font-weight: 500;
+  background: rgba(176, 221, 176, 0.199) !important;
+}
+
+mat-list-item:hover {
+  color: $green;
+  background: rgba(176, 221, 176, 0.137) !important;
+}
+
+.nav-title {
+  cursor: pointer;
+}
+
+#layoutsDiv {
+  display: block;
+  width: 100%;
+}
+
+#layouts:hover {
+  color: $green;
+  background: rgba(176, 221, 176, 0.137) !important;
+}
+
+#collapseBtn {
+  float: right;
+}
+
+#header {
+  padding-left: 10px;
+  padding: 10px;
+  padding-bottom: 0px;
+  font-size: $fontSize;
+}
+
+#project-title input {
+  all: unset;
+
+  font-size: $fontSize;
+}
+
+#sidebar-back {
+  padding-left: 10px;
+  padding: 10px;
+  padding-right: 30px;
+  border-radius: 30px;
+  font-size: $fontSize;
+}
+
+.back-to-project {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 30px;
+  background: whitesmoke;
+  cursor: pointer;
+}
+
+#sidebar-widgets {
+  max-height: 300px;
+  overflow-y: auto;
+}

@@ -1,0 +1,47 @@
+<div
+  class="widget-div"
+  [ngStyle]="{ border: highlight ? 'solid 3px #00D6A0' : 'solid 1px #ccc;' }"
+  [id]="barChart.WidgetId"
+>
+  <div>
+    <h2
+      style="font-size: medium; font-weight: 200"
+      [ngStyle]="{ color: highlight ? '#00D6A0' : 'black' }"
+    >
+      Bar Chart<button
+        mat-icon-button
+        class="delete-btn"
+        matTooltip="Delete"
+        (click)="deleteWidget()"
+      >
+        <mat-icon>clear</mat-icon>
+      </button>
+    </h2>
+  </div>
+  <div class="chart-div">
+    <img class="widget-card-icon" [src]="icon" />
+  </div>
+  <div class="widget-footer" fxLayout="row wrap">
+    <button
+      mat-flat-button
+      fxFlex="50%"
+      class="customize-btn"
+      style="float: right"
+      *ngIf="otpAdded()"
+      (click)="openDialog()"
+    >
+      <mat-icon class="material-symbols-outlined"> build </mat-icon>
+      Customize
+    </button>
+    <button
+      mat-flat-button
+      fxFlex="50%"
+      class="add-data-btn"
+      style="float: right"
+      (click)="openAddData()"
+    >
+      <mat-icon>add_circle</mat-icon>
+      {{ !otpAdded() ? "Add Data" : "Modify Data" }}
+    </button>
+  </div>
+</div>

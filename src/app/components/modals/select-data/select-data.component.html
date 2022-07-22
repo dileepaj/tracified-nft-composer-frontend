@@ -1,0 +1,45 @@
+<div class="modal-parent">
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <div class="breadcrumb">
+      <h2 mat-dialog-title>
+        <a class="previous" (click)="openMasterDataSelection()" mat-dialog-close
+          ><mat-icon class="material-symbols-outlined back-icon">
+            arrow_back </mat-icon
+          >Back</a
+        >
+      </h2>
+    </div>
+  </div>
+  <mat-dialog-content class="mat-typography modal-content">
+    <h2>{{ artifact.name }}</h2>
+    <mat-divider></mat-divider>
+    <div class="content">
+      <table class="master-data-table">
+        <thead>
+          <tr>
+            <td *ngFor="let col of columns">{{ col }}</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let source of dataSource; index as i">
+            <td *ngFor="let key of keys">
+              {{ source.data[key] }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close class="btn-cancel">Cancel</button>
+    <button
+      mat-flat-button
+      class="btn"
+      [disabled]="saving"
+      (click)="updateReduxState()"
+    >
+      <span [class.spinner]="saving"> </span>
+      Save
+    </button>
+  </mat-dialog-actions>
+</div>

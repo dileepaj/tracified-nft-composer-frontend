@@ -1,0 +1,90 @@
+@import "../../../../scss/mixins";
+@import "../../../../scss/variables";
+
+.widget-div {
+  @include widget-div;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.chart-div {
+  //border: dotted 2px #ccc;
+  border-radius: 5px;
+  position: absolute;
+  bottom: 50px;
+  top: 50px;
+  right: 10px;
+  left: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+  //background-color: #ccc;
+}
+
+.chrt {
+  margin: 10px;
+  transform: scale(0.4);
+}
+
+.btn {
+  @include btn-primary;
+  transform: scale(0.9);
+}
+
+mat-icon {
+  color: $green;
+}
+.btn mat-icon {
+  color: white;
+}
+
+.widget-footer {
+  position: absolute;
+  right: 0px;
+  left: 0;
+  bottom: 0;
+  top: 255px;
+  justify-content: flex-end;
+}
+
+h2 mat-icon {
+  color: black;
+  float: right;
+  cursor: pointer;
+}
+
+h2 button {
+  float: right;
+  vertical-align: middle;
+}
+
+.chart-div mat-icon {
+  transform: scale(4);
+  color: $background;
+}
+
+.add-data-btn {
+  color: #00d6a0;
+  mat-icon {
+    color: #00d6a0;
+    transform: scale(0.7);
+  }
+}
+
+.customize-btn {
+  color: #969696;
+  mat-icon {
+    color: #969696;
+    transform: scale(0.7);
+  }
+}
+
+.delete-btn {
+  mat-icon {
+    color: #c62929;
+  }
+}
