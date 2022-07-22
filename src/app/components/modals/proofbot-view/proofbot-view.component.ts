@@ -49,10 +49,16 @@ export class ProofbotViewComponent implements OnInit {
       }
     });
 
-    this.proofbot = {
-      ...this.proofbot,
-      Data: data,
-    };
+    if (data.length === 0) {
+      this.popupService.openSnackBar(
+        'Proofbot widget must contain atleast one proof'
+      );
+    } else {
+      this.proofbot = {
+        ...this.proofbot,
+        Data: data,
+      };
+    }
   }
 
   /*
@@ -83,16 +89,24 @@ export class ProofbotViewComponent implements OnInit {
 
     this.proofbot.Data!.map((pbItem) => {
       if (pbItem.TxnHash === proofData.TxnHash) {
-        data.push(proofData);
+        if (proofData.Urls.length > 0) {
+          data.push(proofData);
+        }
       } else {
         data.push(pbItem);
       }
     });
 
-    this.proofbot = {
-      ...this.proofbot,
-      Data: data,
-    };
+    if (data.length === 0) {
+      this.popupService.openSnackBar(
+        'Proofbot widget must contain atleast one proof'
+      );
+    } else {
+      this.proofbot = {
+        ...this.proofbot,
+        Data: data,
+      };
+    }
   }
 
   //saves proofbot data in redux store
