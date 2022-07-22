@@ -102,7 +102,7 @@ export class TableComponent implements OnInit {
       TableTitle: 'Table',
       Query: '',
       QuerySuccess: false,
-      TableContent: 'No Data.',
+      TableContent: 'EMPTY',
     };
 
     this.store.dispatch(addTable({ table: this.table }));
