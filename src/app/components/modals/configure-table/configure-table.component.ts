@@ -161,7 +161,7 @@ export class ConfigureTableComponent implements OnInit {
           ...this.table,
           TableTitle: 'Table',
           Query: this.query,
-          TableContent: 'No Data.',
+          TableContent: 'EMPTY',
           QuerySuccess: false,
         };
       }
