@@ -82,7 +82,7 @@ export class NftHtmlComponent implements OnInit {
       .generateHTML(this.nftContent)
       .subscribe((data: any) => {
         if (!!data && !!data.Response && data.Response !== '') {
-          this.htmlStr = atob(data.Response);
+          this.htmlStr = this.b64DecodeUnicode(data.Response);
           const content = this.htmlStr;
           iframe.contentWindow.document.open();
           iframe.contentWindow.document.write(content);
@@ -92,9 +92,21 @@ export class NftHtmlComponent implements OnInit {
       });
   }
 
+  private b64DecodeUnicode(str: string) {
+    // Going backwards: from bytestream, to percent-encoding, to original string.
+    return decodeURIComponent(
+      atob(str)
+        .split('')
+        .map(function (c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        })
+        .join('')
+    );
+  }
+
   openCodebehindPopup() {
     this.codeLoaded = true;
-    setTimeout(()=>{                           
+    setTimeout(() => {
       this.dialog.open(HtmlCodebehindComponent, {
         data: { htmlCode: this.htmlStr },
       });
