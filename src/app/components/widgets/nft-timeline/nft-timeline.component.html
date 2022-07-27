@@ -43,6 +43,14 @@
                 *ngFor="let childrenTwo of childrenOne.Children"
                 class="timeline-text"
               >
+                <div>
+                  <div *ngIf="childrenTwo.NewTDP ; then thenBlock"></div>
+                  <ng-template #thenBlock>
+                    <div class="tdp-added-date">
+                      <label>Added : {{ convertDate(childrenTwo.Timestamp) }}</label>
+                    </div>
+                  </ng-template>
+                </div>
                 <div *ngIf="childrenTwo.Key !== null">
                   <h4 class="secondary-font">
                     {{ childrenTwo.Key }}
