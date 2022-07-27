@@ -5,7 +5,6 @@
   @include widget-div;
   display: flex;
   flex-direction: column;
-  overflow: auto;
 }
 
 .content-div {
@@ -25,22 +24,25 @@
   //background-color: #ccc;
 }
 
+
+
+
 .timeline-content {
   overflow: auto;
   width: 90%;
 }
 
-.timeline-content::before {
-  content: "";
-  position: absolute;
-  left: calc(8% + 1.5rem - 2px);
-  top: 0;
-  height: 100%;
-  width: 2px;
-  background: #00c853;
-  opacity: 1;
-  z-index: -1;
-}
+// .timeline-content::before {
+//   content: "";
+//   position: absolute;
+//   left: calc(8% + 1.5rem - 2px);
+//   top: 0;
+//   height: 100%;
+//   width: 2px;
+//   background: #00c853;
+//   opacity: 1;
+//   z-index: -1;
+// }
 
 .timeline {
   $color: #00c853;
@@ -49,11 +51,12 @@
   padding: 0 25px;
   margin: 20px 0 0 0;
   position: relative;
+  list-style-type: none;
 
-  &-item {
-    list-style: none;
-    border-left: 4px solid $color;
-  }
+  // &-item {
+  //   list-style: none;
+  //   border-left: 4px solid $color;
+  // }
 
   &-title {
     margin: 0;
@@ -77,6 +80,7 @@
     margin: 0 0 0 1.5rem;
   }
 }
+
 
 .chrt {
   margin: 10px;
@@ -167,6 +171,7 @@ h2 button {
   position: relative;
   width: 95%;
   overflow: auto;
+  margin-left: inherit;
 }
 
 .header {
@@ -193,7 +198,8 @@ h2 button {
 }
 
 .title {
-  margin: 0 0 0.2rem 0;
+  margin-top: .5rem !important;
+  margin-bottom: .2rem !important;
   font-size: 12px;
 }
 
@@ -219,4 +225,31 @@ h2 button {
     color: $green;
     font-weight: 500;
   }
+}
+
+.inner-widge-div::before{
+  content: " ";
+  background: $green;
+  display: inline-block;
+  position:absolute;
+  left: 27px;
+  width: 4px;
+  height: 100%;
+  z-index: auto;
+  margin-left: .5rem;
+}
+
+.icon-container{
+  border-radius: 5px;
+  position: absolute;
+  bottom: 50px;
+  top: 50px;
+  right: 10px;
+  left: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  overflow: auto;
 }

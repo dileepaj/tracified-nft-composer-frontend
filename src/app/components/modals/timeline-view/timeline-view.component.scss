@@ -99,7 +99,6 @@ h2 button {
 
 .timeline-card{
   display: block;
-  padding: 1.5rem;
   position: relative;
   overflow: auto;
 }
@@ -129,7 +128,8 @@ h2 button {
 }
 
 .title{
-  margin: 0 0 .2rem 0;
+  margin-top: 1.25rem !important;
+  margin-bottom: .2rem !important;
 }
 
 .body{
