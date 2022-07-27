@@ -24,6 +24,8 @@ export interface TimelineData {
 }
 
 export interface Children {
+  NewTDP: boolean;
+  Timestamp : string;
   Key: string;
   Value: string;
 }

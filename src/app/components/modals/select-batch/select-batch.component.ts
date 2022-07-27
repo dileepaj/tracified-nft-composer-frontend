@@ -126,7 +126,7 @@ export class SelectBatchComponent implements OnInit {
     private popupMsgService: PopupMessageService,
     private user: UserserviceService,
     public dialogRef: MatDialogRef<SelectBatchComponent>
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.id = this.data.id;
@@ -467,7 +467,7 @@ export class SelectBatchComponent implements OnInit {
     let status = this.dndService.getBatchStatus(widget.WidgetId);
     if (status === false) {
       this.composerService.saveWidget(widget).subscribe({
-        next: (res) => {},
+        next: (res) => { },
         error: (err) => {
           this.saving = false;
           this.popupMsgService.openSnackBar(
@@ -496,7 +496,7 @@ export class SelectBatchComponent implements OnInit {
       });
     } else {
       this.composerService.updateWidget(widget).subscribe({
-        next: (res) => {},
+        next: (res) => { },
         error: (err) => {
           this.saving = false;
           this.popupMsgService.openSnackBar(
@@ -547,17 +547,33 @@ export class SelectBatchComponent implements OnInit {
         let Title = '';
         let children: Children[] = [];
         let images: string[] = [];
+        let Timestamp = '';
+        let CurrentTimestamp ='';
 
         if (this.workflow.stages[i].stageId === data.stageID) {
           Title = this.workflow.stages[i].name;
           data.traceabilityDataPackets.map((tdp: any) => {
             tdp.traceabilityData.map((d: any) => {
+              Timestamp = tdp.timestamp;
               if (d.type === 3) {
-                children.push({
-                  Key: this.CamelcaseToWord(d.key),
-                  Value: this.convertDate(d.val),
-                });
-                count++;
+                if(CurrentTimestamp == Timestamp){
+                  children.push({
+                    NewTDP: false,
+                    Timestamp: tdp.timestamp,
+                    Key: this.CamelcaseToWord(d.key),
+                    Value: this.convertDate(d.val),
+                  });
+                  count++;
+                } else {
+                  children.push({
+                    NewTDP: true,
+                    Timestamp: tdp.timestamp,
+                    Key: this.CamelcaseToWord(d.key),
+                    Value: this.convertDate(d.val),
+                  });
+                  count++;
+                  CurrentTimestamp = Timestamp;
+                }
               } else if (d.type === 4) {
                 d.val.map((img: any) => {
                   images.push(img.image);
@@ -593,7 +609,7 @@ export class SelectBatchComponent implements OnInit {
       //check whether timeline is already saved or not
       if (status === false) {
         this.composerService.saveTimeline(this.widget).subscribe({
-          next: (res) => {},
+          next: (res) => { },
           error: (err) => {
             this.popupMsgService.openSnackBar(
               'An unexpected error occured. Please try again later'
@@ -612,7 +628,7 @@ export class SelectBatchComponent implements OnInit {
         });
       } else {
         this.composerService.updateTimeline(this.widget).subscribe({
-          next: (res) => {},
+          next: (res) => { },
           error: (err) => {
             this.popupMsgService.openSnackBar(
               'An unexpected error occured. Please try again later'

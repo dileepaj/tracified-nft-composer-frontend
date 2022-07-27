@@ -212,3 +212,11 @@ h2 button {
   color: #4f525d !important;
   font-size: 11px;
 }
+
+.tdp-added-date {
+  margin-bottom: 5px;
+  label {
+    color: $green;
+    font-weight: 500;
+  }
+}
