@@ -19,7 +19,7 @@
                 </div>
                 <div class="right">
                   <h3 class="title">
-                    <b>{{ childrenOne.Title }}</b>
+                    <b class="bold-title">{{ childrenOne.Title }}</b>
                   </h3>
                 </div>
               </div>
@@ -30,6 +30,14 @@
                       *ngFor="let childrenTwo of childrenOne.Children"
                       class="timeline-text"
                     >
+                    <div>
+                      <div *ngIf="childrenTwo.NewTDP ; then thenBlock"></div>
+                      <ng-template #thenBlock>
+                        <div class="tdp-added-date">
+                          <label>Added : {{ convertDate(childrenTwo.Timestamp) }}</label>
+                        </div>
+                      </ng-template>
+                    </div>
                       <h4 class="secondary-font">
                         {{ childrenTwo.Key }}
                       </h4>
@@ -40,8 +48,8 @@
                     <div *ngIf="childrenOne.Images.length > 0">
                       <div *ngFor="let images of childrenOne.Images">
                         <img
-                          width="50%"
-                          height="50%"
+                          width="68px"
+                          height="68px"
                           style="padding-left: 20% !important"
                           [src]="images"
                           alt="image"
