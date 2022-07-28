@@ -666,7 +666,7 @@ export class SelectBatchComponent implements OnInit {
             data[i].AvailableProof.map((proof: string) => {
               urls.push({
                 Type: proof,
-                Url: `https://tillit-explorer.netlify.app/proof-verification?type=${proof}&txn=${data[i].Txnhash}`,
+                Url: `http://qa.proofbot.tillit.world?type=${proof}&txn=${data[i].Txnhash}`,
               });
             });
 
