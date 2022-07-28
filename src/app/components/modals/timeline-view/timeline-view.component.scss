@@ -98,7 +98,6 @@ h2 button {
 
 .timeline-card {
   display: block;
-  padding: 1.5rem;
   position: relative;
   overflow: auto;
 }
@@ -126,8 +125,10 @@ h2 button {
   width: calc(100% - 16%);
 }
 
-.title {
-  margin: 0 0 0.2rem 0;
+
+.title{
+  margin-top: 1.25rem !important;
+  margin-bottom: .2rem !important;
 }
 
 .body {
@@ -148,6 +149,7 @@ img {
   padding-right: 10px;
 }
 
+
 .content-div {
   overflow: auto;
   max-height: 55vh;
@@ -156,3 +158,14 @@ img {
 .timeline-content {
   width: fit-content;
 }
+
+.tdp-added-date {
+  margin-bottom: 5px;
+  padding-bottom: 5%;
+  label {
+    color: $green;
+    font-weight: 500;
+    font-size: large;
+  }
+}
+

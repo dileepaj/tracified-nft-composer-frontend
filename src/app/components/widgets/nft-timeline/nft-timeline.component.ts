@@ -24,6 +24,7 @@ import { ComposerBackendService } from 'src/app/services/composer-backend.servic
 import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
 import { WidgethighlightingService } from 'src/app/services/widgethighlighting.service';
 import { DeleteWidgetComponent } from '../../modals/delete-widget/delete-widget.component';
+import * as MomentAll from 'moment';
 
 @Component({
   selector: 'app-nft-timeline',
@@ -46,6 +47,10 @@ export class NftTimelineComponent implements OnInit {
   viewBtn: boolean = false;
   icon: any = '../../../../assets/images/widget-icons/timeline.png';
   public highlight = false;
+  currentTimestamp : any;
+  elements : any;
+  elementCount : any;
+  collection: HTMLCollectionOf<Element>;
 
   constructor(
     private store: Store<AppState>,
@@ -77,7 +82,6 @@ export class NftTimelineComponent implements OnInit {
         }
       });
     });
-
     this.highlightService.selectedWidgetChange.subscribe((id) => {
       if (this.timeline.WidgetId === id) {
         this.highlight = true;
@@ -146,5 +150,21 @@ export class NftTimelineComponent implements OnInit {
         timelineData: this.childrenOne,
       },
     });
+    
+  }
+
+  /**
+   * @function convertDate - convert the date format
+   * @param date
+   */
+   public convertDate(date: any): string {
+    const stillUtc = MomentAll.utc(date).toDate();
+    // MomentAll(date).zone((new Date()).getTimezoneOffset()).format('YYYY-MM-DD hh:mm A')
+    const local = MomentAll(date)
+      .zone(new Date().getTimezoneOffset())
+      .format('YYYY-MM-DD hh:mm A');
+    // MomentAll(stillUtc).local().format('LLLL');
+    return local;
   }
 }
+

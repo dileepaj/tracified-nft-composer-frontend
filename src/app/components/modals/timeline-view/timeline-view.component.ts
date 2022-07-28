@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BatchesService } from 'src/app/services/batches.service';
+import * as MomentAll from 'moment';
 
 @Component({
   selector: 'app-timeline-view',
@@ -22,5 +23,19 @@ export class TimelineViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.childrenOne = this.data.timelineData;
+  }
+
+  /**
+   * @function convertDate - convert the date format
+   * @param date
+   */
+   public convertDate(date: any): string {
+    const stillUtc = MomentAll.utc(date).toDate();
+    // MomentAll(date).zone((new Date()).getTimezoneOffset()).format('YYYY-MM-DD hh:mm A')
+    const local = MomentAll(date)
+      .zone(new Date().getTimezoneOffset())
+      .format('YYYY-MM-DD hh:mm A');
+    // MomentAll(stillUtc).local().format('LLLL');
+    return local;
   }
 }
