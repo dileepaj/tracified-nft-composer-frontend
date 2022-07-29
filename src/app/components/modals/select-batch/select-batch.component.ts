@@ -126,7 +126,7 @@ export class SelectBatchComponent implements OnInit {
     private popupMsgService: PopupMessageService,
     private user: UserserviceService,
     public dialogRef: MatDialogRef<SelectBatchComponent>
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.id = this.data.id;
@@ -219,7 +219,7 @@ export class SelectBatchComponent implements OnInit {
         this.widget = {
           ...this.widget,
           Timestamp: new Date().toISOString(),
-          BactchId: this.selectedBatch.identifier.identifier,
+          BatchId: this.selectedBatch.identifier.identifier,
           ProductName: this.selectedProduct.itemName,
           ProductId: this.selectedProduct.itemID,
           OTPType: 'Batch',
@@ -467,7 +467,7 @@ export class SelectBatchComponent implements OnInit {
     let status = this.dndService.getBatchStatus(widget.WidgetId);
     if (status === false) {
       this.composerService.saveWidget(widget).subscribe({
-        next: (res) => { },
+        next: (res) => {},
         error: (err) => {
           this.saving = false;
           this.popupMsgService.openSnackBar(
@@ -496,7 +496,7 @@ export class SelectBatchComponent implements OnInit {
       });
     } else {
       this.composerService.updateWidget(widget).subscribe({
-        next: (res) => { },
+        next: (res) => {},
         error: (err) => {
           this.saving = false;
           this.popupMsgService.openSnackBar(
@@ -548,7 +548,7 @@ export class SelectBatchComponent implements OnInit {
         let children: Children[] = [];
         let images: string[] = [];
         let Timestamp = '';
-        let CurrentTimestamp ='';
+        let CurrentTimestamp = '';
 
         if (this.workflow.stages[i].stageId === data.stageID) {
           Title = this.workflow.stages[i].name;
@@ -556,7 +556,7 @@ export class SelectBatchComponent implements OnInit {
             tdp.traceabilityData.map((d: any) => {
               Timestamp = tdp.timestamp;
               if (d.type === 3) {
-                if(CurrentTimestamp == Timestamp){
+                if (CurrentTimestamp == Timestamp) {
                   children.push({
                     NewTDP: false,
                     Timestamp: tdp.timestamp,
@@ -609,7 +609,7 @@ export class SelectBatchComponent implements OnInit {
       //check whether timeline is already saved or not
       if (status === false) {
         this.composerService.saveTimeline(this.widget).subscribe({
-          next: (res) => { },
+          next: (res) => {},
           error: (err) => {
             this.popupMsgService.openSnackBar(
               'An unexpected error occured. Please try again later'
@@ -628,7 +628,7 @@ export class SelectBatchComponent implements OnInit {
         });
       } else {
         this.composerService.updateTimeline(this.widget).subscribe({
-          next: (res) => { },
+          next: (res) => {},
           error: (err) => {
             this.popupMsgService.openSnackBar(
               'An unexpected error occured. Please try again later'

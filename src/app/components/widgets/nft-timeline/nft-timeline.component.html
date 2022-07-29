@@ -1,18 +1,37 @@
-<div class="widget-div" [ngStyle]="{ border: highlight ? 'solid 3px #00D6A0' : 'solid 1px #ccc;' }"
-  [id]="timeline.WidgetId">
+<div
+  class="widget-div"
+  [ngStyle]="{ border: highlight ? 'solid 3px #00D6A0' : 'solid 1px #ccc;' }"
+  [id]="timeline.WidgetId"
+>
   <div>
-    <h2 style="font-size: medium; font-weight: 200" [ngStyle]="{ color: highlight ? '#00D6A0' : 'black' }">
-      Timeline<button mat-icon-button class="delete-btn" matTooltip="Delete" (click)="deleteWidget()">
+    <h2
+      style="font-size: medium; font-weight: 200"
+      [ngStyle]="{ color: highlight ? '#00D6A0' : 'black' }"
+    >
+      Timeline<button
+        mat-icon-button
+        class="delete-btn"
+        matTooltip="Delete"
+        (click)="deleteWidget()"
+      >
         <mat-icon>clear</mat-icon>
       </button>
     </h2>
   </div>
   <div class="icon-container">
-    <img class="widget-card-icon" [src]="icon" *ngIf="childrenOne.length === 0" />
+    <img
+      class="widget-card-icon"
+      [src]="icon"
+      *ngIf="childrenOne.length === 0"
+    />
   </div>
   <div class="inner-widge-div" *ngIf="childrenOne.length > 0">
-    <div class="content-div" >
+    <div class="content-div">
       <div class="timeline-card" *ngIf="childrenOne.length > 0">
+        <div class="timeline-heading">
+          <label class="timeline-product">{{ timeline.ProductName }}</label>
+          <label class="timeline-batch">{{ timeline.BatchId }}</label>
+        </div>
         <div *ngFor="let childrenOne of childrenOne">
           <div class="header">
             <div class="left">
@@ -25,14 +44,20 @@
             </div>
           </div>
           <div class="body timeline-item">
-            <mat-card class="timeline-card card card-md">
+            <mat-card class="timeline-card card card-md card-border">
               <mat-card-content class="card-content card-content-md">
-                <div *ngFor="let childrenTwo of childrenOne.Children" class="timeline-text">
+                <div
+                  *ngFor="let childrenTwo of childrenOne.Children"
+                  class="timeline-text"
+                >
                   <div>
-                    <div *ngIf="childrenTwo.NewTDP ; then thenBlock"></div>
+                    <div *ngIf="childrenTwo.NewTDP; then thenBlock"></div>
                     <ng-template #thenBlock>
                       <div class="tdp-added-date">
-                        <label>Added : {{ convertDate(childrenTwo.Timestamp) }}</label>
+                        <label
+                          >Added :
+                          {{ convertDate(childrenTwo.Timestamp) }}</label
+                        >
                       </div>
                     </ng-template>
                   </div>
@@ -58,15 +83,26 @@
         </div>
       </div>
     </div>
-    
   </div>
   <div class="widget-footer">
-    <button mat-flat-button fxFlex="50%" class="customize-btn" style="float: right" *ngIf="viewBtn"
-      (click)="openDialog()">
+    <button
+      mat-flat-button
+      fxFlex="50%"
+      class="customize-btn"
+      style="float: right"
+      *ngIf="viewBtn"
+      (click)="openDialog()"
+    >
       <mat-icon class="material-symbols-outlined"> visibility </mat-icon>
       View
     </button>
-    <button mat-flat-button fxFlex="50%" class="add-data-btn" style="float: right" (click)="openAddData()">
+    <button
+      mat-flat-button
+      fxFlex="50%"
+      class="add-data-btn"
+      style="float: right"
+      (click)="openAddData()"
+    >
       <mat-icon>add_circle</mat-icon>
       {{ !viewBtn ? "Add Data" : "Modify Data" }}
     </button>
