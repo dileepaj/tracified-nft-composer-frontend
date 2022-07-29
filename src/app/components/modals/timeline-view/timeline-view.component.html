@@ -12,15 +12,14 @@
                 <label class="timeline-product">{{
                   timeline.ProductName
                 }}</label>
-                <label class="timeline-batch">{{ timeline.BactchId }}</label>
+                <label class="timeline-batch">{{ timeline.BatchId }}</label>
               </div>
               <div *ngFor="let childrenOne of childrenOne">
                 <div class="header">
                   <div class="left">
                     <img
-                      width="75%"
-                      height="100%"
                       [src]="childrenOne.Icon"
+                      class="tl-v-icon"
                       alt="icon"
                     />
                   </div>
