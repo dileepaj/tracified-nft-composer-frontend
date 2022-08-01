@@ -82,7 +82,7 @@ export class NftProofbotComponent implements OnInit {
       ProjectId: this.projectId,
       WidgetId: this.id,
       WidgetType: proofbot,
-      Title: 'Proofbot',
+      Title: 'Proof Bot',
       Data: [],
     };
 
