@@ -223,3 +223,18 @@ img {
   color: #b1b1b1;
   font-style: italic;
 }
+
+.no-data-msg {
+  text-align: center;
+  font-size: medium;
+  padding-top: 1px;
+  color: #4f525d;
+}
+
+p {
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
