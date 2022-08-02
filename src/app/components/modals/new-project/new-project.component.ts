@@ -107,13 +107,15 @@ export class NewProjectComponent implements OnInit {
   private checkIfAlreadyExists(newProjectName: string) {
     let projectNameExists = false;
     if (newProjectName !== '') {
-      for (let i = 0; i < this.existingProjects.length; i++) {
-        if (
-          newProjectName.trim().toLowerCase() ===
-          this.existingProjects[i].ProjectName.trim().toLowerCase()
-        ) {
-          projectNameExists = true;
-          break;
+      if (this.existingProjects) {
+        for (let i = 0; i < this.existingProjects.length; i++) {
+          if (
+            newProjectName.trim().toLowerCase() ===
+            this.existingProjects[i].ProjectName.trim().toLowerCase()
+          ) {
+            projectNameExists = true;
+            break;
+          }
         }
       }
     }

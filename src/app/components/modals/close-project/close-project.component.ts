@@ -51,7 +51,7 @@ export class CloseProjectComponent implements OnInit {
       this.router.navigate(['/login']);
       sessionStorage.setItem('Token', '');
     } else {
-      this.router.navigate(['/layout/projects/' + this.user.TenentId]);
+      this.router.navigate(['/layout/projects/' + this.user.UserID]);
     }
     this.dialogRef.close();
   }
@@ -94,7 +94,7 @@ export class CloseProjectComponent implements OnInit {
             this.router.navigate(['/login']);
             sessionStorage.setItem('Token', '');
           } else {
-            this.router.navigate(['/layout/projects/' + this.user.TenentId]);
+            this.router.navigate(['/layout/projects/' + this.user.UserID]);
           }
 
           this.dialogRef.close();
@@ -116,7 +116,7 @@ export class CloseProjectComponent implements OnInit {
             this.router.navigate(['/login']);
             sessionStorage.setItem('Token', '');
           } else {
-            this.router.navigate(['/layout/projects/' + this.user.TenentId]);
+            this.router.navigate(['/layout/projects/' + this.user.UserID]);
           }
           this.dialogRef.close();
         },
