@@ -75,7 +75,7 @@ export class SidebarComponent implements OnInit {
   nft$: Observable<NFTContent>;
   projId: string = '';
   layoutLink: string = '/layout/home/';
-  user: ComposerUser;
+  user: any;
   widgets = [
     {
       _id: 1,
@@ -273,7 +273,7 @@ export class SidebarComponent implements OnInit {
         },
       });
     } else {
-      this.router.navigate(['/layout/projects/' + this.user.TenentId]);
+      this.router.navigate(['/layout/projects/' + this.user.UserID]);
     }
   }
 }

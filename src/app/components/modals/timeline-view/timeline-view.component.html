@@ -32,6 +32,11 @@
                 <div class="body timeline-item">
                   <mat-card class="timeline-card card card-md card-border">
                     <mat-card-content class="card-content card-content-md">
+                      <div *ngIf="childrenOne.Children.length === 0">
+                        <div class="no-data-msg">
+                          <p>No data available</p>
+                        </div>
+                      </div>
                       <div
                         *ngFor="let childrenTwo of childrenOne.Children"
                         class="timeline-text"
