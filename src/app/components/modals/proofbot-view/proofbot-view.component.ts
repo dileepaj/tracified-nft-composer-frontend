@@ -51,7 +51,7 @@ export class ProofbotViewComponent implements OnInit {
 
     if (data.length === 0) {
       this.popupService.openSnackBar(
-        'Proofbot widget must contain atleast one proof'
+        'Proof Bot widget must contain atleast one proof'
       );
     } else {
       this.proofbot = {
@@ -99,7 +99,7 @@ export class ProofbotViewComponent implements OnInit {
 
     if (data.length === 0) {
       this.popupService.openSnackBar(
-        'Proofbot widget must contain atleast one proof'
+        'Proof Bot widget must contain atleast one proof'
       );
     } else {
       this.proofbot = {
@@ -124,7 +124,7 @@ export class ProofbotViewComponent implements OnInit {
       },
       complete: () => {
         this.saving = false;
-        this.popupService.openSnackBar('Proofbot updated successfully!');
+        this.popupService.openSnackBar('Proof Bot updated successfully!');
         this.dialogRef.close();
       },
     });
