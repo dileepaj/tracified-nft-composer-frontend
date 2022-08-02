@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  HostListener,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
@@ -10,6 +17,7 @@ import {
   addBubbleChart,
   deleteBarChart,
   deleteBubbleChart,
+  updateBubbleChart,
 } from 'src/app/store/nft-state-store/nft.actions';
 import {
   selectBubbleCharts,
@@ -35,6 +43,9 @@ export class BubbleChartWidgetComponent implements OnInit {
   nftContent: NFTContent;
   icon: any = '../../../../assets/images/widget-icons/Bubble-chart.png';
   public highlight = false;
+  public isEditing: boolean = false;
+  public newTitle: string = '';
+  private clickedInsideInput: boolean = false;
 
   constructor(
     private store: Store<AppState>,
@@ -140,5 +151,66 @@ export class BubbleChartWidgetComponent implements OnInit {
         widget: this.bubbleChart,
       },
     });
+  }
+
+  //update database
+  public updateInDB() {
+    this.composerService.updateChart(this.bubbleChart).subscribe({
+      next: (res) => {},
+      error: (err) => {
+        this.popupMsgService.openSnackBar(
+          'An unexpected error occured. Please try again later'
+        );
+      },
+      complete: () => {
+        this.popupMsgService.openSnackBar('Bubble Chart updated successfully!');
+        this.service.setSavedStatus(this.bubbleChart.WidgetId);
+        this.dialog.closeAll();
+      },
+    });
+  }
+
+  //enable editing title
+  public enableEditing() {
+    this.clickedInsideInput = true;
+    this.isEditing = true;
+    this.newTitle = this.bubbleChart.ChartTitle!;
+  }
+
+  //called when user types on title input field
+  public onChangeTitle(event: any) {
+    if (event.target.value.length > 0) {
+      this.newTitle = event.target.value;
+    }
+  }
+
+  //save new ttile
+  public saveTitle() {
+    this.bubbleChart = {
+      ...this.bubbleChart,
+      ChartTitle: this.newTitle,
+    };
+
+    if (this.service.getSavedStatus(this.bubbleChart.WidgetId)) {
+      this.updateInDB();
+    }
+
+    this.store.dispatch(updateBubbleChart({ chart: this.bubbleChart }));
+    this.isEditing = false;
+  }
+
+  //called when user clicks on input field
+  public onClickInput() {
+    this.clickedInsideInput = true;
+  }
+
+  //triggered when useer clicks on anywhere in the document
+  @HostListener('document:click')
+  clickedOut() {
+    if (!this.clickedInsideInput) {
+      this.isEditing = false;
+      this.newTitle = this.bubbleChart.ChartTitle!;
+    }
+    this.clickedInsideInput = false;
   }
 }

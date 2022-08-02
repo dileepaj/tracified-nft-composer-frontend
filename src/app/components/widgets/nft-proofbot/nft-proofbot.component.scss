@@ -79,10 +79,9 @@ h2 button {
 .proof-card {
   display: flex;
   flex-direction: column;
-  border-radius: 10px;
-  background: rgba(176, 221, 176, 0.137) !important;
+  background: #f5f5f5 !important;
   margin: 10px;
-  width: max-content;
+  width: 650px;
   padding: 10px;
   overflow: hidden;
 }
@@ -114,7 +113,70 @@ h2 button {
 }
 
 .delete-btn {
+  cursor: pointer;
+  color: #c62929;
+  border-radius: 50%;
+}
+
+.widget-title {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+  border-radius: 2px;
+  padding: 2px;
+  color: #383838;
+  cursor: pointer;
+}
+
+.widget-title:hover {
+  background-color: #ccc;
+}
+
+.input-title {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+  border: 1px solid #ccc;
+}
+
+.proofbot-data-field {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  color: #021d27;
+}
+
+.available-proofs-div {
+  display: flex;
+  flex-direction: row;
+  column-gap: 10px;
+}
+
+.proof-chip {
+  background: #02aa46;
+  border-radius: 7.17703px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 10px;
+  line-height: 12px;
+  color: #ffffff;
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  height: 21.1px;
+  padding: 2px 5px 2px 10px;
+
   mat-icon {
-    color: #c62929;
+    transform: scale(0.55);
+    border-radius: 50%;
+    color: #ffffff;
   }
 }

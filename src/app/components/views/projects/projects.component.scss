@@ -9,7 +9,9 @@ mat-toolbar {
 }
 
 .content {
-  padding: 20px;
+  padding: 15px 30px 20px 30px;
+  font-family: "Inter";
+  font-style: normal;
 }
 
 .content > mat-card {
@@ -60,7 +62,7 @@ mat-toolbar {
 }
 
 .projects-div {
-  margin-top: 10px;
+  margin-top: 35px;
 }
 
 .timestamp {
@@ -135,7 +137,7 @@ mat-toolbar {
 }
 
 .button-container {
-  margin-right: 20px;
+  margin-right: 0px;
   margin-top: 10px;
   display: flex;
   flex-direction: row;
@@ -262,4 +264,27 @@ mat-toolbar {
   height: 36px;
   border-left: none;
   color: #868686;
+}
+
+.projects-left-div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  column-gap: 10px;
+}
+
+.btn-new {
+  width: 22px;
+  height: 22px;
+  background: #00c853;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 12px 17px 15px -3px rgba(0, 0, 0, 0.1) !important;
+
+  mat-icon {
+    color: #fff;
+    transform: scale(0.8);
+  }
 }

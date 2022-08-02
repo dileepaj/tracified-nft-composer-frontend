@@ -51,6 +51,8 @@
                   <input
                     matInput
                     type="text"
+                    maxlength="15"
+                    minlength="1"
                     [(ngModel)]="title"
                     (ngModelChange)="drawChart()"
                   />

@@ -83,7 +83,32 @@ h2 button {
 }
 
 .delete-btn {
-  mat-icon {
-    color: #c62929;
-  }
+  cursor: pointer;
+  color: #c62929;
+  border-radius: 50%;
+}
+
+.widget-title {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+  border-radius: 2px;
+  padding: 2px;
+  color: #383838;
+  cursor: pointer;
+}
+
+.widget-title:hover {
+  background-color: #ccc;
+}
+
+.input-title {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+  border: 1px solid #ccc;
 }

@@ -3,21 +3,34 @@
   [ngStyle]="{ border: highlight ? 'solid 3px #00D6A0' : 'solid 1px #ccc;' }"
   [id]="pieChart.WidgetId"
 >
-  <div>
-    <h2
-      style="font-size: medium; font-weight: 200"
+  <div fxLayoutAlign="space-between center">
+    <label
+      *ngIf="!isEditing"
+      class="widget-title"
       [ngStyle]="{ color: highlight ? '#00D6A0' : 'black' }"
+      (click)="enableEditing()"
+      matTooltip="Click to edit title"
+      >{{ pieChart.ChartTitle }}</label
     >
-      Pie Chart
-      <button
-        mat-icon-button
-        class="delete-btn"
-        matTooltip="Delete"
-        (click)="deleteWidget()"
-      >
-        <mat-icon>clear</mat-icon>
-      </button>
-    </h2>
+    <input
+      type="text"
+      *ngIf="isEditing"
+      [value]="newTitle"
+      (input)="onChangeTitle($event)"
+      (keyup.enter)="saveTitle()"
+      (click)="onClickInput()"
+      maxlength="15"
+      minlength="1"
+      class="input-title"
+    />
+
+    <mat-icon
+      (click)="deleteWidget()"
+      matTooltip="Delete"
+      class="delete-btn"
+      matRipple
+      >clear</mat-icon
+    >
   </div>
   <div class="chart-div">
     <img class="widget-card-icon" [src]="icon" />
