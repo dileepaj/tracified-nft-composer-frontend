@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
@@ -6,6 +13,7 @@ import { AppState } from 'src/app/store/app.state';
 import {
   addTimeline,
   deleteTimeline,
+  updateTimeline,
 } from 'src/app/store/nft-state-store/nft.actions';
 import {
   selectCarbonFP,
@@ -47,10 +55,13 @@ export class NftTimelineComponent implements OnInit {
   viewBtn: boolean = false;
   icon: any = '../../../../assets/images/widget-icons/timeline.png';
   public highlight = false;
-  currentTimestamp : any;
-  elements : any;
-  elementCount : any;
+  currentTimestamp: any;
+  elements: any;
+  elementCount: any;
   collection: HTMLCollectionOf<Element>;
+  public isEditing: boolean = false;
+  public newTitle: string = '';
+  private clickedInsideInput: boolean = false;
 
   constructor(
     private store: Store<AppState>,
@@ -150,14 +161,13 @@ export class NftTimelineComponent implements OnInit {
         timelineData: this.childrenOne,
       },
     });
-    
   }
 
   /**
    * @function convertDate - convert the date format
    * @param date
    */
-   public convertDate(date: any): string {
+  public convertDate(date: any): string {
     const stillUtc = MomentAll.utc(date).toDate();
     // MomentAll(date).zone((new Date()).getTimezoneOffset()).format('YYYY-MM-DD hh:mm A')
     const local = MomentAll(date)
@@ -166,5 +176,65 @@ export class NftTimelineComponent implements OnInit {
     // MomentAll(stillUtc).local().format('LLLL');
     return local;
   }
-}
 
+  //update database
+  public updateInDB() {
+    this.composerService.updateTimeline(this.timeline).subscribe({
+      next: (res) => {},
+      error: (err) => {
+        this.popupMsgService.openSnackBar(
+          'An unexpected error occured. Please try again later'
+        );
+      },
+      complete: () => {
+        this.popupMsgService.openSnackBar('Timeline updated successfully!');
+        this.service.setSavedStatus(this.timeline.WidgetId);
+        this.dialog.closeAll();
+      },
+    });
+  }
+
+  //enable editing title
+  public enableEditing() {
+    this.clickedInsideInput = true;
+    this.isEditing = true;
+    this.newTitle = this.timeline.Title!;
+  }
+
+  //called when user types on title input field
+  public onChangeTitle(event: any) {
+    if (event.target.value.length > 0) {
+      this.newTitle = event.target.value;
+    }
+  }
+
+  //save new ttile
+  public saveTitle() {
+    this.timeline = {
+      ...this.timeline,
+      Title: this.newTitle,
+    };
+
+    if (this.service.getSavedStatus(this.timeline.WidgetId)) {
+      this.updateInDB();
+    }
+
+    this.store.dispatch(updateTimeline({ timeline: this.timeline }));
+    this.isEditing = false;
+  }
+
+  //called when user clicks on input field
+  public onClickInput() {
+    this.clickedInsideInput = true;
+  }
+
+  //triggered when useer clicks on anywhere in the document
+  @HostListener('document:click')
+  clickedOut() {
+    if (!this.clickedInsideInput) {
+      this.isEditing = false;
+      this.newTitle = this.timeline.Title!;
+    }
+    this.clickedInsideInput = false;
+  }
+}
