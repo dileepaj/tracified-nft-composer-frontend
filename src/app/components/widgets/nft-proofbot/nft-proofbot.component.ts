@@ -205,4 +205,19 @@ export class NftProofbotComponent implements OnInit {
     }
     this.clickedInsideInput = false;
   }
+
+  //get proof name by type
+  public getProofName(type: string): string {
+    if (type.toLowerCase() === 'poe') {
+      return 'Proof of Existence';
+    } else if (type.toLowerCase() === 'poc') {
+      return 'Proof of Continuity';
+    } else if (type.toLowerCase() === 'pog') {
+      return 'Proof of Genesis';
+    } else if (type.toLowerCase() === 'pococ') {
+      return 'Proof of Change of Custody';
+    } else {
+      return type;
+    }
+  }
 }

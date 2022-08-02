@@ -5,26 +5,37 @@
       <div class="proof-card" *ngFor="let data of proofbot.Data!">
         <div class="close-action-div">
           <mat-icon class="close-icon" (click)="removeProofData(data)"
-            >cancel</mat-icon
+            >close</mat-icon
           >
         </div>
-        <label><b>TxnHash: </b> {{ data.TxnHash }}</label>
-        <label><b>Product Name: </b> {{ proofbot.ProductName }}</label>
-        <label><b>Batch Id: </b> {{ data.BatchId }}</label>
-        <label><b>Proofs: </b> </label>
-        <mat-chip-list #chipList>
-          <mat-chip
-            class="proof-chip"
-            *ngFor="let url of data.Urls"
-            (click)="openProofLink(url.Url)"
-            (removed)="removeProofLink(data, url)"
-          >
-            {{ url.Type.toUpperCase() }}
-            <button matChipRemove>
-              <mat-icon>cancel</mat-icon>
-            </button>
-          </mat-chip>
-        </mat-chip-list>
+        <label class="proofbot-data-field"
+          >Product Name: <b>{{ proofbot.ProductName }}</b></label
+        >
+        <label class="proofbot-data-field"
+          >Batch ID: <b>{{ data.BatchId }}</b></label
+        >
+        <label class="proofbot-data-field"
+          >Transaction ID: <b>{{ data.TxnHash }}</b></label
+        >
+        <div class="available-proofs-div">
+          <label class="proofbot-data-field">Available Proofs: </label>
+          <div *ngFor="let url of data.Urls" class="proof-chip">
+            <mat-icon (click)="removeProofLink(data, url)" matRipple
+              >close</mat-icon
+            >
+            <section
+              style="
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              "
+              (click)="openProofLink(url.Url)"
+              matRipple
+            >
+              {{ getProofName(url.Type) }} <mat-icon>launch</mat-icon>
+            </section>
+          </div>
+        </div>
       </div>
     </div>
   </mat-dialog-content>
