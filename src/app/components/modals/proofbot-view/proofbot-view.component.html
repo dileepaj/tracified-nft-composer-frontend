@@ -13,17 +13,47 @@
         <label><b>Batch Id: </b> {{ data.BatchId }}</label>
         <label><b>Proofs: </b> </label>
         <mat-chip-list #chipList>
-          <mat-chip
-            class="proof-chip"
-            *ngFor="let url of data.Urls"
-            (click)="openProofLink(url.Url)"
-            (removed)="removeProofLink(data, url)"
-          >
-            {{ url.Type.toUpperCase() }}
-            <button matChipRemove>
-              <mat-icon>cancel</mat-icon>
-            </button>
-          </mat-chip>
+          <div *ngFor="let url of data.Urls">
+            <div *ngIf="url.Type === 'poe'; then poeBlock"></div>
+            <ng-template #poeBlock>
+              <mat-chip
+                class="proof-chip"
+                (click)="openProofLink(url.Url)"
+                (removed)="removeProofLink(data, url)"
+              >
+              Proof of Existence
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+              </mat-chip>
+            </ng-template>
+            <div *ngIf="url.Type === 'pog'; then pogBlock"></div>
+            <ng-template #pogBlock>
+              <mat-chip
+                class="proof-chip"
+                (click)="openProofLink(url.Url)"
+                (removed)="removeProofLink(data, url)"
+              >
+              Proof of Genesis
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+              </mat-chip>
+            </ng-template>
+            <div *ngIf="url.Type === 'poc'; then pocBlock"></div>
+            <ng-template #pocBlock>
+              <mat-chip
+                class="proof-chip"
+                (click)="openProofLink(url.Url)"
+                (removed)="removeProofLink(data, url)"
+              >
+              Proof of Continuity
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+              </mat-chip>
+            </ng-template>
+          </div>
         </mat-chip-list>
       </div>
     </div>
