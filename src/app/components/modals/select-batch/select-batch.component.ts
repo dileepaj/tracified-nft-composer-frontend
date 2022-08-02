@@ -702,7 +702,7 @@ export class SelectBatchComponent implements OnInit {
                 this.dndService.setSavedStatus(this.widget.WidgetId);
                 this.dndService.setBatchStatus(this.widget.WidgetId);
                 this.popupMsgService.openSnackBar(
-                  'Proofbot data added successfully!'
+                  'Proof Bot data added successfully!'
                 );
                 this.store.dispatch(projectUnsaved());
                 this.close();
@@ -718,7 +718,7 @@ export class SelectBatchComponent implements OnInit {
               complete: () => {
                 this.saving = false;
                 this.popupMsgService.openSnackBar(
-                  'Proofbot data updated successfully!'
+                  'Proof Bot data updated successfully!'
                 );
                 this.store.dispatch(projectUnsaved());
                 this.close();

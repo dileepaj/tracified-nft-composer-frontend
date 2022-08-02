@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -10,6 +17,7 @@ import { AppState } from 'src/app/store/app.state';
 import {
   addProofBot,
   deleteProofBot,
+  updateProofBot,
 } from 'src/app/store/nft-state-store/nft.actions';
 import {
   selectCardStatus,
@@ -36,6 +44,9 @@ export class NftProofbotComponent implements OnInit {
   projectId: string;
   icon: any = '../../../../assets/images/widget-icons/Proofbot.png';
   public highlight = false;
+  public isEditing: boolean = false;
+  public newTitle: string = '';
+  private clickedInsideInput: boolean = false;
 
   constructor(
     private store: Store<AppState>,
@@ -82,7 +93,7 @@ export class NftProofbotComponent implements OnInit {
       ProjectId: this.projectId,
       WidgetId: this.id,
       WidgetType: proofbot,
-      Title: 'Proofbot',
+      Title: 'Proof Bot',
       Data: [],
     };
 
@@ -132,5 +143,66 @@ export class NftProofbotComponent implements OnInit {
   //called when user clicks on a proof link
   public openProofLink(url: string) {
     window.open(url, '_blank');
+  }
+
+  //update database
+  public updateInDB() {
+    this.composerService.updateProofbot(this.proofbot).subscribe({
+      next: (res) => {},
+      error: (err) => {
+        this.popupMsgService.openSnackBar(
+          'An unexpected error occured. Please try again later'
+        );
+      },
+      complete: () => {
+        this.popupMsgService.openSnackBar('Proof Bot updated successfully!');
+        this.service.setSavedStatus(this.proofbot.WidgetId);
+        this.dialog.closeAll();
+      },
+    });
+  }
+
+  //enable editing title
+  public enableEditing() {
+    this.clickedInsideInput = true;
+    this.isEditing = true;
+    this.newTitle = this.proofbot.Title!;
+  }
+
+  //called when user types on title input field
+  public onChangeTitle(event: any) {
+    if (event.target.value.length > 0) {
+      this.newTitle = event.target.value;
+    }
+  }
+
+  //save new ttile
+  public saveTitle() {
+    this.proofbot = {
+      ...this.proofbot,
+      Title: this.newTitle,
+    };
+
+    if (this.service.getSavedStatus(this.proofbot.WidgetId)) {
+      this.updateInDB();
+    }
+
+    this.store.dispatch(updateProofBot({ proofBot: this.proofbot }));
+    this.isEditing = false;
+  }
+
+  //called when user clicks on input field
+  public onClickInput() {
+    this.clickedInsideInput = true;
+  }
+
+  //triggered when useer clicks on anywhere in the document
+  @HostListener('document:click')
+  clickedOut() {
+    if (!this.clickedInsideInput) {
+      this.isEditing = false;
+      this.newTitle = this.proofbot.Title!;
+    }
+    this.clickedInsideInput = false;
   }
 }
