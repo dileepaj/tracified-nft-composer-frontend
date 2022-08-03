@@ -9,10 +9,12 @@
           <div class="timeline-content">
             <div class="timeline-outer-div" *ngIf="childrenOne.length > 0">
               <div class="timeline-heading">
-                <label class="timeline-product">{{
-                  timeline.ProductName
-                }}</label>
-                <label class="timeline-batch">{{ timeline.BatchId }}</label>
+                <label class="timeline-product"
+                  ><b>Product Name : </b>{{ timeline.ProductName }}</label
+                >
+                <label class="timeline-batch"
+                  ><b>Batch ID : </b>{{ timeline.BatchId }}</label
+                >
               </div>
               <div *ngFor="let childrenOne of childrenOne">
                 <div class="header">
@@ -24,7 +26,7 @@
                     />
                   </div>
                   <div class="right">
-                    <h3 class="title">
+                    <h3 class="title" style="font-size: 17px">
                       <b class="bold-title">{{ childrenOne.Title }}</b>
                     </h3>
                   </div>
@@ -52,12 +54,14 @@
                             </div>
                           </ng-template>
                         </div>
-                        <h4 class="secondary-font">
-                          {{ childrenTwo.Key }}
-                        </h4>
-                        <h4 class="primary-font">
-                          {{ childrenTwo.Value }}
-                        </h4>
+                        <div style="margin-bottom: 10px">
+                          <label class="secondary-font">
+                            {{ childrenTwo.Key }} </label
+                          ><br />
+                          <label class="primary-font">
+                            {{ childrenTwo.Value }}
+                          </label>
+                        </div>
                       </div>
                       <div *ngIf="childrenOne.Images.length > 0">
                         <div *ngFor="let images of childrenOne.Images">
