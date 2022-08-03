@@ -5,17 +5,6 @@
     style="min-height: 100px; margin-bottom: 15px"
   >
     <div class="projects-left-div">
-      <div>
-        <button
-          mat-icon-button
-          class="btn-new"
-          aria-label="new project"
-          matTooltip="New Project"
-          (click)="openNewProject()"
-        >
-          <mat-icon>add</mat-icon>
-        </button>
-      </div>
       <div class="mat-typography">
         <label
           class="mat-h2"
@@ -31,6 +20,17 @@
           "
           >Projects</label
         >
+      </div>
+      <div>
+        <button
+          mat-icon-button
+          class="btn-new"
+          aria-label="new project"
+          matTooltip="New Project"
+          (click)="openNewProject()"
+        >
+          <mat-icon>add</mat-icon>
+        </button>
       </div>
     </div>
 
@@ -227,19 +227,33 @@
             <!--proj name and timestamp-->
             <div
               fxLayoutAlign="space-between center"
-              style="width: 90%; cursor: pointer; height: 100px"
+              style="width: 90%; cursor: pointer; height: 100px; row-gap: 5px"
               fxLayout="row wrap"
               (click)="openExistingProject(project.ProjectId)"
             >
               <div
-                fxFlex.gt-md="90%"
-                fxFlex.md="80%"
+                fxFlex.gt-md="10%"
+                fxFlex.md="10%"
                 fxFlex.sm="100%"
                 fxFlex.xs="100%"
+                style="display: inline-block"
               >
-                <h4>
+                <label class="proj-title">
                   <b>{{ project.ProjectName }}</b>
-                </h4>
+                </label>
+              </div>
+              <div
+                fxFlex.gt-md="80%"
+                fxFlex.md="70%"
+                fxFlex.sm="100%"
+                fxFlex.xs="100%"
+                fxHide.sm="true"
+                fxHide.xs="true"
+                style="display: inline-block"
+              >
+                <label class="proj-description cursor">
+                  {{ project.Description }}
+                </label>
               </div>
               <div fxFlex.gt-md="10%" fxFlex.md="20%">
                 <mat-icon class="material-icons-outlined time-icon cursor"
