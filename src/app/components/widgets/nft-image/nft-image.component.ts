@@ -51,6 +51,10 @@ export class NftImageComponent implements OnInit {
   saving: boolean = false;
   icon: any = '../../../../assets/images/widget-icons/Image-upload.png';
   public highlight = false;
+  public isEditing = false;
+  public newTitle: string = '';
+  private clickedInsideInput = false;
+  private clickedOnTitle = false;
 
   constructor(
     private store: Store<AppState>,
@@ -145,7 +149,7 @@ export class NftImageComponent implements OnInit {
         this.store.dispatch(deleteNFTImage({ image: this.image }));
         this.onDeleteWidget.emit(this.id);
       }
-    })
+    });
   }
 
   //trigger file input click event
@@ -254,5 +258,49 @@ export class NftImageComponent implements OnInit {
         image: this.base64,
       },
     });
+  }
+
+  //enable editing title
+  public enableEditing() {
+    this.clickedInsideInput = true;
+    this.isEditing = true;
+    this.newTitle = this.image.Title!;
+  }
+
+  //called when user types on title input field
+  public onChangeTitle(event: any) {
+    if (event.target.value.length > 0) {
+      this.newTitle = event.target.value;
+    }
+  }
+
+  //save new ttile
+  public saveTitle() {
+    this.image = {
+      ...this.image,
+      Title: this.newTitle,
+    };
+
+    if (this.service.getSavedStatus(this.image.WidgetId)) {
+      this.updateImageInDB();
+    }
+
+    this.store.dispatch(updateNFTImage({ image: this.image }));
+    this.isEditing = false;
+  }
+
+  //called when user clicks on input field
+  public onClickInput() {
+    this.clickedInsideInput = true;
+  }
+
+  //triggered when useer clicks on anywhere in the document
+  @HostListener('document:click')
+  clickedOut() {
+    if (!this.clickedInsideInput) {
+      this.isEditing = false;
+      this.newTitle = this.image.Title!;
+    }
+    this.clickedInsideInput = false;
   }
 }

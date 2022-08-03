@@ -3,28 +3,66 @@
   [ngStyle]="{ border: highlight ? 'solid 3px #00D6A0' : 'solid 1px #ccc;' }"
   [id]="proofbot.WidgetId"
 >
-  <div>
-    <h2
-      style="font-size: medium; font-weight: 200"
+  <div fxLayoutAlign="space-between center">
+    <label
+      *ngIf="!isEditing"
+      class="widget-title"
       [ngStyle]="{ color: highlight ? '#00D6A0' : 'black' }"
+      (click)="enableEditing()"
+      matTooltip="Click to edit title"
+      >{{ proofbot.Title }}</label
     >
-      Proof Bot
-      <button
-        mat-icon-button
-        class="delete-btn"
-        matTooltip="Delete"
-        (click)="deleteWidget()"
-      >
-        <mat-icon>clear</mat-icon>
-      </button>
-    </h2>
+    <input
+      type="text"
+      *ngIf="isEditing"
+      [value]="newTitle"
+      (input)="onChangeTitle($event)"
+      (keyup.enter)="saveTitle()"
+      (click)="onClickInput()"
+      maxlength="15"
+      minlength="1"
+      class="input-title"
+    />
+
+    <mat-icon
+      (click)="deleteWidget()"
+      matTooltip="Delete"
+      class="delete-btn"
+      matRipple
+      >clear</mat-icon
+    >
   </div>
   <div class="content-div">
     <img class="widget-card-icon" *ngIf="!otpAdded" [src]="icon" />
 
     <div class="proofbot-content" *ngIf="otpAdded">
       <div class="proof-card" *ngFor="let data of proofbot.Data!">
-        <label><b>TxnHash: </b> {{ data.TxnHash }}</label>
+        <label class="proofbot-data-field"
+          >Product Name: <b>{{ proofbot.ProductName }}</b></label
+        >
+        <label class="proofbot-data-field"
+          >Batch ID: <b>{{ data.BatchId }}</b></label
+        >
+        <label class="proofbot-data-field"
+          >Transaction ID: <b>{{ data.TxnHash }}</b></label
+        >
+        <div class="available-proofs-div">
+          <label class="proofbot-data-field">Available Proofs: </label>
+          <div *ngFor="let url of data.Urls" class="proof-chip">
+            <section
+              style="
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              "
+              (click)="openProofLink(url.Url)"
+              matRipple
+            >
+              {{ getProofName(url.Type) }} <mat-icon>launch</mat-icon>
+            </section>
+          </div>
+        </div>
+        <!-- <label><b>TxnHash: </b> {{ data.TxnHash }}</label>
         <label><b>Product Name: </b> {{ proofbot.ProductName }}</label>
         <label><b>Batch Id: </b> {{ data.BatchId }}</label>
         <label><b>Proofs: </b> </label>
@@ -36,7 +74,7 @@
           >
             {{ url.Type.toUpperCase() }}
           </mat-chip>
-        </mat-chip-list>
+        </mat-chip-list> -->
       </div>
     </div>
   </div>

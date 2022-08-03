@@ -6,6 +6,7 @@ import {
   AfterViewInit,
   Output,
   EventEmitter,
+  HostListener,
 } from '@angular/core';
 import { ConfigureBarChartComponent } from '../../modals/configure-bar-chart/configure-bar-chart.component';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -22,6 +23,7 @@ import { Observable } from 'rxjs';
 import {
   addBarChart,
   deleteBarChart,
+  updateBarChart,
 } from 'src/app/store/nft-state-store/nft.actions';
 import { WidgetContentComponent } from '../../modals/widget-content/widget-content.component';
 import { Widget } from '../../views/composer/composer.component';
@@ -46,6 +48,9 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
   @Input() widget: Widget;
   icon: any = '../../../../assets/images/widget-icons/Bar-chart.png';
   public highlight = false;
+  public isEditing: boolean = false;
+  public newTitle: string = '';
+  private clickedInsideInput: boolean = false;
 
   constructor(
     private store: Store<AppState>,
@@ -115,8 +120,8 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
-      if(result === true){
-        this.store.dispatch(deleteBarChart({ chart : this.barChart}));
+      if (result === true) {
+        this.store.dispatch(deleteBarChart({ chart: this.barChart }));
         this.onDeleteWidget.emit(this.id);
       }
     });
@@ -157,5 +162,66 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
         widget: this.barChart,
       },
     });
+  }
+
+  //update database
+  public updateInDB() {
+    this.composerService.updateChart(this.barChart).subscribe({
+      next: (res) => {},
+      error: (err) => {
+        this.popupMsgService.openSnackBar(
+          'An unexpected error occured. Please try again later'
+        );
+      },
+      complete: () => {
+        this.popupMsgService.openSnackBar('Bar Chart updated successfully!');
+        this.service.setSavedStatus(this.barChart.WidgetId);
+        this.dialog.closeAll();
+      },
+    });
+  }
+
+  //enable editing title
+  public enableEditing() {
+    this.clickedInsideInput = true;
+    this.isEditing = true;
+    this.newTitle = this.barChart.ChartTitle!;
+  }
+
+  //called when user types on title input field
+  public onChangeTitle(event: any) {
+    if (event.target.value.length > 0) {
+      this.newTitle = event.target.value;
+    }
+  }
+
+  //save new ttile
+  public saveTitle() {
+    this.barChart = {
+      ...this.barChart,
+      ChartTitle: this.newTitle,
+    };
+
+    if (this.service.getSavedStatus(this.barChart.WidgetId)) {
+      this.updateInDB();
+    }
+
+    this.store.dispatch(updateBarChart({ chart: this.barChart }));
+    this.isEditing = false;
+  }
+
+  //called when user clicks on input field
+  public onClickInput() {
+    this.clickedInsideInput = true;
+  }
+
+  //triggered when useer clicks on anywhere in the document
+  @HostListener('document:click')
+  clickedOut() {
+    if (!this.clickedInsideInput) {
+      this.isEditing = false;
+      this.newTitle = this.barChart.ChartTitle!;
+    }
+    this.clickedInsideInput = false;
   }
 }

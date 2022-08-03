@@ -32,6 +32,16 @@
                 <div class="body timeline-item">
                   <mat-card class="timeline-card card card-md card-border">
                     <mat-card-content class="card-content card-content-md">
+                      <div class="timeline-text" *ngIf="childrenOne.Children.length === 0">
+                        <div>
+                          <h4 class="secondary-font">
+                            දිනය/தேதி
+                          </h4>
+                          <h4 class="primary-font">
+                            No data available
+                          </h4>
+                        </div>
+                      </div>
                       <div
                         *ngFor="let childrenTwo of childrenOne.Children"
                         class="timeline-text"
