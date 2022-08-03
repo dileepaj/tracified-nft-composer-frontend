@@ -125,7 +125,7 @@ export class DeleteWidgetComponent implements OnInit {
             );
           },
           complete: () => {
-            this.popupMsgService.openSnackBar('Proofbot deleted');
+            this.popupMsgService.openSnackBar('Proof Bot deleted');
             this.store.dispatch(projectUnsaved());
             this.dialogRef.close(true);
           },
