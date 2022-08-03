@@ -66,6 +66,7 @@ export class CloseProjectComponent implements OnInit {
       ProjectId: this.nftContent.ProjectId,
       Timestamp: this.nftContent.Timestamp,
       NFTName: this.nftContent.NFTName,
+      Description: this.nftContent.Description,
       UserId: this.nftContent.UserId,
       CreatorName: this.nftContent.CreatorName,
       TenentId: this.nftContent.TenentId,
