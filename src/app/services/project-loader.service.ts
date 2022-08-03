@@ -205,6 +205,7 @@ export class ProjectLoaderService {
           ProjectId: proj.Project.ProjectId,
           ProjectName: proj.Project.ProjectName,
           NFTName: proj.Project.NFTName,
+          Description: proj.Project.Description,
           UserId: proj.Project.UserId,
           TenentId: proj.Project.TenentId,
           Timestamp: proj.Project.Timestamp,
