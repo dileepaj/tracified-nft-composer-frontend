@@ -26,7 +26,7 @@ export class AuthGuard implements CanActivate {
       return this.auth.isValidToken();
     } else {
       this.snackBar.openSnackBar(
-        'The user session expired. Please login again'
+        'You do not have permission to NFT Composer.'
       );
       this.router.navigate([`/login`]);
       return false;
