@@ -150,10 +150,18 @@ h2 button {
 }
 
 .secondary-font {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
   color: #b1b1b1 !important;
 }
 
 .primary-font {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
   color: #4f525d !important;
 }
 
@@ -177,7 +185,7 @@ img {
   label {
     color: $green;
     font-weight: 500;
-    font-size: large;
+    font-size: 17px;
   }
 }
 
@@ -214,14 +222,11 @@ img {
 }
 
 .timeline-product {
-  font-size: 16px;
-  font-style: italic;
+  font-size: 17px;
 }
 
 .timeline-batch {
-  font-size: 14px;
-  color: #b1b1b1;
-  font-style: italic;
+  font-size: 17px;
 }
 
 .no-data-msg {
