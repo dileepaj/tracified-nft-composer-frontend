@@ -1,0 +1,6 @@
+@import "../../../../scss/variables";
+@import "../../../../scss/mixins";
+
+.btn {
+  @include btn-primary;
+}
