@@ -97,7 +97,7 @@ export class CloseProjectComponent implements OnInit {
           } else {
             this.router.navigate(['/layout/projects/' + this.user.UserID]);
           }
-
+          this.popupMsgService.openSnackBar('Project saved successfully!');
           this.dialogRef.close();
         },
       });
@@ -119,6 +119,7 @@ export class CloseProjectComponent implements OnInit {
           } else {
             this.router.navigate(['/layout/projects/' + this.user.UserID]);
           }
+          this.popupMsgService.openSnackBar('Project updated successfully!');
           this.dialogRef.close();
         },
       });
