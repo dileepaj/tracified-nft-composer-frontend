@@ -31,10 +31,14 @@ logo {
 
 #userName{
    font-size: medium;
-   padding-right: 3%;
+   padding-right: 0.25rem;
 }
 
 .account-username:hover{
 background-color:transparent !important;
 cursor: default;
+}
+
+.user-det{
+  padding-left: 0.5rem;
 }
