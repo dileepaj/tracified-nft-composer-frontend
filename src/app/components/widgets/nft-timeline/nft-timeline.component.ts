@@ -1,10 +1,12 @@
 import {
   Component,
+  ElementRef,
   EventEmitter,
   HostListener,
   Input,
   OnInit,
   Output,
+  ViewChild,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
@@ -42,6 +44,7 @@ import * as MomentAll from 'moment';
 export class NftTimelineComponent implements OnInit {
   @Input() id: any;
   @Output() onDeleteWidget: EventEmitter<any> = new EventEmitter();
+
   public timeline: Timeline;
   data: TimelineData[];
   projectId: string;
@@ -62,6 +65,7 @@ export class NftTimelineComponent implements OnInit {
   public isEditing: boolean = false;
   public newTitle: string = '';
   private clickedInsideInput: boolean = false;
+  public inputId: string = '';
 
   constructor(
     private store: Store<AppState>,
@@ -120,6 +124,11 @@ export class NftTimelineComponent implements OnInit {
       ProjectId: this.nftContent.ProjectId,
       TimelineData: this.data,
     };
+
+    this.clickedInsideInput = true;
+    this.isEditing = true;
+    this.newTitle = '';
+    this.inputId = `timeline-${this.id}`;
 
     this.store.dispatch(addTimeline({ timeline: this.timeline }));
     this.service.updateUsedStatus(this.id);
@@ -210,17 +219,27 @@ export class NftTimelineComponent implements OnInit {
 
   //save new ttile
   public saveTitle() {
-    this.timeline = {
-      ...this.timeline,
-      Title: this.newTitle,
-    };
+    this.onClickInput();
+    if (this.newTitle !== '') {
+      this.timeline = {
+        ...this.timeline,
+        Title: this.newTitle,
+      };
 
-    if (this.service.getSavedStatus(this.timeline.WidgetId)) {
-      this.updateInDB();
+      if (this.service.getSavedStatus(this.timeline.WidgetId)) {
+        this.updateInDB();
+      }
+
+      this.store.dispatch(updateTimeline({ timeline: this.timeline }));
+      this.isEditing = false;
+    } else {
+      this.popupMsgService.openSnackBar('Widget title can not be empty');
     }
+  }
 
-    this.store.dispatch(updateTimeline({ timeline: this.timeline }));
+  public cancel() {
     this.isEditing = false;
+    this.newTitle = this.timeline.Title!;
   }
 
   //called when user clicks on input field

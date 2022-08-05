@@ -138,6 +138,11 @@ export class BubbleChartWidgetComponent implements OnInit {
       QuerySuccess: false,
       ChartImage: 'string',
     };
+
+    this.clickedInsideInput = true;
+    this.isEditing = true;
+    this.newTitle = '';
+
     this.store.dispatch(addBubbleChart({ chart: this.bubbleChart }));
     this.service.updateUsedStatus(this.id);
   }
@@ -186,22 +191,32 @@ export class BubbleChartWidgetComponent implements OnInit {
 
   //save new ttile
   public saveTitle() {
-    this.bubbleChart = {
-      ...this.bubbleChart,
-      ChartTitle: this.newTitle,
-    };
+    this.onClickInput();
+    if (this.newTitle !== '') {
+      this.bubbleChart = {
+        ...this.bubbleChart,
+        ChartTitle: this.newTitle,
+      };
 
-    if (this.service.getSavedStatus(this.bubbleChart.WidgetId)) {
-      this.updateInDB();
+      if (this.service.getSavedStatus(this.bubbleChart.WidgetId)) {
+        this.updateInDB();
+      }
+
+      this.store.dispatch(updateBubbleChart({ chart: this.bubbleChart }));
+      this.isEditing = false;
+    } else {
+      this.popupMsgService.openSnackBar('Widget title can not be empty');
     }
-
-    this.store.dispatch(updateBubbleChart({ chart: this.bubbleChart }));
-    this.isEditing = false;
   }
 
   //called when user clicks on input field
   public onClickInput() {
     this.clickedInsideInput = true;
+  }
+
+  public cancel() {
+    this.isEditing = false;
+    this.newTitle = this.bubbleChart.ChartTitle!;
   }
 
   //triggered when useer clicks on anywhere in the document
