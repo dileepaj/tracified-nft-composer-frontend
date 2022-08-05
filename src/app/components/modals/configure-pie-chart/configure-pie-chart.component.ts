@@ -501,12 +501,6 @@ export class ConfigurePieChartComponent implements OnInit {
               color: this.fontColor,
             },
           },
-          title: {
-            display: true,
-            text: this.title,
-            color: this.fontColor,
-            font: { size: this.fontSize },
-          },
           datalabels: {
             color: this.fontColor,
             display: 'auto',
