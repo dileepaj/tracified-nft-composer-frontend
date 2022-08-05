@@ -62,6 +62,7 @@ export const initialNft: NFTState = {
     ProjectId: Date.now().toString(),
     ProjectName: '',
     NFTName: '',
+    Description: '',
     UserId: '',
     CreatorName: '',
     TenentId: '',

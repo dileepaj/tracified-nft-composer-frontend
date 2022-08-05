@@ -24,7 +24,7 @@ import { CloseProjectComponent } from '../../modals/close-project/close-project.
 })
 export class HeaderComponent implements OnInit {
   public routerProjectLink: string;
-  user: ComposerUser;
+  user: any;
   projectSaved: boolean;
   constructor(
     private store: Store<AppState>,
@@ -36,7 +36,7 @@ export class HeaderComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('this.user', this.user== undefined)
+    console.log('this.user', this.user == undefined);
     this.user = this.userServices.getCurrentUser();
     this.setLink();
     this.store.select(selectProjectSavedState).subscribe((status) => {
@@ -48,14 +48,19 @@ export class HeaderComponent implements OnInit {
    * @function logout - when click on logout go back to login page and release the token
    */
   public logout() {
-    if (!!sessionStorage.getItem('User') && this.router.url !== `/layout/projects/${JSON.parse(sessionStorage.getItem('User') || '').TenentId!}`
-        && !this.projectSaved) {
-        this.dialog.open(CloseProjectComponent, {
-          data: {
-            user: this.user,
-            logout: true,
-          },
-        });
+    if (
+      !!sessionStorage.getItem('User') &&
+      this.router.url !==
+        `/layout/projects/${JSON.parse(sessionStorage.getItem('User') || '')
+          .UserID!}` &&
+      !this.projectSaved
+    ) {
+      this.dialog.open(CloseProjectComponent, {
+        data: {
+          user: this.user,
+          logout: true,
+        },
+      });
     } else {
       this.router.navigate(['/login']);
     }
@@ -73,35 +78,45 @@ export class HeaderComponent implements OnInit {
    * @function isProjectsView - check if the current view is project view
    */
   public isProjectsView() {
-      if (!!sessionStorage.getItem('User')&&this.router.url === `/layout/projects/${JSON.parse(sessionStorage.getItem('User') || '').TenentId!}`) {
-        return true;
-      } else {
-        return false;
-      }
-
+    if (
+      !!sessionStorage.getItem('User') &&
+      this.router.url ===
+        `/layout/projects/${JSON.parse(sessionStorage.getItem('User') || '')
+          .TenentId!}`
+    ) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   /**
    * @function setLink - set the project view link
    */
   public setLink() {
-    if(!!sessionStorage.getItem('User')){
-      let tenentId = JSON.parse(sessionStorage.getItem('User') || '').TenentId!;
+    if (!!sessionStorage.getItem('User')) {
+      let tenentId = JSON.parse(sessionStorage.getItem('User') || '').UserID!;
       this.routerProjectLink = `/layout/projects/${tenentId}`;
-    }else{
+    } else {
       this.router.navigate(['/login']);
     }
   }
 
   public goToProjects() {
-    if (!!sessionStorage.getItem('User')&&this.router.url !== `/layout/projects/${JSON.parse(sessionStorage.getItem('User') || '').TenentId!}` && !this.projectSaved) {
-        this.dialog.open(CloseProjectComponent, {
-          data: {
-            user: this.user,
-          },
-        });
+    if (
+      !!sessionStorage.getItem('User') &&
+      this.router.url !==
+        `/layout/projects/${JSON.parse(sessionStorage.getItem('User') || '')
+          .UserID!}` &&
+      !this.projectSaved
+    ) {
+      this.dialog.open(CloseProjectComponent, {
+        data: {
+          user: this.user,
+        },
+      });
     } else {
-       this.router.navigate(['/layout/projects/' + this.user.TenentId]);
+      this.router.navigate(['/layout/projects/' + this.user.UserID]);
     }
   }
 }
