@@ -280,17 +280,22 @@ export class NftImageComponent implements OnInit {
 
   //save new ttile
   public saveTitle() {
-    this.image = {
-      ...this.image,
-      Title: this.newTitle,
-    };
+    this.onClickInput();
+    if (this.newTitle !== '') {
+      this.image = {
+        ...this.image,
+        Title: this.newTitle,
+      };
 
-    if (this.service.getSavedStatus(this.image.WidgetId)) {
-      this.updateImageInDB();
+      if (this.service.getSavedStatus(this.image.WidgetId)) {
+        this.updateImageInDB();
+      }
+
+      this.store.dispatch(updateNFTImage({ image: this.image }));
+      this.isEditing = false;
+    } else {
+      this.popupMsgService.openSnackBar('Widget title can not be empty');
     }
-
-    this.store.dispatch(updateNFTImage({ image: this.image }));
-    this.isEditing = false;
   }
 
   //called when user clicks on input field

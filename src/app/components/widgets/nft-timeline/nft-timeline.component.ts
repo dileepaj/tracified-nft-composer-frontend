@@ -219,17 +219,22 @@ export class NftTimelineComponent implements OnInit {
 
   //save new ttile
   public saveTitle() {
-    this.timeline = {
-      ...this.timeline,
-      Title: this.newTitle,
-    };
+    this.onClickInput();
+    if (this.newTitle !== '') {
+      this.timeline = {
+        ...this.timeline,
+        Title: this.newTitle,
+      };
 
-    if (this.service.getSavedStatus(this.timeline.WidgetId)) {
-      this.updateInDB();
+      if (this.service.getSavedStatus(this.timeline.WidgetId)) {
+        this.updateInDB();
+      }
+
+      this.store.dispatch(updateTimeline({ timeline: this.timeline }));
+      this.isEditing = false;
+    } else {
+      this.popupMsgService.openSnackBar('Widget title can not be empty');
     }
-
-    this.store.dispatch(updateTimeline({ timeline: this.timeline }));
-    this.isEditing = false;
   }
 
   public cancel() {

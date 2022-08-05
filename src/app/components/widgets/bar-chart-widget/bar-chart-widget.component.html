@@ -4,15 +4,7 @@
   [id]="barChart.WidgetId"
 >
   <div fxLayoutAlign="space-between center">
-    <div
-      style="
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        column-gap: 10px;
-      "
-      *ngIf="!isEditing"
-    >
+    <div class="title-div" *ngIf="!isEditing">
       <label
         class="widget-title"
         [ngStyle]="{ color: highlight ? '#00D6A0' : 'black' }"
@@ -31,7 +23,7 @@
       <input
         type="text"
         [value]="newTitle"
-        (input)="onChangeTitle($event)"
+        [(ngModel)]="newTitle"
         (keyup.enter)="saveTitle()"
         (click)="onClickInput()"
         maxlength="15"

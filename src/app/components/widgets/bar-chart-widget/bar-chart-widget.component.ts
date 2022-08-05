@@ -202,17 +202,22 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
 
   //save new ttile
   public saveTitle() {
-    this.barChart = {
-      ...this.barChart,
-      ChartTitle: this.newTitle,
-    };
+    this.onClickInput();
+    if (this.newTitle !== '') {
+      this.barChart = {
+        ...this.barChart,
+        ChartTitle: this.newTitle,
+      };
 
-    if (this.service.getSavedStatus(this.barChart.WidgetId)) {
-      this.updateInDB();
+      if (this.service.getSavedStatus(this.barChart.WidgetId)) {
+        this.updateInDB();
+      }
+
+      this.store.dispatch(updateBarChart({ chart: this.barChart }));
+      this.isEditing = false;
+    } else {
+      this.popupMsgService.openSnackBar('Widget title can not be empty');
     }
-
-    this.store.dispatch(updateBarChart({ chart: this.barChart }));
-    this.isEditing = false;
   }
 
   //called when user clicks on input field

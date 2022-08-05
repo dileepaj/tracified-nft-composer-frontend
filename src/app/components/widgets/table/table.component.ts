@@ -188,17 +188,22 @@ export class TableComponent implements OnInit {
 
   //save new ttile
   public saveTitle() {
-    this.table = {
-      ...this.table,
-      TableTitle: this.newTitle,
-    };
+    this.onClickInput();
+    if (this.newTitle !== '') {
+      this.table = {
+        ...this.table,
+        TableTitle: this.newTitle,
+      };
 
-    if (this.service.getSavedStatus(this.table.WidgetId)) {
-      this.updateInDB();
+      if (this.service.getSavedStatus(this.table.WidgetId)) {
+        this.updateInDB();
+      }
+
+      this.store.dispatch(updateTable({ table: this.table }));
+      this.isEditing = false;
+    } else {
+      this.popupMsgService.openSnackBar('Widget title can not be empty');
     }
-
-    this.store.dispatch(updateTable({ table: this.table }));
-    this.isEditing = false;
   }
 
   //called when user clicks on input field

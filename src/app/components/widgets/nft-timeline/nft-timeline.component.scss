@@ -404,3 +404,10 @@ p {
   /* or 23px */
   color: #525252;
 }
+
+.title-div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  column-gap: 10px;
+}

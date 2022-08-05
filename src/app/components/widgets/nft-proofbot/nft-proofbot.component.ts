@@ -182,17 +182,22 @@ export class NftProofbotComponent implements OnInit {
 
   //save new ttile
   public saveTitle() {
-    this.proofbot = {
-      ...this.proofbot,
-      Title: this.newTitle,
-    };
+    this.onClickInput();
+    if (this.newTitle !== '') {
+      this.proofbot = {
+        ...this.proofbot,
+        Title: this.newTitle,
+      };
 
-    if (this.service.getSavedStatus(this.proofbot.WidgetId)) {
-      this.updateInDB();
+      if (this.service.getSavedStatus(this.proofbot.WidgetId)) {
+        this.updateInDB();
+      }
+
+      this.store.dispatch(updateProofBot({ proofBot: this.proofbot }));
+      this.isEditing = false;
+    } else {
+      this.popupMsgService.openSnackBar('Widget title can not be empty');
     }
-
-    this.store.dispatch(updateProofBot({ proofBot: this.proofbot }));
-    this.isEditing = false;
   }
 
   //called when user clicks on input field

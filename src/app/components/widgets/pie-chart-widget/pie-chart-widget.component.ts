@@ -197,17 +197,22 @@ export class PieChartWidgetComponent implements OnInit {
 
   //save new ttile
   public saveTitle() {
-    this.pieChart = {
-      ...this.pieChart,
-      ChartTitle: this.newTitle,
-    };
+    this.onClickInput();
+    if (this.newTitle !== '') {
+      this.pieChart = {
+        ...this.pieChart,
+        ChartTitle: this.newTitle,
+      };
 
-    if (this.service.getSavedStatus(this.pieChart.WidgetId)) {
-      this.updateInDB();
+      if (this.service.getSavedStatus(this.pieChart.WidgetId)) {
+        this.updateInDB();
+      }
+
+      this.store.dispatch(updatePieChart({ chart: this.pieChart }));
+      this.isEditing = false;
+    } else {
+      this.popupMsgService.openSnackBar('Widget title can not be empty');
     }
-
-    this.store.dispatch(updatePieChart({ chart: this.pieChart }));
-    this.isEditing = false;
   }
 
   //called when user clicks on input field
