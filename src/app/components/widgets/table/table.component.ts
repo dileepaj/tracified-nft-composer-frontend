@@ -110,6 +110,10 @@ export class TableComponent implements OnInit {
       TableContent: 'EMPTY',
     };
 
+    this.clickedInsideInput = true;
+    this.isEditing = true;
+    this.newTitle = '';
+
     this.store.dispatch(addTable({ table: this.table }));
     this.service.updateUsedStatus(this.id);
   }
@@ -200,6 +204,11 @@ export class TableComponent implements OnInit {
   //called when user clicks on input field
   public onClickInput() {
     this.clickedInsideInput = true;
+  }
+
+  public cancel() {
+    this.isEditing = false;
+    this.newTitle = this.table.TableTitle!;
   }
 
   //triggered when useer clicks on anywhere in the document

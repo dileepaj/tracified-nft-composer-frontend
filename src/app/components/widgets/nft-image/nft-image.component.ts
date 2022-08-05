@@ -120,6 +120,10 @@ export class NftImageComponent implements OnInit {
       Base64Image: '',
     };
 
+    this.clickedInsideInput = true;
+    this.isEditing = true;
+    this.newTitle = '';
+
     this.store.dispatch(addNFTImage({ image: this.image }));
     this.service.updateUsedStatus(this.id);
   }
@@ -292,6 +296,11 @@ export class NftImageComponent implements OnInit {
   //called when user clicks on input field
   public onClickInput() {
     this.clickedInsideInput = true;
+  }
+
+  public cancel() {
+    this.isEditing = false;
+    this.newTitle = this.image.Title!;
   }
 
   //triggered when useer clicks on anywhere in the document

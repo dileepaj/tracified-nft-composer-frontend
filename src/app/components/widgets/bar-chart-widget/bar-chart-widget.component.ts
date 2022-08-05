@@ -149,6 +149,11 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
       QuerySuccess: false,
       ChartImage: 'string',
     };
+
+    this.clickedInsideInput = true;
+    this.isEditing = true;
+    this.newTitle = '';
+
     this.store.dispatch(addBarChart({ chart: this.barChart }));
     this.service.updateUsedStatus(this.id);
   }
@@ -213,6 +218,11 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
   //called when user clicks on input field
   public onClickInput() {
     this.clickedInsideInput = true;
+  }
+
+  public cancel() {
+    this.isEditing = false;
+    this.newTitle = this.barChart.ChartTitle!;
   }
 
   //triggered when useer clicks on anywhere in the document

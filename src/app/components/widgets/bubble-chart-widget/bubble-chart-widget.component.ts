@@ -138,6 +138,11 @@ export class BubbleChartWidgetComponent implements OnInit {
       QuerySuccess: false,
       ChartImage: 'string',
     };
+
+    this.clickedInsideInput = true;
+    this.isEditing = true;
+    this.newTitle = '';
+
     this.store.dispatch(addBubbleChart({ chart: this.bubbleChart }));
     this.service.updateUsedStatus(this.id);
   }
@@ -202,6 +207,11 @@ export class BubbleChartWidgetComponent implements OnInit {
   //called when user clicks on input field
   public onClickInput() {
     this.clickedInsideInput = true;
+  }
+
+  public cancel() {
+    this.isEditing = false;
+    this.newTitle = this.bubbleChart.ChartTitle!;
   }
 
   //triggered when useer clicks on anywhere in the document

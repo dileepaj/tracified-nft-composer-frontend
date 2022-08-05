@@ -97,6 +97,10 @@ export class NftProofbotComponent implements OnInit {
       Data: [],
     };
 
+    this.clickedInsideInput = true;
+    this.isEditing = true;
+    this.newTitle = '';
+
     this.store.dispatch(addProofBot({ proofBot: this.proofbot }));
     this.service.updateUsedStatus(this.id);
   }
@@ -194,6 +198,11 @@ export class NftProofbotComponent implements OnInit {
   //called when user clicks on input field
   public onClickInput() {
     this.clickedInsideInput = true;
+  }
+
+  public cancel() {
+    this.isEditing = false;
+    this.newTitle = this.proofbot.Title!;
   }
 
   //triggered when useer clicks on anywhere in the document

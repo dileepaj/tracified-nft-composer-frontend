@@ -276,7 +276,6 @@ h2 button {
 
 .delete-btn {
   cursor: pointer;
-  color: #c62929;
   border-radius: 50%;
 }
 
@@ -284,16 +283,17 @@ h2 button {
   font-family: "Inter";
   font-style: normal;
   font-weight: 600;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 24px;
   border-radius: 2px;
   padding: 2px;
   color: #383838;
-  cursor: pointer;
 }
 
-.widget-title:hover {
-  background-color: #ccc;
+.edit-icon {
+  color: #8b8b8b;
+  cursor: pointer;
+  vertical-align: middle;
 }
 
 .input-title {
@@ -318,4 +318,89 @@ p {
   margin-block-end: 1em;
   margin-inline-start: 0px;
   margin-inline-end: 0px;
+}
+
+.input-edit-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  column-gap: 2px;
+  border: 0.5px solid #a09c9c;
+  width: 239px;
+  height: 22px;
+  padding: 5px;
+}
+
+.input-edit-title input[type="text"] {
+  border: none;
+  box-sizing: border-box;
+  width: 80%;
+  height: 32px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  color: #383838;
+}
+
+.input-edit-title input[type="text"]:focus {
+  outline: none;
+}
+
+.input-edit-title input[type="text"]::placeholder {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  color: #b9b9b9;
+}
+
+.input-edit-title mat-icon {
+  box-sizing: border-box;
+  width: 10%;
+  transform: scale(0.8);
+  color: #d9d9d9;
+  background-color: #939393 !important;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+
+.save {
+  box-sizing: border-box;
+  width: 10%;
+  transform: scale(0.8);
+  cursor: pointer;
+}
+
+.cancel {
+  box-sizing: border-box;
+  width: 10%;
+  transform: scale(0.8);
+  cursor: pointer;
+  background: #d9d9d9;
+  border-radius: 100%;
+}
+
+.input-edit-title:focus-within {
+  border: 0.5px solid #3a3a3a;
+}
+
+.menu-icon {
+  color: #5b5b5b;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.menu-text {
+  margin: -50px 0px -50px 0px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 208.02%;
+  /* or 23px */
+  color: #525252;
 }
