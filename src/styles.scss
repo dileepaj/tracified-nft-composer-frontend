@@ -24,3 +24,9 @@ body {
   max-height: calc(100vh - 50px);
   overflow: auto;
 }
+
+.snackbar-all{
+  .mat-simple-snackbar-action {
+    color: white !important;
+  }
+}

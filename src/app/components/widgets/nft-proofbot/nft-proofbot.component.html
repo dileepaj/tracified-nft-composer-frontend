@@ -37,7 +37,32 @@
 
     <div class="proofbot-content" *ngIf="otpAdded">
       <div class="proof-card" *ngFor="let data of proofbot.Data!">
-        <label><b>TxnHash: </b> {{ data.TxnHash }}</label>
+        <label class="proofbot-data-field"
+          >Product Name: <b>{{ proofbot.ProductName }}</b></label
+        >
+        <label class="proofbot-data-field"
+          >Batch ID: <b>{{ data.BatchId }}</b></label
+        >
+        <label class="proofbot-data-field"
+          >Transaction ID: <b>{{ data.TxnHash }}</b></label
+        >
+        <div class="available-proofs-div">
+          <label class="proofbot-data-field">Available Proofs: </label>
+          <div *ngFor="let url of data.Urls" class="proof-chip">
+            <section
+              style="
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              "
+              (click)="openProofLink(url.Url)"
+              matRipple
+            >
+              {{ getProofName(url.Type) }} <mat-icon>launch</mat-icon>
+            </section>
+          </div>
+        </div>
+        <!-- <label><b>TxnHash: </b> {{ data.TxnHash }}</label>
         <label><b>Product Name: </b> {{ proofbot.ProductName }}</label>
         <label><b>Batch Id: </b> {{ data.BatchId }}</label>
         <label><b>Proofs: </b> </label>
@@ -49,7 +74,7 @@
           >
             {{ url.Type.toUpperCase() }}
           </mat-chip>
-        </mat-chip-list>
+        </mat-chip-list> -->
       </div>
     </div>
   </div>
