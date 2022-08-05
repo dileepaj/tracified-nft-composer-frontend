@@ -253,6 +253,7 @@ export class NftImageComponent implements OnInit {
       data: {
         image: this.base64,
       },
+      autoFocus:false
     });
   }
 }

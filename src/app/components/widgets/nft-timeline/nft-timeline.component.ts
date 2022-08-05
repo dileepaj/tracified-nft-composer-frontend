@@ -134,6 +134,7 @@ export class NftTimelineComponent implements OnInit {
         userId: this.nftContent.UserId,
         widget: this.timeline,
       },
+      autoFocus:false
     });
   }
 
@@ -145,6 +146,7 @@ export class NftTimelineComponent implements OnInit {
         widget: this.timeline,
         timelineData: this.childrenOne,
       },
+      autoFocus:false
     });
   }
 }
