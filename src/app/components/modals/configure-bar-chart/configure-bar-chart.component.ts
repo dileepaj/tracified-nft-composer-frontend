@@ -463,12 +463,6 @@ export class ConfigureBarChartComponent implements OnInit {
           legend: {
             display: false,
           },
-          title: {
-            display: true,
-            text: this.title,
-            color: this.fontColor,
-            font: { size: this.fontSize },
-          },
         },
         responsive: true,
         scales: {
