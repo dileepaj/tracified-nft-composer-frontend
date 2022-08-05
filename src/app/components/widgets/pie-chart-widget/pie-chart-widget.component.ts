@@ -140,6 +140,11 @@ export class PieChartWidgetComponent implements OnInit {
       QuerySuccess: false,
       ChartImage: 'string',
     };
+
+    this.clickedInsideInput = true;
+    this.isEditing = true;
+    this.newTitle = '';
+
     this.store.dispatch(addPieChart({ chart: this.pieChart }));
     this.service.updateUsedStatus(this.id);
   }
@@ -192,22 +197,32 @@ export class PieChartWidgetComponent implements OnInit {
 
   //save new ttile
   public saveTitle() {
-    this.pieChart = {
-      ...this.pieChart,
-      ChartTitle: this.newTitle,
-    };
+    this.onClickInput();
+    if (this.newTitle !== '') {
+      this.pieChart = {
+        ...this.pieChart,
+        ChartTitle: this.newTitle,
+      };
 
-    if (this.service.getSavedStatus(this.pieChart.WidgetId)) {
-      this.updateInDB();
+      if (this.service.getSavedStatus(this.pieChart.WidgetId)) {
+        this.updateInDB();
+      }
+
+      this.store.dispatch(updatePieChart({ chart: this.pieChart }));
+      this.isEditing = false;
+    } else {
+      this.popupMsgService.openSnackBar('Widget title can not be empty');
     }
-
-    this.store.dispatch(updatePieChart({ chart: this.pieChart }));
-    this.isEditing = false;
   }
 
   //called when user clicks on input field
   public onClickInput() {
     this.clickedInsideInput = true;
+  }
+
+  public cancel() {
+    this.isEditing = false;
+    this.newTitle = this.pieChart.ChartTitle!;
   }
 
   //triggered when useer clicks on anywhere in the document

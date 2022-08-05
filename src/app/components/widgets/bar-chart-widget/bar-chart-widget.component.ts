@@ -149,6 +149,11 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
       QuerySuccess: false,
       ChartImage: 'string',
     };
+
+    this.clickedInsideInput = true;
+    this.isEditing = true;
+    this.newTitle = '';
+
     this.store.dispatch(addBarChart({ chart: this.barChart }));
     this.service.updateUsedStatus(this.id);
   }
@@ -197,22 +202,32 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
 
   //save new ttile
   public saveTitle() {
-    this.barChart = {
-      ...this.barChart,
-      ChartTitle: this.newTitle,
-    };
+    this.onClickInput();
+    if (this.newTitle !== '') {
+      this.barChart = {
+        ...this.barChart,
+        ChartTitle: this.newTitle,
+      };
 
-    if (this.service.getSavedStatus(this.barChart.WidgetId)) {
-      this.updateInDB();
+      if (this.service.getSavedStatus(this.barChart.WidgetId)) {
+        this.updateInDB();
+      }
+
+      this.store.dispatch(updateBarChart({ chart: this.barChart }));
+      this.isEditing = false;
+    } else {
+      this.popupMsgService.openSnackBar('Widget title can not be empty');
     }
-
-    this.store.dispatch(updateBarChart({ chart: this.barChart }));
-    this.isEditing = false;
   }
 
   //called when user clicks on input field
   public onClickInput() {
     this.clickedInsideInput = true;
+  }
+
+  public cancel() {
+    this.isEditing = false;
+    this.newTitle = this.barChart.ChartTitle!;
   }
 
   //triggered when useer clicks on anywhere in the document

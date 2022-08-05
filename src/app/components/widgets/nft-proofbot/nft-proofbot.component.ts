@@ -97,6 +97,10 @@ export class NftProofbotComponent implements OnInit {
       Data: [],
     };
 
+    this.clickedInsideInput = true;
+    this.isEditing = true;
+    this.newTitle = '';
+
     this.store.dispatch(addProofBot({ proofBot: this.proofbot }));
     this.service.updateUsedStatus(this.id);
   }
@@ -178,22 +182,32 @@ export class NftProofbotComponent implements OnInit {
 
   //save new ttile
   public saveTitle() {
-    this.proofbot = {
-      ...this.proofbot,
-      Title: this.newTitle,
-    };
+    this.onClickInput();
+    if (this.newTitle !== '') {
+      this.proofbot = {
+        ...this.proofbot,
+        Title: this.newTitle,
+      };
 
-    if (this.service.getSavedStatus(this.proofbot.WidgetId)) {
-      this.updateInDB();
+      if (this.service.getSavedStatus(this.proofbot.WidgetId)) {
+        this.updateInDB();
+      }
+
+      this.store.dispatch(updateProofBot({ proofBot: this.proofbot }));
+      this.isEditing = false;
+    } else {
+      this.popupMsgService.openSnackBar('Widget title can not be empty');
     }
-
-    this.store.dispatch(updateProofBot({ proofBot: this.proofbot }));
-    this.isEditing = false;
   }
 
   //called when user clicks on input field
   public onClickInput() {
     this.clickedInsideInput = true;
+  }
+
+  public cancel() {
+    this.isEditing = false;
+    this.newTitle = this.proofbot.Title!;
   }
 
   //triggered when useer clicks on anywhere in the document
