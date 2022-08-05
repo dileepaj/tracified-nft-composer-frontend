@@ -27,7 +27,7 @@
 }
 
 .drap-and-drop-area {
-  margin: 10px;
+  margin: 20px;
   position: absolute;
   left: 0;
   right: 0px;
@@ -147,10 +147,10 @@ mat-list-item {
 
 .nft-content-area {
   position: absolute;
-  top: 20px;
-  right: 40px;
-  left: 20px;
-  bottom: 60px;
+  top: 10px;
+  right: 10px;
+  left: 10px;
+  bottom: 50px;
   background-color: $gray;
   padding: 10px;
   overflow-y: scroll;
