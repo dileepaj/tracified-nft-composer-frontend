@@ -219,7 +219,7 @@ export class SelectBatchComponent implements OnInit {
         this.widget = {
           ...this.widget,
           Timestamp: new Date().toISOString(),
-          BactchId: this.selectedBatch.identifier.identifier,
+          BatchId: this.selectedBatch.identifier.identifier,
           ProductName: this.selectedProduct.itemName,
           ProductId: this.selectedProduct.itemID,
           OTPType: 'Batch',
@@ -547,17 +547,33 @@ export class SelectBatchComponent implements OnInit {
         let Title = '';
         let children: Children[] = [];
         let images: string[] = [];
+        let Timestamp = '';
+        let CurrentTimestamp = '';
 
         if (this.workflow.stages[i].stageId === data.stageID) {
           Title = this.workflow.stages[i].name;
           data.traceabilityDataPackets.map((tdp: any) => {
             tdp.traceabilityData.map((d: any) => {
+              Timestamp = tdp.timestamp;
               if (d.type === 3) {
-                children.push({
-                  Key: this.CamelcaseToWord(d.key),
-                  Value: this.convertDate(d.val),
-                });
-                count++;
+                if (CurrentTimestamp == Timestamp) {
+                  children.push({
+                    NewTDP: false,
+                    Timestamp: tdp.timestamp,
+                    Key: this.CamelcaseToWord(d.key),
+                    Value: this.convertDate(d.val),
+                  });
+                  count++;
+                } else {
+                  children.push({
+                    NewTDP: true,
+                    Timestamp: tdp.timestamp,
+                    Key: this.CamelcaseToWord(d.key),
+                    Value: this.convertDate(d.val),
+                  });
+                  count++;
+                  CurrentTimestamp = Timestamp;
+                }
               } else if (d.type === 4) {
                 d.val.map((img: any) => {
                   images.push(img.image);
@@ -650,7 +666,7 @@ export class SelectBatchComponent implements OnInit {
             data[i].AvailableProof.map((proof: string) => {
               urls.push({
                 Type: proof,
-                Url: `https://tillit-explorer.netlify.app/proof-verification?type=${proof}&txn=${data[i].Txnhash}`,
+                Url: `http://qa.proofbot.tillit.world?type=${proof}&txn=${data[i].Txnhash}`,
               });
             });
 
@@ -686,7 +702,7 @@ export class SelectBatchComponent implements OnInit {
                 this.dndService.setSavedStatus(this.widget.WidgetId);
                 this.dndService.setBatchStatus(this.widget.WidgetId);
                 this.popupMsgService.openSnackBar(
-                  'Proofbot data added successfully!'
+                  'Proof Bot data added successfully!'
                 );
                 this.store.dispatch(projectUnsaved());
                 this.close();
@@ -702,7 +718,7 @@ export class SelectBatchComponent implements OnInit {
               complete: () => {
                 this.saving = false;
                 this.popupMsgService.openSnackBar(
-                  'Proofbot data updated successfully!'
+                  'Proof Bot data updated successfully!'
                 );
                 this.store.dispatch(projectUnsaved());
                 this.close();

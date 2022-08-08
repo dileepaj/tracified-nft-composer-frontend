@@ -1,7 +1,7 @@
 export interface Timeline {
   WidgetId: string;
   Title?: string;
-  BactchId?: string;
+  BatchId?: string;
   ArtifactId?: string;
   ProductId?: string;
   ProductName?: string;
@@ -24,6 +24,8 @@ export interface TimelineData {
 }
 
 export interface Children {
+  NewTDP: boolean;
+  Timestamp: string;
   Key: string;
   Value: string;
 }

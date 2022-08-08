@@ -3,20 +3,60 @@
   [ngStyle]="{ border: highlight ? 'solid 3px #00D6A0' : 'solid 1px #ccc;' }"
   [id]="barChart.WidgetId"
 >
-  <div>
-    <h2
-      style="font-size: medium; font-weight: 200"
-      [ngStyle]="{ color: highlight ? '#00D6A0' : 'black' }"
-    >
-      Bar Chart<button
-        mat-icon-button
-        class="delete-btn"
-        matTooltip="Delete"
-        (click)="deleteWidget()"
+  <div fxLayoutAlign="space-between center">
+    <div class="title-div" *ngIf="!isEditing">
+      <label
+        class="widget-title"
+        [ngStyle]="{ color: highlight ? '#00D6A0' : 'black' }"
+        >{{ barChart.ChartTitle }}</label
       >
-        <mat-icon>clear</mat-icon>
+      <img
+        src="../../../../assets/images/edit-iconpng.png"
+        class="edit-icon material-symbols-outlined"
+        matTooltip="Edit title"
+        matRipple
+        (click)="enableEditing()"
+      />
+    </div>
+
+    <div class="input-edit-title" *ngIf="isEditing">
+      <input
+        type="text"
+        [value]="newTitle"
+        [(ngModel)]="newTitle"
+        (keyup.enter)="saveTitle()"
+        (click)="onClickInput()"
+        maxlength="15"
+        minlength="1"
+        placeholder="Enter Name Here"
+        class="input-title"
+        [appFocusElement]="isEditing"
+      />
+      <img
+        src="../../../../assets/images/save-icon.png"
+        class="save"
+        (click)="saveTitle()"
+        matTooltip="Save"
+      />
+      <img
+        src="../../../../assets/images/cancel-icon.png"
+        class="cancel"
+        matTooltip="Cancel"
+        (click)="cancel()"
+      />
+    </div>
+
+    <mat-icon
+      [matMenuTriggerFor]="menu"
+      class="material-symbols-outlined menu-icon"
+      matRipple
+      >more_vert</mat-icon
+    >
+    <mat-menu #menu="matMenu" class="menu">
+      <button mat-menu-item class="menu-btn" (click)="deleteWidget()">
+        <span class="menu-text">Remove Widget</span>
       </button>
-    </h2>
+    </mat-menu>
   </div>
   <div class="chart-div">
     <img class="widget-card-icon" [src]="icon" />

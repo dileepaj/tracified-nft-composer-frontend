@@ -84,6 +84,7 @@ import { DeleteProjectComponent } from './components/modals/delete-project/delet
 import { CloseProjectComponent } from './components/modals/close-project/close-project.component';
 import { ImagePreviewComponent } from './components/modals/image-preview/image-preview.component';
 import { DeleteWidgetComponent } from './components/modals/delete-widget/delete-widget.component';
+import { FocusElementDirective } from './directives/focus-element.directive';
 
 const appRoutes: Routes = [];
 
@@ -127,6 +128,7 @@ const appRoutes: Routes = [];
     CloseProjectComponent,
     ImagePreviewComponent,
     DeleteWidgetComponent,
+    FocusElementDirective,
   ],
   imports: [
     BrowserModule,

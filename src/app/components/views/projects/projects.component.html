@@ -2,14 +2,38 @@
   <div
     fxLayout="row"
     fxLayoutAlign="space-between center"
-    layout-margin
-    style="min-height: 100px"
+    style="min-height: 100px; margin-bottom: 15px"
   >
-    <section class="mat-typography">
-      <h2 class="mat-h2" style="font-weight: 700">
-        Select Existing or Create New Project
-      </h2>
-    </section>
+    <div class="projects-left-div">
+      <div class="mat-typography">
+        <label
+          class="mat-h2"
+          style="
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 24px;
+            line-height: 29px;
+            /* identical to box height */
+
+            color: #464646;
+          "
+          >Projects</label
+        >
+      </div>
+      <div>
+        <button
+          mat-icon-button
+          class="btn-new"
+          aria-label="new project"
+          matTooltip="New Project"
+          (click)="openNewProject()"
+        >
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+    </div>
+
     <div class="projects-header-container">
       <div class="button-container">
         <!--sort-->
@@ -58,18 +82,6 @@
       </div>
 
       <!--new project button-->
-      <div>
-        <button
-          mat-fab
-          color="accent"
-          class="green-color"
-          aria-label="new project"
-          matTooltip="New Project"
-          (click)="openNewProject()"
-        >
-          <mat-icon>add</mat-icon>
-        </button>
-      </div>
     </div>
   </div>
   <mat-divider></mat-divider>
@@ -161,7 +173,7 @@
                   class="menu-btn"
                   (click)="openExistingProject(project.ProjectId)"
                 >
-                 <mat-icon> folder_open </mat-icon> 
+                  <mat-icon> folder_open </mat-icon>
                   <span>Open</span>
                 </button>
                 <button
@@ -215,19 +227,33 @@
             <!--proj name and timestamp-->
             <div
               fxLayoutAlign="space-between center"
-              style="width: 90%; cursor: pointer; height: 100px"
+              style="width: 90%; cursor: pointer; height: 100px; row-gap: 5px"
               fxLayout="row wrap"
               (click)="openExistingProject(project.ProjectId)"
             >
               <div
-                fxFlex.gt-md="90%"
-                fxFlex.md="80%"
+                fxFlex.gt-md="10%"
+                fxFlex.md="10%"
                 fxFlex.sm="100%"
                 fxFlex.xs="100%"
+                style="display: inline-block"
               >
-                <h4>
+                <label class="proj-title">
                   <b>{{ project.ProjectName }}</b>
-                </h4>
+                </label>
+              </div>
+              <div
+                fxFlex.gt-md="80%"
+                fxFlex.md="70%"
+                fxFlex.sm="100%"
+                fxFlex.xs="100%"
+                fxHide.sm="true"
+                fxHide.xs="true"
+                style="display: inline-block"
+              >
+                <label class="proj-description cursor">
+                  {{ project.Description }}
+                </label>
               </div>
               <div fxFlex.gt-md="10%" fxFlex.md="20%">
                 <mat-icon class="material-icons-outlined time-icon cursor"
@@ -254,7 +280,7 @@
                   class="menu-btn"
                   (click)="openExistingProject(project.ProjectId)"
                 >
-                  <mat-icon>launch</mat-icon>
+                  <mat-icon> folder_open </mat-icon>
                   <span>Open</span>
                 </button>
                 <button

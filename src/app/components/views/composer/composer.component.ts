@@ -114,7 +114,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
       used: false,
       saved: false,
       batch: false,
-      name: 'ProofBot',
+      name: 'Proof Bot',
       icon: 'ondemand_video',
     },
     /*{
@@ -390,7 +390,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     this.composerService.generateHTML(this.nftContent).subscribe({
       next: (data: any) => {
         this.htmlGenerated = false;
-        const decodedRes = atob(data.Response);
+        const decodedRes = this.b64DecodeUnicode(data.Response);
         this.downloadFile(decodedRes, this.nftContent.NFTName, 'html');
       },
       error: (err) => {
@@ -411,7 +411,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     this.composerService.generateSVG(this.nftContent).subscribe({
       next: (data: any) => {
         this.svgGenerated = false;
-        const decodedRes = atob(data.Response);
+        const decodedRes = this.b64DecodeUnicode(data.Response);
         this.downloadFile(decodedRes, this.nftContent.NFTName, 'svg');
       },
       error: (err) => {
@@ -438,6 +438,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
       ProjectId: this.nftContent.ProjectId,
       Timestamp: this.nftContent.Timestamp,
       NFTName: this.nftContent.NFTName,
+      Description: this.nftContent.Description,
       UserId: this.nftContent.UserId,
       CreatorName: this.nftContent.CreatorName,
       TenentId: this.nftContent.TenentId,
@@ -474,6 +475,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
       ProjectId: this.nftContent.ProjectId,
       Timestamp: this.nftContent.Timestamp,
       NFTName: this.nftContent.NFTName,
+      Description: this.nftContent.Description,
       UserId: this.nftContent.UserId,
       CreatorName: this.nftContent.CreatorName,
       TenentId: this.nftContent.TenentId,
@@ -511,5 +513,17 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     } else {
       this.updateProject();
     }
+  }
+
+  private b64DecodeUnicode(str: string) {
+    // Going backwards: from bytestream, to percent-encoding, to original string.
+    return decodeURIComponent(
+      atob(str)
+        .split('')
+        .map(function (c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        })
+        .join('')
+    );
   }
 }

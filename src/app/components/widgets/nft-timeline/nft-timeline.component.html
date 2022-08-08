@@ -3,64 +3,138 @@
   [ngStyle]="{ border: highlight ? 'solid 3px #00D6A0' : 'solid 1px #ccc;' }"
   [id]="timeline.WidgetId"
 >
-  <div>
-    <h2
-      style="font-size: medium; font-weight: 200"
-      [ngStyle]="{ color: highlight ? '#00D6A0' : 'black' }"
-    >
-      Timeline<button
-        mat-icon-button
-        class="delete-btn"
-        matTooltip="Delete"
-        (click)="deleteWidget()"
+  <div fxLayoutAlign="space-between center">
+    <div class="title-div" *ngIf="!isEditing">
+      <label
+        class="widget-title"
+        [ngStyle]="{ color: highlight ? '#00D6A0' : 'black' }"
+        >{{ timeline.Title }}</label
       >
-        <mat-icon>clear</mat-icon>
+      <img
+        src="../../../../assets/images/edit-iconpng.png"
+        class="edit-icon material-symbols-outlined"
+        matTooltip="Edit title"
+        matRipple
+        (click)="enableEditing()"
+      />
+    </div>
+
+    <div [id]="inputId" class="input-edit-title" *ngIf="isEditing">
+      <input
+        type="text"
+        [value]="newTitle"
+        [(ngModel)]="newTitle"
+        (keyup.enter)="saveTitle()"
+        (click)="onClickInput()"
+        maxlength="15"
+        minlength="1"
+        placeholder="Enter Name Here"
+        class="input-title"
+        [appFocusElement]="isEditing"
+      />
+      <img
+        src="../../../../assets/images/save-icon.png"
+        class="save"
+        (click)="saveTitle()"
+        matTooltip="Save"
+      />
+      <img
+        src="../../../../assets/images/cancel-icon.png"
+        class="cancel"
+        matTooltip="Cancel"
+        (click)="cancel()"
+      />
+    </div>
+
+    <mat-icon
+      [matMenuTriggerFor]="menu"
+      class="material-symbols-outlined menu-icon"
+      matRipple
+      >more_vert</mat-icon
+    >
+    <mat-menu #menu="matMenu" class="menu">
+      <button mat-menu-item class="menu-btn" (click)="deleteWidget()">
+        <span class="menu-text">Remove Widget</span>
       </button>
-    </h2>
+    </mat-menu>
   </div>
-  <div class="content-div">
+  <div class="icon-container">
     <img
       class="widget-card-icon"
       [src]="icon"
       *ngIf="childrenOne.length === 0"
     />
-    <div class="timeline-card" *ngIf="childrenOne.length > 0">
-      <div *ngFor="let childrenOne of childrenOne">
-        <div class="header">
-          <div class="left">
-            <img width="100%" [src]="childrenOne.Icon" alt="icon" />
-          </div>
-          <div class="right">
-            <h3 class="title">
-              <b>{{ childrenOne.Title }}</b>
-            </h3>
-          </div>
+  </div>
+  <div class="inner-widge-div" *ngIf="childrenOne.length > 0">
+    <div class="content-div">
+      <div class="timeline-card" *ngIf="childrenOne.length > 0">
+        <div class="timeline-heading">
+          <label class="timeline-product"
+            ><b>Product Name : </b>{{ timeline.ProductName }}</label
+          >
+          <label class="timeline-batch"
+            ><b>Batch ID : </b>{{ timeline.BatchId }}</label
+          >
         </div>
-        <div class="body timeline-item">
-          <mat-card class="timeline-card card card-md">
-            <mat-card-content class="card-content card-content-md">
-              <div
-                *ngFor="let childrenTwo of childrenOne.Children"
-                class="timeline-text"
-              >
-                <div *ngIf="childrenTwo.Key !== null">
-                  <h4 class="secondary-font">
-                    {{ childrenTwo.Key }}
-                  </h4>
+        <div *ngFor="let childrenOne of childrenOne">
+          <div class="header">
+            <div class="left">
+              <img width="100%" [src]="childrenOne.Icon" alt="icon" />
+            </div>
+            <div class="right">
+              <h3 class="title">
+                <b>{{ childrenOne.Title }}</b>
+              </h3>
+            </div>
+          </div>
+          <div class="body timeline-item">
+            <mat-card class="timeline-card card card-md card-border">
+              <mat-card-content class="card-content card-content-md">
+                <div
+                  class="timeline-text"
+                  *ngIf="childrenOne.Children.length === 0"
+                >
+                  <div>
+                    <h4 class="secondary-font">දිනය/தேதி</h4>
+                    <h4 class="primary-font" style="font-size: 12px !important">
+                      No date available
+                    </h4>
+                  </div>
                 </div>
-                <div *ngIf="childrenTwo.Value !== null">
-                  <h4 class="primary-font">
-                    {{ childrenTwo.Value }}
-                  </h4>
+                <div
+                  *ngFor="let childrenTwo of childrenOne.Children"
+                  class="timeline-text"
+                >
+                  <div>
+                    <div *ngIf="childrenTwo.NewTDP; then thenBlock"></div>
+                    <ng-template #thenBlock>
+                      <div class="tdp-added-date">
+                        <label
+                          >Added :
+                          {{ convertDate(childrenTwo.Timestamp) }}</label
+                        >
+                      </div>
+                    </ng-template>
+                  </div>
+                  <div *ngIf="childrenTwo.Key !== null">
+                    <h4 class="secondary-font">
+                      {{ childrenTwo.Key }}
+                    </h4>
+                  </div>
+                  <div *ngIf="childrenTwo.Value !== null">
+                    <h4 class="primary-font">
+                      {{ childrenTwo.Value }}
+                    </h4>
+                  </div>
                 </div>
-              </div>
-              <div *ngIf="childrenOne.Images.length > 0">
-                <div *ngFor="let images of childrenOne.Images">
-                  <img width="100%" [src]="images" alt="image" />
+                <div *ngIf="childrenOne.Images.length > 0">
+                  <div *ngFor="let images of childrenOne.Images">
+                    <img width="100%" [src]="images" alt="image" />
+                  </div>
                 </div>
-              </div>
-            </mat-card-content>
-          </mat-card>
+              </mat-card-content>
+            </mat-card>
+          </div>
         </div>
       </div>
     </div>

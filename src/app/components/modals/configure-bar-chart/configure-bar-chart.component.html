@@ -46,6 +46,8 @@
                     matInput
                     type="text"
                     placeholder="Title"
+                    maxlength="15"
+                    minlength="1"
                     [(ngModel)]="title"
                     (ngModelChange)="drawChart()"
                   />
