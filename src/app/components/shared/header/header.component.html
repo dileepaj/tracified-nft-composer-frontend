@@ -34,7 +34,7 @@
       <label>
         <span
           id="title"
-          style="font-size: 20px; padding-left: 10px; font-weight: 200"
+          style="font-family: 'Inter'; font-size: 20px; padding-left: 10px; font-weight: 300"
         >
           | NFT Composer</span
         >
@@ -58,7 +58,7 @@
       fxFlex="20"
       fxLayoutAlign="end center"
     >
-      <label id="userName" *ngIf="user!==undefined">{{ user.Company }}</label>
+      <label style="font-weight: 400 !important;" id="userName" *ngIf="user!==undefined">{{ user.Company }}</label>
     </div>
     <div fxFlex="20" fxLayoutAlign="start center">
       <button mat-icon-button [matMenuTriggerFor]="menu">
@@ -71,23 +71,23 @@
       </button>
       <mat-menu #menu="matMenu" xPosition="before">
         <label
-          style="color: #00c853"
+          style="color: #006D2D"
           class="account-username"
           mat-menu-item
           id="userName"
           *ngIf="user!==undefined"
           >{{ user.UserName }}</label
         >
-        <button style="color: #00c853" mat-menu-item>
+        <button style="color: #006D2D; font-weight: 500;" mat-menu-item>
           <mat-icon class="menu-icon">help</mat-icon>
           <span class="menu-item">Help</span>
         </button>
-        <button style="color: #00c853" mat-menu-item>
+        <button style="color: #006D2D" mat-menu-item>
           <mat-icon class="menu-icon">lightbulb_circle</mat-icon>
           <span class="menu-item">FAQ</span>
         </button>
-        <button style="color: red" mat-menu-item (click)="logout()">
-          <mat-icon class="menu-icon">logout</mat-icon>
+        <button style="color: #c31526" mat-menu-item (click)="logout()">
+          <mat-icon class="menu-icon" style="color: #c31526 !important;">logout</mat-icon>
           <span class="menu-item">Log Out</span>
         </button>
       </mat-menu>

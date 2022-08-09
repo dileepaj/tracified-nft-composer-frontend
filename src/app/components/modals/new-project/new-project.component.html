@@ -38,6 +38,7 @@
         [formControl]="descriptionControl"
         [(ngModel)]="description"
         maxlength="80"
+        class="input-description"
       ></textarea>
       <mat-error *ngIf="descriptionControl.hasError('required')">
         Description is <strong>required</strong>

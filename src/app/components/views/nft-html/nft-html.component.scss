@@ -38,7 +38,12 @@
 
 .btn {
   @include btn-primary;
+  background-color: #006D2D !important;
+  font-family: 'Inter' !important;
+  font-weight: 200;
+  font-size: small;
   margin: 5px;
+  position: relative;
 }
 
 .btn-container {
@@ -85,6 +90,6 @@
   margin-left: -10px;
   border-radius: 50%;
   border: 2px solid #ffffff;
-  border-top-color: #000000;
+  border-top-color: #006D2D;
   animation: spinner 0.8s linear infinite;
 }

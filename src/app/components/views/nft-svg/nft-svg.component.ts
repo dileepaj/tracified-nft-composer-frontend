@@ -99,6 +99,7 @@ export class NftSvgComponent implements OnInit {
     setTimeout(() => {
       this.dialog.open(SvgCodebehindComponent, {
         data: { svgCode: this.svgStr },
+        autoFocus:false
       });
       this.codeLoaded = false;
     }, 100);

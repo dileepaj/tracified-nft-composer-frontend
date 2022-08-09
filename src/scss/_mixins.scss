@@ -12,6 +12,7 @@
   transition: box-shadow 200ms cubic-bezier(0, 0, 0.2, 1);
   @include shadow;
   overflow: hidden;
+  font-family: 'Inter';
 }
 
 @mixin project-card {
@@ -29,7 +30,10 @@
 
 @mixin btn-primary {
   color: white;
-  background: $background;
+  background-color: #006D2D !important;
+  font-family: 'Inter';
+  font-weight: 400 !important;
+  font-size: 1rem !important;
 }
 
 @mixin btn-accent {

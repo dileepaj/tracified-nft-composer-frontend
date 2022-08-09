@@ -11,7 +11,16 @@
   @include btn-primary;
 }
 
+.input-description {
+  resize: none;
+  height: 70px;
+}
+
 /* ::ng-deep .mat-focused .mat-form-field-label {
 
   color: unset !important;
 } */
+
+h2, mat-label, input, mat-error, strong{
+  font-family: 'Inter' !important;
+}

@@ -6,6 +6,9 @@
 }
 
 .btn-dont-save {
+  font-family: 'Inter' !important;
+  font-weight: 400 !important;
+  font-size: 1rem !important;
 }
 
 .btn:disabled {
@@ -31,6 +34,10 @@
   margin-left: -10px;
   border-radius: 50%;
   border: 2px solid #ffffff;
-  border-top-color: #000000;
+  border-top-color: #006D2D;
   animation: spinner 0.8s linear infinite;
+}
+
+h2{
+  font-family: 'Inter' !important;
 }

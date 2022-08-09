@@ -16,10 +16,13 @@ logo {
 }
 
 .menu-item {
-  font-size: $fontSize;
+  font-weight: 500;
+  font-family: 'Inter';
+  font-size: 15px;
 }
 
 .menu-icon {
+  color : #006D2D ;
   transform: scale(0.8);
 }
 
@@ -30,8 +33,10 @@ logo {
 }
 
 #userName{
-   font-size: medium;
-   padding-right: 0.25rem;
+  font-weight: 500;
+  font-family: 'Inter';
+  font-size: 15px;
+  padding-right: 0.25rem;
 }
 
 .account-username:hover{
