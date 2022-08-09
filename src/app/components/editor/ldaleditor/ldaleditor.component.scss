@@ -17,7 +17,7 @@
 
 .btn-execute {
   margin: 5px;
-  color: $green;
+  color : #006D2D;
   transform: scale(0.9);
   //float: right;
 }
@@ -79,11 +79,12 @@
   margin-left: -10px;
   border-radius: 50%;
   border: 2px solid #ffffff;
-  border-top-color: #000000;
+  border-top-color: #006D2D;
   animation: spinner 0.8s linear infinite;
 }
 
 .note {
+  font-family: 'Inter' !important;
   color: #212121;
   border-radius: 5px;
   font-size: smaller;

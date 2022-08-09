@@ -67,6 +67,7 @@
       width: $size;
       height: $size;
       line-height: $size;
+      font-family: 'Inter';
       text-align: center;
       border-radius: 50%;
       background-color: $color;
@@ -121,15 +122,17 @@ h2 button {
 }
 
 .add-data-btn {
-  color: #00d6a0;
+  color: #006D2D;
+  font-family: 'Inter' !important;
   mat-icon {
-    color: #00d6a0;
+    color: #006D2D;
     transform: scale(0.7);
   }
 }
 
 .customize-btn {
   color: #969696;
+  font-family: 'Inter' !important;
   mat-icon {
     color: #969696;
     transform: scale(0.7);
@@ -202,6 +205,7 @@ h2 button {
   margin-top: 0.5rem !important;
   margin-bottom: 0.2rem !important;
   font-size: 12px;
+  font-family: 'Inter';
 }
 
 .body {
@@ -214,18 +218,21 @@ h2 button {
   color: #b1b1b1 !important;
   font-size: 11px;
   margin-block-end: 0em !important;
+  font-family: 'Inter' !important;
 }
 
 .primary-font {
   color: #4f525d !important;
   font-size: 11px;
+  font-family: 'Inter' !important;
 }
 
 .tdp-added-date {
   margin-bottom: 5px;
   label {
-    color: $green;
+    color: #006D2D;
     font-weight: 500;
+    font-family: 'Inter' !important;
   }
 }
 
@@ -262,10 +269,12 @@ h2 button {
 
 .timeline-product {
   font-size: 12px;
+  font-family: 'Inter' !important;
 }
 
 .timeline-batch {
   font-size: 12px;
+  font-family: 'Inter' !important;
 }
 
 .timeline-heading {
@@ -282,7 +291,7 @@ h2 button {
 }
 
 .widget-title {
-  font-family: "Inter";
+  font-family: 'Inter' !important;
   font-style: normal;
   font-weight: 600;
   font-size: 18px;
@@ -298,7 +307,7 @@ h2 button {
 }
 
 .input-title {
-  font-family: "Inter";
+  font-family: 'Inter' !important;
   font-style: normal;
   font-weight: 600;
   font-size: 18px;
@@ -307,6 +316,7 @@ h2 button {
 }
 
 .no-data-msg {
+  font-family: 'Inter' !important;
   text-align: center;
   font-size: medium;
   padding-top: 1px;
@@ -314,6 +324,7 @@ h2 button {
 }
 
 p {
+  font-family: 'Inter' !important;
   display: block;
   margin-block-start: 1em;
   margin-block-end: 1em;

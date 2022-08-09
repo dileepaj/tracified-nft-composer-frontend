@@ -34,7 +34,8 @@
   </div>
   <div id="drop-area" *ngIf="!isUploaded() && !saving">
     Upload or select file
-    <mat-icon class="material-icons-outlined icon">cloud_upload</mat-icon>
+    <!-- <mat-icon class="material-icons-outlined icon">cloud_upload</mat-icon> -->
+    <img class="widget-card-icon" [src]="icon" />
     <input
       type="file"
       accept="image/*"

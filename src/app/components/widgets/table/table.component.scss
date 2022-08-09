@@ -68,15 +68,17 @@ h2 button {
 }
 
 .add-data-btn {
-  color: #00d6a0;
+  color: #006D2D;
+  font-family: 'Inter' !important;
   mat-icon {
-    color: #00d6a0;
+    color: #006D2D;
     transform: scale(0.7);
   }
 }
 
 .customize-btn {
   color: #969696;
+  font-family: 'Inter' !important;
   mat-icon {
     color: #969696;
     transform: scale(0.7);

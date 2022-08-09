@@ -69,7 +69,7 @@
   margin-left: -10px;
   border-radius: 50%;
   border: 2px solid #ffffff;
-  border-top-color: #000000;
+  border-top-color: #006D2D;
   animation: spinner 0.8s linear infinite;
 }
 
@@ -88,7 +88,7 @@
 }
 
 .proof-chip {
-  background: #02aa46;
+  background: #006D2D;
   border-radius: 7.17703px;
   font-family: "Inter";
   font-style: normal;
@@ -109,4 +109,10 @@
     border-radius: 50%;
     color: #ffffff !important;
   }
+}
+
+
+h2{
+  font-family: 'Inter' !important;
+  font-weight: 600;
 }
