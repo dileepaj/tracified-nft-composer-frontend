@@ -44,7 +44,8 @@
 
 .option-header {
   width: 100%;
-  background-color: #00d6a0;
+  background-color: #021d27;
+  ;
   height: 50px;
   justify-content: center;
   text-align: center;
@@ -63,5 +64,19 @@
 }
 
 .option-icon {
-  transform: scale(1.2);
+  height: 100px;
+  width: 100px;
+}
+
+.mat-dialog-content{
+  padding: 0 1px !important;
+}
+
+.mat-dialog-title{
+  font-family: 'Inter' !important;
+  font-weight: 400;
+}
+
+.option-header{
+  font-family: 'Inter';
 }

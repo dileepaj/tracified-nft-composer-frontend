@@ -1,6 +1,5 @@
 @import "../../../../scss/mixins";
 @import "../../../../scss/variables";
-
 .tl-view-div {
   position: relative;
 }
@@ -34,6 +33,7 @@
       text-align: center;
       border-radius: 50%;
       background-color: $color;
+      font-family: 'Inter' !important;
     }
   }
 
@@ -150,7 +150,7 @@ h2 button {
 }
 
 .secondary-font {
-  font-family: "Inter";
+  font-family: "Inter" !important;
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -159,7 +159,7 @@ h2 button {
 }
 
 .primary-font {
-  font-family: "Inter";
+  font-family: "Inter" !important;
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -184,9 +184,10 @@ img {
   margin-bottom: 5px;
   padding-bottom: 5%;
   label {
-    color: $green;
+    color: #006D2D;
     font-weight: 500;
     font-size: 17px;
+    font-family: 'Inter' !important;
   }
 }
 
@@ -224,10 +225,14 @@ img {
 
 .timeline-product {
   font-size: 17px;
+  font-family: 'Inter' !important;
+
 }
 
 .timeline-batch {
   font-size: 17px;
+  font-family: 'Inter' !important;
+
 }
 
 .no-data-msg {
@@ -235,6 +240,7 @@ img {
   font-size: medium;
   padding-top: 1px;
   color: #4f525d;
+  font-family: 'Inter' !important;
 }
 
 p {
@@ -243,4 +249,11 @@ p {
   margin-block-end: 1em;
   margin-inline-start: 0px;
   margin-inline-end: 0px;
+  font-family: 'Inter' !important;
+
+}
+
+h2{
+  font-family: 'Inter' !important;
+  font-weight: 600;
 }

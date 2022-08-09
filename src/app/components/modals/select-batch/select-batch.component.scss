@@ -53,6 +53,7 @@ table.batch-table {
   }
 
   th {
+    font-family: 'Inter';
     padding: 1rem;
     text-transform: uppercase;
     letter-spacing: 0.1rem;
@@ -61,6 +62,7 @@ table.batch-table {
   }
 
   td {
+    font-family: 'Inter';
     padding-left: 1rem;
     padding-top: 0.7rem;
     padding-bottom: 0.7rem;
@@ -106,9 +108,9 @@ mat-step {
 
 .mat-step-header .mat-step-icon-state-done,
 .mat-step-header .mat-step-icon-state-edit {
-  background-color: $green;
+  background-color: #006D2D;
   + .mat-step-label {
-    color: $green !important;
+    color: #006D2D !important;
   }
 }
 
@@ -140,10 +142,12 @@ mat-step {
 .previous {
   color: rgb(134, 134, 134);
   text-decoration: none;
+  font-family: 'Inter' !important;
+  font-weight: 300;
 }
 
 .previous:hover {
-  color: $green;
+  color: #006D2D;
   text-decoration: none !important;
 }
 
@@ -183,6 +187,7 @@ mat-step {
   box-shadow: unset;
   border-collapse: separate;
   border-spacing: 0px 1px;
+  font-family: 'Inter';
 }
 
 .tdp-table tr {
@@ -197,15 +202,18 @@ mat-step {
   border: 1px solid #ccc;
   padding: 10px;
   border-radius: 10px;
+  font-family: 'Inter';
 }
 
 .tdp-stage-div {
   row-gap: 10px;
+  font-family: 'Inter';
 }
 
 .tdp-step {
   display: flex;
   flex-direction: column;
+  font-family: 'Inter';
 }
 
 /* Style the tab */
@@ -255,6 +263,7 @@ mat-step {
 .headers-align .mat-expansion-panel-header-title,
 .headers-align .mat-expansion-panel-header-description {
   flex-basis: 0;
+  font-family: 'Inter';
 }
 
 .headers-align .mat-expansion-panel-header-description {
@@ -294,7 +303,7 @@ mat-step {
   margin-left: -10px;
   border-radius: 50%;
   border: 2px solid #ffffff;
-  border-top-color: #000000;
+  border-top-color: #006D2D;
   animation: spinner 0.8s linear infinite;
 }
 
@@ -325,6 +334,7 @@ mat-step {
 .data-text {
   display: flex;
   align-items: center;
+  font-family: 'Inter';
 }
 
 .data-icon {
@@ -353,6 +363,7 @@ mat-step {
     left: 15px;
     top: 5px;
     height: calc(100% - 10px);
+    font-family: 'Inter' !important;
   }
 }
 
@@ -361,5 +372,14 @@ mat-step {
   label {
     color: gray;
     font-weight: 600;
+    font-family: 'Inter';
   }
+}
+
+.mat-step-text-label{
+  font-family: 'Inter';
+}
+
+li{
+  font-family: 'Inter' !important;
 }
