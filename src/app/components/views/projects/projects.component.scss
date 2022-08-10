@@ -10,7 +10,7 @@ mat-toolbar {
 
 .content {
   padding: 15px 30px 20px 30px;
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
 }
 
@@ -50,7 +50,7 @@ mat-toolbar {
 }
 
 .proj-name {
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 600;
   font-size: 15px;
@@ -74,7 +74,7 @@ mat-toolbar {
 }
 
 .timestamp {
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
@@ -89,7 +89,7 @@ mat-toolbar {
 }
 
 .project-thumb {
-  font-family: 'Inter';
+  font-family: "Inter";
   font-size: x-large;
   font-weight: 400;
 }
@@ -121,7 +121,7 @@ mat-toolbar {
 
 .menu-btn {
   font-size: smaller;
-  font-family: 'Inter' !important;
+  font-family: "Inter" !important;
   mat-icon {
     transform: scale(0.8);
   }
@@ -173,7 +173,7 @@ mat-toolbar {
 }
 
 .btn-list-active {
-  color: #006D2D;
+  color: #006d2d;
 }
 
 .list-item-div {
@@ -250,7 +250,7 @@ mat-toolbar {
   width: 216px;
 }
 .search-input-group input[type="text"] {
-  font-family: 'Inter';
+  font-family: "Inter";
   box-sizing: border-box;
   padding: 10px;
   font-size: 14px;
@@ -292,7 +292,7 @@ mat-toolbar {
 .btn-new {
   width: 22px;
   height: 22px;
-  background: #006D2D;
+  background: #006d2d;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -308,7 +308,7 @@ mat-toolbar {
 }
 
 .proj-description {
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 400;
   font-size: 15px;
@@ -329,3 +329,23 @@ mat-toolbar {
   color: #3d3d3d;
 }
 
+.no-projects {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 45px;
+  height: calc(100vh - 250px);
+}
+
+#no-project-img {
+  width: 316.46px;
+  height: 284.02px;
+}
+
+.btn {
+  @include btn-primary;
+  width: 274px;
+  height: 45px;
+  border-radius: 5px;
+}
