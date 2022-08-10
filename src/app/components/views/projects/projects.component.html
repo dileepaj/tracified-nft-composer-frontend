@@ -299,7 +299,10 @@
         </div>
       </div>
     </div>
-    <div class="md-margin no-projects" *ngIf="projects.length === 0">
+    <div
+      class="md-margin no-projects"
+      *ngIf="!isSearching && projects.length === 0"
+    >
       <img
         id="no-project-img"
         src="../../../../assets/images/no_projects.png"
@@ -307,6 +310,18 @@
       <button mat-button cdkFocusInitial class="btn" (click)="openNewProject()">
         Create your first project
       </button>
+    </div>
+    <div
+      class="md-margin no-results"
+      *ngIf="isSearching && filteredProjects.length === 0"
+    >
+      <img id="no-results-img" src="../../../../assets/images/no_results.png" />
+      <div class="search-msg-div">
+        <label class="search-msg-1">Sorry! We couldn’t find any results</label>
+        <label class="search-msg-2"
+          >There weren't any projects matching your search.</label
+        >
+      </div>
     </div>
   </div>
 </div>
