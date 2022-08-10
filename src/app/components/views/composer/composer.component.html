@@ -94,6 +94,15 @@
         <button
           class="btn"
           mat-flat-button
+          (click)="saveOrUpdateProject(false)"
+          [disabled]="saving"
+        >
+          <mat-icon class="icon">save</mat-icon>
+          <span [class.spinner]="saving"> </span>Save Project
+        </button>
+        <button
+          class="btn"
+          mat-flat-button
           (click)="generateHTML()"
           [disabled]="htmlGenerated"
         >
@@ -108,15 +117,6 @@
         >
           <mat-icon class="icon">download</mat-icon>
           <span [class.spinner]="svgGenerated"> </span>Download SVG
-        </button>
-        <button
-          class="btn"
-          mat-flat-button
-          (click)="saveOrUpdateProject(false)"
-          [disabled]="saving"
-        >
-          <mat-icon class="icon">save</mat-icon>
-          <span [class.spinner]="saving"> </span>Save Project
         </button>
       </div>
     </mat-drawer-content>
