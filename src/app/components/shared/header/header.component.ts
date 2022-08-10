@@ -82,7 +82,7 @@ export class HeaderComponent implements OnInit {
       !!sessionStorage.getItem('User') &&
       this.router.url ===
         `/layout/projects/${JSON.parse(sessionStorage.getItem('User') || '')
-          .TenentId!}`
+          .UserID!}`
     ) {
       return true;
     } else {
