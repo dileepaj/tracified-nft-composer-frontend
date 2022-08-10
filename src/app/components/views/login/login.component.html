@@ -1,6 +1,6 @@
 <div fxLayout="80" fxLayoutAlign="center center" fxFill>
-  <mat-card fxFlex="55" fxLayout.xs="column" fxLayout.sm="column" class="mat-elevation-z0 outline"
-    fxLayoutAlign="center center">
+  <mat-card fxFlex="62.637" fxLayout.xs="column" fxLayout.sm="column" class="mat-elevation-z0 outline"
+    fxLayoutAlign="center center" style="height:68%;">
     <div fxLayout.xs="column" fxFlex.xs="100" fxFlex.sm="100" class="login-cards" fxHide.xs="false" fxHide.sm="false"
       fxHide.md="true" fxHide.lg="true" fxHide.xl="true" fxLayoutAlign="center center" style="padding: 0%;">
       <mat-card fxLayout.xs="column" fxLayout.sm="column" fxFlex.xs="80" fxFlex.sm="80" fxFlex.lg="80" fxFlex.md="80"
@@ -14,7 +14,7 @@
         <form fxFlex.gt-sm="100" fxFill fxLayoutAlign="stretch" fxLayout="column" [formGroup]="loginForm"
           (ngSubmit)="onSubmit()">
           <mat-form-field appearance="standard" [hideRequiredMarker]="true" class="alignment">
-            <input matInput placeholder="Email Address" name="email" formControlName="username" readonly onfocus="this.removeAttribute('readonly')">
+            <input matInput placeholder="Email or Username" name="email" formControlName="username" readonly onfocus="this.removeAttribute('readonly')">
           </mat-form-field>
 
           <mat-form-field appearance="standard" [hideRequiredMarker]="true" class="alignment">
@@ -30,9 +30,9 @@
           </div>
           
 
-          <div fxFlexAlign="center" class="sign-up">
+          <!--<div fxFlexAlign="center" class="sign-up">
             <a href="https://qa.admin.tracified.com/signup" class="sign-up-link">Don't have an account</a>
-          </div>
+          </div>-->
 
           <div fxFlexAlign="center" class="password-reset">
             <p class="md-body-2" style="color: white;">
