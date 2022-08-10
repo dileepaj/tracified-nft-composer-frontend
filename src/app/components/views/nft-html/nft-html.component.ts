@@ -109,6 +109,7 @@ export class NftHtmlComponent implements OnInit {
     setTimeout(() => {
       this.dialog.open(HtmlCodebehindComponent, {
         data: { htmlCode: this.htmlStr },
+        autoFocus:false
       });
       this.codeLoaded = false;
     }, 100);

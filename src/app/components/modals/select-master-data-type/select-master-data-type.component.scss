@@ -21,10 +21,12 @@
 .previous {
   color: rgb(134, 134, 134);
   text-decoration: none;
+  font-family: 'Inter' !important;
+  font-weight: 300;
 }
 
 .previous:hover {
-  color: $green;
+  color: #006D2D;
   text-decoration: none !important;
 }
 
