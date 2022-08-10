@@ -173,13 +173,14 @@ mat-tab-group.mat-primary .mat-ink-bar {
   margin-left: -10px;
   border-radius: 50%;
   border: 2px solid #ffffff;
-  border-top-color: #000000;
+  border-top-color: #006D2D;
   animation: spinner 0.8s linear infinite;
 }
 
 
 
 .table table {
+  font-family: 'Inter' !important;
   border-collapse: collapse;
   box-shadow: 0 5px 10px #e1e5ee;
   background-color: white;
@@ -229,4 +230,20 @@ mat-tab-group.mat-primary .mat-ink-bar {
 .btn:disabled {
   background-color: whitesmoke;
   color: #ccc !important;
+}
+
+.mat-tab-label .mat-tab-label-content{
+  font-family: 'Inter' !important;
+}
+
+h2 , h3, label{
+  font-family: 'Inter' !important;
+}
+
+.form-div{
+  font-family: 'Inter' !important;
+}
+
+.mat-form-field, .field-name-input {
+  font-family: 'Inter' !important;
 }

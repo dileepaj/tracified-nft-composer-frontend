@@ -23,6 +23,7 @@
   justify-content: center;
   box-sizing: border-box;
   cursor: grab;
+  font-family: 'Inter';
   font-size: $widgetPaneFontSize;
   border-radius: 5px;
   transition: 0.3s;
@@ -66,6 +67,7 @@
 .available-widget-list label {
   word-spacing: 100px;
   text-align: center;
+  font-family: 'Inter';
 }
 
 collapse-widgets {

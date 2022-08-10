@@ -103,9 +103,11 @@
 
 .btn {
   @include btn-primary;
+  background-color: #006D2D !important;
   margin: 5px;
   font-weight: 200;
   font-size: small;
+  font-family: 'Inter';
 }
 
 .btn-container {
@@ -113,7 +115,7 @@
   flex-direction: row;
   position: absolute;
   bottom: 10px;
-  right: 40px;
+  right: 5px;
 }
 
 .list {
@@ -150,7 +152,7 @@ mat-list-item {
   top: 10px;
   right: 10px;
   left: 10px;
-  bottom: 50px;
+  bottom: 60px;
   background-color: $gray;
   padding: 10px;
   overflow-y: scroll;
@@ -197,7 +199,7 @@ mat-list-item {
   margin-left: -10px;
   border-radius: 50%;
   border: 2px solid #ffffff;
-  border-top-color: #000000;
+  border-top-color: #006D2D;
   animation: spinner 0.8s linear infinite;
 }
 
