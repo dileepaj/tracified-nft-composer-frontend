@@ -40,7 +40,7 @@ export class ProjectsComponent implements OnInit {
   filteredProjects: RecentProject[];
   loadedProject: NFTContent;
   subscription: Subscription;
-  gridColumns = 4;
+  gridColumns = 3;
   user: ComposerUser;
   userId: string = '';
   loading: boolean = false;
