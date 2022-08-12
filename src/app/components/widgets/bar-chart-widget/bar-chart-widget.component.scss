@@ -74,20 +74,29 @@ h2 button {
 }
 
 .add-data-btn {
-  color: #006D2D;
-  font-family: 'Inter' !important;
+  color: #006d2d;
+  font-family: "Inter" !important;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 15px;
   mat-icon {
-    color: #006D2D;
-    transform: scale(0.7);
+    color: #006d2d;
+
+    vertical-align: middle;
   }
 }
 
 .customize-btn {
   color: #969696;
-  font-family: 'Inter' !important;
+  font-family: "Inter" !important;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 15px;
   mat-icon {
     color: #969696;
-    transform: scale(0.7);
+    transform: scale(0.9);
   }
 }
 

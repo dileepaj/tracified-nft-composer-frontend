@@ -73,16 +73,20 @@ h2 button {
 }
 
 .update-btn {
-  color: #006D2D;
-  font-family: 'Inter' !important;
+  color: #006d2d;
+  font-family: "Inter" !important;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 15px;
   mat-icon {
-    color: #006D2D;
-    transform: scale(0.7);
+    color: #006d2d;
+    vertical-align: middle;
   }
 }
 
 .upload-btn {
-  color: #006D2D;
+  color: #006d2d;
 }
 
 .delete-btn {
@@ -94,10 +98,14 @@ h2 button {
 
 .preview-btn {
   color: #969696;
-  font-family: 'Inter' !important;
+  font-family: "Inter" !important;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 15px;
   mat-icon {
     color: #969696;
-    transform: scale(0.7);
+    vertical-align: middle;
   }
 }
 
@@ -119,7 +127,7 @@ h2 button {
   margin-left: -10px;
   border-radius: 50%;
   border: 2px solid #ffffff;
-  border-top-color: #006D2D;
+  border-top-color: #006d2d;
   animation: spinner 0.8s linear infinite;
 }
 
