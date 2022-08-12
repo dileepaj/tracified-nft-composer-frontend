@@ -123,7 +123,7 @@
       style="float: right"
       (click)="openAddData()"
     >
-      <mat-icon>add_circle</mat-icon>
+      <mat-icon>{{ !otpAdded ? "add_circle" : "edit" }}</mat-icon>
       {{ !otpAdded ? "Add Data" : "Modify Data" }}
     </button>
   </div>
