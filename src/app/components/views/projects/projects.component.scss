@@ -22,11 +22,11 @@ mat-toolbar {
   background-color: #00c853;
 }
 .mat-progress-bar-fill::after {
-  background-color: $green;
+  background-color: #006D2D;
 }
 
 .progressbar {
-  background-color: $green !important;
+  background-color: #006D2D !important;
 }
 
 .icon-div {
@@ -102,6 +102,7 @@ mat-toolbar {
 
 .mat-card {
   padding: 0 !important;
+  margin: 0px 10px 30px 10px !important;
 }
 
 .menu-icon-div {
