@@ -24,6 +24,18 @@
   //background-color: #ccc;
 }
 
+.pb-img-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  bottom: 50px;
+  top: 50px;
+  right: 10px;
+  left: 10px;
+}
+
 .chrt {
   margin: 10px;
   transform: scale(0.4);
