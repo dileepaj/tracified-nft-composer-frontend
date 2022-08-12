@@ -58,9 +58,11 @@
       </button>
     </mat-menu>
   </div>
-  <div class="content-div">
-    <img class="widget-card-icon" *ngIf="!otpAdded" [src]="icon" />
 
+  <div class="pb-img-div" *ngIf="!otpAdded">
+    <img class="widget-card-icon" [src]="icon" />
+  </div>
+  <div class="content-div">
     <div class="proofbot-content" *ngIf="otpAdded">
       <div class="proof-card" *ngFor="let data of proofbot.Data!">
         <label class="proofbot-data-field"
