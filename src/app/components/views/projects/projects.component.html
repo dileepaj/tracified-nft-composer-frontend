@@ -146,11 +146,11 @@
               <div class="title-div">
                 <label class="proj-name cursor">{{
                   project.ProjectName
-                }}</label>   
+                }}</label>
                 <label class="proj-description cursor">
                   {{ project.Description }}
                 </label>
-                <div class="timestamp-div"  fxLayout="row" fxAlign="center ">
+                <div class="timestamp-div" fxLayout="row" fxAlign="center ">
                   <mat-icon class="material-icons-outlined time-icon cursor"
                     >schedule</mat-icon
                   >
@@ -304,7 +304,7 @@
     </div>
     <div
       class="md-margin no-projects"
-      *ngIf="!isSearching && projects.length === 0"
+      *ngIf="!loading && !isSearching && projects.length === 0"
     >
       <img
         id="no-project-img"
