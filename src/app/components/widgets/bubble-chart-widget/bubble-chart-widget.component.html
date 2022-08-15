@@ -26,6 +26,7 @@
         [(ngModel)]="newTitle"
         (keyup.enter)="saveTitle()"
         (keyup.escape)="cancel()"
+        (keydown)="characterLimitValidator($event)"
         (click)="onClickInput()"
         maxlength="15"
         minlength="1"
