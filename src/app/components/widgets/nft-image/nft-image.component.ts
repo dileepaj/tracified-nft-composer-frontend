@@ -261,7 +261,7 @@ export class NftImageComponent implements OnInit {
       data: {
         image: this.base64,
       },
-      autoFocus:false
+      autoFocus: false,
     });
   }
 
@@ -279,21 +279,33 @@ export class NftImageComponent implements OnInit {
     }
   }
 
+  //called when user edits widget title
+  public onTitleChange(event: any) {
+    let trimedvalue = event.target.value.replace(/[^a-zA-Z0-9 ]/gm, '');
+    this.newTitle = trimedvalue;
+  }
+
   //save new ttile
   public saveTitle() {
     this.onClickInput();
     if (this.newTitle !== '') {
-      this.image = {
-        ...this.image,
-        Title: this.newTitle,
-      };
+      if (this.newTitle.match(/[^a-zA-Z0-9 ]/gm)) {
+        this.popupMsgService.openSnackBar(
+          'Please remove special characters from widget title'
+        );
+      } else {
+        this.image = {
+          ...this.image,
+          Title: this.newTitle,
+        };
 
-      if (this.service.getSavedStatus(this.image.WidgetId)) {
-        this.updateImageInDB();
+        if (this.service.getSavedStatus(this.image.WidgetId)) {
+          this.updateImageInDB();
+        }
+
+        this.store.dispatch(updateNFTImage({ image: this.image }));
+        this.isEditing = false;
       }
-
-      this.store.dispatch(updateNFTImage({ image: this.image }));
-      this.isEditing = false;
     } else {
       this.popupMsgService.openSnackBar('Widget title can not be empty');
     }

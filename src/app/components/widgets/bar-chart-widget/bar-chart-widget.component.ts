@@ -204,17 +204,23 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
   public saveTitle() {
     this.onClickInput();
     if (this.newTitle !== '') {
-      this.barChart = {
-        ...this.barChart,
-        ChartTitle: this.newTitle,
-      };
+      if (this.newTitle.match(/[^a-zA-Z0-9 ]/gm)) {
+        this.popupMsgService.openSnackBar(
+          'Please remove special characters from widget title'
+        );
+      } else {
+        this.barChart = {
+          ...this.barChart,
+          ChartTitle: this.newTitle,
+        };
 
-      if (this.service.getSavedStatus(this.barChart.WidgetId)) {
-        this.updateInDB();
+        if (this.service.getSavedStatus(this.barChart.WidgetId)) {
+          this.updateInDB();
+        }
+
+        this.store.dispatch(updateBarChart({ chart: this.barChart }));
+        this.isEditing = false;
       }
-
-      this.store.dispatch(updateBarChart({ chart: this.barChart }));
-      this.isEditing = false;
     } else {
       this.popupMsgService.openSnackBar('Widget title can not be empty');
     }
