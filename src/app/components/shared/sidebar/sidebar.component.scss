@@ -16,6 +16,7 @@
   font-size: $fontSize;
   display: flex;
   flex-direction: row;
+  font-family: 'Inter'
 }
 
 .icon {
@@ -52,13 +53,15 @@
   padding-left: 10px;
   label {
     font-size: small;
-    font-weight: 700;
+    font-weight: 600;
+    font-family: 'Inter';
   }
 }
 
 mat-list-item {
   border-radius: 5px;
   font-size: $fontSize !important;
+  font-family: 'Inter' !important;
   margin-top: 5px;
   margin-bottom: 5px;
   padding: 2px 0px 2px 0px !important;
@@ -71,13 +74,13 @@ mat-nav-list {
 }
 
 .is-active {
-  color: $green;
+  color: #006D2D;
   font-weight: 500;
   background: rgba(176, 221, 176, 0.199) !important;
 }
 
 mat-list-item:hover {
-  color: $green;
+  color: #006D2D;
   background: rgba(176, 221, 176, 0.137) !important;
 }
 
@@ -104,12 +107,14 @@ mat-list-item:hover {
   padding: 10px;
   padding-bottom: 0px;
   font-size: $fontSize;
+  font-family: 'Inter';
 }
 
 #project-title input {
   all: unset;
 
   font-size: $fontSize;
+  font-family: 'Inter';
 }
 
 #sidebar-back {
@@ -118,6 +123,7 @@ mat-list-item:hover {
   padding-right: 30px;
   border-radius: 30px;
   font-size: $fontSize;
+  font-family: 'Inter';
 }
 
 .back-to-project {

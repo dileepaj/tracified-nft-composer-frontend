@@ -30,7 +30,7 @@ mat-toolbar {
 }
 
 .icon-div {
-  width: 140px;
+  width: 130px;
   height: 130px;
   display: flex;
   flex-direction: column;
@@ -89,6 +89,7 @@ mat-toolbar {
 }
 
 .project-thumb {
+  font-family: "Inter";
   font-size: x-large;
   font-weight: 400;
 }
@@ -120,7 +121,7 @@ mat-toolbar {
 
 .menu-btn {
   font-size: smaller;
-
+  font-family: "Inter" !important;
   mat-icon {
     transform: scale(0.8);
   }
@@ -172,7 +173,7 @@ mat-toolbar {
 }
 
 .btn-list-active {
-  color: $green;
+  color: #006d2d;
 }
 
 .list-item-div {
@@ -249,6 +250,7 @@ mat-toolbar {
   width: 216px;
 }
 .search-input-group input[type="text"] {
+  font-family: "Inter";
   box-sizing: border-box;
   padding: 10px;
   font-size: 14px;
@@ -290,7 +292,7 @@ mat-toolbar {
 .btn-new {
   width: 22px;
   height: 22px;
-  background: #00c853;
+  background: #006d2d;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -325,4 +327,25 @@ mat-toolbar {
   display: block;
   word-wrap: break-word;
   color: #3d3d3d;
+}
+
+.no-projects {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 45px;
+  height: calc(100vh - 250px);
+}
+
+#no-project-img {
+  width: 316.46px;
+  height: 284.02px;
+}
+
+.btn {
+  @include btn-primary;
+  width: 274px;
+  height: 45px;
+  border-radius: 5px;
 }

@@ -299,6 +299,15 @@
         </div>
       </div>
     </div>
+    <div class="md-margin no-projects" *ngIf="projects.length === 0">
+      <img
+        id="no-project-img"
+        src="../../../../assets/images/no_projects.png"
+      />
+      <button mat-button cdkFocusInitial class="btn" (click)="openNewProject()">
+        Create your first project
+      </button>
+    </div>
   </div>
 </div>
 <div *ngIf="projLoading" class="loading-div">

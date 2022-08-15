@@ -109,7 +109,7 @@ export class NftProofbotComponent implements OnInit {
   public deleteWidget() {
     const dialogRef = this.dialog.open(DeleteWidgetComponent, {
       data: {
-        widgetType: 'Proofbot',
+        widgetType: 'Proof Bot',
         widgetId: this.id,
       },
     });
