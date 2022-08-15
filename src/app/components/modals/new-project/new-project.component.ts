@@ -52,8 +52,12 @@ export class NewProjectComponent implements OnInit {
     this.projectNameControl = new FormControl(this.projectName, [
       Validators.required,
       this.forbiddenNameValidator(),
+      this.noSpecialCharacters(),
     ]);
-    this.nftNameControl = new FormControl(this.nftName, [Validators.required]);
+    this.nftNameControl = new FormControl(this.nftName, [
+      Validators.required,
+      this.noSpecialCharacters(),
+    ]);
     this.descriptionControl = new FormControl(this.description, [
       Validators.required,
     ]);
@@ -136,6 +140,15 @@ export class NewProjectComponent implements OnInit {
     return (control: AbstractControl): ValidationErrors | null => {
       const forbidden = this.checkIfAlreadyExists(control.value);
       return forbidden ? { forbiddenName: { value: control.value } } : null;
+    };
+  }
+
+  private noSpecialCharacters(): ValidatorFn {
+    return (control: AbstractControl): any => {
+      if (control.value && control.value != '') {
+        let trimedvalue = control.value.replace(/[^a-zA-Z0-9 ]/gm, '');
+        control.setValue(trimedvalue);
+      }
     };
   }
 }

@@ -184,17 +184,23 @@ export class NftProofbotComponent implements OnInit {
   public saveTitle() {
     this.onClickInput();
     if (this.newTitle !== '') {
-      this.proofbot = {
-        ...this.proofbot,
-        Title: this.newTitle,
-      };
+      if (this.newTitle.match(/[^a-zA-Z0-9 ]/gm)) {
+        this.popupMsgService.openSnackBar(
+          'Please remove special characters from widget title'
+        );
+      } else {
+        this.proofbot = {
+          ...this.proofbot,
+          Title: this.newTitle,
+        };
 
-      if (this.service.getSavedStatus(this.proofbot.WidgetId)) {
-        this.updateInDB();
+        if (this.service.getSavedStatus(this.proofbot.WidgetId)) {
+          this.updateInDB();
+        }
+
+        this.store.dispatch(updateProofBot({ proofBot: this.proofbot }));
+        this.isEditing = false;
       }
-
-      this.store.dispatch(updateProofBot({ proofBot: this.proofbot }));
-      this.isEditing = false;
     } else {
       this.popupMsgService.openSnackBar('Widget title can not be empty');
     }

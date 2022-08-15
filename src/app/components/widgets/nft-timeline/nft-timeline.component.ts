@@ -158,7 +158,7 @@ export class NftTimelineComponent implements OnInit {
         userId: this.nftContent.UserId,
         widget: this.timeline,
       },
-      autoFocus:false
+      autoFocus: false,
     });
   }
 
@@ -170,7 +170,7 @@ export class NftTimelineComponent implements OnInit {
         widget: this.timeline,
         timelineData: this.childrenOne,
       },
-      autoFocus:false
+      autoFocus: false,
     });
   }
 
@@ -223,17 +223,23 @@ export class NftTimelineComponent implements OnInit {
   public saveTitle() {
     this.onClickInput();
     if (this.newTitle !== '') {
-      this.timeline = {
-        ...this.timeline,
-        Title: this.newTitle,
-      };
+      if (this.newTitle.match(/[^a-zA-Z0-9 ]/gm)) {
+        this.popupMsgService.openSnackBar(
+          'Please remove special characters from widget title'
+        );
+      } else {
+        this.timeline = {
+          ...this.timeline,
+          Title: this.newTitle,
+        };
 
-      if (this.service.getSavedStatus(this.timeline.WidgetId)) {
-        this.updateInDB();
+        if (this.service.getSavedStatus(this.timeline.WidgetId)) {
+          this.updateInDB();
+        }
+
+        this.store.dispatch(updateTimeline({ timeline: this.timeline }));
+        this.isEditing = false;
       }
-
-      this.store.dispatch(updateTimeline({ timeline: this.timeline }));
-      this.isEditing = false;
     } else {
       this.popupMsgService.openSnackBar('Widget title can not be empty');
     }

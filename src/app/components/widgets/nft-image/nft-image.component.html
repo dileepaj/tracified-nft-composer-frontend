@@ -25,6 +25,7 @@
         [value]="newTitle"
         [(ngModel)]="newTitle"
         (keyup.enter)="saveTitle()"
+        (keyup.escape)="cancel()"
         (click)="onClickInput()"
         maxlength="15"
         minlength="1"
