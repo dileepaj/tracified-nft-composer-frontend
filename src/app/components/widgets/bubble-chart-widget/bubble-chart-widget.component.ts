@@ -193,17 +193,23 @@ export class BubbleChartWidgetComponent implements OnInit {
   public saveTitle() {
     this.onClickInput();
     if (this.newTitle !== '') {
-      this.bubbleChart = {
-        ...this.bubbleChart,
-        ChartTitle: this.newTitle,
-      };
+      if (this.newTitle.match(/[^a-zA-Z0-9 ]/gm)) {
+        this.popupMsgService.openSnackBar(
+          'Please remove special characters from widget title'
+        );
+      } else {
+        this.bubbleChart = {
+          ...this.bubbleChart,
+          ChartTitle: this.newTitle,
+        };
 
-      if (this.service.getSavedStatus(this.bubbleChart.WidgetId)) {
-        this.updateInDB();
+        if (this.service.getSavedStatus(this.bubbleChart.WidgetId)) {
+          this.updateInDB();
+        }
+
+        this.store.dispatch(updateBubbleChart({ chart: this.bubbleChart }));
+        this.isEditing = false;
       }
-
-      this.store.dispatch(updateBubbleChart({ chart: this.bubbleChart }));
-      this.isEditing = false;
     } else {
       this.popupMsgService.openSnackBar('Widget title can not be empty');
     }

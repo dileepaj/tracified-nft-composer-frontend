@@ -199,17 +199,23 @@ export class PieChartWidgetComponent implements OnInit {
   public saveTitle() {
     this.onClickInput();
     if (this.newTitle !== '') {
-      this.pieChart = {
-        ...this.pieChart,
-        ChartTitle: this.newTitle,
-      };
+      if (this.newTitle.match(/[^a-zA-Z0-9 ]/gm)) {
+        this.popupMsgService.openSnackBar(
+          'Please remove special characters from widget title'
+        );
+      } else {
+        this.pieChart = {
+          ...this.pieChart,
+          ChartTitle: this.newTitle,
+        };
 
-      if (this.service.getSavedStatus(this.pieChart.WidgetId)) {
-        this.updateInDB();
+        if (this.service.getSavedStatus(this.pieChart.WidgetId)) {
+          this.updateInDB();
+        }
+
+        this.store.dispatch(updatePieChart({ chart: this.pieChart }));
+        this.isEditing = false;
       }
-
-      this.store.dispatch(updatePieChart({ chart: this.pieChart }));
-      this.isEditing = false;
     } else {
       this.popupMsgService.openSnackBar('Widget title can not be empty');
     }

@@ -146,8 +146,11 @@
               <div class="title-div">
                 <label class="proj-name cursor">{{
                   project.ProjectName
-                }}</label>
-                <div fxLayout="row" fxAlign="center ">
+                }}</label>   
+                <label class="proj-description cursor">
+                  {{ project.Description }}
+                </label>
+                <div class="timestamp-div"  fxLayout="row" fxAlign="center ">
                   <mat-icon class="material-icons-outlined time-icon cursor"
                     >schedule</mat-icon
                   >

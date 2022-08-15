@@ -190,17 +190,23 @@ export class TableComponent implements OnInit {
   public saveTitle() {
     this.onClickInput();
     if (this.newTitle !== '') {
-      this.table = {
-        ...this.table,
-        TableTitle: this.newTitle,
-      };
+      if (this.newTitle.match(/[^a-zA-Z0-9 ]/gm)) {
+        this.popupMsgService.openSnackBar(
+          'Please remove special characters from widget title'
+        );
+      } else {
+        this.table = {
+          ...this.table,
+          TableTitle: this.newTitle,
+        };
 
-      if (this.service.getSavedStatus(this.table.WidgetId)) {
-        this.updateInDB();
+        if (this.service.getSavedStatus(this.table.WidgetId)) {
+          this.updateInDB();
+        }
+
+        this.store.dispatch(updateTable({ table: this.table }));
+        this.isEditing = false;
       }
-
-      this.store.dispatch(updateTable({ table: this.table }));
-      this.isEditing = false;
     } else {
       this.popupMsgService.openSnackBar('Widget title can not be empty');
     }
