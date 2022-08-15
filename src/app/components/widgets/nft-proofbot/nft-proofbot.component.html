@@ -1,13 +1,13 @@
 <div
   class="widget-div"
-  [ngStyle]="{ border: highlight ? 'solid 3px #00D6A0' : 'solid 1px #ccc;' }"
+  [ngStyle]="{ border: highlight ? 'solid 3px #006D2D' : 'solid 1px #ccc;' }"
   [id]="proofbot.WidgetId"
 >
   <div fxLayoutAlign="space-between center">
     <div class="title-div" *ngIf="!isEditing">
       <label
         class="widget-title"
-        [ngStyle]="{ color: highlight ? '#00D6A0' : 'black' }"
+        [ngStyle]="{ color: highlight ? '#006D2D' : 'black' }"
         >{{ proofbot.Title }}</label
       >
       <img
@@ -58,9 +58,11 @@
       </button>
     </mat-menu>
   </div>
-  <div class="content-div">
-    <img class="widget-card-icon" *ngIf="!otpAdded" [src]="icon" />
 
+  <div class="pb-img-div" *ngIf="!otpAdded">
+    <img class="widget-card-icon" [src]="icon" />
+  </div>
+  <div class="content-div">
     <div class="proofbot-content" *ngIf="otpAdded">
       <div class="proof-card" *ngFor="let data of proofbot.Data!">
         <label class="proofbot-data-field"
@@ -123,7 +125,7 @@
       style="float: right"
       (click)="openAddData()"
     >
-      <mat-icon>add_circle</mat-icon>
+      <mat-icon>{{ !otpAdded ? "add_circle" : "edit" }}</mat-icon>
       {{ !otpAdded ? "Add Data" : "Modify Data" }}
     </button>
   </div>

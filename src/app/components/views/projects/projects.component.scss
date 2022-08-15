@@ -22,11 +22,11 @@ mat-toolbar {
   background-color: #00c853;
 }
 .mat-progress-bar-fill::after {
-  background-color: $green;
+  background-color: #006D2D;
 }
 
 .progressbar {
-  background-color: $green !important;
+  background-color: #006D2D !important;
 }
 
 .icon-div {
@@ -102,6 +102,7 @@ mat-toolbar {
 
 .mat-card {
   padding: 0 !important;
+  margin: 0px 10px 30px 10px !important;
 }
 
 .menu-icon-div {
@@ -312,10 +313,11 @@ mat-toolbar {
   font-style: normal;
   font-weight: 400;
   font-size: 15px;
-  color: #a9a9a9;
+  color: #656565;
   display: block;
   word-break: break-all;
   margin: 0px 10px 0px 10px;
+  line-height: 18px;
 }
 
 .proj-title {
@@ -338,6 +340,15 @@ mat-toolbar {
   height: calc(100vh - 250px);
 }
 
+.no-results {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 45px;
+  height: calc(100vh - 250px);
+}
+
 #no-project-img {
   width: 316.46px;
   height: 284.02px;
@@ -348,4 +359,38 @@ mat-toolbar {
   width: 274px;
   height: 45px;
   border-radius: 5px;
+}
+
+#no-results-img {
+  width: 229px;
+  height: 227px;
+}
+
+.search-msg-1 {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  text-align: center;
+  color: #313131;
+}
+
+.search-msg-2 {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 300;
+  font-size: 20px;
+  line-height: 24px;
+  text-align: center;
+
+  color: #9b9b9b;
+}
+
+.search-msg-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 20px;
 }

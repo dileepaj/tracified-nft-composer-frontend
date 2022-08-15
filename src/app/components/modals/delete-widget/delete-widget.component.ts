@@ -116,7 +116,7 @@ export class DeleteWidgetComponent implements OnInit {
           },
         });
         break;
-      case 'Proofbot':
+      case 'Proof Bot':
         this.composerService.deleteProofbot(this.widgetId).subscribe({
           next: (res) => {},
           error: (err) => {

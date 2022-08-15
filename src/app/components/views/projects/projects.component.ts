@@ -40,7 +40,7 @@ export class ProjectsComponent implements OnInit {
   filteredProjects: RecentProject[];
   loadedProject: NFTContent;
   subscription: Subscription;
-  gridColumns = 4;
+  gridColumns = 3;
   user: ComposerUser;
   userId: string = '';
   loading: boolean = false;
@@ -76,6 +76,7 @@ export class ProjectsComponent implements OnInit {
   gridView: boolean = true;
 
   searchText: string = '';
+  isSearching: boolean = false;
 
   constructor(
     private router: Router,
@@ -231,6 +232,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   public searchProject() {
+    this.setIsSearching();
     this.filteredProjects = this.projects.filter((project: any) => {
       if (this.searchText !== '') {
         if (
@@ -244,6 +246,14 @@ export class ProjectsComponent implements OnInit {
         return project;
       }
     });
+  }
+
+  public setIsSearching() {
+    if (this.searchText !== '') {
+      this.isSearching = true;
+    } else {
+      this.isSearching = false;
+    }
   }
 
   public toggleSort() {

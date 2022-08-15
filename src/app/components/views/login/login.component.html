@@ -1,5 +1,5 @@
 <div fxLayout="80" fxLayoutAlign="center center" fxFill>
-  <mat-card fxFlex="62.637" fxLayout.xs="column" fxLayout.sm="column" class="mat-elevation-z0 outline"
+  <mat-card fxFlex="56" fxLayout.xs="column" fxLayout.sm="column" class="mat-elevation-z0 outline"
     fxLayoutAlign="center center" style="height:68%;">
     <div fxLayout.xs="column" fxFlex.xs="100" fxFlex.sm="100" class="login-cards" fxHide.xs="false" fxHide.sm="false"
       fxHide.md="true" fxHide.lg="true" fxHide.xl="true" fxLayoutAlign="center center" style="padding: 0%;">
@@ -10,8 +10,8 @@
     </div>
     <div fxFlex="100" fxFill class="login-cards" fxLayoutAlign="center center">
       <mat-card fxFlex.gt-xs="100" fxFlex.gt-sm="100" fxFlex.gt-md="100" fxFlex.lg="50" fxFlex.md="50"
-       class="mat-elevation-z0" fxLayoutAlign="center center" style="background-color: #00C853;" fxFlexFill>
-        <form fxFlex.gt-sm="100" fxFill fxLayoutAlign="stretch" fxLayout="column" [formGroup]="loginForm"
+       class="mat-elevation-z0" fxLayoutAlign="center center" style="background-color: #00C853; " fxFlexFill>
+        <form fxFlex.gt-sm="100" fxFill fxLayoutAlign="stretch" fxLayout="column" [formGroup]="loginForm" style="padding-top:8%;"
           (ngSubmit)="onSubmit()">
           <mat-form-field appearance="standard" [hideRequiredMarker]="true" class="alignment">
             <input matInput placeholder="Email or Username" name="email" formControlName="username" readonly onfocus="this.removeAttribute('readonly')">
@@ -35,7 +35,7 @@
           </div>-->
 
           <div fxFlexAlign="center" class="password-reset">
-            <p class="md-body-2" style="color: white;">
+            <p class="md-body-2" style="color: white; top:10px; font-size: 14.8px;">
               Forgot your credentials?
               <a href="https://qa.admin.tracified.com/reset-password" class="get-help-link">Get help</a>
             </p>
@@ -45,7 +45,7 @@
       <mat-card style="margin: 5px;" fxFlex="50" fxHide.xs="true" fxHide.sm="true" fxHide.md="false" fxHide.lg="false"
         fxHide.xl="false" fxFlex.gt-xs="100" fxFlex.gt-sm="50" fxFlex.gt-md="100" fxFlex.lg="50" fxFlex.md="50"
         fxLayout="column" class="mat-elevation-z0" fxLayoutAlign="start center">
-        <img class="logo" mat-card-image src="assets\images\composer-logo.png" alt="tracified-logo" />
+        <img class="logo"  mat-card-image src="assets\images\composer-logo.png" alt="tracified-logo" />
       </mat-card>
     </div>
 
