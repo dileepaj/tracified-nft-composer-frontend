@@ -31,7 +31,7 @@ mat-toolbar {
 
 .icon-div {
   width: 130px;
-  height: 130px;
+  height: 184px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -52,11 +52,12 @@ mat-toolbar {
 .proj-name {
   font-family: "Inter";
   font-style: normal;
-  font-weight: 600;
-  font-size: 15px;
+  font-size: 16px;
   line-height: 18px;
-
+  margin-top: -120px !important;
   color: #3d3d3d;
+  position: absolute;
+  font-weight: bold
 }
 
 .time-icon {
@@ -66,7 +67,7 @@ mat-toolbar {
   line-height: 17px;
   /* identical to box height */
 
-  color: #bababa;
+  color: #006D2D;
 }
 
 .projects-div {
@@ -81,7 +82,7 @@ mat-toolbar {
   line-height: 17px;
   /* identical to box height */
 
-  color: #bababa;
+  color: #006D2D;
 }
 
 .btn-icon {
@@ -98,6 +99,7 @@ mat-toolbar {
   display: flex;
   flex-direction: row;
   width: 100%;
+  height: 184px;
 }
 
 .mat-card {
@@ -312,12 +314,12 @@ mat-toolbar {
   font-family: "Inter";
   font-style: normal;
   font-weight: 400;
-  font-size: 15px;
+  font-size: 14px;
   color: #656565;
   display: block;
   word-break: break-all;
-  margin: 0px 10px 0px 10px;
-  line-height: 18px;
+  //margin: 0px 10px 0px 10px;
+  line-height: 22px;
 }
 
 .proj-title {
@@ -393,4 +395,9 @@ mat-toolbar {
   justify-content: center;
   align-items: center;
   row-gap: 20px;
+}
+
+.timestamp-div{
+  position: absolute;
+  margin-bottom: -130px !important;
 }
