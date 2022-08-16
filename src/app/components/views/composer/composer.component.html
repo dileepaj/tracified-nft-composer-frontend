@@ -9,6 +9,7 @@
       <app-sidebar></app-sidebar>
     </mat-drawer>
     <mat-drawer
+      #drawer
       mode="side"
       [opened]="opened"
       position="end"
@@ -89,6 +90,13 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="side-bar-item">
+        <button type="button" class="collaps-btn" [ngClass]="{'clicked' : isClicked}" mat-flat-button (click)="drawer.toggle()" (click)="executeOpposite()">
+          <mat-icon *ngIf="isClicked === false" class="collaps-icon">chevron_right</mat-icon>
+          <mat-icon *ngIf="isClicked === true" class="collaps-icon">chevron_left</mat-icon>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </button>
       </div>
       <div class="btn-container">
         <button

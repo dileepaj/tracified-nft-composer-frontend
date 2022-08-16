@@ -146,11 +146,11 @@
               <div class="title-div">
                 <label class="proj-name cursor">{{
                   project.ProjectName
-                }}</label>   
+                }}</label>
                 <label class="proj-description cursor">
                   {{ project.Description }}
                 </label>
-                <div class="timestamp-div"  fxLayout="row" fxAlign="center ">
+                <div class="timestamp-div" fxLayout="row" fxAlign="center ">
                   <mat-icon class="material-icons-outlined time-icon cursor"
                     >schedule</mat-icon
                   >
@@ -246,7 +246,7 @@
                 </label>
               </div>
               <div
-                fxFlex.gt-md="80%"
+                fxFlex.gt-md="75%"
                 fxFlex.md="70%"
                 fxFlex.sm="100%"
                 fxFlex.xs="100%"
@@ -258,8 +258,9 @@
                   {{ project.Description }}
                 </label>
               </div>
-              <div fxFlex.gt-md="10%" fxFlex.md="20%">
-                <mat-icon class="material-icons-outlined time-icon cursor"
+              <div fxFlex.gt-md="15%" fxFlex.md="20%">
+                <mat-icon
+                  class="material-icons-outlined list-view-time-icon cursor"
                   >schedule</mat-icon
                 >
                 <label class="timestamp cursor">
@@ -304,7 +305,7 @@
     </div>
     <div
       class="md-margin no-projects"
-      *ngIf="!isSearching && projects.length === 0"
+      *ngIf="!loading && !isSearching && projects.length === 0"
     >
       <img
         id="no-project-img"
