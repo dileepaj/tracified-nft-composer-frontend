@@ -103,9 +103,13 @@ export class ProjectsComponent implements OnInit {
     this.loading = true;
     this.apiService.getRecentProjects(this.userId).subscribe((result) => {
       if (result) {
-        this.projects = result.Response;
-        this.filteredProjects = this.projects;
-        this.generateColors();
+        this.projects = [];
+        this.filteredProjects = [];
+        if (result.Response) {
+          this.projects = result.Response;
+          this.filteredProjects = this.projects;
+          this.generateColors();
+        }
       }
       this.loading = false;
     });

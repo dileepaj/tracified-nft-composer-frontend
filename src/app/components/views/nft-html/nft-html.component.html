@@ -20,15 +20,15 @@
     </div>
 
     <div class="btn-container">
-      <button 
-        class="btn" 
-        (click)="openCodebehindPopup()" 
+      <button
+        class="btn"
+        (click)="openCodebehindPopup()"
         mat-flat-button
-        [disabled] = "codeLoaded"
+        [disabled]="codeLoaded"
       >
-        <mat-icon class="icon">code</mat-icon> 
+        <mat-icon class="icon">code</mat-icon>
         <span [class.spinner]="codeLoaded"></span>
-        Codebehind
+        Code Behind
       </button>
     </div>
   </mat-drawer-content>

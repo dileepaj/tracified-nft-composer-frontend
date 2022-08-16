@@ -10,6 +10,7 @@ export interface NFTContent {
   ProjectId: string;
   ProjectName: string;
   NFTName: string;
+  Description: string;
   UserId: string;
   TenentId: string;
   Timestamp: string;

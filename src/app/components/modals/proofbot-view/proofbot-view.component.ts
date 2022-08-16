@@ -49,10 +49,16 @@ export class ProofbotViewComponent implements OnInit {
       }
     });
 
-    this.proofbot = {
-      ...this.proofbot,
-      Data: data,
-    };
+    if (data.length === 0) {
+      this.popupService.openSnackBar(
+        'Proof Bot widget must contain atleast one proof'
+      );
+    } else {
+      this.proofbot = {
+        ...this.proofbot,
+        Data: data,
+      };
+    }
   }
 
   /*
@@ -83,16 +89,24 @@ export class ProofbotViewComponent implements OnInit {
 
     this.proofbot.Data!.map((pbItem) => {
       if (pbItem.TxnHash === proofData.TxnHash) {
-        data.push(proofData);
+        if (proofData.Urls.length > 0) {
+          data.push(proofData);
+        }
       } else {
         data.push(pbItem);
       }
     });
 
-    this.proofbot = {
-      ...this.proofbot,
-      Data: data,
-    };
+    if (data.length === 0) {
+      this.popupService.openSnackBar(
+        'Proof Bot widget must contain atleast one proof'
+      );
+    } else {
+      this.proofbot = {
+        ...this.proofbot,
+        Data: data,
+      };
+    }
   }
 
   //saves proofbot data in redux store
@@ -110,9 +124,24 @@ export class ProofbotViewComponent implements OnInit {
       },
       complete: () => {
         this.saving = false;
-        this.popupService.openSnackBar('Proofbot updated successfully!');
+        this.popupService.openSnackBar('Proof Bot updated successfully!');
         this.dialogRef.close();
       },
     });
+  }
+
+  //get proof name by type
+  public getProofName(type: string): string {
+    if (type.toLowerCase() === 'poe') {
+      return 'Proof of Existence';
+    } else if (type.toLowerCase() === 'poc') {
+      return 'Proof of Continuity';
+    } else if (type.toLowerCase() === 'pog') {
+      return 'Proof of Genesis';
+    } else if (type.toLowerCase() === 'pococ') {
+      return 'Proof of Change of Custody';
+    } else {
+      return type;
+    }
   }
 }

@@ -41,7 +41,13 @@
                 <!--input field for setting x axis name-->
                 <mat-form-field appearance="fill" color="primary">
                   <mat-label>Title</mat-label>
-                  <input matInput type="text" [(ngModel)]="title" />
+                  <input
+                    matInput
+                    type="text"
+                    [(ngModel)]="title"
+                    maxlength="15"
+                    minlength="1"
+                  />
                 </mat-form-field>
               </div>
             </div>

@@ -51,6 +51,10 @@ export class NftImageComponent implements OnInit {
   saving: boolean = false;
   icon: any = '../../../../assets/images/widget-icons/Image-upload.png';
   public highlight = false;
+  public isEditing = false;
+  public newTitle: string = '';
+  private clickedInsideInput = false;
+  private clickedOnTitle = false;
 
   constructor(
     private store: Store<AppState>,
@@ -116,6 +120,10 @@ export class NftImageComponent implements OnInit {
       Base64Image: '',
     };
 
+    this.clickedInsideInput = true;
+    this.isEditing = true;
+    this.newTitle = '';
+
     this.store.dispatch(addNFTImage({ image: this.image }));
     this.service.updateUsedStatus(this.id);
   }
@@ -145,7 +153,7 @@ export class NftImageComponent implements OnInit {
         this.store.dispatch(deleteNFTImage({ image: this.image }));
         this.onDeleteWidget.emit(this.id);
       }
-    })
+    });
   }
 
   //trigger file input click event
@@ -253,6 +261,61 @@ export class NftImageComponent implements OnInit {
       data: {
         image: this.base64,
       },
+      autoFocus:false
     });
+  }
+
+  //enable editing title
+  public enableEditing() {
+    this.clickedInsideInput = true;
+    this.isEditing = true;
+    this.newTitle = this.image.Title!;
+  }
+
+  //called when user types on title input field
+  public onChangeTitle(event: any) {
+    if (event.target.value.length > 0) {
+      this.newTitle = event.target.value;
+    }
+  }
+
+  //save new ttile
+  public saveTitle() {
+    this.onClickInput();
+    if (this.newTitle !== '') {
+      this.image = {
+        ...this.image,
+        Title: this.newTitle,
+      };
+
+      if (this.service.getSavedStatus(this.image.WidgetId)) {
+        this.updateImageInDB();
+      }
+
+      this.store.dispatch(updateNFTImage({ image: this.image }));
+      this.isEditing = false;
+    } else {
+      this.popupMsgService.openSnackBar('Widget title can not be empty');
+    }
+  }
+
+  //called when user clicks on input field
+  public onClickInput() {
+    this.clickedInsideInput = true;
+  }
+
+  public cancel() {
+    this.isEditing = false;
+    this.newTitle = this.image.Title!;
+  }
+
+  //triggered when useer clicks on anywhere in the document
+  @HostListener('document:click')
+  clickedOut() {
+    if (!this.clickedInsideInput) {
+      this.isEditing = false;
+      this.newTitle = this.image.Title!;
+    }
+    this.clickedInsideInput = false;
   }
 }

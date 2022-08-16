@@ -6,6 +6,7 @@
       <input
         matInput
         placeholder="Type project name here..."
+        maxlength="10"
         [formControl]="projectNameControl"
         [(ngModel)]="projectName"
       />
@@ -21,11 +22,26 @@
       <input
         matInput
         placeholder="Type NFT name here..."
+        maxlength="10"
         [formControl]="nftNameControl"
         [(ngModel)]="nftName"
       />
       <mat-error *ngIf="nftNameControl.hasError('required')">
         NFT name is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Description</mat-label>
+      <textarea
+        matInput
+        placeholder="Write a description..."
+        [formControl]="descriptionControl"
+        [(ngModel)]="description"
+        maxlength="80"
+        class="input-description"
+      ></textarea>
+      <mat-error *ngIf="descriptionControl.hasError('required')">
+        Description is <strong>required</strong>
       </mat-error>
     </mat-form-field>
   </div>

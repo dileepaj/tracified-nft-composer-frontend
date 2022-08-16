@@ -1,6 +1,7 @@
 import {
   Component,
   EventEmitter,
+  HostListener,
   Inject,
   Input,
   OnInit,
@@ -17,6 +18,7 @@ import {
   addTable,
   deleteProofBot,
   deleteTable,
+  updateTable,
 } from 'src/app/store/nft-state-store/nft.actions';
 import {
   selectCardStatus,
@@ -44,6 +46,9 @@ export class TableComponent implements OnInit {
   nftContent: NFTContent;
   icon: any = '../../../../assets/images/widget-icons/Table.png';
   public highlight = false;
+  public isEditing: boolean = false;
+  public newTitle: string = '';
+  private clickedInsideInput: boolean = false;
 
   constructor(
     private store: Store<AppState>,
@@ -102,8 +107,12 @@ export class TableComponent implements OnInit {
       TableTitle: 'Table',
       Query: '',
       QuerySuccess: false,
-      TableContent: 'No Data.',
+      TableContent: 'EMPTY',
     };
+
+    this.clickedInsideInput = true;
+    this.isEditing = true;
+    this.newTitle = '';
 
     this.store.dispatch(addTable({ table: this.table }));
     this.service.updateUsedStatus(this.id);
@@ -144,5 +153,76 @@ export class TableComponent implements OnInit {
         widget: this.table,
       },
     });
+  }
+
+  //update database
+  public updateInDB() {
+    this.composerService.updateTable(this.table).subscribe({
+      next: (res) => {},
+      error: (err) => {
+        this.popupMsgService.openSnackBar(
+          'An unexpected error occured. Please try again later'
+        );
+      },
+      complete: () => {
+        this.popupMsgService.openSnackBar('Table updated successfully!');
+        this.service.setSavedStatus(this.table.WidgetId);
+        this.dialog.closeAll();
+      },
+    });
+  }
+
+  //enable editing title
+  public enableEditing() {
+    this.clickedInsideInput = true;
+    this.isEditing = true;
+    this.newTitle = this.table.TableTitle!;
+  }
+
+  //called when user types on title input field
+  public onChangeTitle(event: any) {
+    if (event.target.value.length > 0) {
+      this.newTitle = event.target.value;
+    }
+  }
+
+  //save new ttile
+  public saveTitle() {
+    this.onClickInput();
+    if (this.newTitle !== '') {
+      this.table = {
+        ...this.table,
+        TableTitle: this.newTitle,
+      };
+
+      if (this.service.getSavedStatus(this.table.WidgetId)) {
+        this.updateInDB();
+      }
+
+      this.store.dispatch(updateTable({ table: this.table }));
+      this.isEditing = false;
+    } else {
+      this.popupMsgService.openSnackBar('Widget title can not be empty');
+    }
+  }
+
+  //called when user clicks on input field
+  public onClickInput() {
+    this.clickedInsideInput = true;
+  }
+
+  public cancel() {
+    this.isEditing = false;
+    this.newTitle = this.table.TableTitle!;
+  }
+
+  //triggered when useer clicks on anywhere in the document
+  @HostListener('document:click')
+  clickedOut() {
+    if (!this.clickedInsideInput) {
+      this.isEditing = false;
+      this.newTitle = this.table.TableTitle!;
+    }
+    this.clickedInsideInput = false;
   }
 }

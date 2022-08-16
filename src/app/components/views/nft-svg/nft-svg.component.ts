@@ -84,7 +84,7 @@ export class NftSvgComponent implements OnInit {
       .generateSVG(this.nftContent)
       .subscribe((data: any) => {
         if (!!data && !!data.Response && data.Response !== '') {
-          this.svgStr = atob(data.Response);
+          this.svgStr = this.b64DecodeUnicode(data.Response);
           const content = this.svgStr;
           iframe.contentWindow.document.open();
           iframe.contentWindow.document.write(content);
@@ -96,12 +96,12 @@ export class NftSvgComponent implements OnInit {
 
   openCodebehindPopup() {
     this.codeLoaded = true;
-    setTimeout(()=>{                           
+    setTimeout(() => {
       this.dialog.open(SvgCodebehindComponent, {
         data: { svgCode: this.svgStr },
       });
       this.codeLoaded = false;
-    },100);
+    }, 100);
   }
 
   //listen to page refresh event
@@ -113,6 +113,18 @@ export class NftSvgComponent implements OnInit {
       e.returnValue = 'Changes may not be saved.';
     }
     return e;
+  }
+
+  private b64DecodeUnicode(str: string) {
+    // Going backwards: from bytestream, to percent-encoding, to original string.
+    return decodeURIComponent(
+      atob(str)
+        .split('')
+        .map(function (c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        })
+        .join('')
+    );
   }
 
   //check whether page was refreshed or not

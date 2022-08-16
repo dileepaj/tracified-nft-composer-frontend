@@ -29,8 +29,10 @@ import { ComposerUser } from 'src/models/user';
 export class NewProjectComponent implements OnInit {
   projectNameControl: FormControl;
   nftNameControl: FormControl;
+  descriptionControl: FormControl;
   projectName: string = '';
   nftName: string = '';
+  description: string = '';
   user: ComposerUser;
   existingProjects: any[] = [];
 
@@ -52,18 +54,26 @@ export class NewProjectComponent implements OnInit {
       this.forbiddenNameValidator(),
     ]);
     this.nftNameControl = new FormControl(this.nftName, [Validators.required]);
+    this.descriptionControl = new FormControl(this.description, [
+      Validators.required,
+    ]);
   }
 
   /**
    * @function createProject - create a new NFT project
    */
   public createProject() {
-    if (this.projectName !== '' && this.nftName !== '') {
+    if (
+      this.projectName !== '' &&
+      this.nftName !== '' &&
+      this.description !== ''
+    ) {
       if (!this.checkIfAlreadyExists(this.projectName)) {
         const project: NFTContent = {
           ProjectId: Date.now().toString(),
           ProjectName: this.projectName,
           NFTName: this.nftName,
+          Description: this.description,
           UserId: this.user.UserID,
           TenentId: this.user.TenentId,
           Timestamp: new Date().toISOString(),
@@ -96,7 +106,7 @@ export class NewProjectComponent implements OnInit {
       }
     } else {
       this.popupMsgService.openSnackBar(
-        'Please enter a project name and an NFT name'
+        'Please provide all the necessary details'
       );
     }
   }
@@ -107,13 +117,15 @@ export class NewProjectComponent implements OnInit {
   private checkIfAlreadyExists(newProjectName: string) {
     let projectNameExists = false;
     if (newProjectName !== '') {
-      for (let i = 0; i < this.existingProjects.length; i++) {
-        if (
-          newProjectName.trim().toLowerCase() ===
-          this.existingProjects[i].ProjectName.trim().toLowerCase()
-        ) {
-          projectNameExists = true;
-          break;
+      if (this.existingProjects) {
+        for (let i = 0; i < this.existingProjects.length; i++) {
+          if (
+            newProjectName.trim().toLowerCase() ===
+            this.existingProjects[i].ProjectName.trim().toLowerCase()
+          ) {
+            projectNameExists = true;
+            break;
+          }
         }
       }
     }

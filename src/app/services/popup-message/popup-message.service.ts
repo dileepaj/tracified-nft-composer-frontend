@@ -25,7 +25,7 @@ export class PopupMessageService {
     const ref = this._snackBar.open(this.msgQueue[0], 'OK', {
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
-      panelClass: ['snackbar'],
+      panelClass: ['snackbar-all'],
       duration: 3000,
     });
 

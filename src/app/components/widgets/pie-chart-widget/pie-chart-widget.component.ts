@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  HostListener,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
@@ -9,6 +16,7 @@ import { AppState } from 'src/app/store/app.state';
 import {
   addPieChart,
   deletePieChart,
+  updatePieChart,
 } from 'src/app/store/nft-state-store/nft.actions';
 import {
   selectCardStatus,
@@ -34,6 +42,9 @@ export class PieChartWidgetComponent implements OnInit {
   nftContent: NFTContent;
   icon: any = '../../../../assets/images/widget-icons/Pie-chart.png';
   public highlight = false;
+  public isEditing: boolean = false;
+  public newTitle: string = '';
+  private clickedInsideInput: boolean = false;
 
   constructor(
     private store: Store<AppState>,
@@ -129,6 +140,11 @@ export class PieChartWidgetComponent implements OnInit {
       QuerySuccess: false,
       ChartImage: 'string',
     };
+
+    this.clickedInsideInput = true;
+    this.isEditing = true;
+    this.newTitle = '';
+
     this.store.dispatch(addPieChart({ chart: this.pieChart }));
     this.service.updateUsedStatus(this.id);
   }
@@ -146,5 +162,76 @@ export class PieChartWidgetComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       //
     });
+  }
+
+  //update database
+  public updateInDB() {
+    this.composerService.updateChart(this.pieChart).subscribe({
+      next: (res) => {},
+      error: (err) => {
+        this.popupMsgService.openSnackBar(
+          'An unexpected error occured. Please try again later'
+        );
+      },
+      complete: () => {
+        this.popupMsgService.openSnackBar('Pie Chart updated successfully!');
+        this.service.setSavedStatus(this.pieChart.WidgetId);
+        this.dialog.closeAll();
+      },
+    });
+  }
+
+  //enable editing title
+  public enableEditing() {
+    this.clickedInsideInput = true;
+    this.isEditing = true;
+    this.newTitle = this.pieChart.ChartTitle!;
+  }
+
+  //called when user types on title input field
+  public onChangeTitle(event: any) {
+    if (event.target.value.length > 0) {
+      this.newTitle = event.target.value;
+    }
+  }
+
+  //save new ttile
+  public saveTitle() {
+    this.onClickInput();
+    if (this.newTitle !== '') {
+      this.pieChart = {
+        ...this.pieChart,
+        ChartTitle: this.newTitle,
+      };
+
+      if (this.service.getSavedStatus(this.pieChart.WidgetId)) {
+        this.updateInDB();
+      }
+
+      this.store.dispatch(updatePieChart({ chart: this.pieChart }));
+      this.isEditing = false;
+    } else {
+      this.popupMsgService.openSnackBar('Widget title can not be empty');
+    }
+  }
+
+  //called when user clicks on input field
+  public onClickInput() {
+    this.clickedInsideInput = true;
+  }
+
+  public cancel() {
+    this.isEditing = false;
+    this.newTitle = this.pieChart.ChartTitle!;
+  }
+
+  //triggered when useer clicks on anywhere in the document
+  @HostListener('document:click')
+  clickedOut() {
+    if (!this.clickedInsideInput) {
+      this.isEditing = false;
+      this.newTitle = this.pieChart.ChartTitle!;
+    }
+    this.clickedInsideInput = false;
   }
 }

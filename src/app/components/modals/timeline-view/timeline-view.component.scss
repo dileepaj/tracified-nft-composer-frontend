@@ -1,6 +1,10 @@
 @import "../../../../scss/mixins";
 @import "../../../../scss/variables";
 
+.tl-view-div {
+  position: relative;
+}
+
 .timeline {
   $color: #00c853;
   $timeline-font-color: white;
@@ -10,10 +14,10 @@
   position: relative;
   counter-reset: list 0;
 
-  &-item {
+  /* &-item {
     list-style: none;
     border-left: 4px solid $color;
-  }
+  } */
 
   &-title {
     margin: 0;
@@ -34,10 +38,7 @@
   }
 
   &-text {
-    margin: 0;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 50px;
+    margin: 0 0 0 1.5rem;
   }
 }
 
@@ -96,26 +97,35 @@ h2 button {
   flex-grow: 1;
 }
 
-
-.timeline-card{
+.timeline-outer-div {
   display: block;
-  padding: 1.5rem;
+  padding: 0.5rem 0 1.5rem 0;
   position: relative;
-  overflow: auto;
+  width: fit-content;
 }
 
+.timeline-card {
+  display: block;
+  padding: 0.5rem 0 1.5rem 0;
+  position: relative;
+  width: 95%;
+  overflow: auto;
+  margin-left: inherit;
+}
 
-.header{
+.header {
   display: flex;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
   flex-direction: row;
   -webkit-box-pack: center;
   justify-content: center;
+  align-items: center;
+  margin: 20px 0px 20px 0px;
   width: 100%;
 }
 
-.left{
+.left {
   width: 16%;
   display: flex;
   -webkit-box-pack: center;
@@ -124,28 +134,113 @@ h2 button {
   align-items: center;
 }
 
-.right{
-    width: calc(100% - 16%);
+.right {
+  width: calc(100% - 16%);
 }
 
-.title{
-  margin: 0 0 .2rem 0;
+.title {
+  margin-top: 0rem !important;
+  margin-bottom: 0rem !important;
 }
 
-.body{
+.body {
   width: calc(100% - 16%);
   margin-left: 7%;
-  padding: 10px 0;
+  padding: 0px 0;
 }
 
 .secondary-font {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
   color: #b1b1b1 !important;
+  margin-block-end: 0em !important;
 }
 
 .primary-font {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
   color: #4f525d !important;
 }
 
-img{
+img {
   padding-right: 10px;
+}
+
+.content-div {
+  overflow: auto;
+  max-height: 55vh;
+  width: 500px;
+}
+
+.timeline-content {
+  width: fit-content;
+}
+
+.tdp-added-date {
+  margin-bottom: 5px;
+  padding-bottom: 5%;
+  label {
+    color: $green;
+    font-weight: 500;
+    font-size: 17px;
+  }
+}
+
+.tl-v-icon {
+  width: 75%;
+  height: 100%;
+}
+
+.inner-widge-div::before {
+  content: " ";
+  background: $green;
+  display: inline-block;
+  position: absolute;
+  left: 23px;
+  width: 4px;
+  height: 100%;
+  z-index: auto;
+  margin-left: 0.5rem;
+}
+
+.card-border {
+  box-shadow: unset !important;
+  border: 1px solid #ccc;
+  width: 366px;
+  padding-top: 20px;
+  padding-right: 20px;
+}
+
+.timeline-heading {
+  display: flex;
+  flex-direction: column;
+  margin-left: 16%;
+  margin-bottom: 50px;
+}
+
+.timeline-product {
+  font-size: 17px;
+}
+
+.timeline-batch {
+  font-size: 17px;
+}
+
+.no-data-msg {
+  text-align: center;
+  font-size: medium;
+  padding-top: 1px;
+  color: #4f525d;
+}
+
+p {
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
 }
