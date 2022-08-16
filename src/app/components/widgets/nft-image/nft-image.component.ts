@@ -321,6 +321,17 @@ export class NftImageComponent implements OnInit {
     this.newTitle = this.image.Title!;
   }
 
+  //check whether the widget title exceeds the character limit or not
+  public characterLimitValidator(event: any) {
+    const val = event.target.value;
+    const id = event.target.id;
+    const key = event.keyCode || event.charCode;
+
+    if (val.length === 15 && key >= 48 && key <= 90) {
+      this.popupMsgService.showOnce('Widget title is limited to 15 characters');
+    }
+  }
+
   //triggered when useer clicks on anywhere in the document
   @HostListener('document:click')
   clickedOut() {
