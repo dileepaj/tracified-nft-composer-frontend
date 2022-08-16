@@ -22,11 +22,11 @@ mat-toolbar {
   background-color: #00c853;
 }
 .mat-progress-bar-fill::after {
-  background-color: #006D2D;
+  background-color: #006d2d;
 }
 
 .progressbar {
-  background-color: #006D2D !important;
+  background-color: #006d2d !important;
 }
 
 .icon-div {
@@ -57,7 +57,7 @@ mat-toolbar {
   margin-top: -120px !important;
   color: #3d3d3d;
   position: absolute;
-  font-weight: bold
+  font-weight: bold;
 }
 
 .time-icon {
@@ -67,7 +67,16 @@ mat-toolbar {
   line-height: 17px;
   /* identical to box height */
 
-  color: #006D2D;
+  color: #006d2d;
+}
+
+.list-view-time-icon {
+  vertical-align: middle;
+  font-weight: 500;
+  line-height: 17px;
+  /* identical to box height */
+
+  color: #006d2d;
 }
 
 .projects-div {
@@ -82,7 +91,7 @@ mat-toolbar {
   line-height: 17px;
   /* identical to box height */
 
-  color: #006D2D;
+  color: #006d2d;
 }
 
 .btn-icon {
@@ -397,7 +406,7 @@ mat-toolbar {
   row-gap: 20px;
 }
 
-.timestamp-div{
+.timestamp-div {
   position: absolute;
   margin-bottom: -130px !important;
 }
