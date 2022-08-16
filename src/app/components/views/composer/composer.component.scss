@@ -118,8 +118,7 @@
   flex-direction: row;
   position: absolute;
   bottom: 10px;
-  right: 5px;
-
+  right: 34px;
 }
 
 .list {
@@ -154,7 +153,7 @@ mat-list-item {
 .nft-content-area {
   position: absolute;
   top: 10px;
-  right: 10px;
+  right: 40px;
   left: 10px;
   bottom: 60px;
   background-color: $gray;
@@ -224,3 +223,27 @@ mat-list-item {
     transform: scale(4);
   }
 }
+
+.side-bar-item{
+  right: 2px;
+}
+
+.collaps-btn {
+  display: block;
+  height: 110px;
+  width: 0px;
+  border-radius: 300px 0px 0px 300px;
+  background-color: #006d2d;
+  position: sticky;
+  margin-top: 33.3333333333vh;
+  left: 1e+77px;
+  margin-right: -36px;
+}
+
+.collaps-icon {
+  color: white;
+  float: right;
+  margin-right: 20px;
+  margin-top: 6px;
+}
+
