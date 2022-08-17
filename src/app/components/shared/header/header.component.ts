@@ -31,7 +31,7 @@ export class HeaderComponent implements OnInit {
     private router: Router,
     private sidenav: SidenavService,
     private userServices: UserserviceService,
-    private jwtServices: JwtserviceService,
+    private jwt: JwtserviceService,
     public dialog: MatDialog
   ) {}
 
@@ -62,6 +62,7 @@ export class HeaderComponent implements OnInit {
         },
       });
     } else {
+      this.jwt.destroyToken();
       this.router.navigate(['/login']);
     }
   }
