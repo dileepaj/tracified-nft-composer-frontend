@@ -197,6 +197,7 @@ h2 button {
 .menu-icon {
   color: #5b5b5b;
   cursor: pointer;
+  margin-right: -8px;
   border-radius: 50%;
 }
 
@@ -218,7 +219,7 @@ h2 button {
   column-gap: 10px;
 }
 
-.mat-menu-item{
+.mat-menu-item {
   line-height: 30px;
   height: 30px;
 }
