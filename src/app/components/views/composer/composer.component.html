@@ -125,8 +125,11 @@
           (click)="generateHTML()"
           [disabled]="htmlGenerated"
         >
-          <mat-icon class="icon">code</mat-icon>
-          <span [class.spinner]="htmlGenerated"> </span>Generate HTML
+          <img
+            class="download-icon"
+            src="../../../../assets/images/download.png"
+          />
+          <span [class.spinner]="htmlGenerated"> </span>Download HTML
         </button>
         <button
           class="btn"
@@ -134,8 +137,11 @@
           (click)="generateSVG()"
           [disabled]="svgGenerated"
         >
-          <mat-icon class="icon">code</mat-icon>
-          <span [class.spinner]="svgGenerated"> </span>Generate SVG
+          <img
+            class="download-icon"
+            src="../../../../assets/images/download.png"
+          />
+          <span [class.spinner]="svgGenerated"> </span>Download SVG
         </button>
       </div>
     </mat-drawer-content>
