@@ -112,10 +112,7 @@
                     <div *ngIf="childrenTwo.NewTDP; then thenBlock"></div>
                     <ng-template #thenBlock>
                       <div class="tdp-added-date">
-                        <label
-                          >Added :
-                          {{ convertDate(childrenTwo.Timestamp) }}</label
-                        >
+                        <label>Added : {{ childrenTwo.Timestamp }}</label>
                       </div>
                     </ng-template>
                   </div>
