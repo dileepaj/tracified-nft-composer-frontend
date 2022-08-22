@@ -19,6 +19,7 @@ export interface ProofData {
   TxnHash: string;
   AvailableProofs: string[];
   Urls: ProofURL[];
+  Timestamp:string;
 }
 
 export interface ProofURL {

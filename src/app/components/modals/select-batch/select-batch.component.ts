@@ -677,6 +677,7 @@ export class SelectBatchComponent implements OnInit {
               TxnHash: data[i].Txnhash,
               AvailableProofs: data[i].AvailableProof,
               Urls: urls,
+              Timestamp:data[i].Timestamp
             });
           }
 
