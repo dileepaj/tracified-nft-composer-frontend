@@ -252,3 +252,7 @@ mat-list-item {
   margin-right: 20px;
   margin-top: 6px;
 }
+
+.img-tint {
+  filter: brightness(0.2) opacity(50%);
+}
