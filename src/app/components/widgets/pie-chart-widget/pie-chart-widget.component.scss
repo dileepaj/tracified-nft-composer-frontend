@@ -224,7 +224,7 @@ h2 button {
   height: 30px;
 }
 
-::ng-deep.mat-menu-content:not(:empty) {
+::ng-deep.menu .mat-menu-content:not(:empty) {
   padding-top: 1px !important;
   padding-bottom: 1px !important;
 }

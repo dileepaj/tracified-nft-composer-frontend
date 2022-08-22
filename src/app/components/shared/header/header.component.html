@@ -34,14 +34,20 @@
       <label>
         <span
           id="title"
-          style="font-family: 'Inter'; font-size: 20px; padding-left: 10px; font-weight: 300"
+          style="
+            font-family: 'Inter';
+            font-size: 20px;
+            padding-left: 10px;
+            font-weight: 300;
+          "
         >
           | NFT Composer</span
         >
       </label>
     </span>
   </div>
-  <div class="user-det"
+  <div
+    class="user-det"
     fxFlex.lg="20"
     fxFlex.md="20"
     fxFlex.sm="30"
@@ -58,7 +64,12 @@
       fxFlex="20"
       fxLayoutAlign="end center"
     >
-      <label style="font-weight: 400 !important;" id="userName" *ngIf="user!==undefined">{{ user.Company }}</label>
+      <label
+        style="font-weight: 400 !important"
+        id="userName"
+        *ngIf="user !== undefined"
+        >{{ user.Company }}</label
+      >
     </div>
     <div fxFlex="20" fxLayoutAlign="start center">
       <button mat-icon-button [matMenuTriggerFor]="menu">
@@ -69,25 +80,37 @@
           class="rounded-circle"
         />
       </button>
-      <mat-menu #menu="matMenu" xPosition="before">
-        <label
+      <mat-menu #menu="matMenu" xPosition="before" class="customize">
+        <!-- <label
           style="color: #006D2D"
           class="account-username"
           mat-menu-item
           id="userName"
           *ngIf="user!==undefined"
           >{{ user.UserName }}</label
+        > -->
+        <button
+          style="color: #003a18; font-weight: 500; font-size: 15px"
+          mat-menu-item
         >
-        <button style="color: #006D2D; font-weight: 500;" mat-menu-item>
           <mat-icon class="menu-icon">help</mat-icon>
           <span class="menu-item">Help</span>
         </button>
-        <button style="color: #006D2D" mat-menu-item>
+        <button
+          style="color: #003a18; font-weight: 500; font-size: 15px"
+          mat-menu-item
+        >
           <mat-icon class="menu-icon">lightbulb_circle</mat-icon>
           <span class="menu-item">FAQ</span>
         </button>
-        <button style="color: #c31526" mat-menu-item (click)="logout()">
-          <mat-icon class="menu-icon" style="color: #c31526 !important;">logout</mat-icon>
+        <button
+          style="color: #bd2130; font-weight: 500; font-size: 15px"
+          mat-menu-item
+          (click)="logout()"
+        >
+          <mat-icon class="menu-icon" style="color: #bd2130 !important"
+            >logout</mat-icon
+          >
           <span class="menu-item">Log Out</span>
         </button>
       </mat-menu>
