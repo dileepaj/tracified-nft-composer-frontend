@@ -52,12 +52,12 @@ mat-toolbar {
 .proj-name {
   font-family: "Inter";
   font-style: normal;
-  font-size: 16px;
+  font-size: 20px;
   line-height: 18px;
   margin-top: -120px !important;
   color: #3d3d3d;
   position: absolute;
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .time-icon {
@@ -328,7 +328,7 @@ mat-toolbar {
   font-family: "Inter";
   font-style: normal;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 15px;
   color: #656565;
   display: block;
   word-break: break-all;
