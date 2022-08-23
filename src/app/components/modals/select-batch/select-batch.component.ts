@@ -55,6 +55,7 @@ import { ProofBot, ProofData, ProofURL } from 'src/models/nft-content/proofbot';
 import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
 import { MatInput } from '@angular/material/input';
 import { MatDateRangePicker } from '@angular/material/datepicker';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-select-batch',
@@ -677,7 +678,7 @@ export class SelectBatchComponent implements OnInit {
               TxnHash: data[i].Txnhash,
               AvailableProofs: data[i].AvailableProof,
               Urls: urls,
-              Timestamp:data[i].Timestamp
+              Timestamp:moment(data[i].Timestamp).toString()
             });
           }
 
