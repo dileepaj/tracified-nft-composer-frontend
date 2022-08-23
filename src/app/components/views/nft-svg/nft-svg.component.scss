@@ -17,7 +17,7 @@
   background: white;
   position: absolute;
   top: 10px;
-  right: 0px;
+  right: 10px;
   left: 10px;
   bottom: 10px;
   display: flex;
@@ -26,32 +26,41 @@
   align-items: center;
 }
 
+.icon {
+  @include icon;
+}
+
 .content {
   border-radius: 5px;
-  border: 1px rgb(206, 206, 206) solid;
   position: absolute;
-  top: 50px;
+  top: 35px;
   bottom: 50px;
   left: 50px;
   right: 50px;
 }
 
+iframe {
+  border: 1px solid #ccc;
+}
+
 .btn {
   @include btn-primary;
-  background-color: #006D2D !important;
-  font-family: 'Inter'!important;
-  font-weight: 200;
-  font-size: small;
-  margin: 5px;
-  position: relative;
+  background-color: #006d2d !important;
+
+  height: 30px !important;
+  font-family: "Inter";
+  font-style: normal !important;
+  font-weight: 400 !important;
+  font-size: 12px !important;
+  line-height: 15px !important;
 }
 
 .btn-container {
   display: flex;
   flex-direction: row;
   position: absolute;
-  bottom: 10px;
-  right: 40px;
+  bottom: 18.4px;
+  right: 55px;
 }
 
 .loading-div {
@@ -90,6 +99,6 @@
   margin-left: -10px;
   border-radius: 50%;
   border: 2px solid #ffffff;
-  border-top-color: #006D2D;
+  border-top-color: #006d2d;
   animation: spinner 0.8s linear infinite;
 }

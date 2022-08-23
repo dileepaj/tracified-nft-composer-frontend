@@ -190,17 +190,23 @@ export class TableComponent implements OnInit {
   public saveTitle() {
     this.onClickInput();
     if (this.newTitle !== '') {
-      this.table = {
-        ...this.table,
-        TableTitle: this.newTitle,
-      };
+      if (this.newTitle.match(/[^a-zA-Z0-9 ]/gm)) {
+        this.popupMsgService.openSnackBar(
+          'Please remove special characters from widget title'
+        );
+      } else {
+        this.table = {
+          ...this.table,
+          TableTitle: this.newTitle,
+        };
 
-      if (this.service.getSavedStatus(this.table.WidgetId)) {
-        this.updateInDB();
+        if (this.service.getSavedStatus(this.table.WidgetId)) {
+          this.updateInDB();
+        }
+
+        this.store.dispatch(updateTable({ table: this.table }));
+        this.isEditing = false;
       }
-
-      this.store.dispatch(updateTable({ table: this.table }));
-      this.isEditing = false;
     } else {
       this.popupMsgService.openSnackBar('Widget title can not be empty');
     }
@@ -214,6 +220,17 @@ export class TableComponent implements OnInit {
   public cancel() {
     this.isEditing = false;
     this.newTitle = this.table.TableTitle!;
+  }
+
+  //check whether the widget title exceeds the character limit or not
+  public characterLimitValidator(event: any) {
+    const val = event.target.value;
+    const id = event.target.id;
+    const key = event.keyCode || event.charCode;
+
+    if (val.length === 15 && key >= 48 && key <= 90) {
+      this.popupMsgService.showOnce('Widget title is limited to 15 characters');
+    }
   }
 
   //triggered when useer clicks on anywhere in the document

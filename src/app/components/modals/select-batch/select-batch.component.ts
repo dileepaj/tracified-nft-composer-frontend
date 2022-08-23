@@ -555,12 +555,12 @@ export class SelectBatchComponent implements OnInit {
           Title = this.workflow.stages[i].name;
           data.traceabilityDataPackets.map((tdp: any) => {
             tdp.traceabilityData.map((d: any) => {
-              Timestamp = tdp.timestamp;
+              Timestamp = this.convertDate(tdp.timestamp);
               if (d.type === 3) {
                 if (CurrentTimestamp == Timestamp) {
                   children.push({
                     NewTDP: false,
-                    Timestamp: tdp.timestamp,
+                    Timestamp: this.convertDate(tdp.timestamp),
                     Key: this.CamelcaseToWord(d.key),
                     Value: this.convertDate(d.val),
                   });
@@ -568,7 +568,7 @@ export class SelectBatchComponent implements OnInit {
                 } else {
                   children.push({
                     NewTDP: true,
-                    Timestamp: tdp.timestamp,
+                    Timestamp: this.convertDate(tdp.timestamp),
                     Key: this.CamelcaseToWord(d.key),
                     Value: this.convertDate(d.val),
                   });

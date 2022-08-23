@@ -25,6 +25,8 @@
         [value]="newTitle"
         [(ngModel)]="newTitle"
         (keyup.enter)="saveTitle()"
+        (keyup.escape)="cancel()"
+        (keydown)="characterLimitValidator($event)"
         (click)="onClickInput()"
         maxlength="15"
         minlength="1"
@@ -49,6 +51,7 @@
     <mat-icon
       [matMenuTriggerFor]="menu"
       class="material-symbols-outlined menu-icon"
+      matTooltip="Widget Options"
       matRipple
       >more_vert</mat-icon
     >
@@ -109,10 +112,7 @@
                     <div *ngIf="childrenTwo.NewTDP; then thenBlock"></div>
                     <ng-template #thenBlock>
                       <div class="tdp-added-date">
-                        <label
-                          >Added :
-                          {{ convertDate(childrenTwo.Timestamp) }}</label
-                        >
+                        <label>Added : {{ childrenTwo.Timestamp }}</label>
                       </div>
                     </ng-template>
                   </div>

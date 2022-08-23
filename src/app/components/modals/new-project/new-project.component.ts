@@ -10,6 +10,7 @@ import {
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { lastValueFrom } from 'rxjs';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
 import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
 import { UserserviceService } from 'src/app/services/userservice.service';
@@ -52,8 +53,12 @@ export class NewProjectComponent implements OnInit {
     this.projectNameControl = new FormControl(this.projectName, [
       Validators.required,
       this.forbiddenNameValidator(),
+      this.noSpecialCharacters(),
     ]);
-    this.nftNameControl = new FormControl(this.nftName, [Validators.required]);
+    this.nftNameControl = new FormControl(this.nftName, [
+      Validators.required,
+      this.noSpecialCharacters(),
+    ]);
     this.descriptionControl = new FormControl(this.description, [
       Validators.required,
     ]);
@@ -137,5 +142,43 @@ export class NewProjectComponent implements OnInit {
       const forbidden = this.checkIfAlreadyExists(control.value);
       return forbidden ? { forbiddenName: { value: control.value } } : null;
     };
+  }
+
+  private noSpecialCharacters(): ValidatorFn {
+    return (control: AbstractControl): any => {
+      setTimeout(() => {
+        if (control.value && control.value != '') {
+          let trimedvalue = control.value.replace(/[^a-zA-Z0-9 ]/gm, '');
+          control.setValue(trimedvalue);
+        }
+      }, 10);
+    };
+  }
+
+  //check if project name and nft name exceeds the character limit
+  public characterLimitValidator(event: any) {
+    const val = event.target.value;
+    const id = event.target.id;
+    const key = event.keyCode || event.charCode;
+
+    if (val.length === 10 && key >= 48 && key <= 90) {
+      if (id === 'projectName') {
+        this.popupMsgService.showOnce(
+          'Project name is limited to 10 characters'
+        );
+      } else if (id === 'nftName') {
+        this.popupMsgService.showOnce('NFT name is limited to 10 characters');
+      }
+    }
+  }
+
+  //check if the description exceeds the character limit
+  public descriptionLimitValidator(event: any) {
+    const val = event.target.value;
+    const key = event.keyCode || event.charCode;
+
+    if (val.length === 80 && key !== 8 && key !== 13 && key !== 27) {
+      this.popupMsgService.showOnce('Description is limited to 80 characters');
+    }
   }
 }

@@ -261,7 +261,7 @@ export class NftImageComponent implements OnInit {
       data: {
         image: this.base64,
       },
-      autoFocus:false
+      autoFocus: false,
     });
   }
 
@@ -279,21 +279,33 @@ export class NftImageComponent implements OnInit {
     }
   }
 
+  //called when user edits widget title
+  public onTitleChange(event: any) {
+    let trimedvalue = event.target.value.replace(/[^a-zA-Z0-9 ]/gm, '');
+    this.newTitle = trimedvalue;
+  }
+
   //save new ttile
   public saveTitle() {
     this.onClickInput();
     if (this.newTitle !== '') {
-      this.image = {
-        ...this.image,
-        Title: this.newTitle,
-      };
+      if (this.newTitle.match(/[^a-zA-Z0-9 ]/gm)) {
+        this.popupMsgService.openSnackBar(
+          'Please remove special characters from widget title'
+        );
+      } else {
+        this.image = {
+          ...this.image,
+          Title: this.newTitle,
+        };
 
-      if (this.service.getSavedStatus(this.image.WidgetId)) {
-        this.updateImageInDB();
+        if (this.service.getSavedStatus(this.image.WidgetId)) {
+          this.updateImageInDB();
+        }
+
+        this.store.dispatch(updateNFTImage({ image: this.image }));
+        this.isEditing = false;
       }
-
-      this.store.dispatch(updateNFTImage({ image: this.image }));
-      this.isEditing = false;
     } else {
       this.popupMsgService.openSnackBar('Widget title can not be empty');
     }
@@ -307,6 +319,17 @@ export class NftImageComponent implements OnInit {
   public cancel() {
     this.isEditing = false;
     this.newTitle = this.image.Title!;
+  }
+
+  //check whether the widget title exceeds the character limit or not
+  public characterLimitValidator(event: any) {
+    const val = event.target.value;
+    const id = event.target.id;
+    const key = event.keyCode || event.charCode;
+
+    if (val.length === 15 && key >= 48 && key <= 90) {
+      this.popupMsgService.showOnce('Widget title is limited to 15 characters');
+    }
   }
 
   //triggered when useer clicks on anywhere in the document

@@ -9,6 +9,7 @@
       <app-sidebar></app-sidebar>
     </mat-drawer>
     <mat-drawer
+      #drawer
       mode="side"
       [opened]="opened"
       position="end"
@@ -90,6 +91,24 @@
           </div>
         </div>
       </div>
+      <div class="side-bar-item">
+        <button
+          type="button"
+          class="collaps-btn"
+          [ngClass]="{ clicked: isClicked }"
+          mat-flat-button
+          (click)="drawer.toggle()"
+          (click)="executeOpposite()"
+        >
+          <mat-icon *ngIf="isClicked === false" class="collaps-icon"
+            >chevron_right</mat-icon
+          >
+          <mat-icon *ngIf="isClicked === true" class="collaps-icon"
+            >chevron_left</mat-icon
+          >
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </button>
+      </div>
       <div class="btn-container">
         <button
           class="btn"
@@ -106,7 +125,11 @@
           (click)="generateHTML()"
           [disabled]="htmlGenerated"
         >
-          <mat-icon class="icon">download</mat-icon>
+          <img
+            class="download-icon"
+            [class.img-tint]="htmlGenerated"
+            src="../../../../assets/images/download.png"
+          />
           <span [class.spinner]="htmlGenerated"> </span>Download HTML
         </button>
         <button
@@ -115,7 +138,11 @@
           (click)="generateSVG()"
           [disabled]="svgGenerated"
         >
-          <mat-icon class="icon">download</mat-icon>
+          <img
+            class="download-icon"
+            [class.img-tint]="svgGenerated"
+            src="../../../../assets/images/download.png"
+          />
           <span [class.spinner]="svgGenerated"> </span>Download SVG
         </button>
       </div>

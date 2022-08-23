@@ -22,16 +22,16 @@ mat-toolbar {
   background-color: #00c853;
 }
 .mat-progress-bar-fill::after {
-  background-color: #006D2D;
+  background-color: #006d2d;
 }
 
 .progressbar {
-  background-color: #006D2D !important;
+  background-color: #006d2d !important;
 }
 
 .icon-div {
   width: 130px;
-  height: 130px;
+  height: 184px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -52,21 +52,36 @@ mat-toolbar {
 .proj-name {
   font-family: "Inter";
   font-style: normal;
-  font-weight: 600;
-  font-size: 15px;
+  font-size: 20px;
   line-height: 18px;
-
+  margin-top: -120px !important;
   color: #3d3d3d;
+  position: absolute;
+  font-weight: 600;
 }
 
 .time-icon {
   vertical-align: middle;
   font-weight: 500;
-  font-size: 14px;
+  height: 16.03px;
+  width: 16.03px;
+  margin-right: 9.44px;
   line-height: 17px;
   /* identical to box height */
 
-  color: #bababa;
+  color: #006d2d;
+}
+
+.list-view-time-icon {
+  vertical-align: middle;
+  font-weight: 500;
+  line-height: 17px;
+  height: 16.03px;
+  width: 16.03px;
+  margin-right: 7px;
+  /* identical to box height */
+
+  color: #006d2d;
 }
 
 .projects-div {
@@ -81,7 +96,7 @@ mat-toolbar {
   line-height: 17px;
   /* identical to box height */
 
-  color: #bababa;
+  color: #006d2d;
 }
 
 .btn-icon {
@@ -98,6 +113,7 @@ mat-toolbar {
   display: flex;
   flex-direction: row;
   width: 100%;
+  height: 184px;
 }
 
 .mat-card {
@@ -169,7 +185,7 @@ mat-toolbar {
   height: 25px;
 
   mat-icon {
-    transform: scale(0.8);
+    transform: scale(1.6);
   }
 }
 
@@ -316,8 +332,8 @@ mat-toolbar {
   color: #656565;
   display: block;
   word-break: break-all;
-  margin: 0px 10px 0px 10px;
-  line-height: 18px;
+  //margin: 0px 10px 0px 10px;
+  line-height: 22px;
 }
 
 .proj-title {
@@ -393,4 +409,9 @@ mat-toolbar {
   justify-content: center;
   align-items: center;
   row-gap: 20px;
+}
+
+.timestamp-div {
+  position: absolute;
+  margin-bottom: -130px !important;
 }

@@ -36,8 +36,8 @@ import { ProjectLoaderService } from 'src/app/services/project-loader.service';
   styleUrls: ['./projects.component.scss'],
 })
 export class ProjectsComponent implements OnInit {
-  projects: RecentProject[];
-  filteredProjects: RecentProject[];
+  projects: RecentProject[] = [];
+  filteredProjects: RecentProject[] = [];
   loadedProject: NFTContent;
   subscription: Subscription;
   gridColumns = 3;

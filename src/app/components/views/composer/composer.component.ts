@@ -84,6 +84,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   user: ComposerUser;
   projLoading: boolean = false;
   newProj: boolean;
+  isClicked : boolean = false;
 
   widgetTypes: any = {
     timeline: timeline,
@@ -525,5 +526,13 @@ export class ComposerComponent implements OnInit, AfterViewInit {
         })
         .join('')
     );
+  }
+  
+  executeOpposite(){
+    if(this.isClicked == true){
+      this.isClicked = false;
+    }else{
+      this.isClicked = true;
+    }
   }
 }

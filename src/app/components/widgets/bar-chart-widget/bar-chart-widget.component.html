@@ -25,6 +25,8 @@
         [value]="newTitle"
         [(ngModel)]="newTitle"
         (keyup.enter)="saveTitle()"
+        (keyup.escape)="cancel()"
+        (keydown)="characterLimitValidator($event)"
         (click)="onClickInput()"
         maxlength="15"
         minlength="1"
@@ -48,8 +50,9 @@
 
     <mat-icon
       [matMenuTriggerFor]="menu"
-      class="material-symbols-outlined menu-icon"
       matRipple
+      class="material-symbols-outlined menu-icon"
+      matTooltip="Widget Options"
       >more_vert</mat-icon
     >
     <mat-menu #menu="matMenu" class="menu">
