@@ -6,7 +6,7 @@
 }
 
 .btn-dont-save {
-  font-family: 'Inter' !important;
+  font-family: "Inter" !important;
   font-weight: 400 !important;
   font-size: 1rem !important;
 }
@@ -34,10 +34,14 @@
   margin-left: -10px;
   border-radius: 50%;
   border: 2px solid #ffffff;
-  border-top-color: #006D2D;
+  border-top-color: #006d2d;
   animation: spinner 0.8s linear infinite;
 }
 
-h2{
-  font-family: 'Inter' !important;
+h2 {
+  font-family: "Inter" !important;
+}
+
+.save-icon {
+  margin-right: 5px;
 }
