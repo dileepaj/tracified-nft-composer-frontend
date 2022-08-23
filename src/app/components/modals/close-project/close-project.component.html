@@ -25,6 +25,7 @@
     [disabled]="saving"
     (click)="save()"
   >
-    <mat-icon>save</mat-icon> <span [class.spinner]="saving"> </span>Save
+    <mat-icon class="save-icon">save</mat-icon>
+    <span [class.spinner]="saving"> </span>Save
   </button>
 </mat-dialog-actions>
