@@ -36,7 +36,7 @@
           class="drap-and-drop-area"
           (cdkDropListDropped)="drop($event)"
         >
-          <div fxLayout="row wrap" fxLayoutGap="10px grid">
+          <div fxLayout="row wrap" fxLayoutGap="10px grid" class="widget-div">
             <div
               fxFlex.lg="33%"
               fxFlex.md="50%"
@@ -44,7 +44,7 @@
               fxFlex.sm="100%"
               fxFlex.xl="25%"
               *ngFor="let widget of usedWidgets; index as i"
-              style="cursor: move"
+              style="cursor: move; padding-bottom: 20px !important;"
               cdkDrag
             >
               <app-nft-timeline
