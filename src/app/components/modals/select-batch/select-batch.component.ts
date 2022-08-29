@@ -548,16 +548,16 @@ export class SelectBatchComponent implements OnInit {
         let Title = '';
         let children: Children[] = [];
         let images: string[] = [];
-        let Timestamp = '';
-        let CurrentTimestamp = '';
+        let split = true;
 
         if (this.workflow.stages[i].stageId === data.stageID) {
           Title = this.workflow.stages[i].name;
           data.traceabilityDataPackets.map((tdp: any) => {
+            split = true;
+
             tdp.traceabilityData.map((d: any) => {
-              Timestamp = this.convertDate(tdp.timestamp);
               if (d.type === 3) {
-                if (CurrentTimestamp == Timestamp) {
+                if (!split) {
                   children.push({
                     NewTDP: false,
                     Timestamp: this.convertDate(tdp.timestamp),
@@ -573,7 +573,7 @@ export class SelectBatchComponent implements OnInit {
                     Value: this.convertDate(d.val),
                   });
                   count++;
-                  CurrentTimestamp = Timestamp;
+                  split = false;
                 }
               } else if (d.type === 4) {
                 d.val.map((img: any) => {
@@ -678,7 +678,7 @@ export class SelectBatchComponent implements OnInit {
               TxnHash: data[i].Txnhash,
               AvailableProofs: data[i].AvailableProof,
               Urls: urls,
-              Timestamp:moment(data[i].Timestamp).toString()
+              Timestamp: moment(data[i].Timestamp).toString(),
             });
           }
 
