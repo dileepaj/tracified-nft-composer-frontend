@@ -2,7 +2,7 @@
   <mat-drawer-container class="sidebar-container">
     <mat-drawer
       class="side-nav"
-      mode="side"
+      [mode]="sideNavMode"
       position="start"
       [opened]="sidenav"
     >
@@ -22,10 +22,7 @@
         cdkDropListSortingDisabled
         [cdkDropListEnterPredicate]="noReturnPredicate"
       >
-        <app-widget-pane
-          *ngIf="opened"
-          [widgets]="availableWidgets"
-        ></app-widget-pane>
+        <app-widget-pane [widgets]="availableWidgets"></app-widget-pane>
       </div>
     </mat-drawer>
     <mat-drawer-content>
@@ -44,7 +41,7 @@
               fxFlex.sm="100%"
               fxFlex.xl="25%"
               *ngFor="let widget of usedWidgets; index as i"
-              style="cursor: move; padding-bottom: 20px !important;"
+              style="cursor: move; padding-bottom: 20px !important"
               cdkDrag
             >
               <app-nft-timeline
@@ -109,7 +106,7 @@
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </button>
       </div>
-      <div class="btn-container">
+      <div class="btn-container" fxLayout="row wrap">
         <button
           class="btn"
           mat-flat-button
