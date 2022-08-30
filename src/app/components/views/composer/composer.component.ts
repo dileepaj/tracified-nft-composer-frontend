@@ -54,6 +54,7 @@ import { WidgethighlightingService } from 'src/app/services/widgethighlighting.s
 import { ProjectLoaderService } from 'src/app/services/project-loader.service';
 import { UserserviceService } from 'src/app/services/userservice.service';
 import { ComposerUser } from 'src/models/user';
+import { MatDrawerMode } from '@angular/material/sidenav';
 
 export interface Widget {
   type: string;
@@ -84,7 +85,8 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   user: ComposerUser;
   projLoading: boolean = false;
   newProj: boolean;
-  isClicked : boolean = false;
+  isClicked: boolean = false;
+  sideNavMode: MatDrawerMode = 'side';
 
   widgetTypes: any = {
     timeline: timeline,
@@ -215,6 +217,18 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     this.store.select(selectProjectSavedState).subscribe((status) => {
       this.projectSaved = status;
     });
+
+    if (window.innerWidth < 960) {
+      this.sidebarService.close();
+      this.sideNavMode = 'over';
+      this.opened = false;
+      this.isClicked = true;
+    } else {
+      this.sidebarService.open();
+      this.sideNavMode = 'side';
+      this.opened = true;
+      this.isClicked = false;
+    }
   }
 
   private checkRefreshed() {
@@ -527,12 +541,27 @@ export class ComposerComponent implements OnInit, AfterViewInit {
         .join('')
     );
   }
-  
-  executeOpposite(){
-    if(this.isClicked == true){
+
+  executeOpposite() {
+    if (this.isClicked == true) {
       this.isClicked = false;
-    }else{
+    } else {
       this.isClicked = true;
+    }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    if (event.target.innerWidth < 960) {
+      this.opened = false;
+      this.sideNavMode = 'over';
+      this.isClicked = true;
+      this.sidebarService.close();
+    } else {
+      this.opened = true;
+      this.sideNavMode = 'side';
+      this.isClicked = false;
+      this.sidebarService.open();
     }
   }
 }
