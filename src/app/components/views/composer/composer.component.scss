@@ -117,8 +117,10 @@
   display: flex;
   flex-direction: row;
   position: absolute;
-  bottom: 10px;
+  top: calc(100vh - 110px);
   right: 34px;
+  margin-left: 5px;
+  overflow-y: auto;
 }
 
 .list {
@@ -242,7 +244,7 @@ mat-list-item {
   background-color: #006d2d;
   position: sticky;
   margin-top: 33.3333333333vh;
-  left: 1e77px;
+  left: calc(100vw);
   margin-right: -36px;
 }
 
@@ -257,6 +259,6 @@ mat-list-item {
   filter: brightness(0.2) opacity(50%);
 }
 
-.widget-div{
+.widget-div {
   padding-bottom: 10px !important;
 }

@@ -28,12 +28,14 @@
           src="../../../../assets/images/tracified-header.png"
           style="flex-basis: 40%"
           width="130px"
+          ngStyle.xs="width: 100px"
         />
       </button>
-      <span style="padding: 43px"></span>
+      <span style="padding: 43px" ngStyle.xs="padding: 27px"></span>
       <label>
         <span
           id="title"
+          ngStyle.xs="font-size : 15px"
           style="
             font-family: 'Inter';
             font-size: 20px;
@@ -46,6 +48,7 @@
       </label>
     </span>
   </div>
+
   <div
     class="user-det"
     fxFlex.lg="20"
@@ -71,7 +74,15 @@
         >{{ user.Company }}</label
       >
     </div>
-    <div fxFlex="20" fxLayoutAlign="start center">
+    <div
+      fxFlex="20"
+      fxLayoutAlign="start center"
+      fxHide.xs="true"
+      fxHide.md="false"
+      fxHide.sm="false"
+      fxHide.lg="false"
+      fxHide.xl="false"
+    >
       <button mat-icon-button [matMenuTriggerFor]="menu">
         <img
           src="../../../../assets/images/default-user.png"
@@ -116,4 +127,21 @@
       </mat-menu>
     </div>
   </div>
+  <button
+    mat-icon-button
+    [matMenuTriggerFor]="menu"
+    fxHide.xs="false"
+    fxHide.md="true"
+    fxHide.sm="true"
+    fxHide.lg="true"
+    fxHide.xl="true"
+    fxLayoutAlign="start center"
+  >
+    <img
+      src="../../../../assets/images/default-user.png"
+      width="30px"
+      height="30px"
+      class="rounded-circle"
+    />
+  </button>
 </mat-toolbar>
