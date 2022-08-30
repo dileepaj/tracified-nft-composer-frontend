@@ -1,6 +1,6 @@
 <div class="content">
   <div
-    fxLayout="row"
+    fxLayout="row wrap"
     fxLayoutAlign="space-between center"
     style="min-height: 100px; margin-bottom: 15px"
   >
@@ -38,7 +38,11 @@
       <div class="button-container">
         <!--sort-->
         <div class="btn-sort" matTooltip="Sort By Date" matRipple>
-          <mat-icon class="material-symbols-outlined" (click)="toggleSort()">
+          <mat-icon
+            class="material-symbols-outlined"
+            (click)="toggleSort()"
+            style="font-size: 20px; height: 20px; width: 17px"
+          >
             swap_vert
           </mat-icon>
         </div>

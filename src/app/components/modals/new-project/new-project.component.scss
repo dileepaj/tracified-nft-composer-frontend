@@ -4,7 +4,7 @@
 .container {
   display: flex;
   flex-direction: column;
-  width: 500px;
+  width: 100%;
 }
 
 .btn {
@@ -13,7 +13,7 @@
 
 .input-description {
   resize: none;
-  font-family: 'Inter' !important;
+  font-family: "Inter" !important;
 }
 
 /* ::ng-deep .mat-focused .mat-form-field-label {
@@ -21,6 +21,15 @@
   color: unset !important;
 } */
 
-h2, mat-label, input, mat-error, strong{
-  font-family: 'Inter' !important;
+h2,
+mat-label,
+input,
+mat-error,
+strong {
+  font-family: "Inter" !important;
+}
+
+.modal-content {
+  width: calc(100vw / 2);
+  max-width: 500px;
 }
