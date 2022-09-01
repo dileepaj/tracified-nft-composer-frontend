@@ -9,6 +9,9 @@ mat-toolbar {
 }
 
 .content {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 97px);
   padding: 15px 30px 20px 30px;
   font-family: "Inter";
   font-style: normal;
@@ -86,6 +89,7 @@ mat-toolbar {
 
 .projects-div {
   margin-top: 35px;
+  flex-grow: 1;
 }
 
 .timestamp {
@@ -353,7 +357,8 @@ mat-toolbar {
   justify-content: center;
   align-items: center;
   row-gap: 45px;
-  height: calc(100vh - 250px);
+  height: 100%;
+  flex-grow: 1;
 }
 
 .no-results {
@@ -362,7 +367,8 @@ mat-toolbar {
   justify-content: center;
   align-items: center;
   row-gap: 45px;
-  height: calc(100vh - 250px);
+  height: 100%;
+  flex-grow: 1;
 }
 
 #no-project-img {
