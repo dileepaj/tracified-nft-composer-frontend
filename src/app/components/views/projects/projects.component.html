@@ -310,10 +310,13 @@
     <div
       class="md-margin no-projects"
       *ngIf="!loading && !isSearching && projects.length === 0"
+      ngStyle.lt-sm="row-gap: 10px"
     >
       <img
         id="no-project-img"
         src="../../../../assets/images/no_projects.png"
+        ngStyle.lt-sm="transform:scale(0.6)"
+        ngStyle.lt-xs="transform:scale(0.3)"
       />
       <button mat-button cdkFocusInitial class="btn" (click)="openNewProject()">
         Create your first project
@@ -322,8 +325,14 @@
     <div
       class="md-margin no-results"
       *ngIf="isSearching && filteredProjects.length === 0"
+      ngStyle.lt-sm="row-gap: 10px"
     >
-      <img id="no-results-img" src="../../../../assets/images/no_results.png" />
+      <img
+        id="no-results-img"
+        src="../../../../assets/images/no_results.png"
+        ngStyle.lt-sm="transform:scale(0.6)"
+        ngStyle.lt-xs="transform:scale(0.3)"
+      />
       <div class="search-msg-div">
         <label class="search-msg-1">Sorry! We couldn’t find any results</label>
         <label class="search-msg-2"

@@ -9,6 +9,9 @@ mat-toolbar {
 }
 
 .content {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 97px);
   padding: 15px 30px 20px 30px;
   font-family: "Inter";
   font-style: normal;
@@ -49,29 +52,6 @@ mat-toolbar {
   cursor: pointer;
 }
 
-.proj-name {
-  font-family: "Inter";
-  font-style: normal;
-  font-size: 20px;
-  line-height: 18px;
-  margin-top: -120px !important;
-  color: #3d3d3d;
-  position: absolute;
-  font-weight: 600;
-}
-
-.time-icon {
-  vertical-align: middle;
-  font-weight: 500;
-  height: 16.03px;
-  width: 16.03px;
-  margin-right: 9.44px;
-  line-height: 17px;
-  /* identical to box height */
-
-  color: #006d2d;
-}
-
 .list-view-time-icon {
   vertical-align: middle;
   font-weight: 500;
@@ -86,17 +66,7 @@ mat-toolbar {
 
 .projects-div {
   margin-top: 35px;
-}
-
-.timestamp {
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 17px;
-  /* identical to box height */
-
-  color: #006d2d;
+  flex-grow: 1;
 }
 
 .btn-icon {
@@ -324,18 +294,6 @@ mat-toolbar {
   }
 }
 
-.proj-description {
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 15px;
-  color: #656565;
-  display: block;
-  word-break: break-all;
-  //margin: 0px 10px 0px 10px;
-  line-height: 22px;
-}
-
 .proj-title {
   font-family: "Inter";
   font-style: normal;
@@ -353,7 +311,8 @@ mat-toolbar {
   justify-content: center;
   align-items: center;
   row-gap: 45px;
-  height: calc(100vh - 250px);
+  height: 100%;
+  flex-grow: 1;
 }
 
 .no-results {
@@ -362,7 +321,8 @@ mat-toolbar {
   justify-content: center;
   align-items: center;
   row-gap: 45px;
-  height: calc(100vh - 250px);
+  height: 100%;
+  flex-grow: 1;
 }
 
 #no-project-img {
@@ -414,4 +374,249 @@ mat-toolbar {
 .timestamp-div {
   position: absolute;
   margin-bottom: -130px !important;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .proj-description {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    color: #656565;
+    display: block;
+    word-break: break-all;
+    //margin: 0px 10px 0px 10px;
+    line-height: 18px;
+  }
+
+  .proj-name {
+    font-family: "Inter";
+    font-style: normal;
+    font-size: 14px;
+    line-height: 18px;
+    margin-top: -120px !important;
+    color: #3d3d3d;
+    position: absolute;
+    font-weight: 600;
+  }
+
+  .timestamp {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 17px;
+    /* identical to box height */
+    color: #006d2d;
+  }
+
+  .time-icon {
+    vertical-align: middle;
+    font-weight: 500;
+    height: 10px;
+    width: 10px;
+    margin-right: 18px;
+    line-height: 17px;
+    /* identical to box height */
+  
+    color: #006d2d;
+  }
+  
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .proj-description {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    color: #656565;
+    display: block;
+    word-break: break-all;
+    //margin: 0px 10px 0px 10px;
+    line-height: 20px;
+  }
+
+  .proj-name {
+    font-family: "Inter";
+    font-style: normal;
+    font-size: 16px;
+    line-height: 18px;
+    margin-top: -120px !important;
+    color: #3d3d3d;
+    position: absolute;
+    font-weight: 600;
+  }
+
+  .timestamp {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 17px;
+    /* identical to box height */
+  
+    color: #006d2d;
+  }
+
+  .time-icon {
+    vertical-align: middle;
+    font-weight: 500;
+    height: 13px;
+    width: 13px;
+    margin-right: 18px;
+    line-height: 17px;
+    /* identical to box height */
+  
+    color: #006d2d;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .proj-description {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    color: #656565;
+    display: block;
+    word-break: break-all;
+    //margin: 0px 10px 0px 10px;
+    line-height: 22px;
+  }
+
+  .proj-name {
+    font-family: "Inter";
+    font-style: normal;
+    font-size: 16px;
+    line-height: 18px;
+    margin-top: -120px !important;
+    color: #3d3d3d;
+    position: absolute;
+    font-weight: 600;
+  }
+
+  .timestamp {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    /* identical to box height */
+  
+    color: #006d2d;
+  }
+
+  .time-icon {
+    vertical-align: middle;
+    font-weight: 500;
+    height: 14px;
+    width: 14px;
+    margin-right: 18px;
+    line-height: 17px;
+    /* identical to box height */
+  
+    color: #006d2d;
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  .proj-description {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    color: #656565;
+    display: block;
+    word-break: break-all;
+    //margin: 0px 10px 0px 10px;
+    line-height: 22px;
+  }
+
+  .proj-name {
+    font-family: "Inter";
+    font-style: normal;
+    font-size: 20px;
+    line-height: 18px;
+    margin-top: -120px !important;
+    color: #3d3d3d;
+    position: absolute;
+    font-weight: 600;
+  }
+
+  .timestamp {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    /* identical to box height */
+  
+    color: #006d2d;
+  }
+
+  .time-icon {
+    vertical-align: middle;
+    font-weight: 500;
+    height: 16.03px;
+    width: 16.03px;
+    margin-right: 9.44px;
+    line-height: 17px;
+    /* identical to box height */
+  
+    color: #006d2d;
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  .proj-description {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    color: #656565;
+    display: block;
+    word-break: break-all;
+    //margin: 0px 10px 0px 10px;
+    line-height: 22px;
+  }
+
+  .proj-name {
+    font-family: "Inter";
+    font-style: normal;
+    font-size: 20px;
+    line-height: 18px;
+    margin-top: -120px !important;
+    color: #3d3d3d;
+    position: absolute;
+    font-weight: 600;
+  }
+
+  .timestamp {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    /* identical to box height */
+  
+    color: #006d2d;
+  }
+
+  .time-icon {
+    vertical-align: middle;
+    font-weight: 500;
+    height: 16.03px;
+    width: 16.03px;
+    margin-right: 9.44px;
+    line-height: 17px;
+    /* identical to box height */
+  
+    color: #006d2d;
+  }
 }
