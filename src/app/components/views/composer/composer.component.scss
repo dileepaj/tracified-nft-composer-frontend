@@ -26,16 +26,6 @@
   flex-direction: row;
 }
 
-.drap-and-drop-area {
-  margin: 20px;
-  margin-right: -5px !important;
-  position: absolute;
-  left: 0;
-  right: 0px;
-  bottom: 0px;
-  top: 0px;
-  border: solid $gray 2px;
-}
 .widget-list {
   border: solid 1px $gray;
   min-height: 60px;
@@ -262,4 +252,72 @@ mat-list-item {
 
 .widget-div {
   padding-bottom: 10px !important;
+}
+
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .drap-and-drop-area {
+    margin: 20px;
+    // margin-right: -5px !important;
+    position: absolute;
+    left: 0;
+    right: 0px;
+    bottom: 0px;
+    top: 0px;
+    border: solid $gray 2px;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .drap-and-drop-area {
+    margin: 20px;
+    // margin-right: -5px !important;
+    position: absolute;
+    left: 0;
+    right: 0px;
+    bottom: 0px;
+    top: 0px;
+    border: solid $gray 2px;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .drap-and-drop-area {
+    margin: 20px;
+    position: absolute;
+    left: 0;
+    right: 0px;
+    bottom: 0px;
+    top: 0px;
+    border: solid $gray 2px;
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  .drap-and-drop-area {
+    margin: 20px;
+    position: absolute;
+    left: 0;
+    right: 0px;
+    bottom: 0px;
+    top: 0px;
+    border: solid $gray 2px;
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  .drap-and-drop-area {
+    margin: 20px;
+    position: absolute;
+    left: 0;
+    right: 0px;
+    bottom: 0px;
+    top: 0px;
+    border: solid $gray 2px;
+  }
 }
