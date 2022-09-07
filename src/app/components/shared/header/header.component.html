@@ -51,9 +51,10 @@
 
   <div
     class="user-det"
+    fxFlex.xl="20"
     fxFlex.lg="20"
     fxFlex.md="20"
-    fxFlex.sm="30"
+    fxFlex.sm="20"
     fxFlex.xs="10"
     fxLayoutAlign="end center"
   >
@@ -64,25 +65,14 @@
       fxHide.sm="false"
       fxHide.lg="false"
       fxHide.xl="false"
-      fxFlex="20"
       fxLayoutAlign="end center"
     >
       <label
-        style="font-weight: 400 !important"
+        style="font-weight: 400 !important; margin-right: -5px"
         id="userName"
         *ngIf="user !== undefined"
         >{{ user.Company }}</label
       >
-    </div>
-    <div
-      fxFlex="20"
-      fxLayoutAlign="start center"
-      fxHide.xs="true"
-      fxHide.md="false"
-      fxHide.sm="false"
-      fxHide.lg="false"
-      fxHide.xl="false"
-    >
       <button mat-icon-button [matMenuTriggerFor]="menu">
         <img
           src="../../../../assets/images/default-user.png"
@@ -135,13 +125,12 @@
     fxHide.sm="true"
     fxHide.lg="true"
     fxHide.xl="true"
-    fxLayoutAlign="start center"
+    fxLayoutAlign="end center"
   >
     <img
       src="../../../../assets/images/default-user.png"
       width="30px"
       height="30px"
-      class="rounded-circle"
     />
   </button>
 </mat-toolbar>
