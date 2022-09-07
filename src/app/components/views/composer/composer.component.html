@@ -1,5 +1,6 @@
 <div class="composer-div" cdkDropListGroup>
   <mat-drawer-container class="sidebar-container">
+    
     <mat-drawer
       class="side-nav"
       mode="side"
@@ -27,8 +28,29 @@
           [widgets]="availableWidgets"
         ></app-widget-pane>
       </div>
+       
     </mat-drawer>
     <mat-drawer-content>
+      <mat-drawer-content 
+      mode="side"
+      position="end"
+      style="margin-top:3px; margin-right: 100px; margin-left: -100px;"
+      *ngIf="sidenav==false"
+      style="margin-top:3px; margin-right: 100px; margin-left: 8px;"
+      >
+          <div id="project-title" mat-list-item >
+            <div
+              class="title-icon"
+              matTooltip="Back To Projects"
+              (click)="closeProject()"
+            >
+              <mat-icon mat-list-icon> chevron_left </mat-icon>
+            </div>
+            <div class="title-text">
+              <label>{{ title }}</label>
+            </div>
+          </div>
+      </mat-drawer-content>
       <div class="nft-content-area">
         <div
           cdkDropList
@@ -36,7 +58,8 @@
           class="drap-and-drop-area"
           (cdkDropListDropped)="drop($event)"
         >
-          <div fxLayout="row wrap" fxLayoutGap="10px grid">
+        <div style="margin:18px -10px -10px 0px;">
+          <div fxLayout="row wrap" fxLayoutGap="10px grid" >
             <div
               fxFlex.lg="33%"
               fxFlex.md="50%"
@@ -89,6 +112,7 @@
               ></app-table>
             </div>
           </div>
+        </div>
         </div>
       </div>
       <div class="side-bar-item">

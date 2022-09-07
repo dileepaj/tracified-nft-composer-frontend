@@ -22,6 +22,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.state';
 import { DndServiceService } from 'src/app/services/dnd-service.service';
 import { WidgetContentComponent } from '../../modals/widget-content/widget-content.component';
+import { CloseProjectComponent } from '../../modals/close-project/close-project.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   barchart,
@@ -54,7 +55,7 @@ import { WidgethighlightingService } from 'src/app/services/widgethighlighting.s
 import { ProjectLoaderService } from 'src/app/services/project-loader.service';
 import { UserserviceService } from 'src/app/services/userservice.service';
 import { ComposerUser } from 'src/models/user';
-
+import {  Subject } from 'rxjs';
 export interface Widget {
   type: string;
   _Id?: string;
@@ -71,8 +72,11 @@ export interface Widget {
   styleUrls: ['./composer.component.scss'],
 })
 export class ComposerComponent implements OnInit, AfterViewInit {
+  title = 'project_name';
+  projId: string = '';
   nftContent: NFTContent;
   opened = true;
+  closed = true;
   sidenav: boolean = true;
   position = '';
   id: string;
@@ -85,6 +89,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   projLoading: boolean = false;
   newProj: boolean;
   isClicked : boolean = false;
+  
 
   widgetTypes: any = {
     timeline: timeline,
@@ -183,7 +188,15 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     //this.openAddData();
     this.sidebarService.getStatus().subscribe((val) => {
       this.sidenav = val;
+      console.log("val",val);
     });
+     //get project details
+     const subscription = this.store
+     .select(selectNFTContent)
+     .subscribe((nft) => {
+       this.title = nft.ProjectName;
+       this.projId = nft.ProjectId;
+     });
   }
 
   ngOnInit(): void {
@@ -209,6 +222,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
       if (val !== '') {
         //scroll to the highlithed widget
         this.scrollToElement(val);
+       
       }
     });
 
@@ -535,4 +549,19 @@ export class ComposerComponent implements OnInit, AfterViewInit {
       this.isClicked = true;
     }
   }
+  public closeProject() {
+    //check whether all the changes are already saved or not
+    if (!this.projectSaved) {
+      this.dialog.open(CloseProjectComponent, {
+        data: {
+          user: this.user,
+        },
+      });
+    } else {
+      this.router.navigate(['/layout/projects/' + this.user.UserID]);
+    }
+  }
+
+ 
+  
 }

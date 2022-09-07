@@ -246,4 +246,43 @@ mat-list-item {
   margin-right: 20px;
   margin-top: 6px;
 }
+#project-title {
+  background: whitesmoke;
+  height: 45px;
+  font-size: $fontSize;
+  display: flex;
+  flex-direction: row;
+  font-family: 'Inter'
+}
+.title-icon {
+  background-color: #ccc;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  mat-icon {
+    vertical-align: middle;
+    transform: scale(0.9);
+    margin-left: 2px;
+    margin-right: 2px;
+    color: rgb(114, 114, 114);
+  }
 
+  mat-icon:hover {
+    color: rgb(82, 82, 82);
+  }
+}
+
+.title-text {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 10px;
+  label {
+    font-size: small;
+    font-weight: 600;
+    font-family: 'Inter';
+  }
+}
