@@ -196,8 +196,10 @@
           [ngStyle]="{ 'background-color': i % 2 !== 0 ? '#F8F8F8' : 'white' }"
         >
           <!--thumbnail-->
-          <div>
+          <div fxFlex.sm="25%" fxFlex.xs="25%">
             <div
+              fxFlex.sm="100%"
+              fxFlex.xs="100%"
               class="list-icon-div cursor"
               [ngStyle]="{
                 backgroundColor: getBgColor(project.ProjectId)
@@ -218,8 +220,89 @@
             </div>
           </div>
 
-          <!--proj name and timestamp and menu-->
-          <div class="list-item-content" fxLayoutAlign="space-between center">
+          <!--proj name and timestamp and menu (sm and xs screens)-->
+          <div
+            fxFlex.sm="75%"
+            fxFlex.xs="75%"
+            fxHide.md="true"
+            fxHide.lg="true"
+            fxHide.xl="true"
+            fxLayout="row"
+            style="margin: 4px"
+          >
+            <div
+              style="
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+              "
+              fxFlex="25%"
+              (click)="openExistingProject(project.ProjectId)"
+            >
+              <label
+                class="proj-title"
+                style="width: 100%; word-wrap: break-word"
+                ngStyle.sm="margin-left : 2%"
+                ngStyle.xs="margin-left : 0px"
+                ngStyle.md="margin-left : 0px"
+                ngStyle.lg="margin-left : 0px"
+                ngStyle.xl="margin-left : 0px"
+              >
+                <b>{{ project.ProjectName }}</b>
+              </label>
+            </div>
+            <div
+              style="
+                padding: 1px 1px 1px 1px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+              "
+              fxFlex="65%"
+              (click)="openExistingProject(project.ProjectId)"
+            >
+              <label class="proj-description cursor">
+                {{ project.Description }}
+              </label>
+              <div style="margin-left: -4px">
+                <mat-icon
+                  class="material-icons-outlined list-view-time-icon cursor"
+                  style="transform: scale(0.7)"
+                  >schedule</mat-icon
+                >
+                <label class="timestamp cursor" style="margin-left: -4px">
+                  {{ convertDate(project.Timestamp) }}</label
+                >
+              </div>
+            </div>
+            <div
+              style="
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+              "
+              fxFlex="10%"
+            >
+              <mat-icon
+                class="material-symbols-outlined menu-icon"
+                style="transform: scale(0.7) rotate(90deg)"
+                matRipple
+                [matMenuTriggerFor]="menu"
+              >
+                more_vert
+              </mat-icon>
+            </div>
+          </div>
+
+          <!--proj name and timestamp and menu (gt-sm screens)-->
+          <div
+            class="list-item-content"
+            fxLayoutAlign="space-between center"
+            fxHide.sm="true"
+            fxHide.xs="true"
+          >
             <!--proj name and timestamp-->
             <div
               fxLayoutAlign="space-between center"
@@ -243,8 +326,6 @@
                 fxFlex.md="70%"
                 fxFlex.sm="100%"
                 fxFlex.xs="100%"
-                fxHide.sm="true"
-                fxHide.xs="true"
                 style="display: inline-block"
               >
                 <label class="proj-description cursor">
