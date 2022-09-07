@@ -26,14 +26,17 @@
       </div>
     </mat-drawer>
     <mat-drawer-content>
-      <mat-drawer-content>
-        <div 
-        *ngIf="sidenav==false"
-        style="margin: 8px -10px -10px 0px">
+      <div
+        style="margin: 0px -10px -10px 0px"
+        fxHide.lt-md="false"
+        fxHide.md="true"
+        fxHide.gt-md="true"
+      >
         <div id="project-title" mat-list-item>
           <div
             class="title-icon"
             matTooltip="Back To Projects"
+            (click)="closeProject()"
           >
             <mat-icon mat-list-icon> chevron_left </mat-icon>
           </div>
@@ -42,69 +45,76 @@
           </div>
         </div>
       </div>
-      </mat-drawer-content>
-      <div class="nft-content-area">
+      <!-- <mat-drawer-content>
+
+
+      </mat-drawer-content> -->
+      <div
+        ngClass.md="nft-content-area"
+        ngClass.gt-md="nft-content-area"
+        ngClass.lt-md="nft-content-area-mobile"
+      >
         <div
           cdkDropList
           [cdkDropListData]="usedWidgets"
           class="drap-and-drop-area"
           (cdkDropListDropped)="drop($event)"
-        > 
-        <div class="wrapper" style="margin: 26px -10px -10px 0px;">
-          <div fxLayout="row wrap" fxLayoutGap="10px grid" class="widget-div">
-            <div
-              fxFlex.lg="33%"
-              fxFlex.md="50%"
-              fxFlex.xs="100%"
-              fxFlex.sm="100%"
-              fxFlex.xl="25%"
-              *ngFor="let widget of usedWidgets; index as i"
-              style="cursor: move; padding-bottom: 20px !important"
-              cdkDrag
-            >
-              <app-nft-timeline
-                *ngIf="widget.type === widgetTypes.timeline"
-                [id]="usedWidgets[i]._Id"
-                (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
-              ></app-nft-timeline>
-              <app-nft-proofbot
-                *ngIf="widget.type === widgetTypes.proofbot"
-                [id]="usedWidgets[i]._Id"
-                (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
-              ></app-nft-proofbot>
-              <app-nft-carbonfootprint
-                *ngIf="widget.type === widgetTypes.carbon"
-                [id]="usedWidgets[i]._Id"
-                (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
-              ></app-nft-carbonfootprint>
-              <app-nft-image
-                *ngIf="widget.type === widgetTypes.image"
-                [id]="usedWidgets[i]._Id"
-                (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
-              ></app-nft-image>
-              <app-bar-chart-widget
-                *ngIf="widget.type === widgetTypes.bar"
-                [id]="usedWidgets[i]._Id"
-                (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
-              ></app-bar-chart-widget>
-              <app-pie-chart-widget
-                *ngIf="widget.type === widgetTypes.pie"
-                [id]="usedWidgets[i]._Id"
-                (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
-              ></app-pie-chart-widget>
-              <app-bubble-chart-widget
-                *ngIf="widget.type === widgetTypes.bubble"
-                [id]="usedWidgets[i]._Id"
-                (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
-              ></app-bubble-chart-widget>
-              <app-table
-                *ngIf="widget.type === widgetTypes.table"
-                [id]="usedWidgets[i]._Id"
-                (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
-              ></app-table>
+        >
+          <div class="wrapper">
+            <div fxLayout="row wrap" fxLayoutGap="10px grid" class="widget-div">
+              <div
+                fxFlex.lg="33%"
+                fxFlex.md="50%"
+                fxFlex.xs="100%"
+                fxFlex.sm="100%"
+                fxFlex.xl="25%"
+                *ngFor="let widget of usedWidgets; index as i"
+                style="cursor: move; padding-bottom: 20px !important"
+                cdkDrag
+              >
+                <app-nft-timeline
+                  *ngIf="widget.type === widgetTypes.timeline"
+                  [id]="usedWidgets[i]._Id"
+                  (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
+                ></app-nft-timeline>
+                <app-nft-proofbot
+                  *ngIf="widget.type === widgetTypes.proofbot"
+                  [id]="usedWidgets[i]._Id"
+                  (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
+                ></app-nft-proofbot>
+                <app-nft-carbonfootprint
+                  *ngIf="widget.type === widgetTypes.carbon"
+                  [id]="usedWidgets[i]._Id"
+                  (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
+                ></app-nft-carbonfootprint>
+                <app-nft-image
+                  *ngIf="widget.type === widgetTypes.image"
+                  [id]="usedWidgets[i]._Id"
+                  (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
+                ></app-nft-image>
+                <app-bar-chart-widget
+                  *ngIf="widget.type === widgetTypes.bar"
+                  [id]="usedWidgets[i]._Id"
+                  (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
+                ></app-bar-chart-widget>
+                <app-pie-chart-widget
+                  *ngIf="widget.type === widgetTypes.pie"
+                  [id]="usedWidgets[i]._Id"
+                  (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
+                ></app-pie-chart-widget>
+                <app-bubble-chart-widget
+                  *ngIf="widget.type === widgetTypes.bubble"
+                  [id]="usedWidgets[i]._Id"
+                  (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
+                ></app-bubble-chart-widget>
+                <app-table
+                  *ngIf="widget.type === widgetTypes.table"
+                  [id]="usedWidgets[i]._Id"
+                  (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
+                ></app-table>
+              </div>
             </div>
           </div>
-        </div>
         </div>
       </div>
       <div class="side-bar-item">

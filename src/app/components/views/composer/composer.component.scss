@@ -108,6 +108,7 @@
   display: flex;
   flex-direction: row;
   position: absolute;
+  justify-content: end;
   top: calc(100vh - 110px);
   right: 34px;
   margin-left: 5px;
@@ -146,6 +147,20 @@ mat-list-item {
 .nft-content-area {
   position: absolute;
   top: 10px;
+  right: 40px;
+  left: 10px;
+  bottom: 60px;
+  background-color: $gray;
+  padding: 10px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  //box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.nft-content-area-mobile {
+  position: absolute;
+  top: 56px;
   right: 40px;
   left: 10px;
   bottom: 60px;
@@ -254,7 +269,6 @@ mat-list-item {
   padding-bottom: 10px !important;
 }
 
-
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
   .drap-and-drop-area {
@@ -320,7 +334,6 @@ mat-list-item {
     top: 0px;
     border: solid $gray 2px;
   }
-  
 }
 
 #project-title {
@@ -329,7 +342,7 @@ mat-list-item {
   font-size: $fontSize;
   display: flex;
   flex-direction: row;
-  font-family: 'Inter'
+  font-family: "Inter";
 }
 .title-icon {
   background-color: #ccc;
@@ -360,6 +373,6 @@ mat-list-item {
   label {
     font-size: small;
     font-weight: 600;
-    font-family: 'Inter';
+    font-family: "Inter";
   }
 }
