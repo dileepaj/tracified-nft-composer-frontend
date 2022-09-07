@@ -26,13 +26,31 @@
       </div>
     </mat-drawer>
     <mat-drawer-content>
+      <mat-drawer-content>
+        <div 
+        *ngIf="sidenav==false"
+        style="margin: 8px -10px -10px 0px">
+        <div id="project-title" mat-list-item>
+          <div
+            class="title-icon"
+            matTooltip="Back To Projects"
+          >
+            <mat-icon mat-list-icon> chevron_left </mat-icon>
+          </div>
+          <div class="title-text">
+            <label>{{ title }}</label>
+          </div>
+        </div>
+      </div>
+      </mat-drawer-content>
       <div class="nft-content-area">
         <div
           cdkDropList
           [cdkDropListData]="usedWidgets"
           class="drap-and-drop-area"
           (cdkDropListDropped)="drop($event)"
-        >
+        > 
+        <div class="wrapper" style="margin: 26px -10px -10px 0px;">
           <div fxLayout="row wrap" fxLayoutGap="10px grid" class="widget-div">
             <div
               fxFlex.lg="33%"
@@ -86,6 +104,7 @@
               ></app-table>
             </div>
           </div>
+        </div>
         </div>
       </div>
       <div class="side-bar-item">

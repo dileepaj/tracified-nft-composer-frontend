@@ -87,6 +87,9 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   newProj: boolean;
   isClicked: boolean = false;
   sideNavMode: MatDrawerMode = 'side';
+  title = 'project_name';
+  projId: string='';
+  nft$: Observable<NFTContent>;
 
   widgetTypes: any = {
     timeline: timeline,
@@ -186,11 +189,18 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     this.sidebarService.getStatus().subscribe((val) => {
       this.sidenav = val;
     });
+    const subscription = this.store
+      .select(selectNFTContent)
+      .subscribe((nft) => {
+        this.title = nft.ProjectName;
+        this.projId = nft.ProjectId;
+      });
   }
 
   ngOnInit(): void {
     this.store.select(selectProjectStatus).subscribe((status) => {
       this.newProj = status;
+      
     });
 
     this.checkRefreshed();
@@ -564,4 +574,6 @@ export class ComposerComponent implements OnInit, AfterViewInit {
       this.sidebarService.open();
     }
   }
+
+  
 }
