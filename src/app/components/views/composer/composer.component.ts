@@ -55,6 +55,7 @@ import { ProjectLoaderService } from 'src/app/services/project-loader.service';
 import { UserserviceService } from 'src/app/services/userservice.service';
 import { ComposerUser } from 'src/models/user';
 import { MatDrawerMode } from '@angular/material/sidenav';
+import { CloseProjectComponent } from '../../modals/close-project/close-project.component';
 
 export interface Widget {
   type: string;
@@ -88,7 +89,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   isClicked: boolean = false;
   sideNavMode: MatDrawerMode = 'side';
   title = 'project_name';
-  projId: string='';
+  projId: string = '';
   nft$: Observable<NFTContent>;
 
   widgetTypes: any = {
@@ -200,7 +201,6 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.store.select(selectProjectStatus).subscribe((status) => {
       this.newProj = status;
-      
     });
 
     this.checkRefreshed();
@@ -575,5 +575,16 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     }
   }
 
-  
+  public closeProject() {
+    //check whether all the changes are already saved or not
+    if (!this.projectSaved) {
+      this.dialog.open(CloseProjectComponent, {
+        data: {
+          user: this.user,
+        },
+      });
+    } else {
+      this.router.navigate(['/layout/projects/' + this.user.UserID]);
+    }
+  }
 }
