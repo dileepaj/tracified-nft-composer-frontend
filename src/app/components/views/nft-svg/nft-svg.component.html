@@ -1,9 +1,44 @@
 <mat-drawer-container class="sidebar-container">
-  <mat-drawer class="side-nav" mode="side" position="start" [opened]="sidenav">
+  <mat-drawer
+    class="side-nav"
+    mode="side"
+    position="start"
+    [opened]="sidenav"
+    [mode]="sideNavMode"
+  >
     <app-sidebar></app-sidebar>
   </mat-drawer>
-  <mat-drawer-content>
-    <div class="container">
+  <mat-drawer-content class="content-wrapper">
+    <div
+      style="margin: 0px -10px -10px 0px"
+      fxHide.lt-md="false"
+      fxHide.md="true"
+      fxHide.gt-md="true"
+    >
+      <div
+        id="project-title"
+        fxHide.lt-md="false"
+        fxHide.md="true"
+        fxHide.gt-md="true"
+        mat-list-item
+      >
+        <div
+          class="title-icon"
+          matTooltip="Back To Projects"
+          (click)="closeProject()"
+        >
+          <mat-icon mat-list-icon> chevron_left </mat-icon>
+        </div>
+        <div class="title-text">
+          <label>{{ title }}</label>
+        </div>
+      </div>
+    </div>
+    <div
+      ngClass.md="container"
+      ngClass.gt-md="container"
+      ngClass.lt-md="container-mobile"
+    >
       <div class="content">
         <mat-progress-bar
           mode="indeterminate"
