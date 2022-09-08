@@ -1,17 +1,17 @@
 .main-div mat-card {
   padding: 0px;
 }
-mat-card {
-  border-radius: 10px 0px 0px 10px;
-}
+// mat-card {
+//   border-radius: 10px 0px 0px 10px;
+// }
 
-.outline {
-  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.12);
-  border-radius: 10px;
-  min-height: auto;
-  min-width: auto;
-  padding: inherit;
-}
+// .outline {
+//   box-shadow: 0 3px 15px rgba(0, 0, 0, 0.12);
+//   border-radius: 10px;
+//   min-height: auto;
+//   min-width: auto;
+//   padding: inherit;
+// }
 
 .mat-form-field-appearance-outline .mat-form-field-outline {
   color: #00c853;
@@ -47,11 +47,10 @@ input.mat-input-element {
   color: white;
 }
 
-.login-cards {
-  padding: 0;
-  margin: 0;
-  
-}
+// .login-cards {
+//   padding: 0;
+//   margin: 0;
+// }
 
 .login-main-card {
   margin-top: 50px;
@@ -59,12 +58,6 @@ input.mat-input-element {
 .sign-up {
   padding-top: 10%;
   font-family: 'Inter' !important;
-}
-
-.password-reset {
-  padding-top: 28%;
-  padding-bottom: 3%;
-  font-weight: 'Inter' !important;
 }
 
 .sign-up-link {
@@ -79,22 +72,22 @@ input.mat-input-element {
   font-weight: 600;
 }
 
-.login-button-container {
-  padding-top: 15%;
-  padding-left: 27%;
-}
-.login-button {
-  font-family: 'Inter' !important;
-  color: white;
-  background-color: #00c853;
-  border-style: solid;
-  width: 63%;
-  height: 116%;
-  border-width: thin;
-  top: 94%;
-  font-size:18px;
-  box-sizing: border-box;
-}
+// .login-button-container {
+//   padding-top: 15%;
+//   padding-left: 27%;
+// }
+// .login-button {
+//   font-family: 'Inter' !important;
+//   color: white;
+//   background-color: #00c853;
+//   border-style: solid;
+//   width: 63%;
+//   height: 116%;
+//   border-width: thin;
+//   top: 94%;
+//   font-size:18px;
+//   box-sizing: border-box;
+// }
 @keyframes spinner {
   to {
     transform: rotate(360deg);
@@ -129,13 +122,13 @@ mat-label {
   color: white;
 }
 
-input {
-  color: white;
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  font-size: 18px;
-  font-weight: 400;
-}
+// input {
+//   color: white;
+//   font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+//     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+//   font-size: 18px;
+//   font-weight: 400;
+// }
 
 mat-label {
   font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -144,10 +137,10 @@ mat-label {
   font-size: 16px;
 }
 
-mat-form-field {
-  color: #ffffff;
-  height:16%;
-}
+// mat-form-field {
+//   color: #ffffff;
+//   height:16%;
+// }
 
 /* ::ng-deep .mat-focused .mat-form-field-label {
   color: white !important;
@@ -225,10 +218,437 @@ input:-internal-autofill-selected {
 p{
   font-family: 'Inter' !important;
 }
-#wrapper{
-  position:fixed;
-  margin-left:auto;
-  margin-right:auto;
-  top: 16%;
-  width: 100%;
+// #wrapper{
+//   position:fixed;
+//   margin-left:auto;
+//   margin-right:auto;
+//   top: 16%;
+//   width: 100%;
+// }
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  mat-card {
+    border-radius: 10px 10px 10px 10px;
+    max-width: 293px !important;
+  }
+  
+  .outline {
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.12);
+    border-radius: 10px;
+    min-height: auto;
+    min-width: auto;
+    padding: inherit;
+  }
+
+  #wrapper{
+    position:fixed;
+    margin-left:auto;
+    margin-right:auto;
+    top: 2%;
+    width: 100%;
+  }
+
+  .form-grp{
+    padding-top: 0% !important;
+    // height: 250px !important;
+  }
+
+  .form-crd{
+    background-color: #00C853;
+  }
+
+  .login-cards {
+    padding: 0;
+    margin: 0;
+    width: 295px !important;
+  }
+
+  input {
+    color: white;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+  }
+
+  .login-button-container {
+    padding-top: 25% !important;
+    padding-left: 27%;
+  }
+  .login-button {
+    font-family: 'Inter' !important;
+    color: white;
+    background-color: #00c853;
+    border-style: solid;
+    width: 63%;
+    height: 116%;
+    border-width: thin;
+    top: 98%;
+    font-size:14px;
+    box-sizing: border-box;
+  }
+
+  .password-reset {
+    padding-top: 8%;
+    // padding-bottom: 1%;
+    font-weight: 'Inter' !important;
+  }
+
+  .pw-rest{
+    color: white; 
+    top:5px; 
+    font-size: 12px;
+    padding-top: 55px;
+  }
+
+  .view-icon{
+    color: white;
+    transform: scale(0.8);
+  }
+
+  mat-form-field {
+    color: #ffffff;
+    height:48px;
+  }
 }
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  mat-card {
+    border-radius: 10px 0px 0px 10px;
+    max-width: 293px !important;
+  }
+  
+  .outline {
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.12);
+    border-radius: 10px;
+    min-height: auto;
+    min-width: auto;
+    padding: inherit;
+  }
+
+  #wrapper{
+    position:fixed;
+    margin-left:auto;
+    margin-right:auto;
+    top: 2%;
+    width: 100%;
+  }
+
+  .form-crd{
+    background-color: #00C853;
+    // height: 250px !important;
+  }
+
+  .form-grp{
+    padding-top: 0% !important;
+    // height: 100% !important;
+  }
+
+  .login-cards {
+    padding: 0;
+    margin: 0;
+    width: 295px !important;
+  }
+
+  input {
+    color: white;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+  }
+
+  .login-button-container {
+    padding-top: 25% !important;
+    padding-left: 27%;
+  }
+  .login-button {
+    font-family: 'Inter' !important;
+    color: white;
+    background-color: #00c853;
+    border-style: solid;
+    width: 63%;
+    height: 116%;
+    border-width: thin;
+    top: 98%;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+
+  .password-reset {
+    padding-top: 8%;
+    // padding-bottom: 1%;
+    font-weight: 'Inter' !important;
+  }
+
+  .pw-rest{
+    color: white; 
+    top:5px; 
+    font-size: 12px;
+    padding-top: 55px;
+  }
+
+  .view-icon{
+    color: white;
+    transform: scale(0.8);
+  }
+
+  mat-form-field {
+    color: #ffffff;
+    height:48px;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  mat-card {
+    border-radius: 10px 0px 0px 10px;
+    max-width: 53% !important;
+  }
+  
+  .outline {
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.12);
+    border-radius: 10px;
+    min-height: auto;
+    min-width: auto;
+    padding: inherit;
+  }
+
+  #wrapper{
+    position:fixed;
+    margin-left:auto;
+    margin-right:auto;
+    top: 16%;
+    width: 100%;
+  }
+  
+  .form-crd{
+    background-color: #00C853;
+    // height: 250px !important;
+  }
+
+  .login-cards {
+    padding: 0;
+    margin: 0;
+  }
+
+  .form-grp{
+    padding-top: 8% !important;
+  }
+
+  input {
+    color: white;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+  }
+
+  .login-button-container {
+    padding-top: 15% !important;
+    padding-left: 27%;
+  }
+  .login-button {
+    font-family: 'Inter' !important;
+    color: white;
+    background-color: #00c853;
+    border-style: solid;
+    width: 63%;
+    height: 116%;
+    border-width: thin;
+    top: 94%;
+    font-size:18px;
+    box-sizing: border-box;
+  }
+
+  .password-reset {
+    padding-top: 28%;
+    padding-bottom: 3%;
+    font-weight: 'Inter' !important;
+  }
+
+  .pw-rest{
+    color: white; 
+    top:10px; 
+    font-size: 14.8px;
+  }
+
+  .view-icon{
+    color: white;
+  }
+
+  mat-form-field {
+    color: #ffffff;
+    height:16%;
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  mat-card {
+    border-radius: 10px 0px 0px 10px;
+    max-width: 53% !important;
+  }
+  
+  .outline {
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.12);
+    border-radius: 10px;
+    min-height: auto;
+    min-width: auto;
+    padding: inherit;
+  }
+
+  #wrapper{
+    position:fixed;
+    margin-left:auto;
+    margin-right:auto;
+    top: 16%;
+    width: 100%;
+  }
+
+  .form-grp{
+    padding-top: 8% !important;
+    max-width: 100%;
+  }
+
+  .form-crd{
+    background-color: #00C853;
+  }
+
+  .login-cards {
+    padding: 0;
+    margin: 0;
+  }
+
+  input {
+    color: white;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+  }
+
+  .login-button-container {
+    padding-top: 9% !important;
+    padding-left: 27%;
+  }
+  .login-button {
+    font-family: 'Inter' !important;
+    color: white;
+    background-color: #00c853;
+    border-style: solid;
+    width: 63%;
+    height: 116%;
+    border-width: thin;
+    top: 94%;
+    font-size:18px;
+    box-sizing: border-box;
+  }
+
+  .password-reset {
+    padding-top: 17%;
+    padding-bottom: 3%;
+    font-weight: 'Inter' !important;
+  }
+
+  .pw-rest{
+    color: white; 
+    top:10px; 
+    font-size: 14.8px;
+  }
+
+  .view-icon{
+    color: white;
+  }
+
+  mat-form-field {
+    color: #ffffff;
+    height:16%;
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  mat-card {
+    border-radius: 10px 0px 0px 10px;
+    max-width: 53% !important;
+  }
+  
+  .outline {
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.12);
+    border-radius: 10px;
+    min-height: auto;
+    min-width: auto;
+    padding: inherit;
+  } 
+  #wrapper{
+    position:fixed;
+    margin-left:auto;
+    margin-right:auto;
+    top: 16%;
+    width: 100%;
+  }
+
+  .form-grp{
+    padding-top: 8% !important;
+  }
+
+  .form-crd{
+    background-color: #00C853;
+    // height: 250px !important;
+  }
+
+  .login-cards {
+    padding: 0;
+    margin: 0;
+  }
+
+  input {
+    color: white;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+  }
+
+  .login-button-container {
+    padding-top: 9% !important;
+    padding-left: 27%;
+  }
+  .login-button {
+    font-family: 'Inter' !important;
+    color: white;
+    background-color: #00c853;
+    border-style: solid;
+    width: 63%;
+    height: 116%;
+    border-width: thin;
+    top: 94%;
+    font-size:18px;
+    box-sizing: border-box;
+  }
+
+  .password-reset {
+    padding-top: 17%;
+    padding-bottom: 3%;
+    font-weight: 'Inter' !important;
+  }
+
+  .pw-rest{
+    color: white; 
+    top:10px; 
+    font-size: 14.8px;
+  }
+
+  .view-icon{
+    color: white;
+  }
+
+  mat-form-field {
+    color: #ffffff;
+    height:16%;
+  }
+}
+
