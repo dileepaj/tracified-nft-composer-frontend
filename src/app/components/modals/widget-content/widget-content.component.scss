@@ -4,7 +4,8 @@
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
   .modal-content {
-    width: 250px;
+    width: 250px !important;
+    height: 260px !important;
   }
 
   .content {
@@ -66,7 +67,8 @@
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
   .modal-content {
-    width: 350px;
+    width: 350px !important;
+    height: 350px !important;
   }
 
   .content {
@@ -128,7 +130,8 @@
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
   .modal-content {
-    width: 500px;
+    width: 500px !important;
+    height: 500px !important;
   }
 
   .content {
@@ -190,7 +193,8 @@
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
   .modal-content {
-    width: 700px;
+    width: 700px !important;
+    height: 600px !important;
   }
 
   .content {
@@ -251,7 +255,8 @@
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
   .modal-content {
-    width: 700px;
+    width: 700px !important;
+    height: 600px !important;
   }
 
   .content {
