@@ -4,7 +4,7 @@
   height: $headerHeight;
   background-color: $background;
   color: white;
-  padding: 0px 30px 0px 30px;
+  padding: 0px 15px 0px 15px;
 }
 
 #title {
@@ -29,7 +29,7 @@ logo {
 
 .menu {
   vertical-align: middle;
-
+  /* margin-left: -2px; */
   cursor: pointer;
 }
 
