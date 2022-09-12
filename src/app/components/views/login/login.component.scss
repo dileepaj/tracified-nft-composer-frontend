@@ -57,17 +57,17 @@ input.mat-input-element {
 }
 .sign-up {
   padding-top: 10%;
-  font-family: 'Inter' !important;
+  font-family: "Inter" !important;
 }
 
 .sign-up-link {
   color: white;
   font-weight: 600;
-  font-family: 'Inter' !important;
+  font-family: "Inter" !important;
 }
 
 .get-help-link {
-  font-family: 'Inter' !important;
+  font-family: "Inter" !important;
   color: white;
   font-weight: 600;
 }
@@ -106,7 +106,7 @@ input.mat-input-element {
   margin-left: -10px;
   border-radius: 50%;
   border: 2px solid #ffffff;
-  border-top-color: #006D2D;
+  border-top-color: #006d2d;
   animation: spinner 0.8s linear infinite;
 }
 
@@ -215,8 +215,8 @@ input:-internal-autofill-selected {
   width: 100%;
 }
 
-p{
-  font-family: 'Inter' !important;
+p {
+  font-family: "Inter" !important;
 }
 // #wrapper{
 //   position:fixed;
@@ -232,7 +232,7 @@ p{
     border-radius: 10px 10px 10px 10px;
     max-width: 293px !important;
   }
-  
+
   .outline {
     box-shadow: 0 3px 15px rgba(0, 0, 0, 0.12);
     border-radius: 10px;
@@ -241,21 +241,21 @@ p{
     padding: inherit;
   }
 
-  #wrapper{
-    position:fixed;
-    margin-left:auto;
-    margin-right:auto;
+  #wrapper {
+    position: fixed;
+    margin-left: auto;
+    margin-right: auto;
     top: 2%;
     width: 100%;
   }
 
-  .form-grp{
+  .form-grp {
     padding-top: 0% !important;
     // height: 250px !important;
   }
 
-  .form-crd{
-    background-color: #00C853;
+  .form-crd {
+    background-color: #00c853;
   }
 
   .login-cards {
@@ -277,7 +277,7 @@ p{
     padding-left: 27%;
   }
   .login-button {
-    font-family: 'Inter' !important;
+    font-family: "Inter" !important;
     color: white;
     background-color: #00c853;
     border-style: solid;
@@ -285,31 +285,31 @@ p{
     height: 116%;
     border-width: thin;
     top: 98%;
-    font-size:14px;
+    font-size: 14px;
     box-sizing: border-box;
   }
 
   .password-reset {
     padding-top: 8%;
     // padding-bottom: 1%;
-    font-weight: 'Inter' !important;
+    font-weight: "Inter" !important;
   }
 
-  .pw-rest{
-    color: white; 
-    top:5px; 
+  .pw-rest {
+    color: white;
+    top: 5px;
     font-size: 12px;
     padding-top: 55px;
   }
 
-  .view-icon{
+  .view-icon {
     color: white;
     transform: scale(0.8);
   }
 
   mat-form-field {
     color: #ffffff;
-    height:48px;
+    height: 48px;
   }
 }
 
@@ -319,7 +319,7 @@ p{
     border-radius: 10px 0px 0px 10px;
     max-width: 293px !important;
   }
-  
+
   .outline {
     box-shadow: 0 3px 15px rgba(0, 0, 0, 0.12);
     border-radius: 10px;
@@ -328,20 +328,20 @@ p{
     padding: inherit;
   }
 
-  #wrapper{
-    position:fixed;
-    margin-left:auto;
-    margin-right:auto;
+  #wrapper {
+    position: fixed;
+    margin-left: auto;
+    margin-right: auto;
     top: 2%;
     width: 100%;
   }
 
-  .form-crd{
-    background-color: #00C853;
+  .form-crd {
+    background-color: #00c853;
     // height: 250px !important;
   }
 
-  .form-grp{
+  .form-grp {
     padding-top: 0% !important;
     // height: 100% !important;
   }
@@ -365,7 +365,7 @@ p{
     padding-left: 27%;
   }
   .login-button {
-    font-family: 'Inter' !important;
+    font-family: "Inter" !important;
     color: white;
     background-color: #00c853;
     border-style: solid;
@@ -380,24 +380,24 @@ p{
   .password-reset {
     padding-top: 8%;
     // padding-bottom: 1%;
-    font-weight: 'Inter' !important;
+    font-weight: "Inter" !important;
   }
 
-  .pw-rest{
-    color: white; 
-    top:5px; 
+  .pw-rest {
+    color: white;
+    top: 5px;
     font-size: 12px;
     padding-top: 55px;
   }
 
-  .view-icon{
+  .view-icon {
     color: white;
     transform: scale(0.8);
   }
 
   mat-form-field {
     color: #ffffff;
-    height:48px;
+    height: 48px;
   }
 }
 
@@ -407,7 +407,7 @@ p{
     border-radius: 10px 0px 0px 10px;
     max-width: 53% !important;
   }
-  
+
   .outline {
     box-shadow: 0 3px 15px rgba(0, 0, 0, 0.12);
     border-radius: 10px;
@@ -416,16 +416,16 @@ p{
     padding: inherit;
   }
 
-  #wrapper{
-    position:fixed;
-    margin-left:auto;
-    margin-right:auto;
+  #wrapper {
+    position: fixed;
+    margin-left: auto;
+    margin-right: auto;
     top: 16%;
     width: 100%;
   }
-  
-  .form-crd{
-    background-color: #00C853;
+
+  .form-crd {
+    background-color: #00c853;
     // height: 250px !important;
   }
 
@@ -434,7 +434,7 @@ p{
     margin: 0;
   }
 
-  .form-grp{
+  .form-grp {
     padding-top: 8% !important;
   }
 
@@ -451,7 +451,7 @@ p{
     padding-left: 27%;
   }
   .login-button {
-    font-family: 'Inter' !important;
+    font-family: "Inter" !important;
     color: white;
     background-color: #00c853;
     border-style: solid;
@@ -459,29 +459,29 @@ p{
     height: 116%;
     border-width: thin;
     top: 94%;
-    font-size:18px;
+    font-size: 18px;
     box-sizing: border-box;
   }
 
   .password-reset {
     padding-top: 28%;
     padding-bottom: 3%;
-    font-weight: 'Inter' !important;
+    font-weight: "Inter" !important;
   }
 
-  .pw-rest{
-    color: white; 
-    top:10px; 
+  .pw-rest {
+    color: white;
+    top: 10px;
     font-size: 14.8px;
   }
 
-  .view-icon{
+  .view-icon {
     color: white;
   }
 
   mat-form-field {
     color: #ffffff;
-    height:16%;
+    height: 16%;
   }
 }
 
@@ -491,7 +491,7 @@ p{
     border-radius: 10px 0px 0px 10px;
     max-width: 53% !important;
   }
-  
+
   .outline {
     box-shadow: 0 3px 15px rgba(0, 0, 0, 0.12);
     border-radius: 10px;
@@ -500,21 +500,21 @@ p{
     padding: inherit;
   }
 
-  #wrapper{
-    position:fixed;
-    margin-left:auto;
-    margin-right:auto;
+  #wrapper {
+    position: fixed;
+    margin-left: auto;
+    margin-right: auto;
     top: 16%;
     width: 100%;
   }
 
-  .form-grp{
+  .form-grp {
     padding-top: 8% !important;
     max-width: 100%;
   }
 
-  .form-crd{
-    background-color: #00C853;
+  .form-crd {
+    background-color: #00c853;
   }
 
   .login-cards {
@@ -535,7 +535,7 @@ p{
     padding-left: 27%;
   }
   .login-button {
-    font-family: 'Inter' !important;
+    font-family: "Inter" !important;
     color: white;
     background-color: #00c853;
     border-style: solid;
@@ -543,29 +543,29 @@ p{
     height: 116%;
     border-width: thin;
     top: 94%;
-    font-size:18px;
+    font-size: 18px;
     box-sizing: border-box;
   }
 
   .password-reset {
     padding-top: 17%;
     padding-bottom: 3%;
-    font-weight: 'Inter' !important;
+    font-weight: "Inter" !important;
   }
 
-  .pw-rest{
-    color: white; 
-    top:10px; 
+  .pw-rest {
+    color: white;
+    top: 10px;
     font-size: 14.8px;
   }
 
-  .view-icon{
+  .view-icon {
     color: white;
   }
 
   mat-form-field {
     color: #ffffff;
-    height:16%;
+    height: 16%;
   }
 }
 
@@ -575,28 +575,28 @@ p{
     border-radius: 10px 0px 0px 10px;
     max-width: 53% !important;
   }
-  
+
   .outline {
     box-shadow: 0 3px 15px rgba(0, 0, 0, 0.12);
     border-radius: 10px;
     min-height: auto;
     min-width: auto;
     padding: inherit;
-  } 
-  #wrapper{
-    position:fixed;
-    margin-left:auto;
-    margin-right:auto;
+  }
+  #wrapper {
+    position: fixed;
+    margin-left: auto;
+    margin-right: auto;
     top: 16%;
     width: 100%;
   }
 
-  .form-grp{
+  .form-grp {
     padding-top: 8% !important;
   }
 
-  .form-crd{
-    background-color: #00C853;
+  .form-crd {
+    background-color: #00c853;
     // height: 250px !important;
   }
 
@@ -618,7 +618,7 @@ p{
     padding-left: 27%;
   }
   .login-button {
-    font-family: 'Inter' !important;
+    font-family: "Inter" !important;
     color: white;
     background-color: #00c853;
     border-style: solid;
@@ -626,29 +626,28 @@ p{
     height: 116%;
     border-width: thin;
     top: 94%;
-    font-size:18px;
+    font-size: 18px;
     box-sizing: border-box;
   }
 
   .password-reset {
     padding-top: 17%;
     padding-bottom: 3%;
-    font-weight: 'Inter' !important;
+    font-weight: "Inter" !important;
   }
 
-  .pw-rest{
-    color: white; 
-    top:10px; 
+  .pw-rest {
+    color: white;
+    top: 10px;
     font-size: 14.8px;
   }
 
-  .view-icon{
+  .view-icon {
     color: white;
   }
 
   mat-form-field {
     color: #ffffff;
-    height:16%;
+    height: 16%;
   }
 }
-
