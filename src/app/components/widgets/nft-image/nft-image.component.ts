@@ -261,6 +261,8 @@ export class NftImageComponent implements OnInit {
       data: {
         image: this.base64,
       },
+      width: '80vw',
+      maxWidth: '800px',
       autoFocus: false,
     });
   }

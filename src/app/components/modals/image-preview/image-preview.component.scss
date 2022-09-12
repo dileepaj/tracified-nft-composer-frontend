@@ -5,8 +5,13 @@
   transform: scale(0.8);
 }
 
+.dialog-cont {
+  display: flex;
+  justify-content: center;
+}
+
 .img-div {
-  width: 800px;
+  width: 100%;
   height: 450px;
   padding: 0px 20px 0px 20px;
   background-origin: content-box;
@@ -15,8 +20,11 @@
   background-position: center;
 }
 
+.img-div-small {
+  height: 300px;
+}
 
-h2{
-  font-family: 'Inter' !important;
+h2 {
+  font-family: "Inter" !important;
   font-weight: 600;
 }
