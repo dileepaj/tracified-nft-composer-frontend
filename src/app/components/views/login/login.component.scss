@@ -652,3 +652,12 @@ p{
   }
 }
 
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
+
+::-ms-reveal {
+  display: none;
+}
+
