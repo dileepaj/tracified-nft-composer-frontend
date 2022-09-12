@@ -39,7 +39,11 @@
       ngClass.gt-md="container"
       ngClass.lt-md="container-mobile"
     >
-      <div class="content">
+      <div
+        ngClass.md="content"
+        ngClass.gt-md="content"
+        ngClass.lt-md="content-mobile"
+      >
         <mat-progress-bar
           mode="indeterminate"
           *ngIf="loading"
@@ -53,7 +57,11 @@
         ></iframe>
       </div>
     </div>
-    <div class="btn-container">
+    <div
+      ngClass.md="btn-container"
+      ngClass.gt-md="btn-container"
+      ngClass.lt-md="btn-container-mobile"
+    >
       <button
         class="btn"
         (click)="openCodebehindPopup()"
