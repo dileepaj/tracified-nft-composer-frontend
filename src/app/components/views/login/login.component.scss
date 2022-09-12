@@ -651,3 +651,13 @@ p {
     height: 16%;
   }
 }
+
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
+
+::-ms-reveal {
+  display: none;
+}
+
