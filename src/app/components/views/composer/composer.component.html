@@ -135,7 +135,11 @@
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </button>
       </div>
-      <div class="btn-container" fxLayout="row wrap">
+      <div 
+         ngClass.md="btn-container"
+        ngClass.gt-md="btn-container"
+        ngClass.lt-md="btn-container-mobile"
+      fxLayout="row wrap">
         <button
           class="btn"
           mat-flat-button
@@ -145,7 +149,8 @@
           <mat-icon class="icon">save</mat-icon>
           <span [class.spinner]="saving"> </span>Save Project
         </button>
-        <button
+        <div ngClass.lt-md="btn-container2">
+          <button
           class="btn"
           mat-flat-button
           (click)="generateHTML()"
@@ -171,6 +176,7 @@
           />
           <span [class.spinner]="svgGenerated"> </span>Download SVG
         </button>
+        </div>
       </div>
     </mat-drawer-content>
   </mat-drawer-container>

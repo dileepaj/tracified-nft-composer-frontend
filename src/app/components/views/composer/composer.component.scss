@@ -114,6 +114,16 @@
   margin-left: 5px;
   overflow-y: auto;
 }
+.btn-container-mobile{
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  justify-content: end;
+  top: calc(98vh - 110px);
+  right: 34px;
+  margin-left: 5px;
+  overflow-y: auto;
+}
 
 .list {
   display: flex;
