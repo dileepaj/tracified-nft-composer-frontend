@@ -275,6 +275,7 @@ export class SelectBatchComponent implements OnInit {
         id: this.id,
         widget: this.widget,
       },
+      autoFocus: false,
     });
 
     this.dialogRef.close();
