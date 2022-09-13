@@ -43,7 +43,7 @@
 }
 
 .pie-chart {
-  height: 500px;
+  height: 100vh;
   width: 100%;
   overflow: auto;
   display: flex;
@@ -55,6 +55,13 @@
 .pie-chart-canvas {
   margin: 150px 50px 150px 50px;
 }
+
+@media only screen and (max-width: 768px) {
+  .pie-chart-canvas {
+    margin: 150px 50px 150px 50px;
+  }
+}
+
 .mat-form-field + .mat-form-field {
   margin-left: 8px;
 }

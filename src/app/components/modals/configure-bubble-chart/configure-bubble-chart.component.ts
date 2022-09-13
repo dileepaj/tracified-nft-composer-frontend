@@ -23,6 +23,7 @@ import { Chart, Data } from 'src/models/nft-content/chart';
 import { bubblechart } from 'src/models/nft-content/widgetTypes';
 import { Chart as chrt } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-configure-bubble-chart',
@@ -71,6 +72,10 @@ export class ConfigureBubbleChartComponent implements OnInit {
   private height = 300 - this.margin;
 
   saving: boolean = false;
+  rowHeight:string='550px';
+  rowHeightMobile:boolean=false;
+  colspan1:string;
+  colspan2:string;
 
   constructor(
     private store: Store<AppState>,
@@ -78,7 +83,8 @@ export class ConfigureBubbleChartComponent implements OnInit {
     public dialog: MatDialog,
     private composerService: ComposerBackendService,
     private dndService: DndServiceService,
-    private popupMsgService: PopupMessageService
+    private popupMsgService: PopupMessageService,
+    private breakpointObserver: BreakpointObserver
   ) {
     this.nft$ = this.store.select(selectNFTContent);
   }
@@ -91,8 +97,19 @@ export class ConfigureBubbleChartComponent implements OnInit {
       this.querySuccess = true;
     }
     chrt.unregister(ChartDataLabels);
+    this.detectBreakpoint();
   }
 
+    //detect width
+    private detectBreakpoint(): void {
+      this.breakpointObserver.observe(['(max-width: 992px)']).subscribe(result => {
+        this.rowHeight = result.matches ? '250px' : '550px';
+        this.rowHeightMobile=result.matches;
+        this.colspan1=result.matches?'5':'3';
+        this.colspan2=result.matches?'5':'2';
+      });
+    }
+    
   /**
    * @function CheckQuerySavingStatus - check , executed query save or not  use this function for show the congigure button
    */
