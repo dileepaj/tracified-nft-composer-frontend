@@ -23,6 +23,8 @@ body {
 .modal-parent {
   margin: -24px;
   padding: 24px;
+  padding-left: 40px;
+  padding-right: 40px;
   max-height: calc(100vh - 50px);
   overflow: auto;
   font-family: "Inter" !important;
