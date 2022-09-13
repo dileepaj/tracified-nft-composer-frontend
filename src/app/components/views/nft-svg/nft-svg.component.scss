@@ -56,6 +56,15 @@
   right: 50px;
 }
 
+.content-mobile {
+  border-radius: 5px;
+  position: absolute;
+  top: 35px;
+  bottom: 50px;
+  left: 5px;
+  right: 5px;
+}
+
 iframe {
   border: 1px solid #ccc;
 }
@@ -78,6 +87,14 @@ iframe {
   position: absolute;
   bottom: 18.4px;
   right: 55px;
+}
+
+.btn-container-mobile {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  bottom: 18.4px;
+  right: 12px;
 }
 
 .loading-div {

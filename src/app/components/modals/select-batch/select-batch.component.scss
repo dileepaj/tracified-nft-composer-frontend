@@ -39,6 +39,7 @@
     float: left; 
     font-family: 'Inter';
     width: 250px;
+    font-size: 10px !important;
   }
 
   .btn-cancel{
@@ -49,7 +50,51 @@
     @include btn-primary;
     font-size: 14px !important;
   }
+
+  .arw-bck-icon{
+    margin-left: -50px;
+  }
+
+  .second-search{
+    width: 250px;
+    font-size: 10px !important;
+  }
+
+  .date-picker-bar{
+    width: 250px;
+    margin-right: 0px; 
+    font-size: 10px !important;
+  }
+
   
+  table.batch-table{
+    td {
+      font-family: 'Inter';
+      padding-left: 5px;
+      padding-top: 0.7rem;
+      padding-bottom: 0.7rem;
+      font-size:8px;
+    }  
+  }
+
+  .no-data-msg{
+    text-align: center; 
+    padding-top: 50px;
+    font-size: 10px;
+  }
+
+  .mat-expansion-panel-header{
+    padding: 0 9px !important;
+    font-size: 10px !important;
+  }
+
+  .act-row{
+    font-size: 10px !important;
+  }
+
+  .data-text{
+    margin-bottom: -20px !important;
+  }
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
@@ -91,6 +136,7 @@
     float: left; 
     font-family: 'Inter';
     width: 250px;
+    font-size: 10px;
   }
 
   .btn-cancel{
@@ -101,7 +147,50 @@
     @include btn-primary;
     font-size: 14px !important;
   }
+
+  .arw-bck-icon{
+    margin-left: -50px;
+  }
+
+  .second-search{
+    width: 250px;
+    font-size: 10px !important;
+  }
   
+  .date-picker-bar{
+    width: 250px;
+    margin-right: 0px; 
+    font-size: 10px !important;
+  }
+
+  table.batch-table{
+    td {
+      font-family: 'Inter';
+      padding-left: 5px;
+      padding-top: 0.7rem;
+      padding-bottom: 0.7rem;
+      font-size:8px;
+    }   
+  }
+
+  .no-data-msg{
+    text-align: center;
+    padding-top: 50px;
+    font-size: 10px;
+  }
+
+  .mat-expansion-panel-header{
+    padding: 0 9px !important;
+    font-size: 10px !important;
+  }
+
+  .act-row{
+    font-size: 10px !important;
+  }
+
+  .data-text{
+    margin-bottom: -20px !important;
+  }
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
@@ -143,6 +232,7 @@
     float: left; 
     font-family: 'Inter';
     width: 250px;
+    font-size: 14px !important;
   }
 
   .btn-cancel{
@@ -153,6 +243,51 @@
     @include btn-primary;
     font-size: 16px !important;
   }
+
+  .arw-bck-icon{
+    margin-left: 0px;
+  }
+
+  .second-search{
+    width: 220px;
+    font-size: 14px !important;
+  }
+
+  .date-picker-bar{
+    width: 220px;
+    margin-right: 5px; 
+    font-size: 14px !important;
+  }
+
+  table.batch-table{
+    td {
+      font-family: 'Inter';
+      padding-left: 1rem;
+      padding-top: 0.7rem;
+      padding-bottom: 0.7rem;
+      font-size: 0.8rem;
+    }  
+  }
+
+  .no-data-msg{
+    text-align: center;
+    padding-top: 50px;
+    font-size: large;
+  }
+
+  .mat-expansion-panel-header{
+    padding: 0 24px !important;
+    font-size: 15px !important;
+  }
+
+  .act-row{
+    font-size: 14px !important;
+  }
+
+  .data-text{
+    margin-bottom: 0px !important;
+  }
+  
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
@@ -194,6 +329,7 @@
     float: left; 
     font-family: 'Inter';
     width: 250px;
+    font-size: 14px !important;
   }
 
   .btn-cancel{
@@ -203,6 +339,50 @@
   .btn {
     @include btn-primary;
     font-size: 1remx !important;
+  }
+
+  .arw-bck-icon{
+    margin-left: 0px;
+  }
+
+  .second-search{
+    width: 250px;
+    font-size: 14px !important;
+  }
+
+  .date-picker-bar{
+    width: 250px;
+    margin-right: 5px; 
+    font-size: 14px !important;
+  }
+
+  table.batch-table{
+    td {
+      font-family: 'Inter';
+      padding-left: 1rem;
+      padding-top: 0.7rem;
+      padding-bottom: 0.7rem;
+      font-size: 0.8rem;
+    }  
+  }
+
+  .no-data-msg{
+    text-align: center;
+    padding-top: 50px;
+    font-size: large;
+  }
+
+  .mat-expansion-panel-header{
+    padding: 0 24px !important;
+    font-size: 15px !important;
+  }
+
+  .act-row{
+    font-size: 14px !important;
+  }
+
+  .data-text{
+    margin-bottom: 0px !important;
   }
 }
 
@@ -244,7 +424,8 @@
   .search-bar{
     float: left; 
     font-family: 'Inter';
-    width: 250px
+    width: 250px;
+    font-size: 14px !important;
   }
 
   .btn-cancel{
@@ -255,6 +436,54 @@
     @include btn-primary;
     font-size: 1remx !important;
   }
+
+  .arw-bck-icon{
+    margin-left: 0px;
+  }
+
+  .second-search{
+    width: 250px;
+    font-size: 14px !important;
+  }
+
+  .date-picker-bar{
+    width: 250px;
+    font-size: 14px !important;
+    margin-right: 5px; 
+  }
+
+  table.batch-table{
+    td {
+      font-family: 'Inter';
+      padding-left: 1rem;
+      padding-top: 0.7rem;
+      padding-bottom: 0.7rem;
+      font-size: 0.8rem;
+    }  
+  }
+
+  .no-data-msg{
+    text-align: center;
+    padding-top: 50px;
+    font-size: large;
+  }
+
+  .mat-expansion-panel-header{
+    padding: 0 24px !important;
+    font-size: 15px !important;
+  }
+
+  .act-row{
+    font-size: 14px !important;
+  }
+
+  .data-text{
+    margin-bottom: 0px !important;
+  }
+}
+
+.mat-action-row{
+  padding: 10px !important;
 }
 
 .content {
@@ -311,13 +540,13 @@ table.batch-table {
     font-weight: 900;
   }
 
-  td {
-    font-family: 'Inter';
-    padding-left: 1rem;
-    padding-top: 0.7rem;
-    padding-bottom: 0.7rem;
-    font-size: 0.8rem;
-  }
+  // td {
+  //   font-family: 'Inter';
+  //   padding-left: 1rem;
+  //   padding-top: 0.7rem;
+  //   padding-bottom: 0.7rem;
+  //   font-size: 0.8rem;
+  // }
 
   tr {
     cursor: pointer;
