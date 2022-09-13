@@ -170,6 +170,8 @@ export class NftTimelineComponent implements OnInit {
         widget: this.timeline,
         timelineData: this.childrenOne,
       },
+      width: '80vw',
+      maxWidth: '500px',
       autoFocus: false,
     });
   }
