@@ -100,7 +100,6 @@
   font-family: "Inter";
   font-style: normal !important;
   font-weight: 400 !important;
-  font-size: 12px !important;
   line-height: 15px !important;
 }
 
@@ -291,6 +290,11 @@ mat-list-item {
     top: 0px;
     border: solid $gray 2px;
   }
+
+  .btn{ 
+    font-size: 9px !important;
+    padding: 0 6px !important;
+  }
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
@@ -305,6 +309,11 @@ mat-list-item {
     top: 0px;
     border: solid $gray 2px;
   }
+
+  .btn{
+    font-size: 9px;
+    padding: 0 6px !important;
+  }
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
@@ -317,6 +326,11 @@ mat-list-item {
     bottom: 0px;
     top: 0px;
     border: solid $gray 2px;
+  }
+
+  .btn{
+    font-size: 12px !important;
+    padding: 0 8px !important;
   }
 }
 
@@ -331,6 +345,11 @@ mat-list-item {
     top: 0px;
     border: solid $gray 2px;
   }
+
+  .btn{
+    font-size: 12px !important;
+    padding: 0 8px !important;
+  }
 }
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
@@ -343,6 +362,11 @@ mat-list-item {
     bottom: 0px;
     top: 0px;
     border: solid $gray 2px;
+  }
+
+  .btn{
+    font-size: 12px !important;
+    padding: 0 8px !important;
   }
 }
 
