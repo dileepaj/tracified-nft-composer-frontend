@@ -29,23 +29,29 @@
     </div>
   </div>
 
-  <div class="query-area" fxLayout="row wrap">
+  <div class="query-area" >
+    <div fxLayout="row wrap">
     <div
       class="ace-editor"
-      [fxFlex]="showOutput ? '60%' : '100%'"
+      [fxFlex]="showOutput&&!rowHeightMobile ? '60%' : '100%'"
       #editor
     ></div>
-    <div class="output" fxFlex="40%" *ngIf="showOutput">
+    <div class="output" fxFlex="40%" *ngIf="showOutput&&!rowHeightMobile">
       Output <br />
       <pre>{{ jsonPretty }}</pre>
     </div>
   </div>
-  <div>
-    <div class="note">
-      <mat-icon class="material-icons-outlined note-icon">note_alt</mat-icon>
-      {{
-        "Note : Output format should be  [{Name: 'Sri Lanka',Value: 200,},{Name: 'US',Value: 400}] for charts."
-      }}
+  <div fxLayout="row wrap" *ngIf="rowHeightMobile">
+    <div class="output" fxFlex="100%" *ngIf="showOutput&&rowHeightMobile">
+      Output <br />
+      <pre>{{ jsonPretty }}</pre>
     </div>
+  </div>
+  <div class="note">
+    <mat-icon class="material-icons-outlined note-icon">note_alt</mat-icon>
+    {{
+      "Note : Output format should be  [{Name: 'Sri Lanka',Value: 200,},{Name: 'US',Value: 400}] for charts."
+    }}
+  </div>
   </div>
 </div>

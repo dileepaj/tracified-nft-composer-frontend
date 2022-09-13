@@ -22,7 +22,7 @@ import { DndServiceService } from 'src/app/services/dnd-service.service';
 import { Chart as chrt } from 'chart.js';
 import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-
+import {BreakpointObserver} from '@angular/cdk/layout';
 @Component({
   selector: 'app-configure-bar-chart',
   templateUrl: './configure-bar-chart.component.html',
@@ -67,12 +67,15 @@ export class ConfigureBarChartComponent implements OnInit {
   fontColor: string = '#000000'; //font color
   fieldControlEnabledIndex: number = -1;
   newFieldData: string = '';
-
+  screenSize=window.innerWidth;
   private margin = 50;
   private width = 550 - this.margin * 2;
   private height = 200 - this.margin * 2;
-
   saving: boolean = false;
+  rowHeight:string='550px';
+  rowHeightMobile:boolean=false;
+  colspan1:string;
+  colspan2:string;
 
   constructor(
     private store: Store<AppState>,
@@ -80,7 +83,8 @@ export class ConfigureBarChartComponent implements OnInit {
     public dialog: MatDialog,
     private composerService: ComposerBackendService,
     private popupMsgService: PopupMessageService,
-    private dndService: DndServiceService
+    private dndService: DndServiceService,
+    private breakpointObserver: BreakpointObserver
   ) {
     this.nft$ = this.store.select(selectNFTContent);
   }
@@ -93,7 +97,20 @@ export class ConfigureBarChartComponent implements OnInit {
       this.querySuccess = true;
     }
     chrt.unregister(ChartDataLabels);
+    this.detectBreakpoint();
+
   }
+
+  //detect width
+  private detectBreakpoint(): void {
+    this.breakpointObserver.observe(['(max-width: 992px)']).subscribe(result => {
+      this.rowHeight = result.matches ? '250px' : '550px';
+      this.rowHeightMobile=result.matches;
+      this.colspan1=result.matches?'5':'3';
+      this.colspan2=result.matches?'5':'2';
+    });
+  }
+
 
   /**
    * @function setValueToBarChart - take value from  query result store by wigetId and se it as a barChart data

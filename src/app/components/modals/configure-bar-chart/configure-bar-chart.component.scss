@@ -43,7 +43,7 @@
 }
 
 .bar-chart {
-  height: 500px;
+  height: 100vh;
   width: 100%;
   overflow: auto;
   display: flex;
@@ -54,6 +54,12 @@
 
 .bar-chart-canvas {
   margin: 50px;
+}
+
+@media only screen and (max-width: 768px) {
+  .bar-chart-canvas {
+    margin: 20px;
+  }
 }
 
 .mat-form-field + .mat-form-field {

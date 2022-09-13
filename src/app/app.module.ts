@@ -85,6 +85,7 @@ import { CloseProjectComponent } from './components/modals/close-project/close-p
 import { ImagePreviewComponent } from './components/modals/image-preview/image-preview.component';
 import { DeleteWidgetComponent } from './components/modals/delete-widget/delete-widget.component';
 import { FocusElementDirective } from './directives/focus-element.directive';
+import { LayoutModule } from '@angular/cdk/layout';
 
 const appRoutes: Routes = [];
 
@@ -173,6 +174,7 @@ const appRoutes: Routes = [];
     StoreModule.forRoot({ nft: nftReducer, user: userReducer }),
     HighlightModule,
     MatChipsModule,
+    LayoutModule,
   ],
   providers: [
     CookieService,

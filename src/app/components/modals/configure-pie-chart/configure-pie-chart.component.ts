@@ -27,6 +27,7 @@ import { DndServiceService } from 'src/app/services/dnd-service.service';
 import { ChartOptions, Chart as chrt } from 'chart.js';
 import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-configure-pie-chart',
@@ -77,6 +78,10 @@ export class ConfigurePieChartComponent implements OnInit {
   querySuccess: boolean = false;
   fieldControlEnabledIndex: number = -1;
   newFieldData: string = '';
+  rowHeight:string='550px';
+  rowHeightMobile:boolean=false;
+  colspan1:string;
+  colspan2:string;
 
   constructor(
     private store: Store<AppState>,
@@ -84,7 +89,8 @@ export class ConfigurePieChartComponent implements OnInit {
     public dialog: MatDialog,
     private composerService: ComposerBackendService,
     private dndService: DndServiceService,
-    private popupMsgService: PopupMessageService
+    private popupMsgService: PopupMessageService,
+    private breakpointObserver: BreakpointObserver
   ) {
     this.nft$ = this.store.select(selectNFTContent);
     this.store.select(selectProjectStatus).subscribe((status) => {
@@ -100,8 +106,19 @@ export class ConfigurePieChartComponent implements OnInit {
       this.querySuccess = true;
     }
     chrt.register(ChartDataLabels);
+    this.detectBreakpoint();
   }
 
+    //detect width
+    private detectBreakpoint(): void {
+      this.breakpointObserver.observe(['(max-width: 765px)']).subscribe(result => {
+        this.rowHeight = result.matches ? '300px' : '550px';
+        this.rowHeightMobile=result.matches;
+        this.colspan1=result.matches?'5':'3';
+        this.colspan2=result.matches?'5':'2';
+      });
+    }
+  
   /**
    * @function setValueToPieChart - take value from  query result store by wigetId and se it as a barChart data
    */

@@ -33,6 +33,7 @@ import {
   piechart,
   table,
 } from 'src/models/nft-content/widgetTypes';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-ldaleditor',
@@ -228,11 +229,13 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
     'GetLatestDate',
     'AddPeriod',
   ];
+  rowHeightMobile:boolean
 
   constructor(
     private apiService: ComposerBackendService,
     private popupMsgService: PopupMessageService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private breakpointObserver: BreakpointObserver
   ) {}
 
   ngAfterViewInit(): void {
@@ -241,7 +244,15 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.setWordCompleter(this.keyWordList, this.keyWordList2);
+    this.detectBreakpoint();
   }
+
+    //detect width
+    private detectBreakpoint(): void {
+      this.breakpointObserver.observe(['(max-width: 720px)']).subscribe(result => {
+        this.rowHeightMobile = result.matches
+      });
+    }
 
   /**
    * @function setLanguageTools - set language tools on the editor

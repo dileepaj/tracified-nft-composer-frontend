@@ -1,38 +1,25 @@
 <div class="modal-parent">
-  <mat-dialog-content
-    class="mat-typography modal-content"
-    fxLayout="row"
-    disableClose
-  >
-    <mat-tab-group
-      (selectedTabChange)="tabChanged($event)"
-      [(selectedIndex)]="tabIndex"
-      fxFlex="100%"
-    >
+  <mat-dialog-content class="mat-typography modal-content" fxLayout="row" disableClose>
+    <mat-tab-group (selectedTabChange)="tabChanged($event)" [(selectedIndex)]="tabIndex" fxFlex="100%">
       <mat-tab label="Query">
         <mat-grid-list cols="5" rowHeight="550px">
-          <!--Column that displays the bar chart-->
+          <!--Column that displays the table-->
           <mat-grid-tile colspan="5" style="overflow: auto">
-            <app-ldaleditor
-              [id]="table.WidgetId"
-              [type]="'table'"
-              [query]="table.Query!"
-              [widget]="table"
-              (onQueryResult)="onQueryResult($event)"
-            ></app-ldaleditor
-          ></mat-grid-tile>
+            <app-ldaleditor [id]="table.WidgetId" [type]="'table'" [query]="table.Query!" [widget]="table"
+              (onQueryResult)="onQueryResult($event)"></app-ldaleditor>
+          </mat-grid-tile>
         </mat-grid-list>
       </mat-tab>
       <mat-tab label="Table Configuration" *ngIf="CheckQuerySavingStatus()">
-        <mat-grid-list cols="5" rowHeight="550px">
-          <!--Column that displays the bar chart-->
-          <mat-grid-tile colspan="3" style="overflow: auto">
-            <!--Bar chart-->
+        <mat-grid-list cols="5" [rowHeight]="rowHeight" >
+          <!--Column that displays the table-->
+          <mat-grid-tile [colspan]="colspan1">
+            <!--table-->
             <div class="table" [innerHTML]="tableHtml"></div>
           </mat-grid-tile>
 
           <!--Column that displays the configuration panel-->
-          <mat-grid-tile colspan="2" class="form-tile">
+          <mat-grid-tile colspan="2" *ngIf="!rowHeightMobile" class="form-tile">
             <div class="form-div">
               <h2>
                 <mat-icon class="title-icon">tune</mat-icon>Configure Table
@@ -41,30 +28,36 @@
                 <!--input field for setting x axis name-->
                 <mat-form-field appearance="fill" color="primary">
                   <mat-label>Title</mat-label>
-                  <input
-                    matInput
-                    type="text"
-                    [(ngModel)]="title"
-                    maxlength="15"
-                    minlength="1"
-                  />
+                  <input matInput type="text" [(ngModel)]="title" maxlength="15" minlength="1" />
                 </mat-form-field>
               </div>
             </div>
-          </mat-grid-tile> </mat-grid-list
-      ></mat-tab>
+          </mat-grid-tile>
+        </mat-grid-list>
+        <mat-grid-list cols="5" rowHeight="200px" *ngIf="rowHeightMobile">
+          <!--Column that displays the configuration panel-->
+          <mat-grid-tile colspan="5" class="form-tile">
+            <div class="form-div">
+              <h2>
+                <mat-icon class="title-icon">tune</mat-icon>Configure Table
+              </h2>
+              <div class="input-group">
+                <!--input field for setting x axis name-->
+                <mat-form-field appearance="fill" color="primary">
+                  <mat-label>Title</mat-label>
+                  <input matInput type="text" [(ngModel)]="title" maxlength="15" minlength="1" />
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </mat-tab>
     </mat-tab-group>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-button (click)="onCancel()" class="btn-cancel">Cancel</button>
 
-    <button
-      mat-button
-      [disabled]="saving || !querySuccess"
-      class="btn"
-      (click)="updateReduxState()"
-      cdkFocusInitial
-    >
+    <button mat-button [disabled]="saving || !querySuccess" class="btn" (click)="updateReduxState()" cdkFocusInitial>
       <mat-icon>save</mat-icon>
       <span [class.spinner]="saving"> </span>
       Save
