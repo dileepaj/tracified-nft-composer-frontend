@@ -93,10 +93,9 @@ export class LoginComponent implements OnInit {
         next: (data) => {
           this.jwt.saveToken(data);
           let decoded: any = jwt_decode(data.Token, { header: false });
-          let username = JSON.parse(sessionStorage.getItem('User') || '')
-            .UserName!;
+          let username = this.jwt.getUser().UserName
           this.store.dispatch(addUsername({ username: username }));
-          if (!!decoded.userID)
+          if (this.jwt.getUser().UserID)
             this.router.navigate([`/layout/projects/${decoded.userID}`]);
         },
         error: (err) => {
