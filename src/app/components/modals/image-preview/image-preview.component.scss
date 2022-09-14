@@ -28,3 +28,9 @@ h2 {
   font-family: "Inter" !important;
   font-weight: 600;
 }
+
+@media screen and (max-width: 600px) {
+  h2 {
+    font-size: 14px;
+  }
+}
