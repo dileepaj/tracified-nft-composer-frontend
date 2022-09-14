@@ -56,6 +56,7 @@ import { UserserviceService } from 'src/app/services/userservice.service';
 import { ComposerUser } from 'src/models/user';
 import { MatDrawerMode } from '@angular/material/sidenav';
 import { CloseProjectComponent } from '../../modals/close-project/close-project.component';
+import { JwtserviceService } from 'src/app/services/jwtservice.service';
 
 export interface Widget {
   type: string;
@@ -184,7 +185,8 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     private highlightService: WidgethighlightingService,
     private router: Router,
     private projectLoader: ProjectLoaderService,
-    private userService: UserserviceService
+    private userService: UserserviceService,
+    private jwt:JwtserviceService,
   ) {
     //this.openAddData();
     this.sidebarService.getStatus().subscribe((val) => {
@@ -199,6 +201,8 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+
+
     this.store.select(selectProjectStatus).subscribe((status) => {
       this.newProj = status;
     });
@@ -207,11 +211,23 @@ export class ComposerComponent implements OnInit, AfterViewInit {
 
     this.usedWidgets = this.stateService.getWidgets();
 
-    this.user = this.userService.getCurrentUser();
+    this.user = this.jwt.getUser()
     //read the router paramter assign it to id
     this.sub = this.route.params.subscribe((params) => {
       this.id = params['id'];
     });
+    if (!sessionStorage.getItem('composerProjectId')){
+      if (!!this.id) {
+        this.projectLoader.loadExistingProject(this.id, (projectId:any) => {
+          if(projectId==undefined){
+            this.router.navigate(['/layout/projects/' + this.user.UserID]);
+          }
+          this.usedWidgets = this.stateService.getWidgets();
+          sessionStorage.setItem('composerRefreshed', '0');
+          this.projLoading = false;
+        });
+      }
+    }
     if (!!this.id) {
       this.loadExistingProjectdata(this.id);
     }
@@ -242,6 +258,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   }
 
   private checkRefreshed() {
+    this.user = this.jwt.getUser()
     //check whether page was refreshed or not
     if (parseInt(sessionStorage.getItem('composerRefreshed') || '0') === 1) {
       const projectId = sessionStorage.getItem('composerProjectId') || '';
@@ -255,7 +272,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
               sessionStorage.setItem('composerRefreshed', '0');
               this.projLoading = false;
             } else {
-              this.router.navigate(['/layout/projects/' + this.user.TenentId]);
+              this.router.navigate(['/layout/projects/' + this.user.UserID]);
               sessionStorage.setItem('composerRefreshed', '0');
               this.projLoading = false;
             }
@@ -268,7 +285,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
           });
         }
       } else {
-        this.router.navigate(['/layout/projects/' + this.user.TenentId]);
+        this.router.navigate(['/layout/projects/' + this.user.UserID]);
       }
     }
   }
