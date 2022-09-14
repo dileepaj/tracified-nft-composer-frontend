@@ -22,7 +22,7 @@ import { DndServiceService } from 'src/app/services/dnd-service.service';
 import { Chart as chrt } from 'chart.js';
 import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import {BreakpointObserver} from '@angular/cdk/layout';
+import { BreakpointObserver } from '@angular/cdk/layout';
 @Component({
   selector: 'app-configure-bar-chart',
   templateUrl: './configure-bar-chart.component.html',
@@ -67,15 +67,15 @@ export class ConfigureBarChartComponent implements OnInit {
   fontColor: string = '#000000'; //font color
   fieldControlEnabledIndex: number = -1;
   newFieldData: string = '';
-  screenSize=window.innerWidth;
+  screenSize = window.innerWidth;
   private margin = 50;
   private width = 550 - this.margin * 2;
   private height = 200 - this.margin * 2;
   saving: boolean = false;
-  rowHeight:string='550px';
-  rowHeightMobile:boolean=false;
-  colspan1:string;
-  rowHeightEditor:string='550px';
+  rowHeight: string = '550px';
+  rowHeightMobile: boolean = false;
+  colspan1: string;
+  rowHeightEditor: string = '550px';
 
   constructor(
     private store: Store<AppState>,
@@ -98,23 +98,25 @@ export class ConfigureBarChartComponent implements OnInit {
     }
     chrt.unregister(ChartDataLabels);
     this.detectBreakpoint();
-
   }
 
   //detect width
   private detectBreakpoint(): void {
-    this.breakpointObserver.observe(['(max-width: 897px)']).subscribe(result => {
-      this.rowHeight = result.matches ? '350px' : '550px';
-      this.rowHeightMobile=result.matches;
-      this.colspan1=result.matches?'5':'3';
-    });
-    this.breakpointObserver.observe(['(max-width: 376px)']).subscribe(result => {
-      this.rowHeightEditor=result.matches?'400px' : '500px';
-    });
+    this.breakpointObserver
+      .observe(['(max-width: 1375px)'])
+      .subscribe((result) => {
+        this.rowHeight = result.matches ? '350px' : '550px';
+        this.rowHeightMobile = result.matches;
+        this.colspan1 = result.matches ? '5' : '3';
+      });
+    this.breakpointObserver
+      .observe(['(max-width: 376px)'])
+      .subscribe((result) => {
+        this.rowHeightEditor = result.matches ? '400px' : '500px';
+      });
 
-    console.log('first',this.rowHeight)
+    console.log('first', this.rowHeight);
   }
-
 
   /**
    * @function setValueToBarChart - take value from  query result store by wigetId and se it as a barChart data

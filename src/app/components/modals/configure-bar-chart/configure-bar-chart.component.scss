@@ -57,79 +57,7 @@
   margin: 50px;
 }
 
-.configure-chart{
-
-}
-
-@media only screen and (max-width: 880px) {
-  .modal-content {
-    width: 72vw;
-  }
-}
-
-@media only screen and (max-width: 729px) {
-  .bar-chart-canvas {
-    margin: 20px;
-  }
-  .modal-content {
-    width: 70vw;
-  }
-}
-
-@media only screen and (max-width: 550px) {
-  .bar-chart-canvas {
-    margin: 20px;
-  }
-  .modal-content {
-    padding: 0px 9px;
-    width: 312px;
-  }
-}
-
-@media only screen and (max-width: 414px) {
-  .bar-chart-canvas {
-    margin: 20px;
-  }
-  .modal-content {
-    padding: 0px 9px;
-    width: 312px;
-  }
-}
-
-@media only screen and (max-width: 390px) {
-  .bar-chart-canvas {
-    margin: 20px;
-  }
-
-  .modal-content {
-    padding: 0px 0px;
-    width: 310px;
-  }
-
-  .bar-chart {
-    height: 100vh;
-    width: 100%;
-    overflow: auto;
-    display: flex;
-    align-items: center;
-  }
-}
-
-@media only screen and (max-width: 376px) {
-  .bar-chart-canvas {
-    margin: 20px;
-  }
-  .modal-content {
-    padding: 0px 0px;
-    width: 292px;
-  }
-  .bar-chart {
-    height: 100vh;
-    width: 100%;
-    overflow: auto;
-    display: flex;
-    align-items: center;
-  }
+.configure-chart {
 }
 
 .mat-form-field + .mat-form-field {
@@ -153,6 +81,14 @@
   margin-left: 10px;
   margin-right: 10px;
 }
+
+.field-card {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  height: fit-content;
+}
+
 .field mat-form-field {
   width: 120px !important;
 }
@@ -162,11 +98,16 @@
 }
 
 .colorbox {
-  margin-top: 2px;
   height: 50px;
   width: 50px;
   cursor: pointer;
-  margin-left: 20px;
+}
+
+.colorbox-font {
+  height: 50px;
+  width: 50px;
+  cursor: pointer;
+  margin-left: 10px;
 }
 
 .field-set {
@@ -185,11 +126,10 @@
   margin-right: 5px;
 }
 
-.title-icon-configure{
+.title-icon-configure {
   vertical-align: middle;
   margin-right: 5px;
   margin-left: 6px;
-
 }
 
 .fields-header {
@@ -206,13 +146,9 @@
 .field mat-card {
   display: flex;
   flex-direction: row;
-}
-
-.field .colorbox {
-  position: absolute;
-  right: 1.5px;
-  top: 1.5px;
-  bottom: 0;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 1px 1px 1px 15px !important;
 }
 
 .bar-chart-fields {
@@ -245,11 +181,9 @@
   margin-left: -10px;
   border-radius: 50%;
   border: 2px solid #ffffff;
-  border-top-color: #006D2D;
+  border-top-color: #006d2d;
   animation: spinner 0.8s linear infinite;
 }
-
-
 
 .field-name-input input[type="text"] {
   border-bottom: 1px solid #cdcdcd;
@@ -277,18 +211,177 @@
   color: #ccc !important;
 }
 
-.mat-tab-label .mat-tab-label-content{
-  font-family: 'Inter' !important;
+.mat-tab-label .mat-tab-label-content {
+  font-family: "Inter" !important;
 }
 
-h2 , h3, label{
-  font-family: 'Inter' !important;
+h2,
+h3,
+label {
+  font-family: "Inter" !important;
 }
 
-.form-div{
-  font-family: 'Inter' !important;
+.form-div {
+  font-family: "Inter" !important;
 }
 
-.mat-form-field, .field-name-input {
-  font-family: 'Inter' !important;
+.mat-form-field,
+.field-name-input {
+  font-family: "Inter" !important;
+}
+
+@media only screen and (max-width: 1375px) {
+  .modal-content {
+    width: 72vw;
+  }
+}
+
+@media only screen and (max-width: 880px) {
+  .modal-content {
+    width: 72vw;
+  }
+}
+
+@media only screen and (max-width: 729px) {
+  .bar-chart-canvas {
+    margin: 20px;
+  }
+  .modal-content {
+    width: 70vw;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .bar-chart-canvas {
+    margin: 20px;
+  }
+  .modal-content {
+    padding: 0px 9px;
+    width: 312px;
+  }
+
+  .field mat-card {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    padding: 10px 10px 10px 10px !important;
+  }
+
+  .field-name-input {
+    max-width: 100px;
+  }
+
+  .input-set {
+    label {
+      max-width: 10px;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
+@media only screen and (max-width: 414px) {
+  .bar-chart-canvas {
+    margin: 20px;
+  }
+  .modal-content {
+    padding: 0px 9px;
+    width: 312px;
+  }
+
+  .field mat-card {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    padding: 10px 10px 10px 10px !important;
+  }
+
+  .field-name-input {
+    max-width: 100px;
+  }
+
+  .input-set {
+    label {
+      max-width: 10px;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
+@media only screen and (max-width: 390px) {
+  .bar-chart-canvas {
+    margin: 20px;
+  }
+
+  .modal-content {
+    padding: 0px 0px;
+    width: 310px;
+  }
+
+  .bar-chart {
+    height: 100vh;
+    width: 100%;
+    overflow: auto;
+    display: flex;
+    align-items: center;
+  }
+
+  .field mat-card {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    padding: 10px 10px 10px 10px !important;
+  }
+
+  .field-name-input {
+    max-width: 100px;
+  }
+
+  .input-set {
+    label {
+      max-width: 10px;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
+@media only screen and (max-width: 376px) {
+  .bar-chart-canvas {
+    margin: 20px;
+  }
+  .modal-content {
+    padding: 0px 0px;
+    width: 292px;
+  }
+  .bar-chart {
+    height: 100vh;
+    width: 100%;
+    overflow: auto;
+    display: flex;
+    align-items: center;
+  }
+
+  .field mat-card {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    padding: 10px 10px 10px 10px !important;
+  }
+
+  .field-name-input {
+    max-width: 100px;
+  }
+
+  .input-set {
+    label {
+      max-width: 10px;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
+.input-set {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
 }

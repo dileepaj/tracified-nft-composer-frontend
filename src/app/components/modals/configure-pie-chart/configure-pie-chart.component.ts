@@ -78,10 +78,10 @@ export class ConfigurePieChartComponent implements OnInit {
   querySuccess: boolean = false;
   fieldControlEnabledIndex: number = -1;
   newFieldData: string = '';
-  rowHeight:string='550px';
-  rowHeightMobile:boolean=false;
-  colspan1:string;
-  rowHeightEditor:string='550px';
+  rowHeight: string = '550px';
+  rowHeightMobile: boolean = false;
+  colspan1: string;
+  rowHeightEditor: string = '550px';
 
   constructor(
     private store: Store<AppState>,
@@ -109,18 +109,22 @@ export class ConfigurePieChartComponent implements OnInit {
     this.detectBreakpoint();
   }
 
-    //detect width
-    private detectBreakpoint(): void {
-      this.breakpointObserver.observe(['(max-width: 897px)']).subscribe(result => {
+  //detect width
+  private detectBreakpoint(): void {
+    this.breakpointObserver
+      .observe(['(max-width: 1375px)'])
+      .subscribe((result) => {
         this.rowHeight = result.matches ? '350px' : '550px';
-        this.rowHeightMobile=result.matches;
-        this.colspan1=result.matches?'5':'3';
+        this.rowHeightMobile = result.matches;
+        this.colspan1 = result.matches ? '5' : '3';
       });
-      this.breakpointObserver.observe(['(max-width: 376px)']).subscribe(result => {
-        this.rowHeightEditor=result.matches?'400px' : '500px';
+    this.breakpointObserver
+      .observe(['(max-width: 376px)'])
+      .subscribe((result) => {
+        this.rowHeightEditor = result.matches ? '400px' : '500px';
       });
-    }
-  
+  }
+
   /**
    * @function setValueToPieChart - take value from  query result store by wigetId and se it as a barChart data
    */

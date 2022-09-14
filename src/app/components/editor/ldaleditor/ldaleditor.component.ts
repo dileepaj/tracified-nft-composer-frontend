@@ -8,6 +8,7 @@ import {
   ViewEncapsulation,
   EventEmitter,
   Output,
+  HostListener,
 } from '@angular/core';
 import * as ace from 'ace-builds';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
@@ -229,7 +230,7 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
     'GetLatestDate',
     'AddPeriod',
   ];
-  rowHeightMobile:boolean
+  rowHeightMobile: boolean;
 
   constructor(
     private apiService: ComposerBackendService,
@@ -247,12 +248,14 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
     this.detectBreakpoint();
   }
 
-    //detect width
-    private detectBreakpoint(): void {
-      this.breakpointObserver.observe(['(max-width: 739px)']).subscribe(result => {
-        this.rowHeightMobile = result.matches
+  //detect width
+  private detectBreakpoint(): void {
+    this.breakpointObserver
+      .observe(['(max-width: 739px)'])
+      .subscribe((result) => {
+        this.rowHeightMobile = result.matches;
       });
-    }
+  }
 
   /**
    * @function setLanguageTools - set language tools on the editor
@@ -270,12 +273,25 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
       enableBasicAutocompletion: true,
       enableLiveAutocompletion: true,
       enableSnippets: true,
-      fontSize: this.rowHeightMobile?'10px':'15px',
+      fontSize: this.rowHeightMobile ? '10px' : '15px',
     });
     this.aceEditor.session.setValue(this.query);
     this.aceEditor.on('change', () => {
       this.query = this.aceEditor.getValue();
     });
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    if (event.target.innerWidth < 739) {
+      this.aceEditor.setOptions({
+        fontSize: '10px',
+      });
+    } else {
+      this.aceEditor.setOptions({
+        fontSize: '15px',
+      });
+    }
   }
 
   /**
