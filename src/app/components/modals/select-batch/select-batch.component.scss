@@ -5,7 +5,12 @@
   .modal-content {
     @include modal-content;
     height: 400px !important;
-    width: 305px !important;
+    width: 286px !important;
+  }
+
+  .modal-parent{
+    padding-left: 22px !important;
+    padding-left: 22px !important;
   }
 
   .mat-dialog-content{
@@ -38,7 +43,7 @@
   .search-bar{
     float: left; 
     font-family: 'Inter';
-    width: 250px;
+    width: 232px;
     font-size: 10px !important;
   }
 
@@ -56,12 +61,12 @@
   }
 
   .second-search{
-    width: 250px;
+    width: 233px;
     font-size: 10px !important;
   }
 
   .date-picker-bar{
-    width: 250px;
+    width: 233px;
     margin-right: 0px; 
     font-size: 10px !important;
   }
@@ -85,15 +90,35 @@
 
   .mat-expansion-panel-header{
     padding: 0 9px !important;
-    font-size: 10px !important;
+    font-size: 6px !important;
   }
 
   .act-row{
-    font-size: 10px !important;
+    font-size: 0.3rem !important;
   }
 
   .data-text{
     margin-bottom: -20px !important;
+  }
+
+  .data-ul-list {
+    list-style-type: none;
+    position: relative;
+    margin-top: 15px;
+    margin-left: -6px;
+    line-height: 32px;
+    &:before {
+      content: "";
+      display: inline-block;
+      width: 3px;
+      background: $green;
+      position: absolute;
+      left: 15px;
+      top: 9px;
+      height: calc(100% - 10px);
+      font-family: 'Inter' !important;
+      font-size: 4px;
+    }
   }
 }
 
@@ -102,7 +127,12 @@
   .modal-content {
     @include modal-content;
     height: 400px !important;
-    width: 305px !important;
+    width: 286px !important;
+  }
+
+  .modal-parent{
+    padding-left: 22px !important;
+    padding-left: 22px !important;
   }
 
   .mat-dialog-content{
@@ -135,7 +165,7 @@
   .search-bar{
     float: left; 
     font-family: 'Inter';
-    width: 250px;
+    width: 232px;
     font-size: 10px;
   }
 
@@ -153,12 +183,12 @@
   }
 
   .second-search{
-    width: 250px;
+    width: 233px;
     font-size: 10px !important;
   }
   
   .date-picker-bar{
-    width: 250px;
+    width: 233px;
     margin-right: 0px; 
     font-size: 10px !important;
   }
@@ -181,15 +211,35 @@
 
   .mat-expansion-panel-header{
     padding: 0 9px !important;
-    font-size: 10px !important;
+    font-size: 6px !important;
   }
 
   .act-row{
-    font-size: 10px !important;
+    font-size: 0.3rem !important;
   }
 
   .data-text{
     margin-bottom: -20px !important;
+  }
+
+  .data-ul-list {
+    list-style-type: none;
+    position: relative;
+    margin-top: 15px;
+    margin-left: -6px;
+    line-height: 32px;
+    &:before {
+      content: "";
+      display: inline-block;
+      width: 3px;
+      background: $green;
+      position: absolute;
+      left: 15px;
+      top: 9px;
+      height: calc(100% - 10px);
+      font-family: 'Inter' !important;
+      font-size: 4px;
+    }
   }
 }
 
@@ -277,7 +327,7 @@
 
   .mat-expansion-panel-header{
     padding: 0 24px !important;
-    font-size: 15px !important;
+    font-size: 10px !important;
   }
 
   .act-row{
@@ -288,6 +338,23 @@
     margin-bottom: 0px !important;
   }
   
+  .data-ul-list {
+    list-style-type: none;
+    position: relative;
+    margin-top: -2px;
+    margin-left: -5px;
+    &:before {
+      content: "";
+      display: inline-block;
+      width: 3px;
+      background: $green;
+      position: absolute;
+      left: 15px;
+      top: 5px;
+      height: calc(100% - 10px);
+      font-family: 'Inter' !important;
+    }
+  }
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
@@ -384,6 +451,24 @@
   .data-text{
     margin-bottom: 0px !important;
   }
+
+  .data-ul-list {
+    list-style-type: none;
+    position: relative;
+    margin-top: -2px;
+    margin-left: -5px;
+    &:before {
+      content: "";
+      display: inline-block;
+      width: 3px;
+      background: $green;
+      position: absolute;
+      left: 15px;
+      top: 5px;
+      height: calc(100% - 10px);
+      font-family: 'Inter' !important;
+    }
+  }
 }
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
@@ -479,6 +564,24 @@
 
   .data-text{
     margin-bottom: 0px !important;
+  }
+
+  .data-ul-list {
+    list-style-type: none;
+    position: relative;
+    margin-top: -2px;
+    margin-left: -5px;
+    &:before {
+      content: "";
+      display: inline-block;
+      width: 3px;
+      background: $green;
+      position: absolute;
+      left: 15px;
+      top: 5px;
+      height: calc(100% - 10px);
+      font-family: 'Inter' !important;
+    }
   }
 }
 
@@ -821,24 +924,6 @@ mat-step {
 
 .data-sub-icon {
   transform: scale(0.6) rotate(-90deg);
-}
-
-.data-ul-list {
-  list-style-type: none;
-  position: relative;
-  margin-top: -2px;
-  margin-left: -5px;
-  &:before {
-    content: "";
-    display: inline-block;
-    width: 3px;
-    background: $green;
-    position: absolute;
-    left: 15px;
-    top: 5px;
-    height: calc(100% - 10px);
-    font-family: 'Inter' !important;
-  }
 }
 
 .tdp-added-date {
