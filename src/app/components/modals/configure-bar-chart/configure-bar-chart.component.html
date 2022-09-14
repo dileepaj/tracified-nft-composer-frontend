@@ -1,8 +1,8 @@
-<div class="modal-parent">
+<div class="modal-parent-query-editor">
   <mat-dialog-content class="mat-typography modal-content" fxLayout="row" disableClose>
     <mat-tab-group (selectedTabChange)="tabChanged($event)" fxFlex="100%" [(selectedIndex)]="tabIndex">
       <mat-tab label="Query">
-        <mat-grid-list cols="5" rowHeight="550px">
+        <mat-grid-list cols="5" [rowHeight]="rowHeightEditor">
           <!--Column that displays the bar chart-->
           <mat-grid-tile colspan="5" style="overflow: auto;">
             <app-ldaleditor [id]="barChart.WidgetId" [type]="'bar'" [query]="barChart.Query!" [widget]="barChart"
@@ -24,8 +24,8 @@
             <!--Column that displays the configuration panel-->
             <mat-grid-tile colspan="2" *ngIf="!rowHeightMobile" class="form-tile">
               <div class="form-div">
-                <h2>
-                  <mat-icon class="title-icon">tune</mat-icon>Configure Chart
+                <h2 class="configure-chart">
+                  <mat-icon class="title-icon-configure">tune</mat-icon>Configure Chart
                 </h2>
                 <div fxLayout="row wrap">
                   <mat-form-field appearance="fill" fxFlex="100%">
@@ -100,7 +100,7 @@
           <mat-grid-tile colspan="5" class="form-tile">
             <div class="form-div">
               <h2>
-                <mat-icon class="title-icon">tune</mat-icon>Configure Chart
+                <mat-icon class="title-icon-configure">tune</mat-icon>Configure Chart
               </h2>
               <div fxLayout="row wrap">
                 <mat-form-field appearance="fill" fxFlex="100%">
@@ -171,6 +171,7 @@
       </mat-tab>
     </mat-tab-group>
   </mat-dialog-content>
+  <div style="margin-right: 10px;">
   <mat-dialog-actions align="end">
     <button mat-button (click)="onCancel()" class="btn-cancel">Cancel</button>
 
@@ -181,4 +182,5 @@
       Save
     </button>
   </mat-dialog-actions>
+  </div>
 </div>

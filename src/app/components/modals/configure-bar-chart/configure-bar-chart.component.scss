@@ -7,6 +7,7 @@
 .btn {
   @include btn-primary;
 }
+
 ::ng-deep .mat-focused .mat-form-field-label {
   /*change color of label*/
   color: $green !important;
@@ -56,21 +57,90 @@
   margin: 50px;
 }
 
-@media only screen and (max-width: 768px) {
+.configure-chart{
+
+}
+
+@media only screen and (max-width: 880px) {
+  .modal-content {
+    width: 72vw;
+  }
+}
+
+@media only screen and (max-width: 729px) {
   .bar-chart-canvas {
     margin: 20px;
+  }
+  .modal-content {
+    width: 70vw;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .bar-chart-canvas {
+    margin: 20px;
+  }
+  .modal-content {
+    padding: 0px 9px;
+    width: 312px;
+  }
+}
+
+@media only screen and (max-width: 414px) {
+  .bar-chart-canvas {
+    margin: 20px;
+  }
+  .modal-content {
+    padding: 0px 9px;
+    width: 312px;
+  }
+}
+
+@media only screen and (max-width: 390px) {
+  .bar-chart-canvas {
+    margin: 20px;
+  }
+
+  .modal-content {
+    padding: 0px 0px;
+    width: 310px;
+  }
+
+  .bar-chart {
+    height: 100vh;
+    width: 100%;
+    overflow: auto;
+    display: flex;
+    align-items: center;
+  }
+}
+
+@media only screen and (max-width: 376px) {
+  .bar-chart-canvas {
+    margin: 20px;
+  }
+  .modal-content {
+    padding: 0px 0px;
+    width: 292px;
+  }
+  .bar-chart {
+    height: 100vh;
+    width: 100%;
+    overflow: auto;
+    display: flex;
+    align-items: center;
   }
 }
 
 .mat-form-field + .mat-form-field {
-  margin-left: 8px;
+  margin-left: 3px;
 }
 
 .mat-form-field {
   transform: scale(0.95);
 }
 
-.example-container .mat-form-field + .mat-form-field {
+.example-container {
   margin-left: 8px;
 }
 
@@ -115,6 +185,13 @@
   margin-right: 5px;
 }
 
+.title-icon-configure{
+  vertical-align: middle;
+  margin-right: 5px;
+  margin-left: 6px;
+
+}
+
 .fields-header {
   display: flex;
   flex-direction: row;
@@ -143,6 +220,7 @@
   background: #ccc;
   padding: 10px 10px 15px 10px;
   border-radius: 5px;
+  margin-left: 5px;
 }
 
 .mat-tab-group.mat-primary .mat-ink-bar {

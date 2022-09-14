@@ -249,7 +249,7 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
 
     //detect width
     private detectBreakpoint(): void {
-      this.breakpointObserver.observe(['(max-width: 720px)']).subscribe(result => {
+      this.breakpointObserver.observe(['(max-width: 739px)']).subscribe(result => {
         this.rowHeightMobile = result.matches
       });
     }
@@ -270,7 +270,7 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
       enableBasicAutocompletion: true,
       enableLiveAutocompletion: true,
       enableSnippets: true,
-      fontSize: '15px',
+      fontSize: this.rowHeightMobile?'10px':'15px',
     });
     this.aceEditor.session.setValue(this.query);
     this.aceEditor.on('change', () => {

@@ -5,6 +5,53 @@
   height: $queryIDEHeight;
 }
 
+@media only screen and (max-width: 900px) {
+  .ace-editor {
+    height: 350px;
+  }
+  .ldal-div {
+    width: 550px;
+  }
+}
+
+@media only screen and (max-width: 728px) {
+  .ldal-div {
+    width: 506px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .ldal-div {
+    padding-left: 15px;
+    width: 350px;
+  }
+}
+
+@media only screen and (max-width: 430px) {
+  .ldal-div {
+    padding-left: 15px;
+    width: 270px;
+    height: 500px;
+  }
+}
+
+@media only screen and (max-width: 390px) {
+  .ldal-div {
+    padding-left: 30px;
+    width: 250px;
+  }
+}
+
+@media only screen and (max-width: 376px) {
+  .ace-editor {
+    height: 250px;
+  }
+  .ldal-div {
+    padding-left: 20px;
+    width: 250px;
+  }
+}
+
 .ldal-div {
   display: flex;
   flex-direction: column;
@@ -13,6 +60,7 @@
   right: 0;
   left: 0;
   position: absolute;
+  height: fit-content;
 }
 
 .btn-execute {
@@ -84,6 +132,7 @@
 }
 
 .note {
+  word-wrap: break-word;
   font-family: 'Inter' !important;
   color: #212121;
   border-radius: 5px;

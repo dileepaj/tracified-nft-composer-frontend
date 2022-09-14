@@ -56,14 +56,79 @@
   margin: 50px;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 880px) {
+  .modal-content {
+    width: 72vw;
+  }
+}
+
+@media only screen and (max-width: 729px) {
   .bubble-chart-canvas {
     margin: 20px;
+  }
+  .modal-content {
+    width: 70vw;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .bubble-chart-canvas {
+    margin: 20px;
+  }
+  .modal-content {
+    padding: 0px 9px;
+    width: 312px;
+  }
+}
+
+@media only screen and (max-width: 414px) {
+  .bubble-chart-canvas {
+    margin: 20px;
+  }
+  .modal-content {
+    padding: 0px 9px;
+    width: 312px;
+  }
+}
+
+@media only screen and (max-width: 390px) {
+  .bubble-chart-canvas {
+    margin: 20px;
+  }
+
+  .modal-content {
+    padding: 0px 0px;
+    width: 310px;
+  }
+
+  .bubble-chart {
+    height: 100vh;
+    width: 100%;
+    overflow: auto;
+    display: flex;
+    align-items: center;
+  }
+}
+
+@media only screen and (max-width: 376px) {
+  .bubble-chart-canvas {
+    margin: 20px;
+  }
+  .modal-content {
+    padding: 0px 0px;
+    width: 292px;
+  }
+  .bubble-chart {
+    height: 100vh;
+    width: 100%;
+    overflow: auto;
+    display: flex;
+    align-items: center;
   }
 }
 
 .mat-form-field + .mat-form-field {
-  margin-left: 8px;
+  margin-left: 3px;
 }
 
 .mat-form-field {

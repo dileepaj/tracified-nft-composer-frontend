@@ -75,7 +75,7 @@ export class ConfigureBubbleChartComponent implements OnInit {
   rowHeight:string='550px';
   rowHeightMobile:boolean=false;
   colspan1:string;
-  colspan2:string;
+  rowHeightEditor:string='550px';
 
   constructor(
     private store: Store<AppState>,
@@ -102,11 +102,13 @@ export class ConfigureBubbleChartComponent implements OnInit {
 
     //detect width
     private detectBreakpoint(): void {
-      this.breakpointObserver.observe(['(max-width: 992px)']).subscribe(result => {
-        this.rowHeight = result.matches ? '250px' : '550px';
+      this.breakpointObserver.observe(['(max-width: 897px)']).subscribe(result => {
+        this.rowHeight = result.matches ? '350px' : '550px';
         this.rowHeightMobile=result.matches;
         this.colspan1=result.matches?'5':'3';
-        this.colspan2=result.matches?'5':'2';
+      });
+      this.breakpointObserver.observe(['(max-width: 376px)']).subscribe(result => {
+        this.rowHeightEditor=result.matches?'400px' : '500px';
       });
     }
     
