@@ -230,15 +230,48 @@ label {
   font-family: "Inter" !important;
 }
 
+.modal-footer {
+  width: 70vw;
+}
+
+
+@media only screen and (max-width: 3000px) {
+  .modal-content {
+    width: 70vw;
+  }
+  .modal-footer {
+    padding-bottom: 20px;
+    width: 70vw;
+  }
+}
+
+@media only screen and (max-width: 2000px) {
+  .modal-content {
+    width: 75vw;
+  }
+  .modal-footer {
+    width: 70vw;
+    padding-bottom: 20px;
+  }
+}
+
 @media only screen and (max-width: 1375px) {
   .modal-content {
-    width: 72vw;
+    width: 70vw;
+  }
+  .modal-footer {
+    padding-bottom: 20px;
+    width: 70vw;
   }
 }
 
 @media only screen and (max-width: 880px) {
   .modal-content {
     width: 72vw;
+  }
+  .modal-footer {
+    width: 79vw;
+    padding-bottom: 20px;
   }
 }
 
@@ -249,6 +282,10 @@ label {
   .modal-content {
     width: 70vw;
   }
+  .modal-footer {
+    padding-bottom: 20px;
+  }
+  
 }
 
 @media only screen and (max-width: 550px) {
@@ -257,25 +294,11 @@ label {
   }
   .modal-content {
     padding: 0px 9px;
-    width: 312px;
+    width: 70vw;
   }
-
-  .field mat-card {
-    display: flex;
-    flex-direction: column;
-    row-gap: 10px;
-    padding: 10px 10px 10px 10px !important;
-  }
-
-  .field-name-input {
-    max-width: 100px;
-  }
-
-  .input-set {
-    label {
-      max-width: 10px;
-      text-overflow: ellipsis;
-    }
+  .modal-footer {
+    width: 60vw;
+    padding-bottom: 20px;
   }
 }
 
@@ -287,23 +310,14 @@ label {
     padding: 0px 9px;
     width: 312px;
   }
-
-  .field mat-card {
-    display: flex;
-    flex-direction: column;
-    row-gap: 10px;
-    padding: 10px 10px 10px 10px !important;
+  .modal-footer {
+    width: 60vw;
+    padding-bottom: 20px;
   }
-
-  .field-name-input {
-    max-width: 100px;
-  }
-
-  .input-set {
-    label {
-      max-width: 10px;
-      text-overflow: ellipsis;
-    }
+}
+@media only screen and (max-width: 393px) {
+  .bar-chart-view{
+    width: 78vw;
   }
 }
 
@@ -324,23 +338,12 @@ label {
     display: flex;
     align-items: center;
   }
-
-  .field mat-card {
-    display: flex;
-    flex-direction: column;
-    row-gap: 10px;
-    padding: 10px 10px 10px 10px !important;
+  .modal-footer {
+    width: 60vw;
+    padding-bottom: 20px;
   }
-
-  .field-name-input {
-    max-width: 100px;
-  }
-
-  .input-set {
-    label {
-      max-width: 10px;
-      text-overflow: ellipsis;
-    }
+  .bar-chart-view{
+    width: 77vw;
   }
 }
 
@@ -352,30 +355,12 @@ label {
     padding: 0px 0px;
     width: 292px;
   }
-  .bar-chart {
-    height: 100vh;
-    width: 100%;
-    overflow: auto;
-    display: flex;
-    align-items: center;
+  .modal-footer {
+    width: 60vw;
+    padding-bottom: 20px;
   }
-
-  .field mat-card {
-    display: flex;
-    flex-direction: column;
-    row-gap: 10px;
-    padding: 10px 10px 10px 10px !important;
-  }
-
-  .field-name-input {
-    max-width: 100px;
-  }
-
-  .input-set {
-    label {
-      max-width: 10px;
-      text-overflow: ellipsis;
-    }
+  .bar-chart-view{
+    width: 78vw;
   }
 }
 

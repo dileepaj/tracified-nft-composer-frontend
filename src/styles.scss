@@ -36,16 +36,51 @@ body {
   font-family: "Inter" !important;
 }
 
+.modal-parent-query-editor21 {
+  font-family: "Inter" !important;
+  height: 79vh;
+  width: 74vw;
+}
+
 @media only screen and (max-width: 950px) {
   .modal-parent-query-editor {
     height: calc(100vh - 30vh);
   }
+
+  .modal-parent-query-editor21 {
+    font-family: "Inter" !important;
+    height: 79vh;
+    width: 73vw;
+  }
 }
 
+@media only screen and (max-width: 546px) {
+  .modal-parent-query-editor {
+    height: calc(100vh - 30vh);
+  }
+  .modal-parent-query-editor21 {
+    font-family: "Inter" !important;
+    height: 79vh;
+    width: 70vw;
+  }
+}
+
+@media only screen and (max-width: 414px) {
+  .modal-parent-query-editor21 {
+    font-family: "Inter" !important;
+    height: 79vh;
+    width: 69vw;
+  }
+}
 
 @media only screen and (max-width: 393px) {
   .modal-parent-query-editor {
     height: calc(100vh - 25vh);
+  }
+  .modal-parent-query-editor21 {
+    font-family: "Inter" !important;
+    height: 79vh;
+    width: 68vw;
   }
 }
 

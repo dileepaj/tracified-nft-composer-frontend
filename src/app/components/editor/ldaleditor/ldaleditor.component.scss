@@ -5,6 +5,91 @@
   height: $queryIDEHeight;
 }
 
+.ace-editor1 {
+  margin: 0%;
+  padding: 0%;
+  height: 50vh;
+}
+
+.ldal-div1 {
+  width: 70vw;
+}
+
+.ldal-header1{
+  height: 40px;
+}
+
+@media only screen and (max-width: 3000px) {
+  .ldal-div {
+    height: 550px;
+    width: 750px;
+  }
+  .ldal-div1 {
+    width: 70vw;
+  }
+  .ace-editor1 {
+    height: 67vh;
+  }
+}
+
+@media only screen and (max-width: 2000px) {
+  .ldal-div {
+    height: 550px;
+    width: 750px;
+  }
+  .ldal-div1 {
+    width: 70vw;
+  }
+  .ace-editor1 {
+    height: 50vh;
+  }
+}
+
+@media only screen and (max-width: 1600px) {
+  .ldal-div {
+    height: 550px;
+    width: 750px;
+  }
+  .ldal-div1 {
+    width: 70vw;
+  }
+  .ace-editor1 {
+    height: 40vh;
+  }
+}
+
+@media only screen and (max-width: 1375px) {
+  .modal-content {
+    width: 75vw;
+  }
+  .ace-editor1 {
+    height: 40vh;
+  }
+}
+
+@media only screen and (max-width: 1280px) {
+  .modal-content {
+    width: 76vw;
+  }
+  .ace-editor1 {
+    height: 40vh;
+  }
+}
+
+@media only screen and (max-width: 880px) {
+  .modal-content {
+    width: 79vw;
+  }
+  .ace-editor1 {
+    margin: 0%;
+    padding: 0%;
+    height: 50vh;
+  }
+  .ace-editor1 {
+    height: 40vh;
+  }
+}
+
 @media only screen and (max-width: 900px) {
   .ace-editor {
     height: 350px;
@@ -15,15 +100,40 @@
 }
 
 @media only screen and (max-width: 728px) {
+  .ace-editor {
+    height: 350px;
+  }
   .ldal-div {
     width: 506px;
+  }
+  .ace-editor1 {
+    height: 40vh;
   }
 }
 
 @media only screen and (max-width: 500px) {
   .ldal-div {
     padding-left: 15px;
-    width: 350px;
+    width: 270px;
+  }
+  .ldal-div1 {
+    width: 60vw;
+  }
+  .ace-editor1 {
+    height: 40vh;
+  }
+}
+
+@media only screen and (max-width: 485px) {
+  .ldal-div {
+    padding-left: 15px;
+    width: 270px;
+  }
+  .ldal-div1 {
+    width: 60vw;
+  }
+  .ace-editor1 {
+    height: 40vh;
   }
 }
 
@@ -33,12 +143,21 @@
     width: 270px;
     height: 500px;
   }
+  .ldal-div1 {
+    width: 60vw;
+  }
+  .ace-editor1 {
+    height: 40vh;
+  }
 }
 
 @media only screen and (max-width: 390px) {
   .ldal-div {
     padding-left: 30px;
     width: 250px;
+  }
+  .ldal-div1 {
+    width: 60vw;
   }
 }
 
@@ -50,22 +169,25 @@
     padding-left: 20px;
     width: 250px;
   }
+  .ldal-div1 {
+    width: 60vw;
+  }
+  .ace-editor1 {
+    height: 40vh;
+  }
 }
 
 .ldal-div {
-  display: flex;
-  flex-direction: column;
   top: 0;
   bottom: 0;
   right: 0;
   left: 0;
-  position: absolute;
   height: fit-content;
 }
 
 .btn-execute {
   margin: 5px;
-  color : #006D2D;
+  color: #006d2d;
   transform: scale(0.9);
   //float: right;
 }
@@ -92,8 +214,8 @@
   transform: scale(0.2);
 }
 
-
 .query-area {
+  height: 500px;
 }
 
 .results {
@@ -127,13 +249,14 @@
   margin-left: -10px;
   border-radius: 50%;
   border: 2px solid #ffffff;
-  border-top-color: #006D2D;
+  border-top-color: #006d2d;
   animation: spinner 0.8s linear infinite;
 }
 
 .note {
+  height: fit-content;
   word-wrap: break-word;
-  font-family: 'Inter' !important;
+  font-family: "Inter" !important;
   color: #212121;
   border-radius: 5px;
   font-size: smaller;
@@ -141,7 +264,6 @@
 }
 
 .note-icon {
-  vertical-align: middle;
   transform: scale(0.8);
 }
 

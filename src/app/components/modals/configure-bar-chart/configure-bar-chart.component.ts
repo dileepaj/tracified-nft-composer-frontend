@@ -103,7 +103,7 @@ export class ConfigureBarChartComponent implements OnInit {
   //detect width
   private detectBreakpoint(): void {
     this.breakpointObserver
-      .observe(['(max-width: 1375px)'])
+      .observe(['(max-width: 876px)'])
       .subscribe((result) => {
         this.rowHeight = result.matches ? '350px' : '550px';
         this.rowHeightMobile = result.matches;
@@ -114,8 +114,6 @@ export class ConfigureBarChartComponent implements OnInit {
       .subscribe((result) => {
         this.rowHeightEditor = result.matches ? '400px' : '500px';
       });
-
-    console.log('first', this.rowHeight);
   }
 
   /**
