@@ -22,6 +22,17 @@
   }
 }
 
+.btn-small {
+  font-size: 13px !important;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+  mat-icon {
+    transform: scale(0.8);
+    margin-right: 0px;
+    margin-left: -4px;
+  }
+}
+
 .spinner:before {
   content: "";
   box-sizing: border-box;

@@ -136,10 +136,8 @@
         </button>
       </div>
       <div 
-         ngClass.md="btn-container"
-        ngClass.gt-md="btn-container"
-        ngClass.lt-md="btn-container-mobile"
-      fxLayout="row wrap">
+        class="btn-container-composer"
+        fxLayout="row wrap">
         <button
           class="btn"
           mat-flat-button
@@ -149,7 +147,7 @@
           <mat-icon class="icon">save</mat-icon>
           <span [class.spinner]="saving"> </span>Save Project
         </button>
-        <div ngClass.lt-md="btn-container2">
+        <div class="btn-container2-composer">
           <button
           class="btn"
           mat-flat-button
@@ -177,6 +175,8 @@
           <span [class.spinner]="svgGenerated"> </span>Download SVG
         </button>
         </div>
+          
+        
       </div>
     </mat-drawer-content>
   </mat-drawer-container>

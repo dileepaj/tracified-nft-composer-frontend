@@ -9,9 +9,9 @@
         <label class="proofbot-data-field">Product Name: <b>{{ proofbot.ProductName }}</b></label>
         <label class="proofbot-data-field">Batch ID: <b>{{ data.BatchId }}</b></label>
         <label class="proofbot-data-field">Timestamp: <b>{{ data.Timestamp}}</b></label>
-        <label class="proofbot-data-field">Transaction ID: <b>{{ data.TxnHash }}</b></label>
+        <label class="proofbot-data-field">Transaction ID: <b>{{ data.TxnHash}}</b></label>
         <div class="available-proofs-div">
-          <label class="proofbot-data-field">Available Proofs: </label>
+        <label class="proofbot-data-field">Available Proofs: </label>
           <div *ngFor="let url of data.Urls" class="proof-chip">
             <mat-icon (click)="removeProofLink(data, url)" matRipple>close</mat-icon>
             <section style="

@@ -1,17 +1,136 @@
 @import "../../../../scss/mixins";
 @import "../../../../scss/variables";
 
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .modal-content {
+    @include modal-content;
+    width: 244px !important;
+  }
+
+  .content-div{
+    height: 371px;
+  }
+
+  .code-content{
+    height: 348px;
+    font-size: 14px;
+  }
+
+  h2{
+    font-size: 14px;
+  }
+
+  .btn-cancel{
+    font-size: 14px !important;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .modal-content {
+    @include modal-content;
+    width: 244px !important;
+  }
+
+  .content-div{
+    height: 371px;
+  }
+
+  .code-content{
+    height: 348px;
+    font-size: 14px;
+  }
+
+  h2{
+    font-size: 14px;
+  }
+
+  .btn-cancel{
+    font-size: 14px !important;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .modal-content {
+    @include modal-content;
+    width: 558px !important;
+  }
+
+  .content-div{
+    height: 371px;
+  }
+
+  .code-content{
+    height: 348px;
+  }
+
+  h2{
+    font-size: 16px;
+  }
+
+  .btn-cancel{
+    font-size: 16px !important;
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  .modal-content {
+    @include modal-content;
+    width: 1100px !important;
+  }
+
+  .content-div{
+    height: 371px;
+  }
+
+  .code-content{
+    height: 348px;
+  }
+
+  h2{
+    font-size: 18px;
+  }
+
+  .btn-cancel{
+    font-size: 1rem !important;
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  .modal-content {
+    @include modal-content;
+    width: 1100px !important;
+  }
+
+  .content-div{
+    height: 371px;
+  }
+
+  .code-content{
+    height: 348px;
+  }
+
+  h2{
+    font-size: 18px;
+  }
+
+  .btn-cancel{
+    font-size: 1rem !important;
+  }
+}
+
+
 .content-div {
   border: 2px solid #006D2D;
   border-radius: 8px 8px 8px 8px;
-  height: calc($modalHeight);
 }
-.modal-content {
-  @include modal-content;
-}
+
 .code-content {
   padding: 10px;
-  height: calc($modalHeight - 100px);
   width: auto;
   overflow: auto;
 }
@@ -53,5 +172,4 @@ h2{
   color: #c32d2d;
   font-family: 'Inter';
   font-weight: 400 !important;
-  font-size: 1rem !important;
 }

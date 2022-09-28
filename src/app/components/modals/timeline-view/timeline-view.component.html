@@ -4,83 +4,88 @@
       <div>
         <h2>Timeline</h2>
       </div>
-      <div class="inner-widge-div" *ngIf="childrenOne.length > 0">
-        <div class="content-div">
-          <div class="timeline-content">
-            <div class="timeline-outer-div" *ngIf="childrenOne.length > 0">
-              <div class="timeline-heading">
-                <label class="timeline-product"
-                  ><b>Product Name : </b>{{ timeline.ProductName }}</label
-                >
-                <label class="timeline-batch"
-                  ><b>Batch ID : </b>{{ timeline.BatchId }}</label
-                >
-              </div>
-              <div *ngFor="let childrenOne of childrenOne">
-                <div class="header">
-                  <div class="left">
-                    <img
-                      [src]="childrenOne.Icon"
-                      class="tl-v-icon"
-                      alt="icon"
-                    />
-                  </div>
-                  <div class="right">
-                    <h3 class="title" style="font-size: 17px">
-                      <b class="bold-title">{{ childrenOne.Title }}</b>
-                    </h3>
-                  </div>
+      <div class="timeline-wrapper">
+        <div class="inner-widge-div" *ngIf="childrenOne.length > 0">
+          <div class="content-div">
+            <div class="timeline-content">
+              <div class="timeline-outer-div" *ngIf="childrenOne.length > 0">
+                <div class="timeline-heading">
+                  <label class="timeline-product"
+                    ><b>Product Name : </b>{{ timeline.ProductName }}</label
+                  >
+                  <label class="timeline-batch"
+                    ><b>Batch ID : </b>{{ timeline.BatchId }}</label
+                  >
                 </div>
-                <div class="body timeline-item">
-                  <mat-card class="timeline-card card card-md card-border">
-                    <mat-card-content class="card-content card-content-md">
-                      <div class="timeline-text" *ngIf="childrenOne.Children.length === 0">
-                        <div>
-                          <h4 class="secondary-font">
-                            දිනය/தேதி
-                          </h4>
-                          <h4 class="primary-font">
-                            No date available
-                          </h4>
+                <div *ngFor="let childrenOne of childrenOne">
+                  <div class="header">
+                    <div class="left">
+                      <img
+                        [src]="childrenOne.Icon"
+                        class="tl-v-icon"
+                        alt="icon"
+                      />
+                    </div>
+                    <div class="right">
+                      <h3 class="title" style="font-size: 17px">
+                        <b class="bold-title">{{ childrenOne.Title }}</b>
+                      </h3>
+                    </div>
+                  </div>
+                  <div class="body timeline-item">
+                    <mat-card class="timeline-card card card-md card-border">
+                      <mat-card-content class="card-content card-content-md">
+                        <div
+                          class="timeline-text"
+                          *ngIf="childrenOne.Children.length === 0"
+                        >
+                          <div>
+                            <h4 class="secondary-font">දිනය/தேதி</h4>
+                            <h4 class="primary-font">No date available</h4>
+                          </div>
                         </div>
-                      </div>
-                      <div
-                        *ngFor="let childrenTwo of childrenOne.Children"
-                        class="timeline-text"
-                      >
-                        <div>
-                          <div *ngIf="childrenTwo.NewTDP; then thenBlock"></div>
-                          <ng-template #thenBlock>
-                            <div class="tdp-added-date">
-                              <label
-                                >Added :
-                                {{ convertDate(childrenTwo.Timestamp) }}</label
-                              >
-                            </div>
-                          </ng-template>
+                        <div
+                          *ngFor="let childrenTwo of childrenOne.Children"
+                          class="timeline-text"
+                        >
+                          <div>
+                            <div
+                              *ngIf="childrenTwo.NewTDP; then thenBlock"
+                            ></div>
+                            <ng-template #thenBlock>
+                              <div class="tdp-added-date">
+                                <label
+                                  >Added :
+                                  {{
+                                    convertDate(childrenTwo.Timestamp)
+                                  }}</label
+                                >
+                              </div>
+                            </ng-template>
+                          </div>
+                          <div style="margin-bottom: 10px">
+                            <label class="secondary-font">
+                              {{ childrenTwo.Key }} </label
+                            ><br />
+                            <label class="primary-font">
+                              {{ childrenTwo.Value }}
+                            </label>
+                          </div>
                         </div>
-                        <div style="margin-bottom: 10px">
-                          <label class="secondary-font">
-                            {{ childrenTwo.Key }} </label
-                          ><br />
-                          <label class="primary-font">
-                            {{ childrenTwo.Value }}
-                          </label>
+                        <div *ngIf="childrenOne.Images.length > 0">
+                          <div *ngFor="let images of childrenOne.Images">
+                            <img
+                              width="68px"
+                              height="68px"
+                              style="padding-left: 20% !important"
+                              [src]="images"
+                              alt="image"
+                            />
+                          </div>
                         </div>
-                      </div>
-                      <div *ngIf="childrenOne.Images.length > 0">
-                        <div *ngFor="let images of childrenOne.Images">
-                          <img
-                            width="68px"
-                            height="68px"
-                            style="padding-left: 20% !important"
-                            [src]="images"
-                            alt="image"
-                          />
-                        </div>
-                      </div>
-                    </mat-card-content>
-                  </mat-card>
+                      </mat-card-content>
+                    </mat-card>
+                  </div>
                 </div>
               </div>
             </div>
