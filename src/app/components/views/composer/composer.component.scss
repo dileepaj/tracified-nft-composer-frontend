@@ -284,13 +284,14 @@ mat-list-item {
   .btn{ 
     font-size: 9px !important;
     padding: 0 6px !important;
+    margin: 3px;
   }
   .btn-container-composer{
     display: flex;
     flex-direction: row;
     position: absolute;
     justify-content: end;
-    top: calc(97vh - 111px);
+    top: calc(96vh - 117px);
     right: 34px;
     margin-left: 5px;
     overflow-y: auto;
