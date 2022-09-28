@@ -1,4 +1,5 @@
 <div class="composer-div" cdkDropListGroup>
+
   <mat-drawer-container class="sidebar-container">
     <mat-drawer
       class="side-nav"
@@ -27,7 +28,6 @@
     </mat-drawer>
     <mat-drawer-content>
       <div
-        style="margin: 0px -10px -10px 0px"
         fxHide.lt-md="false"
         fxHide.md="true"
         fxHide.gt-md="true"
@@ -181,6 +181,7 @@
     </mat-drawer-content>
   </mat-drawer-container>
 </div>
+
 <div *ngIf="projLoading" class="loading-div">
   <mat-icon class="material-symbols-outlined"> more_horiz </mat-icon>
 </div>
