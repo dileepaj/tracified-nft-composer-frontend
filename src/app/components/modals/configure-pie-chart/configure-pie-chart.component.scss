@@ -206,16 +206,26 @@ mat-tab-group.mat-primary .mat-ink-bar {
   cursor: pointer;
   margin-left: 10px;
 }
+.modal-footer {
+  width: 70vw;
+}
 
 @media only screen and (max-width: 1375px) {
   .modal-content {
-    width: 72vw;
+    width: 70vw;
+  }
+  .modal-footer {
+    padding-bottom: 20px;
+    width: 70vw;
   }
 }
 
 @media only screen and (max-width: 880px) {
   .modal-content {
-    width: 72vw;
+    width: 70vw;
+  }
+  .modal-footer {
+    padding-bottom: 20px;
   }
 }
 
@@ -234,26 +244,12 @@ mat-tab-group.mat-primary .mat-ink-bar {
   }
   .modal-content {
     padding: 0px 9px;
-    width: 312px;
+    width: 70vw;
   }
-
-  .field mat-card {
-    display: flex;
-    flex-direction: column;
-    row-gap: 10px;
-    padding: 10px 10px 10px 10px !important;
-  }
-
-  .field-name-input {
-    max-width: 100px;
-  }
-
-  .input-set {
-    label {
-      max-width: 10px;
-      text-overflow: ellipsis;
-    }
-  }
+  .modal-footer {
+    width: 60vw;
+    padding-bottom: 20px;
+  } 
 }
 
 @media only screen and (max-width: 414px) {
@@ -264,23 +260,16 @@ mat-tab-group.mat-primary .mat-ink-bar {
     padding: 0px 9px;
     width: 312px;
   }
-
-  .field mat-card {
-    display: flex;
-    flex-direction: column;
-    row-gap: 10px;
-    padding: 10px 10px 10px 10px !important;
+  .modal-footer {
+    width: 60vw;
+    padding-bottom: 20px;
   }
+  
+}
 
-  .field-name-input {
-    max-width: 100px;
-  }
-
-  .input-set {
-    label {
-      max-width: 10px;
-      text-overflow: ellipsis;
-    }
+@media only screen and (max-width: 393px) {
+  .pie-chart-view{
+    width: 78vw;
   }
 }
 
@@ -301,24 +290,14 @@ mat-tab-group.mat-primary .mat-ink-bar {
     display: flex;
     align-items: center;
   }
-
-  .field mat-card {
-    display: flex;
-    flex-direction: column;
-    row-gap: 10px;
-    padding: 10px 10px 10px 10px !important;
+  .modal-footer {
+    width: 60vw;
+    padding-bottom: 20px;
   }
-
-  .field-name-input {
-    max-width: 100px;
+  .pie-chart-view{
+    width: 77vw;
   }
-
-  .input-set {
-    label {
-      max-width: 10px;
-      text-overflow: ellipsis;
-    }
-  }
+  
 }
 
 @media only screen and (max-width: 376px) {
@@ -329,29 +308,12 @@ mat-tab-group.mat-primary .mat-ink-bar {
     padding: 0px 0px;
     width: 292px;
   }
-  .pie-chart {
-    height: 100vh;
-    width: 100%;
-    overflow: auto;
-    display: flex;
-    align-items: center;
+  .modal-footer {
+    width: 60vw;
+    padding-bottom: 20px;
   }
-  .field mat-card {
-    display: flex;
-    flex-direction: column;
-    row-gap: 10px;
-    padding: 10px 10px 10px 10px !important;
-  }
-
-  .field-name-input {
-    max-width: 100px;
-  }
-
-  .input-set {
-    label {
-      max-width: 10px;
-      text-overflow: ellipsis;
-    }
+  .bar-chart-view{
+    width: 78vw;
   }
 }
 
@@ -360,4 +322,27 @@ mat-tab-group.mat-primary .mat-ink-bar {
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
+}
+
+
+
+
+@media only screen and (max-width: 3000px) {
+  .modal-content {
+    width: 70vw;
+  }
+  .modal-footer {
+    padding-bottom: 20px;
+    width: 70vw;
+  }
+}
+
+@media only screen and (max-width: 2000px) {
+  .modal-content {
+    width: 75vw;
+  }
+  .modal-footer {
+    width: 70vw;
+    padding-bottom: 20px;
+  }
 }

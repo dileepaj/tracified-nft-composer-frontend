@@ -112,7 +112,7 @@ export class ConfigurePieChartComponent implements OnInit {
   //detect width
   private detectBreakpoint(): void {
     this.breakpointObserver
-      .observe(['(max-width: 1375px)'])
+      .observe(['(max-width: 876px)'])
       .subscribe((result) => {
         this.rowHeight = result.matches ? '350px' : '550px';
         this.rowHeightMobile = result.matches;

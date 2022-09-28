@@ -1,18 +1,19 @@
-<div class="modal-parent">
-  <mat-dialog-content
+<div class="modal-parent-query-editor21"
+  fxLayout="column" fxLayoutAlign="space-between center"
+  >
+  <mat-dialog-content fxLayout="column" fxFlex="90"
     class="mat-typography modal-content"
-    fxLayout.="row"
     disableClose
   >
     <mat-tab-group
       (selectedTabChange)="tabChanged($event)"
       [(selectedIndex)]="tabIndex"
-      fxFlex="100%"
+      fxLayout="column" fxFlexFill
     >
-      <mat-tab label="Query">
-        <mat-grid-list cols="5" [rowHeight]="rowHeightEditor">
+      <mat-tab label="Query" fxLayout="row">
+        <mat-grid-list cols="5" rowHeight="60vh">
           <!--Column that displays the bar chart-->
-          <mat-grid-tile colspan="5" style="overflow: auto">
+          <mat-grid-tile colspan="5">
             <app-ldaleditor
               [id]="bubbleChart.WidgetId"
               [type]="'bubble'"
@@ -23,12 +24,12 @@
           </mat-grid-tile>
         </mat-grid-list>
       </mat-tab>
-      <mat-tab label="Chart Configuration" *ngIf="CheckQuerySavingStatus()">
-        <mat-grid-list cols="5" [rowHeight]="rowHeight">
+      <mat-tab label="Chart Configuration" fxLayout="row" *ngIf="CheckQuerySavingStatus()">
+        <mat-grid-list class="bubble-chart-view" cols="5" [rowHeight]="rowHeight">
           <!--Column that displays the bar chart-->
-          <mat-grid-tile [colspan]="colspan1">
+          <mat-grid-tile [colspan]="colspan1" fxLayoutAlign="center strat">
             <!--Bar chart-->
-            <div class="bubble-chart">
+            <div class="bubble-chart" fxLayoutAlign="center center">
               <canvas
                 baseChart
                 class="bubble-chart-canvas"
@@ -332,8 +333,8 @@
       </mat-tab>
     </mat-tab-group>
   </mat-dialog-content>
-  <div style="margin-right: 10px">
-    <mat-dialog-actions align="end">
+  <div class="modal-footer modal-footer-btn" fxLayout="raw" fxLayoutAlign="end center">>
+    <mat-dialog-actions fxLayoutAlign="end center">
       <button mat-button (click)="onCancel()" class="btn-cancel">Cancel</button>
 
       <button
