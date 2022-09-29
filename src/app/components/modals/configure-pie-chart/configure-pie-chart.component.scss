@@ -42,6 +42,13 @@
   flex-direction: row;
 }
 
+.field-card {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  height: fit-content;
+}
+
 .pie-chart {
   height: 100vh;
   width: 100%;
@@ -56,21 +63,15 @@
   margin: 150px 50px 150px 50px;
 }
 
-@media only screen and (max-width: 768px) {
-  .pie-chart-canvas {
-    margin: 150px 50px 150px 50px;
-  }
-}
-
 .mat-form-field + .mat-form-field {
-  margin-left: 8px;
+  margin-left: 3px;
 }
 
 .mat-form-field {
   transform: scale(0.95);
 }
 
-.example-container .mat-form-field + .mat-form-field {
+.example-container {
   margin-left: 8px;
 }
 
@@ -91,14 +92,6 @@
   width: 190px !important;
 }
 
-.colorbox {
-  margin-top: 2px;
-  height: 50px;
-  width: 50px;
-  cursor: pointer;
-  margin-left: 20px;
-}
-
 .field-set {
   display: flex;
   flex-direction: row;
@@ -113,6 +106,7 @@
 .title-icon {
   vertical-align: middle;
   margin-right: 5px;
+  margin-left: 6px;
 }
 
 .fields-header {
@@ -129,13 +123,21 @@
 .field mat-card {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 1px 1px 1px 15px !important;
+}
+.colorbox {
+  height: 50px;
+  width: 50px;
+  cursor: pointer;
 }
 
-.field .colorbox {
-  position: absolute;
-  right: 1.5px;
-  top: 1.5px;
-  bottom: 0;
+.colorbox-font {
+  height: 50px;
+  width: 50px;
+  cursor: pointer;
+  margin-left: 10px;
 }
 
 .pie-chart-fields {
@@ -143,6 +145,7 @@
   background: #ccc;
   padding: 10px 10px 15px 10px;
   border-radius: 5px;
+  margin-left: 5px;
 }
 
 mat-tab-group.mat-primary .mat-ink-bar {
@@ -167,11 +170,9 @@ mat-tab-group.mat-primary .mat-ink-bar {
   margin-left: -10px;
   border-radius: 50%;
   border: 2px solid #ffffff;
-  border-top-color: #006D2D;
+  border-top-color: #006d2d;
   animation: spinner 0.8s linear infinite;
 }
-
-
 
 .field-name-input input[type="text"] {
   border-bottom: 1px solid #cdcdcd;
@@ -197,4 +198,151 @@ mat-tab-group.mat-primary .mat-ink-bar {
 .btn:disabled {
   background-color: whitesmoke;
   color: #ccc !important;
+}
+
+.colorbox-font {
+  height: 50px;
+  width: 50px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+.modal-footer {
+  width: 70vw;
+}
+
+@media only screen and (max-width: 1375px) {
+  .modal-content {
+    width: 70vw;
+  }
+  .modal-footer {
+    padding-bottom: 20px;
+    width: 70vw;
+  }
+}
+
+@media only screen and (max-width: 880px) {
+  .modal-content {
+    width: 70vw;
+  }
+  .modal-footer {
+    padding-bottom: 20px;
+  }
+}
+
+@media only screen and (max-width: 729px) {
+  .pie-chart-canvas {
+    margin: 150px 50px 150px 50px;
+  }
+  .modal-content {
+    width: 70vw;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .pie-chart-canvas {
+    margin: 150px 50px 150px 50px;
+  }
+  .modal-content {
+    padding: 0px 9px;
+    width: 70vw;
+  }
+  .modal-footer {
+    width: 60vw;
+    padding-bottom: 20px;
+  } 
+}
+
+@media only screen and (max-width: 414px) {
+  .pie-chart-canvas {
+    margin: 150px 50px 150px 50px;
+  }
+  .modal-content {
+    padding: 0px 9px;
+    width: 312px;
+  }
+  .modal-footer {
+    width: 60vw;
+    padding-bottom: 20px;
+  }
+  
+}
+
+@media only screen and (max-width: 393px) {
+  .pie-chart-view{
+    width: 78vw;
+  }
+}
+
+@media only screen and (max-width: 390px) {
+  .pie-chart-canvas {
+    margin: 150px 50px 150px 50px;
+  }
+
+  .modal-content {
+    padding: 0px 0px;
+    width: 310px;
+  }
+
+  .pie-chart {
+    height: 100vh;
+    width: 100%;
+    overflow: auto;
+    display: flex;
+    align-items: center;
+  }
+  .modal-footer {
+    width: 60vw;
+    padding-bottom: 20px;
+  }
+  .pie-chart-view{
+    width: 77vw;
+  }
+  
+}
+
+@media only screen and (max-width: 376px) {
+  .pie-chart-canvas {
+    margin: 150px 50px 150px 50px;
+  }
+  .modal-content {
+    padding: 0px 0px;
+    width: 292px;
+  }
+  .modal-footer {
+    width: 60vw;
+    padding-bottom: 20px;
+  }
+  .bar-chart-view{
+    width: 78vw;
+  }
+}
+
+.input-set {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+
+
+
+@media only screen and (max-width: 3000px) {
+  .modal-content {
+    width: 70vw;
+  }
+  .modal-footer {
+    padding-bottom: 20px;
+    width: 70vw;
+  }
+}
+
+@media only screen and (max-width: 2000px) {
+  .modal-content {
+    width: 75vw;
+  }
+  .modal-footer {
+    width: 70vw;
+    padding-bottom: 20px;
+  }
 }
