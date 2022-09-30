@@ -114,6 +114,8 @@
   overflow-y: auto;
 }
 
+
+
 .list {
   display: flex;
   flex-direction: column;
@@ -292,6 +294,16 @@ mat-list-item {
     position: absolute;
     justify-content: end;
     top: calc(96vh - 117px);
+    right: 34px;
+    margin-left: 5px;
+    overflow-y: auto;
+  }
+  .btn-container{
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    justify-content: end;
+    top: calc(98vh - 111px);
     right: 34px;
     margin-left: 5px;
     overflow-y: auto;
