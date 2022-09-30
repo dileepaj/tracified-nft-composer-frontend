@@ -1,4 +1,5 @@
 <div class="composer-div" cdkDropListGroup>
+
   <mat-drawer-container class="sidebar-container">
     <mat-drawer
       class="side-nav"
@@ -27,7 +28,6 @@
     </mat-drawer>
     <mat-drawer-content>
       <div
-        style="margin: 0px -10px -10px 0px"
         fxHide.lt-md="false"
         fxHide.md="true"
         fxHide.gt-md="true"
@@ -136,8 +136,8 @@
         </button>
       </div>
       <div 
-         class="btn-container"
-      fxLayout="row wrap">
+        class="btn-container-composer"
+        fxLayout="row wrap">
         <button
           class="btn"
           mat-flat-button
@@ -147,7 +147,7 @@
           <mat-icon class="icon">save</mat-icon>
           <span [class.spinner]="saving"> </span>Save Project
         </button>
-        <div ngClass.lt-md="btn-container2">
+        <div class="btn-container2-composer">
           <button
           class="btn"
           mat-flat-button
@@ -175,10 +175,13 @@
           <span [class.spinner]="svgGenerated"> </span>Download SVG
         </button>
         </div>
+          
+        
       </div>
     </mat-drawer-content>
   </mat-drawer-container>
 </div>
+
 <div *ngIf="projLoading" class="loading-div">
   <mat-icon class="material-symbols-outlined"> more_horiz </mat-icon>
 </div>

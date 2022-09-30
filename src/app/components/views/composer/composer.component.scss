@@ -103,7 +103,7 @@
   line-height: 15px !important;
 }
 
-.btn-container {
+.btn-container-composer{
   display: flex;
   flex-direction: row;
   position: absolute;
@@ -113,6 +113,7 @@
   margin-left: 5px;
   overflow-y: auto;
 }
+
 
 
 .list {
@@ -285,6 +286,17 @@ mat-list-item {
   .btn{ 
     font-size: 9px !important;
     padding: 0 6px !important;
+    margin: 3px;
+  }
+  .btn-container-composer{
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    justify-content: end;
+    top: calc(96vh - 117px);
+    right: 34px;
+    margin-left: 5px;
+    overflow-y: auto;
   }
   .btn-container{
     display: flex;
@@ -315,6 +327,16 @@ mat-list-item {
     font-size: 9px;
     padding: 0 6px !important;
   }
+  .btn-container-composer{
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    justify-content: end;
+    top: calc(97vh - 111px);
+    right: 34px;
+    margin-left: 5px;
+    overflow-y: auto;
+}
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
@@ -333,6 +355,18 @@ mat-list-item {
     font-size: 12px !important;
     padding: 0 8px !important;
   }
+  .btn-container-composer{
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    justify-content: end;
+    top: calc(100vh - 110px);
+    right: 34px;
+    margin-left: 5px;
+    overflow-y: auto;
+    width:max-content
+  }
+  
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
@@ -351,6 +385,16 @@ mat-list-item {
     font-size: 12px !important;
     padding: 0 8px !important;
   }
+  .btn-container-composer{
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    justify-content: end;
+    top: calc(100vh - 110px);
+    right: 34px;
+    margin-left: 5px;
+    overflow-y: auto;
+  }
 }
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
@@ -368,6 +412,16 @@ mat-list-item {
   .btn{
     font-size: 12px !important;
     padding: 0 8px !important;
+  }
+  .btn-container-composer{
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    justify-content: end;
+    top: calc(100vh - 110px);
+    right: 34px;
+    margin-left: 5px;
+    overflow-y: auto;
   }
 }
 

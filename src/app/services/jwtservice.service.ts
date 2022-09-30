@@ -6,6 +6,7 @@ import { environment } from '../../environments/environment';
 import { AES, enc } from 'crypto-js';
 import jwt_decode from 'jwt-decode';
 import { ComposerUser } from 'src/models/user';
+import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root',
 })
@@ -14,7 +15,7 @@ export class JwtserviceService {
   private expName: string;
   private domain: string;
   private key = new Key();
-  constructor(private _cookieService: CookieService) {
+  constructor(private _cookieService: CookieService,private router: Router) {
     if (environment.name == 'production') {
       this.tokenName = 'PTOKENCOMNFT';
       this.expName = 'PWAITCOMNFT';
@@ -69,7 +70,7 @@ export class JwtserviceService {
       Country: decoded.locale,
       Domain: decoded.domain,
     };
-    sessionStorage.setItem('User', JSON.stringify(user1));
+    //sessionStorage.setItem('User', JSON.stringify(user1));
   }
 
   public destroyToken() {
@@ -98,4 +99,26 @@ export class JwtserviceService {
       return '00000';
     }
   }
+
+  public getUser(): any {
+    let token = this.getToken()
+    if (!!token) {
+      let decoded: any = jwt_decode(token, { header: false });
+      let user:ComposerUser = {
+        UserID: decoded.userID,
+        UserName: decoded.username,
+        Email: decoded.email,
+        TenentId: decoded.tenantID,
+        displayImage: decoded.displayImage,
+        Company: decoded.company,
+        Type: decoded.type,
+        Country: decoded.locale, 
+        Domain: decoded.domain,
+      };
+      return user
+    } else {
+      return this.router.navigate([`/login`])
+    }
+  }
+
 }
