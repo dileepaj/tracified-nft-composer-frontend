@@ -228,18 +228,36 @@
                                   CamelcaseToWord(data.key)
                                 }}</strong></label
                               >
-                              <ul class="data-ul-list">
+                             <ul class="data-ul-list">
                                 <li *ngFor="let d of getKeyArray(data.val)">
                                   <label class="data-text"
                                     ><mat-icon class="data-sub-icon">
                                       expand_circle_down </mat-icon
                                     ><strong
                                       >{{ CamelcaseToWord(d) }} -
-                                    </strong>
-                                    {{ data.val[d] }}</label
+                                    </strong><div class="sdata">{{ data.val[d] }}</div>
+                                    </label
                                   >
                                 </li>
                               </ul>
+                              <!--<table class="data-ul-list" >
+                                <tbody >
+                                  <tr class="data-text" *ngFor="let d of getKeyArray(data.val)">
+                                    <td>
+                                      <mat-icon class="data-sub-icon">
+                                        expand_circle_down </mat-icon>
+                                    </td>
+                                    <td>
+                                      <strong
+                                      >{{ CamelcaseToWord(d) }}-
+                                    </strong>
+                                    </td>
+                                    <td>
+                                      {{ data.val[d] }}
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>-->
                             </div>
                             <label *ngIf="data.type === 3" class="data-text">
                               <mat-icon class="data-icon"> adjust </mat-icon>

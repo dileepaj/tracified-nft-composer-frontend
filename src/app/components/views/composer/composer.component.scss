@@ -113,16 +113,7 @@
   margin-left: 5px;
   overflow-y: auto;
 }
-.btn-container-mobile{
-  display: flex;
-  flex-direction: row;
-  position: absolute;
-  justify-content: end;
-  top: calc(98vh - 110px);
-  right: 34px;
-  margin-left: 5px;
-  overflow-y: auto;
-}
+
 
 .list {
   display: flex;
@@ -294,6 +285,16 @@ mat-list-item {
   .btn{ 
     font-size: 9px !important;
     padding: 0 6px !important;
+  }
+  .btn-container{
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    justify-content: end;
+    top: calc(98vh - 111px);
+    right: 34px;
+    margin-left: 5px;
+    overflow-y: auto;
   }
 }
 
