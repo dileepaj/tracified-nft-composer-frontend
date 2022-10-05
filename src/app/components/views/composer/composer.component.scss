@@ -269,9 +269,8 @@ mat-list-item {
 .widget-div {
   padding-bottom: 10px !important;
 }
-
-/* Extra small devices (phones, 600px and down) */
-@media only screen and (max-width: 600px) {
+/* Extra small devices (phones, 400px and down) */
+@media only screen and (max-width: 380px) {
   .drap-and-drop-area {
     margin: 20px;
     // margin-right: -5px !important;
@@ -293,7 +292,7 @@ mat-list-item {
     flex-direction: row;
     position: absolute;
     justify-content: end;
-    top: calc(96vh - 117px);
+    top: calc(94vh - 72px);
     right: 34px;
     margin-left: 5px;
     overflow-y: auto;
@@ -309,6 +308,48 @@ mat-list-item {
     overflow-y: auto;
   }
 }
+
+/* Extra small devices (phones, 375px and up) */
+@media only screen and (min-width: 380px) {
+  .drap-and-drop-area {
+    margin: 20px;
+    // margin-right: -5px !important;
+    position: absolute;
+    left: 0;
+    right: 0px;
+    bottom: 0px;
+    top: 0px;
+    border: solid $gray 2px;
+  }
+
+  .btn{ 
+    font-size: 9px !important;
+    padding: 0 6px !important;
+    margin: 3px;
+  }
+  .btn-container-composer{
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    justify-content: end;
+    top: calc(94vh - 62px);
+    right: 34px;
+    margin-left: 5px;
+    overflow-y: auto;
+  }
+  .btn-container{
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    justify-content: end;
+    top: calc(98vh - 111px);
+    right: 34px;
+    margin-left: 5px;
+    overflow-y: auto;
+  }
+}
+
+
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
