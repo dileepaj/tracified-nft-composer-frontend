@@ -1,19 +1,35 @@
-<div class="modal-parent-query-editor">
-  <mat-dialog-content class="mat-typography modal-content" fxLayout="row" disableClose>
-    <mat-tab-group (selectedTabChange)="tabChanged($event)" [(selectedIndex)]="tabIndex" fxFlex="100%">
-      <mat-tab label="Query">
-        <mat-grid-list cols="5" [rowHeight]="rowHeightEditor">
-          <!--Column that displays the table-->
-          <mat-grid-tile colspan="5" style="overflow: auto">
-            <app-ldaleditor [id]="table.WidgetId" [type]="'table'" [query]="table.Query!" [widget]="table"
-              (onQueryResult)="onQueryResult($event)"></app-ldaleditor>
+<div class="modal-parent-query-editor21"
+fxLayout="column" fxLayoutAlign="space-between center">
+  <mat-dialog-content
+  fxLayout="column" fxFlex="90"
+  class="mat-typography modal-content"
+  fxLayout.="row"
+  disableClose
+>
+  <mat-tab-group
+    (selectedTabChange)="tabChanged($event)"
+    [(selectedIndex)]="tabIndex"
+    fxLayout="column" fxFlexFill
+  >
+      <mat-tab label="Query" fxLayout="row">
+        <mat-grid-list cols="5" rowHeight="60vh">
+          <!--Column that displayrowHeight="60vh"s the table-->
+          <mat-grid-tile colspan="5" >
+            <app-ldaleditor 
+              [id]="table.WidgetId" 
+              [type]="'table'" 
+              [query]="table.Query!" 
+              [widget]="table"
+              (onQueryResult)="onQueryResult($event)">
+            </app-ldaleditor>
           </mat-grid-tile>
         </mat-grid-list>
       </mat-tab>
       <mat-tab label="Table Configuration" *ngIf="CheckQuerySavingStatus()">
-        <mat-grid-list cols="5" [rowHeight]="rowHeight" >
+        <mat-grid-list class="table-chart-view" 
+        cols="5" [rowHeight]="rowHeight" >
           <!--Column that displays the table-->
-          <mat-grid-tile [colspan]="colspan1">
+          <mat-grid-tile [colspan]="colspan1" fxLayoutAlign="center center">
             <!--table-->
             <div class="table" [innerHTML]="tableHtml"></div>
           </mat-grid-tile>
@@ -54,8 +70,8 @@
       </mat-tab>
     </mat-tab-group>
   </mat-dialog-content>
-  <div style="margin-right: 10px;">
-  <mat-dialog-actions align="end">
+  <div  class="modal-footer modal-footer-btn" fxLayout="raw" fxLayoutAlign="end center">
+  <mat-dialog-actions fxLayoutAlign="end center">
     <button mat-button (click)="onCancel()" class="btn-cancel">Cancel</button>
 
     <button mat-button [disabled]="saving || !querySuccess" class="btn" (click)="updateReduxState()" cdkFocusInitial>
