@@ -366,7 +366,7 @@
 @media only screen and (min-width: 992px) {
   .modal-content {
     @include modal-content;
-    height: 600px !important;
+    height: 400px !important;
     width: 1100px !important;
   }
 
@@ -481,7 +481,7 @@
 @media only screen and (min-width: 1200px) {
   .modal-content {
     @include modal-content;
-    height: 600px !important;
+    height: 400px !important;
     width: 1100px !important;
   }
 
