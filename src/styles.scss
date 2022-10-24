@@ -52,6 +52,11 @@ body {
     height: 79vh;
     width: 73vw;
   }
+  .mat-grid-tile-content{
+    display: flex;
+    flex-wrap: wrap;
+    overflow-y: auto;
+  }
 }
 
 @media only screen and (max-width: 546px) {
@@ -63,6 +68,11 @@ body {
     height: 79vh;
     width: 70vw;
   }
+  .mat-grid-tile-content{
+    display: flex;
+    flex-wrap: wrap;
+    overflow-y: auto;
+  }
 }
 
 @media only screen and (max-width: 414px) {
@@ -70,6 +80,11 @@ body {
     font-family: "Inter" !important;
     height: 79vh;
     width: 69vw;
+  }
+  .mat-grid-tile-content{
+    display: flex;
+    flex-wrap: wrap;
+    overflow-y: auto;
   }
 }
 
@@ -81,6 +96,11 @@ body {
     font-family: "Inter" !important;
     height: 79vh;
     width: 68vw;
+  }
+  .mat-grid-tile-content{
+    display: flex;
+    flex-wrap: wrap;
+    overflow-y: auto;
   }
 }
 

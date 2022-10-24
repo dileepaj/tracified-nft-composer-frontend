@@ -89,6 +89,7 @@
   }
   .ace-editor1 {
     height: 40vh;
+    
   }
   .ldal-div {
     height: 550px;
@@ -206,6 +207,14 @@
   }
   .ace-editor1 {
     height: 40vh;
+  }
+  .output {
+    background: #212121;
+    height: $queryIDEHeight;
+    overflow: auto;
+    font-family: Courier New;
+    color: white;
+    padding: 10px;
   }
 }
 
