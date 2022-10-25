@@ -118,6 +118,7 @@ export class CloseProjectComponent implements OnInit {
           this.store.dispatch(projectStatus({ status: false }));
           this.saving = false;
           if (this.onLogout) {
+            this.jwt.destroyToken();
             this.router.navigate(['/login']);
             sessionStorage.setItem('Token', '');
           } else {
