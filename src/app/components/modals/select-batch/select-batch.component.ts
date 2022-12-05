@@ -266,6 +266,16 @@ export class SelectBatchComponent implements OnInit {
     }
   }
 
+  public checkType(x:any) {
+    if (typeof x === 'object' && JSON.stringify(x).startsWith('{')) {
+        return 'object';
+    } else if (Array.isArray(x)) {
+        return 'array';
+    } else {
+        return typeof x;
+    }
+}
+
   /**
    * @function openWidgetContent - open widget content
    */
