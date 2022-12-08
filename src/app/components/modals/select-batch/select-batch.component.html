@@ -141,7 +141,7 @@
                       <div *ngIf="stage.stageId === item.stageID" fxLayout="row wrap" class="tdp-stage-div">
                         <div *ngFor="let tdp of item.traceabilityDataPackets" class="tdp" fxFlex="100%">
                           <div class="tdp-added-date">
-                            <label>Added:</label>
+                            <label>Added : &nbsp;</label>
                             {{ convertDate(tdp.timestamp) }}
                           </div>
                           <div *ngFor="let data of tdp.traceabilityData">
@@ -156,7 +156,7 @@
                                 <li *ngFor="let d of getKeyArray(data.val)">
                                   <label class="data-text">
                                     <mat-icon class="data-sub-icon">
-                                      expand_circle_down </mat-icon><strong>{{ CamelcaseToWord(d) }} :
+                                      expand_circle_down </mat-icon><strong>{{ CamelcaseToWord(d) }} :&nbsp;
                                     </strong>
                                     <div class="sdata">{{ data.val[d] }}</div>
                                   </label>
@@ -183,7 +183,7 @@
                             </div>
                             <label *ngIf="data.type === 3" class="data-text">
                               <mat-icon class="data-icon"> adjust </mat-icon>
-                              <strong>{{ CamelcaseToWord(data.key) }} : </strong>
+                              <strong>{{ CamelcaseToWord(data.key) }} : &nbsp;</strong>
                               {{ convertDate(data.val) }}
                             </label>
                             <div *ngIf="data.type === 4">
@@ -198,33 +198,33 @@
                                 <li>
                                   <label class="data-text">
                                     <mat-icon class="data-sub-icon">
-                                      expand_circle_down </mat-icon><strong>{{ "Lat" }} :
+                                      expand_circle_down </mat-icon><strong>{{ "Lat" }} :&nbsp;
                                     </strong>
                                     <div class="sdata">{{ data.val[d].geoCode.lat}}</div>
                                   </label>
                                   <label class="data-text">
                                     <mat-icon class="data-sub-icon">
-                                      expand_circle_down </mat-icon><strong>{{ "Long" }} :
+                                      expand_circle_down </mat-icon><strong>{{ "Long" }} :&nbsp;
                                     </strong>
                                     <div class="sdata">{{ data.val[d].geoCode.long}}</div>
                                   </label>
                                   <label class="data-text">
                                     <mat-icon class="data-sub-icon">
-                                      expand_circle_down </mat-icon><strong>{{ "Description" }} :
+                                      expand_circle_down </mat-icon><strong>{{ "Description" }} :&nbsp;
                                     </strong>
                                     <div class="sdata">{{
-                                      !!data.val[d].description?data.val[d].description :"No Description"
+                                      !!data.val[d].description?data.val[d].description : "No Description"
                                       }}</div>
                                   </label>
                                 </li>
                                 <div>
-                                  <img src="{{ data.val[d].image}}" width="200px" height="auto" alt="">
+                                  <img src="{{ data.val[d].image}}" style="width:300px; height: auto;" alt="">
                                 </div>
                               </ul>
                             </div>
                             <label *ngIf="data.type !== 6 && data.type !== 3 && data.type !== 4" class="data-text">
                               <mat-icon class="data-icon"> adjust </mat-icon>
-                              <strong>{{ CamelcaseToWord(data.key) }} : </strong>
+                              <strong>{{ CamelcaseToWord(data.key) }} : &nbsp;</strong>
                               {{ data.val }}
                             </label>
                             <br />
