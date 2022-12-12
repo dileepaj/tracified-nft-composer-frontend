@@ -228,7 +228,7 @@ mat-tab-group.mat-primary .mat-ink-bar {
     margin: -128px 50px 0px 50px;
   }
   .mat-grid-tile-content{
-    overflow-y: hidden;
+    overflow-y: auto;
   }
 }
 
@@ -340,14 +340,14 @@ mat-tab-group.mat-primary .mat-ink-bar {
     width: 78vw;
   }
   .mat-grid-tile-content{
-    overflow-y: hidden;
+    overflow-y: auto;
   }
-  .colorbox-font {
+  .colorbox {
     height: 50px;
     width: 50px;
-    padding-top: 2px;
     cursor: pointer;
-    margin-left: 10px;
+    padding-top: 2px;
+
   }
   .field mat-card {
     display: flex;

@@ -364,6 +364,21 @@ label {
   .bar-chart-view{
     width: 78vw;
   }
+  .colorbox {
+    height: 50px;
+    width: 50px;
+    cursor: pointer;
+    padding-top: 2px;
+
+  }
+  .field mat-card {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    padding: 1px 1px 1px 5px !important;
+  }
+  
 }
 
 .input-set {
