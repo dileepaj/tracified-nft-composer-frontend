@@ -519,6 +519,7 @@ export class ConfigurePieChartComponent implements OnInit {
           legend: {
             display: true,
             position: 'bottom',
+            align:'start',
             labels: {
               font: { size: this.fontSize },
               color: this.fontColor,
