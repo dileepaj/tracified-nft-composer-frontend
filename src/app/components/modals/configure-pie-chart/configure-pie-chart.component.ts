@@ -516,6 +516,10 @@ export class ConfigurePieChartComponent implements OnInit {
         },
         responsive: true,
         plugins: {
+          title:{
+            display:true,
+            text: this.title,
+          },
           legend: {
             display: true,
             position: 'bottom',
