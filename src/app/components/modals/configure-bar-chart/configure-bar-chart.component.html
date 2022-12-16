@@ -28,7 +28,8 @@
           <mat-grid-tile  [colspan]="colspan1"  fxLayoutAlign="center strat">
             <!--Bar chart-->
             <div class="bar-chart1" fxLayoutAlign="center center">
-              <canvas baseChart  [id]="'bar-chart'" class="bar-chart-canvas">
+            
+              <canvas baseChart [ngClass]="screenSize < 550 ? 'no' : 'bar-chart-canvas'"  [id]="'bar-chart'">
               </canvas>
             </div>
           </mat-grid-tile>
@@ -85,20 +86,19 @@
                     matInput
                     type="number"
                     placeholder="Ex. 12"
-                    max=14
-                    min=2
-                   
+                    [max]='15'
+                    [min]='2' 
                     [(ngModel)]="fontSize"
                     (ngModelChange)="drawChart()"
                   />
                   <span matSuffix>px</span>
                 </mat-form-field>
-                <div
+                <!-- <div
                   class="colorbox-font"
                   [(colorPicker)]="fontColor"
                   [style.background]="fontColor"
                   (colorPickerChange)="drawChart()"
-                ></div>
+                ></div> -->
               </div>
 
               <!--Values displayed in the bar chart-->
@@ -184,6 +184,7 @@
               <h2>
                 <mat-icon class="title-icon-configure">tune</mat-icon>Configure
                 Chart
+                {{screenSize}}
               </h2>
               <div fxLayout="row wrap">
                 <mat-form-field appearance="fill" fxFlex="100%">
@@ -229,9 +230,8 @@
                     matInput
                     type="number"
                     placeholder="Ex. 12"
-                    [max]="14"
-                    [min]="1"
-                    (keydown)="fontSizeInput($event)"
+                    [max]='15'
+                    [min]='2' 
                     [(ngModel)]="fontSize"
                     (ngModelChange)="drawChart()"
                   />

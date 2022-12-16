@@ -519,6 +519,9 @@ export class ConfigurePieChartComponent implements OnInit {
           title:{
             display:true,
             text: this.title,
+            font: {
+              size: this.fontSize,
+            },
           },
           legend: {
             display: true,
