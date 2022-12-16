@@ -54,9 +54,14 @@
 }
 
 .bar-chart-canvas {
-  margin: 50px;
+  min-width: 300px;
+  min-height: 300px;
+ // margin: 50px;
 }
-
+.bar-chart-canvas1{
+  min-width: 300px;
+  min-height: 300px;
+}
 .configure-chart {
 }
 
@@ -258,6 +263,11 @@ label {
 }
 
 @media only screen and (max-width: 1375px) {
+  .bar-chart-canvas {
+    //margin: 20px;
+    min-width: 200px;
+    min-height: 200px;
+  }
   .modal-content {
     width: 70vw;
   }
@@ -268,6 +278,11 @@ label {
 }
 
 @media only screen and (max-width: 880px) {
+  .bar-chart-canvas {
+    //margin: 20px;
+    min-width: 200px;
+    min-height: 200px;
+  }
   .modal-content {
     width: 72vw;
   }
@@ -279,7 +294,9 @@ label {
 
 @media only screen and (max-width: 729px) {
   .bar-chart-canvas {
-    margin: 20px;
+    //margin: 20px;
+    min-width: 1300px;
+    min-height: 130px;
   }
   .modal-content {
     width: 70vw;
@@ -292,7 +309,8 @@ label {
 
 @media only screen and (max-width: 550px) {
   .bar-chart-canvas {
-    margin: 20px;
+    min-width: 100px;
+    min-height: 100px;
   }
   .modal-content {
     padding: 0px 9px;
@@ -306,7 +324,9 @@ label {
 
 @media only screen and (max-width: 414px) {
   .bar-chart-canvas {
-    margin: 20px;
+    //margin: 20px;
+    min-width: 100px;
+    min-height: 100px;
   }
   .modal-content {
     padding: 0px 9px;
@@ -318,6 +338,11 @@ label {
   }
 }
 @media only screen and (max-width: 393px) {
+  .bar-chart-canvas {
+    //margin: 20px;
+    min-width: 100px;
+    min-height: 100px;
+  }
   .bar-chart-view{
     width: 78vw;
   }
@@ -325,7 +350,9 @@ label {
 
 @media only screen and (max-width: 390px) {
   .bar-chart-canvas {
-    margin: 20px;
+    //margin: 20px;
+    min-width: 100px;
+    min-height: 100px;
   }
 
   .modal-content {
@@ -351,7 +378,9 @@ label {
 
 @media only screen and (max-width: 376px) {
   .bar-chart-canvas {
-    margin: 20px;
+    //margin: 20px;
+    min-width: 100px;
+    min-height: 100px;
   }
   .modal-content {
     padding: 0px 0px;
@@ -386,4 +415,14 @@ label {
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
+}
+
+.bar-chart-view1{
+  width: 1000px;
+}
+
+/* ensures the increment/decrement arrows always display */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {
+  opacity: 1;
 }
