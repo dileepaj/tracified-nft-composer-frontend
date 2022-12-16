@@ -506,7 +506,7 @@ export class ConfigureBarChartComponent implements OnInit {
             },
             ticks: {
               font:{
-                size:this.fontSize
+                size:13
               }
             }
           },
@@ -522,7 +522,7 @@ export class ConfigureBarChartComponent implements OnInit {
             },
             ticks: {
               font:{
-                size:this.fontSize
+                size:13
               }
             }
           },
@@ -533,6 +533,9 @@ export class ConfigureBarChartComponent implements OnInit {
     this.chartImage = this.myChart.toBase64Image();
   }
 
+  increment(){
+    this.fontSize+=1;
+  }
   public fontSizeInput(e: any) {
     e.preventDefault();
   }
