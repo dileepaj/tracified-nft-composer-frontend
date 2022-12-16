@@ -227,8 +227,8 @@ mat-tab-group.mat-primary .mat-ink-bar {
   .pie-chart-canvas {
     margin: -128px 50px 0px 50px;
   }
-  .mat-grid-tile-content{
-    overflow-y: hidden;
+  .mat-grid-tile-content {
+    overflow-y: auto;
   }
 }
 
@@ -264,12 +264,12 @@ mat-tab-group.mat-primary .mat-ink-bar {
   .modal-footer {
     width: 60vw;
     padding-bottom: 20px;
-  } 
+  }
 }
 
 @media only screen and (max-width: 414px) {
   .pie-chart-canvas {
-    margin: -134px 50px 0px 50px;
+    margin: -510px 50px 0px 50px;
   }
   .modal-content {
     padding: 0px 9px;
@@ -279,11 +279,10 @@ mat-tab-group.mat-primary .mat-ink-bar {
     width: 60vw;
     padding-bottom: 20px;
   }
-  
 }
 
 @media only screen and (max-width: 393px) {
-  .pie-chart-view{
+  .pie-chart-view {
     width: 78vw;
   }
 }
@@ -309,10 +308,9 @@ mat-tab-group.mat-primary .mat-ink-bar {
     width: 60vw;
     padding-bottom: 20px;
   }
-  .pie-chart-view{
+  .pie-chart-view {
     width: 77vw;
   }
-  
 }
 
 @media only screen and (max-width: 376px) {
@@ -336,23 +334,33 @@ mat-tab-group.mat-primary .mat-ink-bar {
     width: 60vw;
     padding-bottom: 20px;
   }
-  .pie-chart-view{
+  .pie-chart-view {
     width: 78vw;
   }
-  .mat-grid-tile-content{
-    overflow-y: hidden;
+  .mat-grid-tile-content {
+    overflow-y: auto;
+  }
+  .colorbox {
+    height: 50px;
+    width: 50px;
+    cursor: pointer;
+    padding-top: 2px;
+  }
+  .field mat-card {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    padding: 1px 1px 1px 5px !important;
   }
 }
 
 .input-set {
-  display: flex;
-  flex-direction: row;
+  padding-top: 12px;
   align-items: center;
+  text-align: center;
   justify-content: flex-start;
 }
-
-
-
 
 @media only screen and (max-width: 3000px) {
   .modal-content {

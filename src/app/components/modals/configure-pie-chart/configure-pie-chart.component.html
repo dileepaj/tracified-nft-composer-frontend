@@ -1,37 +1,22 @@
-<div class="modal-parent-query-editor21"
-fxLayout="column" fxLayoutAlign="space-between center">
-  <mat-dialog-content
-    fxLayout="column" fxFlex="90"
-    class="mat-typography modal-content"
-    disableClose
-  >
-    <mat-tab-group
-      (selectedTabChange)="tabChanged($event)"
-      fxLayout="column" fxFlexFill
-      [(selectedIndex)]="tabIndex"
-    >
-      <mat-tab label="Query"  fxLayout="row">
+<div class="modal-parent-query-editor21" fxLayout="column" fxLayoutAlign="space-between center">
+  <mat-dialog-content fxLayout="column" fxFlex="90" class="mat-typography modal-content" disableClose>
+    <mat-tab-group (selectedTabChange)="tabChanged($event)" fxLayout="column" fxFlexFill [(selectedIndex)]="tabIndex">
+      <mat-tab label="Query" fxLayout="row">
         <mat-grid-list cols="5" rowHeight="60vh">
           <!--Column that displays the pie chart-->
           <mat-grid-tile colspan="5">
-            <app-ldaleditor
-              [id]="pieChart.WidgetId"
-              [type]="'pie'"
-              [query]="pieChart.Query!"
-              [widget]="pieChart"
-              (onQueryResult)="onQueryResult($event)"
-            ></app-ldaleditor>
+            <app-ldaleditor [id]="pieChart.WidgetId" [type]="'pie'" [query]="pieChart.Query!" [widget]="pieChart"
+              (onQueryResult)="onQueryResult($event)"></app-ldaleditor>
           </mat-grid-tile>
         </mat-grid-list>
       </mat-tab>
       <mat-tab label="Chart Configuration" fxLayout="row" *ngIf="CheckQuerySavingStatus()">
-        <mat-grid-list class="pie-chart-view"
-         cols="5" [rowHeight]="rowHeight">
+        <mat-grid-list class="pie-chart-view" cols="5" [rowHeight]="rowHeight">
           <!--Column that displays the pie chart-->
           <mat-grid-tile [colspan]="colspan1" fxLayoutAlign="center center">
             <!--Pie chart-->
-            <div class="pie-chart">
-              <canvas baseChart class="pie-chart-canvas" [id]="'pie-chart'">
+            <div class="pie-chart1">
+              <canvas baseChart class="pie-chart-canvas1" [id]="'pie-chart'">
               </canvas>
             </div>
           </mat-grid-tile>
@@ -45,110 +30,59 @@ fxLayout="column" fxLayoutAlign="space-between center">
                 <!--input field for setting x axis name-->
                 <mat-form-field appearance="fill" color="primary">
                   <mat-label>Title</mat-label>
-                  <input
-                    matInput
-                    type="text"
-                    maxlength="15"
-                    minlength="1"
-                    [(ngModel)]="title"
-                    (ngModelChange)="drawChart()"
-                  />
+                  <input matInput type="text" maxlength="15" minlength="1" [(ngModel)]="title"
+                    (ngModelChange)="drawChart()" />
                 </mat-form-field>
               </div>
               <div class="input-group">
                 <mat-form-field appearance="fill">
                   <mat-label>Font size</mat-label>
-                  <input
-                    matInput
-                    type="number"
-                    placeholder="Ex. 12"
-                    [max]="15"
-                    [min]="1"
-                    (keydown)="fontSizeInput($event)"
-                    [(ngModel)]="fontSize"
-                    (ngModelChange)="drawChart()"
-                  />
+                  <input matInput type="number" placeholder="Ex. 12" [max]="15" [min]="1"
+                    (keydown)="fontSizeInput($event)" [(ngModel)]="fontSize" (ngModelChange)="drawChart()" />
                   <span matSuffix>px</span>
                 </mat-form-field>
-                <div
-                  class="colorbox-font"
-                  [(colorPicker)]="fontColor"
-                  [style.background]="fontColor"
-                  (colorPickerChange)="drawChart()"
-                ></div>
+                <div class="colorbox-font" [(colorPicker)]="fontColor" [style.background]="fontColor"
+                  (colorPickerChange)="drawChart()"></div>
               </div>
 
               <!--Values displayed in the bar chart-->
               <div class="pie-chart-fields">
                 <h3>Pie Chart Fields</h3>
-                <div
-                  class="field"
-                  *ngFor="let field of pieChartData; index as i"
-                >
+                <div class="field" *ngFor="let field of pieChartData; index as i">
                   <mat-card class="field-card">
                     <div class="input-set">
-                      <input
-                        type="text"
-                        class="field-name-input"
-                        maxlength="20"
-                        [value]="field.Name"
-                        (keyup.enter)="saveFieldName()"
-                        (input)="setFieldName($event, i)"
-                        *ngIf="fieldControlEnabledIndex === i"
-                      />
-                      <label
-                        *ngIf="
+                      <input type="text" class="field-name-input" maxlength="20" [value]="field.Name"
+                        (keyup.enter)="saveFieldName()" (input)="setFieldName($event, i)"
+                        *ngIf="fieldControlEnabledIndex === i" />
+                      <label *ngIf="
                           fieldControlEnabledIndex === -1 ||
                           fieldControlEnabledIndex !== i
-                        "
-                        style="
+                        " style="
                           vertical-align: middle;
                           max-width: 230px;
                           overflow: hidden;
-                        "
-                        >{{ field.Name }}</label
-                      >
-                      <mat-icon
-                        matRipple
-                        matTooltip="Edit field name"
-                        class="material-icons-outlined field-save-icon"
-                        style="vertical-align: middle; transform: scale(0.8)"
-                        *ngIf="
+                        ">{{ field.Name }}</label>
+                      <mat-icon matRipple matTooltip="Edit field name" class="material-icons-outlined field-save-icon"
+                        style="vertical-align: middle; transform: scale(0.8)" *ngIf="
                           fieldControlEnabledIndex === -1 ||
                           fieldControlEnabledIndex !== i
-                        "
-                        (click)="enableFieldOptions(i)"
-                      >
+                        " (click)="enableFieldOptions(i)">
                         edit
                       </mat-icon>
-                      <mat-icon
-                        matRipple
-                        matTooltip="Save field name"
-                        class="field-save-icon"
-                        style="vertical-align: middle; transform: scale(0.8)"
-                        *ngIf="fieldControlEnabledIndex === i"
-                        (click)="saveFieldName()"
-                      >
+                      <mat-icon matRipple matTooltip="Save field name" class="field-save-icon"
+                        style="vertical-align: middle; transform: scale(0.8)" *ngIf="fieldControlEnabledIndex === i"
+                        (click)="saveFieldName()">
                         done
                       </mat-icon>
-                      <mat-icon
-                        matRipple
-                        matTooltip="Cancel"
-                        class="field-save-icon"
-                        style="vertical-align: middle; transform: scale(0.8)"
-                        *ngIf="fieldControlEnabledIndex === i"
-                        (click)="disableFieldOptions()"
-                      >
+                      <mat-icon matRipple matTooltip="Cancel" class="field-save-icon"
+                        style="vertical-align: middle; transform: scale(0.8)" *ngIf="fieldControlEnabledIndex === i"
+                        (click)="disableFieldOptions()">
                         close
                       </mat-icon>
                     </div>
 
-                    <div
-                      class="colorbox"
-                      [(colorPicker)]="fieldColors[i]"
-                      [style.background]="fieldColors[i]"
-                      (colorPickerChange)="drawChart()"
-                    ></div>
+                    <div class="colorbox" [(colorPicker)]="fieldColors[i]" [style.background]="fieldColors[i]"
+                      (colorPickerChange)="drawChart()"></div>
                   </mat-card>
                 </div>
               </div>
@@ -166,109 +100,61 @@ fxLayout="column" fxLayoutAlign="space-between center">
                 <!--input field for setting x axis name-->
                 <mat-form-field appearance="fill" color="primary">
                   <mat-label>Title</mat-label>
-                  <input
-                    matInput
-                    type="text"
-                    maxlength="15"
-                    minlength="1"
-                    [(ngModel)]="title"
-                    (ngModelChange)="drawChart()"
-                  />
+                  <input matInput type="text" maxlength="15" minlength="1" [(ngModel)]="title"
+                    (ngModelChange)="drawChart()" />
                 </mat-form-field>
               </div>
               <div class="input-group">
                 <mat-form-field appearance="fill">
                   <mat-label>Font size</mat-label>
-                  <input
-                    matInput
-                    type="number"
-                    placeholder="Ex. 12"
-                    [max]="15"
-                    [min]="1"
-                    (keydown)="fontSizeInput($event)"
-                    [(ngModel)]="fontSize"
-                    (ngModelChange)="drawChart()"
-                  />
+                  <input matInput type="number" placeholder="Ex. 12" [max]="15" [min]="1"
+                    (keydown)="fontSizeInput($event)" [(ngModel)]="fontSize" (ngModelChange)="drawChart()" />
                   <span matSuffix>px</span>
                 </mat-form-field>
-                <div
-                  class="colorbox-font"
-                  [(colorPicker)]="fontColor"
-                  [style.background]="fontColor"
-                  (colorPickerChange)="drawChart()"
-                ></div>
+                <div class="colorbox-font" [(colorPicker)]="fontColor" [style.background]="fontColor"
+                  (colorPickerChange)="drawChart()"></div>
               </div>
 
               <!--Values displayed in the bar chart-->
               <div class="pie-chart-fields">
                 <h3>Pie Chart Fields</h3>
-                <div
-                  class="field"
-                  *ngFor="let field of pieChartData; index as i"
-                >
+                <div class="field" *ngFor="let field of pieChartData; index as i">
                   <mat-card class="field-card">
                     <div class="input-set">
-                      <input
-                        type="text"
-                        class="field-name-input"
-                        maxlength="20"
-                        [value]="field.Name"
-                        (keyup.enter)="saveFieldName()"
-                        (input)="setFieldName($event, i)"
-                        *ngIf="fieldControlEnabledIndex === i"
-                      />
-                      <label
-                        *ngIf="
+                      <input type="text" class="field-name-input" maxlength="20" [value]="field.Name"
+                        (keyup.enter)="saveFieldName()" (input)="setFieldName($event, i)"
+                        *ngIf="fieldControlEnabledIndex === i" />
+                    
+                      <label *ngIf="
                           fieldControlEnabledIndex === -1 ||
                           fieldControlEnabledIndex !== i
-                        "
-                        style="
-                          vertical-align: middle;
-                          max-width: 230px;
-                          overflow: hidden;
-                        "
-                        >{{ field.Name }}</label
-                      >
-                      <mat-icon
-                        matRipple
-                        matTooltip="Edit field name"
-                        class="material-icons-outlined field-save-icon"
-                        style="vertical-align: middle; transform: scale(0.8)"
-                        *ngIf="
+                        " style="
+                       vertical-align: middle;
+                        ">{{ field.Name }}</label>
+
+                      <mat-icon matRipple matTooltip="Edit field name" class="material-icons-outlined field-save-icon"
+                        style="vertical-align: middle; transform: scale(0.8)" *ngIf="
                           fieldControlEnabledIndex === -1 ||
                           fieldControlEnabledIndex !== i
-                        "
-                        (click)="enableFieldOptions(i)"
-                      >
+                        " (click)="enableFieldOptions(i)">
                         edit
                       </mat-icon>
-                      <mat-icon
-                        matRipple
-                        matTooltip="Save field name"
-                        class="field-save-icon"
-                        style="vertical-align: middle; transform: scale(0.8)"
-                        *ngIf="fieldControlEnabledIndex === i"
-                        (click)="saveFieldName()"
-                      >
+                      <mat-icon matRipple matTooltip="Save field name" class="field-save-icon"
+                        style="vertical-align: middle; transform: scale(0.8)" *ngIf="fieldControlEnabledIndex === i"
+                        (click)="saveFieldName()">
                         done
                       </mat-icon>
-                      <mat-icon
-                        matRipple
-                        matTooltip="Cancel"
-                        class="field-save-icon"
-                        style="vertical-align: middle; transform: scale(0.8)"
-                        *ngIf="fieldControlEnabledIndex === i"
-                        (click)="disableFieldOptions()"
-                      >
+                      <mat-icon matRipple matTooltip="Cancel" class="field-save-icon"
+                        style="vertical-align: middle; transform: scale(0.8)" *ngIf="fieldControlEnabledIndex === i"
+                        (click)="disableFieldOptions()">
                         close
                       </mat-icon>
                     </div>
-                    <div
-                      class="colorbox"
-                      [(colorPicker)]="fieldColors[i]"
-                      [style.background]="fieldColors[i]"
-                      (colorPickerChange)="drawChart()"
-                    ></div>
+                    <div style="text-align: center; align-items: center; display: flex; justify-content: center;">
+                    <div class="colorbox" [(colorPicker)]="fieldColors[i]" [style.background]="fieldColors[i]"
+                      (colorPickerChange)="drawChart()"></div>
+                    </div>
+                  
                   </mat-card>
                 </div>
               </div>
@@ -281,13 +167,7 @@ fxLayout="column" fxLayoutAlign="space-between center">
   <div class="modal-footer modal-footer-btn" fxLayout="raw" fxLayoutAlign="end center">
     <mat-dialog-actions fxLayoutAlign="end center">
       <button mat-button (click)="onCancel()" class="btn-cancel">Cancel</button>
-      <button
-        mat-button
-        [disabled]="saving || !querySuccess"
-        class="btn"
-        (click)="updateReduxState()"
-        cdkFocusInitial
-      >
+      <button mat-button [disabled]="saving || !querySuccess" class="btn" (click)="updateReduxState()" cdkFocusInitial>
         <mat-icon>save</mat-icon>
         <span [class.spinner]="saving"> </span>
         Save

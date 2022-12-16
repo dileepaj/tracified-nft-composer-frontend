@@ -481,6 +481,13 @@ export class ConfigureBarChartComponent implements OnInit {
           duration: 0,
         },
         plugins: {
+          title: {
+            display: true,
+            text: this.title,
+            font: {
+              size: this.fontSize,
+            },
+          },
           legend: {
             display: false,
           },
@@ -497,6 +504,11 @@ export class ConfigureBarChartComponent implements OnInit {
               },
               color: this.fontColor,
             },
+            ticks: {
+              font:{
+                size:this.fontSize
+              }
+            }
           },
           y: {
             display: true,
@@ -508,6 +520,11 @@ export class ConfigureBarChartComponent implements OnInit {
               },
               color: this.fontColor,
             },
+            ticks: {
+              font:{
+                size:this.fontSize
+              }
+            }
           },
         },
       },
