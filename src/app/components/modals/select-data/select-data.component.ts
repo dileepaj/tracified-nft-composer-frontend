@@ -15,7 +15,6 @@ import {
   addCardtStatus,
   projectUnsaved,
   updateBarChart,
-  updateBubbleChart,
   updateCarbonFootprint,
   updatePieChart,
   updateProofBot,
@@ -25,10 +24,8 @@ import {
 import { selectNFTContent } from 'src/app/store/nft-state-store/nft.selector';
 import {
   barchart,
-  bubblechart,
   carbonFp,
   piechart,
-  proofbot,
   table,
   timeline,
 } from 'src/models/nft-content/widgetTypes';
@@ -145,9 +142,6 @@ export class SelectDataComponent implements OnInit {
         break;
       case piechart:
         this.store.dispatch(updatePieChart({ chart: this.widget }));
-        break;
-      case bubblechart:
-        this.store.dispatch(updateBubbleChart({ chart: this.widget }));
         break;
       case carbonFp:
         this.store.dispatch(

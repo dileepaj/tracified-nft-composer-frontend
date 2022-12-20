@@ -87,7 +87,6 @@ export class NewProjectComponent implements OnInit {
           NFTContent: {
             BarCharts: [],
             PieCharts: [],
-            BubbleCharts: [],
             Tables: [],
             Images: [],
             Timeline: [],

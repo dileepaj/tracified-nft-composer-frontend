@@ -102,11 +102,6 @@
                   [id]="usedWidgets[i]._Id"
                   (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
                 ></app-pie-chart-widget>
-                <app-bubble-chart-widget
-                  *ngIf="widget.type === widgetTypes.bubble"
-                  [id]="usedWidgets[i]._Id"
-                  (onDeleteWidget)="deleteWidget(usedWidgets[i]._Id)"
-                ></app-bubble-chart-widget>
                 <app-table
                   *ngIf="widget.type === widgetTypes.table"
                   [id]="usedWidgets[i]._Id"

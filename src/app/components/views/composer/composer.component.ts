@@ -25,7 +25,6 @@ import { WidgetContentComponent } from '../../modals/widget-content/widget-conte
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   barchart,
-  bubblechart,
   carbonFp,
   nftimage,
   piechart,
@@ -99,7 +98,6 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     carbon: carbonFp,
     bar: barchart,
     pie: piechart,
-    bubble: bubblechart,
     table: table,
     image: nftimage,
   };
@@ -154,14 +152,6 @@ export class ComposerComponent implements OnInit, AfterViewInit {
       batch: false,
       name: 'Pie Chart',
       icon: 'pie_chart',
-    },
-    {
-      type: this.widgetTypes.bubble,
-      used: false,
-      saved: false,
-      batch: false,
-      name: 'Bubble Chart',
-      icon: 'bubble_chart',
     },
     {
       type: this.widgetTypes.table,
