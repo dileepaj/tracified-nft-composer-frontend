@@ -12,7 +12,8 @@
         <label class="proofbot-data-field">Transaction ID: <b>{{ data.TxnHash}}</b></label>
         <div class="available-proofs-div">
         <label class="proofbot-data-field">Available Proofs: </label>
-          <div *ngFor="let url of data.Urls" class="proof-chip">
+        <div *ngFor="let url of data.Urls">
+          <div  *ngIf="url.Type=='poe'||url.Type=='pog'"  class="proof-chip">
             <mat-icon (click)="removeProofLink(data, url)" matRipple>close</mat-icon>
             <section style="
                 display: flex;
@@ -22,6 +23,7 @@
               {{ getProofName(url.Type) }} <mat-icon>launch</mat-icon>
             </section>
           </div>
+        </div>
         </div>
       </div>
     </div>
