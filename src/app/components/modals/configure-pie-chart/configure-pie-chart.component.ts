@@ -533,10 +533,9 @@ export class ConfigurePieChartComponent implements OnInit {
             },
           },
           datalabels: {
-            color: this.fontColor,
+            color: 'black',
             display: 'auto',
             font: {
-              weight: 'bold',
               size: 12,
             },
             formatter: (value) => {
