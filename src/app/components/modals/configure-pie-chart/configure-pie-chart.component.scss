@@ -46,7 +46,9 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  align-items: center;
   height: fit-content;
+  justify-content: space-between;
 }
 
 .pie-chart {
@@ -81,8 +83,6 @@
 
 .field {
   margin-top: 10px;
-  margin-left: 10px;
-  margin-right: 10px;
 }
 .field mat-form-field {
   width: 120px !important;
@@ -134,8 +134,9 @@
 }
 
 .colorbox-font {
-  height: 50px;
-  width: 50px;
+  margin-top: 1.4px;
+  height: 49.46px;
+  width: 49.46px;
   cursor: pointer;
   margin-left: 10px;
 }
@@ -201,8 +202,9 @@ mat-tab-group.mat-primary .mat-ink-bar {
 }
 
 .colorbox-font {
-  height: 50px;
-  width: 50px;
+  margin-top: 1.4px;
+  height: 49.46px;
+  width: 49.46px;
   cursor: pointer;
   margin-left: 10px;
 }
@@ -286,6 +288,13 @@ mat-tab-group.mat-primary .mat-ink-bar {
     width: 60vw;
     padding-bottom: 20px;
   }
+  .field mat-card {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 1px 1px 1px 5px !important;
+  }
 }
 
 @media only screen and (max-width: 393px) {
@@ -351,22 +360,22 @@ mat-tab-group.mat-primary .mat-ink-bar {
     height: 50px;
     width: 50px;
     cursor: pointer;
-    padding-top: 2px;
+    padding-top: 8px;
   }
   .field mat-card {
     display: flex;
     flex-direction: row;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     justify-content: space-between;
     padding: 1px 1px 1px 5px !important;
   }
 }
 
 .input-set {
-  padding-top: 12px;
+  display: flex;
+  flex-direction: row;
   align-items: center;
-  text-align: center;
-  justify-content: flex-start;
+  justify-content:start;
 }
 
 @media only screen and (max-width: 3000px) {
@@ -387,4 +396,13 @@ mat-tab-group.mat-primary .mat-ink-bar {
     width: 70vw;
     padding-bottom: 20px;
   }
+}
+
+.field-card-mobile{
+  display:inline-block;
+}
+
+.input-set-mobile {
+  align-items: center;
+  display: inherit;
 }
