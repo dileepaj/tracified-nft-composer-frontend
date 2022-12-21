@@ -179,6 +179,7 @@
                         close
                       </mat-icon>
                     </div>
+                    <div>
                     <div
                       class="colorbox"
                       cpPosition="bottom-left"
@@ -186,6 +187,7 @@
                       [style.background]="barColors[i]"
                       (colorPickerChange)="drawChart()"
                     ></div>
+                  </div>
                   </mat-card>
                 </div>
               </div>
@@ -267,8 +269,8 @@
                   class="field"
                   *ngFor="let field of barChartData; index as i"
                 >
-                  <mat-card>
-                    <div class="input-set">
+                  <mat-card class="field-card-mobile">
+                    <div class="input-set-mobile">
                       <input
                         type="text"
                         class="field-name-input"
@@ -324,7 +326,7 @@
                         close
                       </mat-icon>
                     </div>
-
+                    <div>
                     <div
                       class="colorbox"
                       cpPosition="bottom-left"
@@ -332,6 +334,7 @@
                       [style.background]="barColors[i]"
                       (colorPickerChange)="drawChart()"
                     ></div>
+                  </div>
                   </mat-card>
                 </div>
               </div>

@@ -83,15 +83,19 @@
 
 .field {
   margin-top: 10px;
-  margin-left: 10px;
-  margin-right: 10px;
 }
 
 .field-card {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  align-items: center;
   height: fit-content;
+  justify-content: space-between;
+}
+
+.field-card-mobile{
+  display:inline-block;
 }
 
 .field mat-form-field {
@@ -109,6 +113,7 @@
 }
 
 .colorbox-font {
+  margin-top: 1.4px;
   height: 49.46px;
   width: 49.46px;
   cursor: pointer;
@@ -294,7 +299,7 @@ label {
     padding-bottom: 20px;
   }
   .bar-chart1-canvas1{
-    margin-top: -0;
+    margin-top: 0;
   }
 }
 
@@ -341,6 +346,13 @@ label {
   .modal-footer {
     width: 60vw;
     padding-bottom: 20px;
+  }
+  .field mat-card {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 1px 1px 1px 5px !important;
   }
 }
 @media only screen and (max-width: 393px) {
@@ -409,7 +421,7 @@ label {
   .field mat-card {
     display: flex;
     flex-direction: row;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     justify-content: space-between;
     padding: 1px 1px 1px 5px !important;
   }
@@ -420,11 +432,12 @@ label {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
+  justify-content:start;
 }
 
-.bar-chart-view1{
-
+.input-set-mobile {
+  align-items: center;
+  display: inherit;
 }
 
 /* ensures the increment/decrement arrows always display */

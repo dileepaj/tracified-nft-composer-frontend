@@ -149,13 +149,14 @@
                         close
                       </mat-icon>
                     </div>
-
+                    <div>
                     <div
                       class="colorbox"
                       [(colorPicker)]="fieldColors[i]"
                       [style.background]="fieldColors[i]"
                       (colorPickerChange)="drawChart()"
                     ></div>
+                  </div>
                   </mat-card>
                 </div>
               </div>
@@ -212,8 +213,8 @@
                   class="field"
                   *ngFor="let field of pieChartData; index as i"
                 >
-                  <mat-card class="field-card">
-                    <div class="input-set">
+                  <mat-card class="field-card-mobile">
+                    <div class="input-set-mobile">
                       <input
                         type="text"
                         class="field-name-input"
@@ -267,14 +268,7 @@
                         close
                       </mat-icon>
                     </div>
-                    <div
-                      style="
-                        text-align: center;
-                        align-items: center;
-                        display: flex;
-                        justify-content: center;
-                      "
-                    >
+                    <div>
                       <div
                         class="colorbox"
                         [(colorPicker)]="fieldColors[i]"
