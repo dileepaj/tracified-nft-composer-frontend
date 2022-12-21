@@ -25,10 +25,10 @@
       <mat-tab  label="Chart Configuration" fxLayout="row" *ngIf="CheckQuerySavingStatus()">
         <mat-grid-list class="bar-chart-view" cols="5" [rowHeight]="rowHeight">
           <!--Column that displays the bar chart-->
-          <mat-grid-tile  [colspan]="colspan1"  fxLayoutAlign="center strat">
+          <mat-grid-tile  [colspan]="colspan1"  fxLayoutAlign="center start">
             <!--Bar chart-->
-            <div class="bar-chart1" fxLayoutAlign="center center">   
-              <canvas class="bar-chart1-canvas" baseChart [ngClass]="screenSize < 550 ? 'no' : 'bar-chart-canvas'"  [id]="'bar-chart'">
+            <div class="bar-chart1" >   
+              <canvas baseChart [ngClass]="screenSize < 550 ? 'no' : 'bar-chart-canvas'"  [id]="'bar-chart'">
               </canvas>
             </div>
           </mat-grid-tile>
