@@ -350,6 +350,7 @@ mat-tab-group.mat-primary .mat-ink-bar {
 .input-set {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: flex-start;
 }
