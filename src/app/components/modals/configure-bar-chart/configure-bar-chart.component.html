@@ -27,9 +27,8 @@
           <!--Column that displays the bar chart-->
           <mat-grid-tile  [colspan]="colspan1"  fxLayoutAlign="center strat">
             <!--Bar chart-->
-            <div class="bar-chart1" fxLayoutAlign="center center">
-            
-              <canvas baseChart [ngClass]="screenSize < 550 ? 'no' : 'bar-chart-canvas'"  [id]="'bar-chart'">
+            <div class="bar-chart1" fxLayoutAlign="center center">   
+              <canvas class="bar-chart1-canvas" baseChart [ngClass]="screenSize < 550 ? 'no' : 'bar-chart-canvas'"  [id]="'bar-chart'">
               </canvas>
             </div>
           </mat-grid-tile>

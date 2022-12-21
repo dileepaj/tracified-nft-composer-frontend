@@ -517,7 +517,7 @@ export class ConfigurePieChartComponent implements OnInit {
         responsive: true,
         plugins: {
           title:{
-            display:true,
+            display:false,
             text: this.title,
             font: {
               size: this.fontSize,
