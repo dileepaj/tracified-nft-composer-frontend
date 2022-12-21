@@ -83,15 +83,19 @@
 
 .field {
   margin-top: 10px;
-  margin-left: 10px;
-  margin-right: 10px;
 }
 
 .field-card {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  align-items: center;
   height: fit-content;
+  justify-content: space-between;
+}
+
+.field-card-mobile{
+  display:inline-block;
 }
 
 .field mat-form-field {
@@ -109,8 +113,9 @@
 }
 
 .colorbox-font {
-  height: 50px;
-  width: 50px;
+  margin-top: 1.4px;
+  height: 49.46px;
+  width: 49.46px;
   cursor: pointer;
   margin-left: 10px;
 }
@@ -194,6 +199,7 @@
 
 .field-name-input input[type="text"] {
   border-bottom: 1px solid #cdcdcd;
+  
 }
 
 .field-name-input input[type="text"]:focus {
@@ -294,7 +300,7 @@ label {
     padding-bottom: 20px;
   }
   .bar-chart1-canvas1{
-    margin-top: -0;
+    margin-top: 0;
   }
 }
 
@@ -341,6 +347,13 @@ label {
   .modal-footer {
     width: 60vw;
     padding-bottom: 20px;
+  }
+  .field mat-card {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 1px 1px 1px 5px !important;
   }
 }
 @media only screen and (max-width: 393px) {
@@ -403,13 +416,13 @@ label {
     height: 50px;
     width: 50px;
     cursor: pointer;
-    padding-top: 2px;
+    padding-top: 8px;
 
   }
   .field mat-card {
     display: flex;
     flex-direction: row;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     justify-content: space-between;
     padding: 1px 1px 1px 5px !important;
   }
@@ -417,14 +430,17 @@ label {
 }
 
 .input-set {
+  padding-top: 12px;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: flex-start;
+  justify-content:start;
 }
 
-.bar-chart-view1{
-
+.input-set-mobile {
+  align-items: center;
+  display: inherit;
 }
 
 /* ensures the increment/decrement arrows always display */
