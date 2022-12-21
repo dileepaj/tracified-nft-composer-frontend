@@ -54,6 +54,7 @@
 }
 
 .bar-chart-canvas {
+  margin: -200px;
   min-width: 300px;
   min-height: 300px;
  // margin: 50px;
@@ -61,8 +62,6 @@
 .bar-chart-canvas1{
   min-width: 300px;
   min-height: 300px;
-}
-.configure-chart {
 }
 
 .mat-form-field + .mat-form-field {
@@ -288,7 +287,7 @@ label {
 
 @media only screen and (max-width: 880px) {
   .bar-chart-canvas {
-    //margin: 20px;
+    margin: -100px;
     min-width: 200px;
     min-height: 200px;
   }
@@ -306,7 +305,7 @@ label {
 
 @media only screen and (max-width: 729px) {
   .bar-chart-canvas {
-    //margin: 20px;
+    margin: 0;
     min-width: 1300px;
     min-height: 130px;
   }
