@@ -19,7 +19,6 @@ export interface NFTContent {
   NFTContent: {
     BarCharts: Chart[];
     PieCharts: Chart[];
-    BubbleCharts: Chart[];
     Stats: Stat[];
     Tables: Table[];
     Images: Image[];

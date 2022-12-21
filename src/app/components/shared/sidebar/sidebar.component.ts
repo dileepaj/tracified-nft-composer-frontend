@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { Image } from 'src/models/nft-content/image';
 import {
   selectBarCharts,
-  selectBubbleCharts,
   selectCarbonFP,
   selectNFTContent,
   selectNFTImages,
@@ -26,7 +25,6 @@ import { ProofBot } from 'src/models/nft-content/proofbot';
 import { CarbonFootprint } from 'src/models/nft-content/carbonFootprint';
 import {
   barchart,
-  bubblechart,
   carbonFp,
   nftimage,
   piechart,
@@ -55,7 +53,6 @@ export class SidebarComponent implements OnInit {
 
   barCharts: Chart[] = [];
   pieCharts: Chart[] = [];
-  bubbleCharts: Chart[] = [];
   tables: Table[] = [];
   images: Image[] = [];
   timelines: Timeline[] = [];
@@ -65,7 +62,6 @@ export class SidebarComponent implements OnInit {
 
   barChartType = barchart;
   pieChartType = piechart;
-  bubbleChartType = bubblechart;
   tableType = table;
   imageType = nftimage;
   timelineType = timeline;
@@ -107,11 +103,6 @@ export class SidebarComponent implements OnInit {
       name: 'Pie Chart',
       icon: 'pie_chart',
     },
-    {
-      wid: 7,
-      name: 'Bubble Chart',
-      icon: 'bubble_chart',
-    },
   ];
 
   constructor(
@@ -146,9 +137,6 @@ export class SidebarComponent implements OnInit {
     });
     this.store.select(selectPieCharts).subscribe((data) => {
       this.pieCharts = data;
-    });
-    this.store.select(selectBubbleCharts).subscribe((data) => {
-      this.bubbleCharts = data;
     });
     this.store.select(selectTable).subscribe((data) => {
       this.tables = data;
@@ -196,15 +184,6 @@ export class SidebarComponent implements OnInit {
         for (let i = 0; i < this.pieCharts.length; i++) {
           if (this.pieCharts[i].WidgetId === widget.WidgetId) {
             title = this.pieCharts[i].ChartTitle!;
-            break;
-          }
-        }
-        break;
-      case this.bubbleChartType:
-        //loop through bubble charts array and find the title
-        for (let i = 0; i < this.bubbleCharts.length; i++) {
-          if (this.bubbleCharts[i].WidgetId === widget.WidgetId) {
-            title = this.bubbleCharts[i].ChartTitle!;
             break;
           }
         }

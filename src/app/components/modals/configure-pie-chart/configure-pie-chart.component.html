@@ -13,9 +13,9 @@
       <mat-tab label="Chart Configuration" fxLayout="row" *ngIf="CheckQuerySavingStatus()">
         <mat-grid-list class="pie-chart-view" cols="5" [rowHeight]="rowHeight">
           <!--Column that displays the pie chart-->
-          <mat-grid-tile [colspan]="colspan1" fxLayoutAlign="center center">
+          <mat-grid-tile [colspan]="colspan1" fxLayoutAlign="center start">
             <!--Pie chart-->
-            <div class="pie-chart1">
+            <div class="pie-chart1 pie-chart-card">
               <canvas baseChart class="pie-chart-canvas1" [id]="'pie-chart'">
               </canvas>
             </div>
