@@ -29,7 +29,6 @@ import { SelectBatchComponent } from './components/modals/select-batch/select-ba
 import { MatDialogModule } from '@angular/material/dialog';
 import { ConfigureBarChartComponent } from './components/modals/configure-bar-chart/configure-bar-chart.component';
 import { WidgetContentComponent } from './components/modals/widget-content/widget-content.component';
-import { BubbleChartWidgetComponent } from './components/widgets/bubble-chart-widget/bubble-chart-widget.component';
 import { BarChartWidgetComponent } from './components/widgets/bar-chart-widget/bar-chart-widget.component';
 import { PieChartWidgetComponent } from './components/widgets/pie-chart-widget/pie-chart-widget.component';
 import { BarChartComponent } from './components/charts/bar-chart/bar-chart.component';
@@ -49,7 +48,6 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { ConfigurePieChartComponent } from './components/modals/configure-pie-chart/configure-pie-chart.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { LdaleditorComponent } from './components/editor/ldaleditor/ldaleditor.component';
-import { ConfigureBubbleChartComponent } from './components/modals/configure-bubble-chart/configure-bubble-chart.component';
 import { TableComponent } from './components/widgets/table/table.component';
 import { ConfigureTableComponent } from './components/modals/configure-table/configure-table.component';
 import { MatBadgeModule } from '@angular/material/badge';
@@ -106,13 +104,11 @@ const appRoutes: Routes = [];
     SelectBatchComponent,
     ConfigureBarChartComponent,
     WidgetContentComponent,
-    BubbleChartWidgetComponent,
     BarChartWidgetComponent,
     PieChartWidgetComponent,
     BarChartComponent,
     ConfigurePieChartComponent,
     LdaleditorComponent,
-    ConfigureBubbleChartComponent,
     TableComponent,
     ConfigureTableComponent,
     TestViewComponent,

@@ -14,26 +14,10 @@ import * as ace from 'ace-builds';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 import { Store } from '@ngrx/store';
 import {
-  addQueryResult,
-  deleteQueryResult,
-  updateBarChart,
-  updateBubbleChart,
-  updatePieChart,
-  updateTable,
-} from 'src/app/store/nft-state-store/nft.actions';
+  addQueryResult} from 'src/app/store/nft-state-store/nft.actions';
 import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
-import {
-  selectNFT,
-  selectNFTContent,
-  selectQueryResult,
-} from 'src/app/store/nft-state-store/nft.selector';
+import {selectQueryResult} from 'src/app/store/nft-state-store/nft.selector';
 import { AppState } from 'src/app/store/app.state';
-import {
-  barchart,
-  bubblechart,
-  piechart,
-  table,
-} from 'src/models/nft-content/widgetTypes';
 import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
@@ -433,33 +417,6 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
         result.val['ChartData'].length > 0 &&
         Object.keys(result.val['ChartData'][0]).includes('Name') &&
         Object.keys(result.val['ChartData'][0]).includes('Value')
-      ) {
-        this.onQueryResult.emit({
-          data: result.val['ChartData'],
-          query: this.query,
-          prevResults: this.prevResults,
-          success: true,
-        });
-        this.saveExecuter();
-      } else {
-        this.onQueryResult.emit({
-          query: this.query,
-          prevResults: this.prevResults,
-          success: false,
-        });
-        this.popupMsgService.openSnackBar(
-          'Invalid query output. Please check the query.'
-        );
-      }
-    } else if (this.type === 'bubble') {
-      if (
-        result['val'] !== undefined &&
-        result.val['ChartData'] !== undefined &&
-        result.val['ChartData'].length > 0 &&
-        Object.keys(result.val['ChartData'][0]).includes('Name') &&
-        Object.keys(result.val['ChartData'][0]).includes('Value') &&
-        Object.keys(result.val['ChartData'][0]).includes('X') &&
-        Object.keys(result.val['ChartData'][0]).includes('Y')
       ) {
         this.onQueryResult.emit({
           data: result.val['ChartData'],

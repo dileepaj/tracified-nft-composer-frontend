@@ -17,18 +17,14 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatStepper } from '@angular/material/stepper';
-import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngrx/store';
-import { Items } from 'src/app/entity/batch';
 import { BatchesService } from 'src/app/services/batches.service';
 import { AppState } from 'src/app/store/app.state';
 import {
   addCardtStatus,
   projectUnsaved,
   updateBarChart,
-  updateBubbleChart,
   updateCarbonFootprint,
   updatePieChart,
   updateProofBot,
@@ -40,7 +36,6 @@ import * as MomentAll from 'moment';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 import {
   barchart,
-  bubblechart,
   carbonFp,
   piechart,
   proofbot,
@@ -233,10 +228,6 @@ export class SelectBatchComponent implements OnInit {
             break;
           case piechart:
             this.store.dispatch(updatePieChart({ chart: this.widget }));
-            this.saveWidget();
-            break;
-          case bubblechart:
-            this.store.dispatch(updateBubbleChart({ chart: this.widget }));
             this.saveWidget();
             break;
           case proofbot:

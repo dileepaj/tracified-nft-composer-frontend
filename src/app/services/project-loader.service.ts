@@ -49,7 +49,6 @@ export class ProjectLoaderService {
         let queryResult: QueryResult[] = [];
         let barcharts: Chart[] = [];
         let piecharts: Chart[] = [];
-        let bubblecharts: Chart[] = [];
         let tables: Table[] = [];
         let images: Image[] = [];
         let timeline: Timeline[] = [];
@@ -110,30 +109,6 @@ export class ProjectLoaderService {
                 WidgetType: chart.Widget.WidgetType,
               };
               piecharts.push(ch);
-              widgetsNotNull.push(ch.WidgetId);
-            }
-          });
-        }
-
-        //get buuble charts
-        if (proj.BubbleCharts) {
-          proj.BubbleCharts.map((chart: any) => {
-            let ch: Chart = chart.Chart;
-            if (widgetsInOrderArr.includes(ch.WidgetId)) {
-              ch = {
-                ...ch,
-                BactchId: chart.Widget.BatchId,
-                ArtifactId: chart.Widget.ArtifactId,
-                ProductName: chart.Widget.productName,
-                TenentId: chart.Widget.TenentiD,
-                UserId: chart.Widget.UserId,
-                OTPType: chart.Widget.OTPType,
-                OTP: chart.Widget.OTP,
-                Query: chart.Widget.Query,
-                QuerySuccess: true,
-                WidgetType: chart.Widget.WidgetType,
-              };
-              bubblecharts.push(ch);
               widgetsNotNull.push(ch.WidgetId);
             }
           });
@@ -214,7 +189,6 @@ export class ProjectLoaderService {
           NFTContent: {
             BarCharts: barcharts,
             PieCharts: piecharts,
-            BubbleCharts: bubblecharts,
             Tables: tables,
             Images: images,
             Timeline: timeline,
@@ -234,7 +208,6 @@ export class ProjectLoaderService {
             widgetCount: {
               BarCharts: barcharts.length,
               PieCharts: piecharts.length,
-              BubbleCharts: bubblecharts.length,
               Tables: tables.length,
               Images: images.length,
               Timelines: timeline.length,
