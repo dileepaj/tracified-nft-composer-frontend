@@ -241,6 +241,9 @@ label {
   width: 70vw;
 }
 
+.bar-chart1-canvas{
+  margin-top: -200px;
+}
 
 @media only screen and (max-width: 3000px) {
   .modal-content {
@@ -289,6 +292,9 @@ label {
   .modal-footer {
     width: 70vw;
     padding-bottom: 20px;
+  }
+  .bar-chart1-canvas1{
+    margin-top: -0;
   }
 }
 
