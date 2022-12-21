@@ -1,11 +1,18 @@
-<div class="modal-parent-query-editor21"   fxLayout="column" fxLayoutAlign="space-between center">
-  <mat-dialog-content fxLayout="column" fxFlex="90"
+<div
+  class="modal-parent-query-editor21"
+  fxLayout="column"
+  fxLayoutAlign="space-between center"
+>
+  <mat-dialog-content
+    fxLayout="column"
+    fxFlex="90"
     class="mat-typography modal-content"
     disableClose
   >
     <mat-tab-group
       (selectedTabChange)="tabChanged($event)"
-      fxLayout="column" fxFlexFill 
+      fxLayout="column"
+      fxFlexFill
       [(selectedIndex)]="tabIndex"
     >
       <mat-tab label="Query" fxLayout="row">
@@ -22,13 +29,21 @@
           </mat-grid-tile>
         </mat-grid-list>
       </mat-tab>
-      <mat-tab  label="Chart Configuration" fxLayout="row" *ngIf="CheckQuerySavingStatus()">
+      <mat-tab
+        label="Chart Configuration"
+        fxLayout="row"
+        *ngIf="CheckQuerySavingStatus()"
+      >
         <mat-grid-list class="bar-chart-view" cols="5" [rowHeight]="rowHeight">
           <!--Column that displays the bar chart-->
-          <mat-grid-tile  [colspan]="colspan1"  fxLayoutAlign="center start">
+          <mat-grid-tile [colspan]="colspan1" fxLayoutAlign="center start">
             <!--Bar chart-->
-            <div class="bar-chart1" >   
-              <canvas baseChart [ngClass]="screenSize < 550 ? 'no' : 'bar-chart-canvas'"  [id]="'bar-chart'">
+            <div class="bar-chart1">
+              <canvas
+                baseChart
+                [ngClass]="screenSize < 550 ? 'no' : 'bar-chart-canvas'"
+                [id]="'bar-chart'"
+              >
               </canvas>
             </div>
           </mat-grid-tile>
@@ -85,8 +100,8 @@
                     matInput
                     type="number"
                     placeholder="Ex. 12"
-                    [max]='15'
-                    [min]='2' 
+                    [max]="15"
+                    [min]="2"
                     [(ngModel)]="fontSize"
                     (ngModelChange)="drawChart()"
                   />
@@ -166,6 +181,7 @@
                     </div>
                     <div
                       class="colorbox"
+                      cpPosition="bottom-left"
                       [(colorPicker)]="barColors[i]"
                       [style.background]="barColors[i]"
                       (colorPickerChange)="drawChart()"
@@ -183,7 +199,7 @@
               <h2>
                 <mat-icon class="title-icon-configure">tune</mat-icon>Configure
                 Chart
-                {{screenSize}}
+                {{ screenSize }}
               </h2>
               <div fxLayout="row wrap">
                 <mat-form-field appearance="fill" fxFlex="100%">
@@ -229,8 +245,8 @@
                     matInput
                     type="number"
                     placeholder="Ex. 12"
-                    [max]='15'
-                    [min]='2' 
+                    [max]="15"
+                    [min]="2"
                     [(ngModel)]="fontSize"
                     (ngModelChange)="drawChart()"
                   />
@@ -238,6 +254,7 @@
                 </mat-form-field>
                 <div
                   class="colorbox-font"
+                  cpPosition="bottom-left"
                   [(colorPicker)]="fontColor"
                   [style.background]="fontColor"
                   (colorPickerChange)="drawChart()"
@@ -310,6 +327,7 @@
 
                     <div
                       class="colorbox"
+                      cpPosition="bottom-left"
                       [(colorPicker)]="barColors[i]"
                       [style.background]="barColors[i]"
                       (colorPickerChange)="drawChart()"
@@ -323,7 +341,11 @@
       </mat-tab>
     </mat-tab-group>
   </mat-dialog-content>
-  <div class="modal-footer modal-footer-btn" fxLayout="raw"  fxLayoutAlign="end center">
+  <div
+    class="modal-footer modal-footer-btn"
+    fxLayout="raw"
+    fxLayoutAlign="end center"
+  >
     <mat-dialog-actions fxLayoutAlign="end center">
       <button mat-button (click)="onCancel()" class="btn-cancel">Cancel</button>
 
