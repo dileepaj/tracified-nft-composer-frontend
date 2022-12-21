@@ -482,7 +482,7 @@ export class ConfigureBarChartComponent implements OnInit {
         },
         plugins: {
           title: {
-            display: true,
+            display: false,
             text: this.title,
             font: {
               size: this.fontSize,

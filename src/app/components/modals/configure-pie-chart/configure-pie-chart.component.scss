@@ -210,6 +210,10 @@ mat-tab-group.mat-primary .mat-ink-bar {
   width: 70vw;
 }
 
+.pie-chart-canvas1{
+  margin-top: -200px;
+}
+
 @media only screen and (max-width: 1600px) {
   .pie-chart-canvas {
     margin: -55px 50px 0px 50px;
@@ -241,6 +245,9 @@ mat-tab-group.mat-primary .mat-ink-bar {
   }
   .pie-chart-canvas {
     margin: -134px 50px 0px 50px;
+  }
+  .pie-chart-canvas1{
+    margin-top: 0;
   }
 }
 
