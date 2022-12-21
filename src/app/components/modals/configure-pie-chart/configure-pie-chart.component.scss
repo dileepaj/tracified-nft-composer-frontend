@@ -351,7 +351,7 @@ mat-tab-group.mat-primary .mat-ink-bar {
     height: 50px;
     width: 50px;
     cursor: pointer;
-    padding-top: 2px;
+    padding-top: 8px;
   }
   .field mat-card {
     display: flex;
@@ -364,8 +364,10 @@ mat-tab-group.mat-primary .mat-ink-bar {
 
 .input-set {
   padding-top: 12px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
-  text-align: center;
   justify-content: flex-start;
 }
 

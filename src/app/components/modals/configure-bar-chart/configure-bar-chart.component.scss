@@ -194,6 +194,7 @@
 
 .field-name-input input[type="text"] {
   border-bottom: 1px solid #cdcdcd;
+  
 }
 
 .field-name-input input[type="text"]:focus {
@@ -403,7 +404,7 @@ label {
     height: 50px;
     width: 50px;
     cursor: pointer;
-    padding-top: 2px;
+    padding-top: 8px;
 
   }
   .field mat-card {
@@ -417,8 +418,10 @@ label {
 }
 
 .input-set {
+  padding-top: 12px;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: flex-start;
 }
