@@ -124,6 +124,7 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  align-items: center;
   justify-content: space-between;
   padding: 1px 1px 1px 15px !important;
 }
@@ -404,5 +405,5 @@ mat-tab-group.mat-primary .mat-ink-bar {
 
 .input-set-mobile {
   align-items: center;
-  display: inherit;
+
 }

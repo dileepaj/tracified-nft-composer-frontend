@@ -156,6 +156,7 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  align-items: center;
   justify-content: space-between;
   padding: 1px 1px 1px 15px !important;
 }
@@ -429,7 +430,6 @@ label {
 }
 
 .input-set {
-  padding-top: 12px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -439,7 +439,7 @@ label {
 
 .input-set-mobile {
   align-items: center;
-  display: inherit;
+  display: initial;
 }
 
 /* ensures the increment/decrement arrows always display */
