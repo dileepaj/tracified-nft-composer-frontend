@@ -8,7 +8,7 @@ pipeline {
         sh 'npm --version'
         sh 'npm install'
         script {
-          if (env.BRANCH_NAME == "release") {
+          if (env.BRANCH_NAME == "master") {
             sh 'npm run build-prod'
           } else if(env.BRANCH_NAME == "qa") {
             sh 'npm run build-qa'
@@ -44,7 +44,7 @@ pipeline {
       }
     }
     stage('Deploy to Production') {
-      when { branch 'release' }
+      when { branch 'master' }
       steps {
         s3Upload consoleLogLevel: 'INFO', dontWaitForConcurrentBuildCompletion: false, entries: [[bucket: 'nftcomposer.tracified.com', excludedFile: '', flatten: false, gzipFiles: false, keepForever: false, managedArtifacts: false, noUploadOnFailure: true, selectedRegion: 'ap-south-1', showDirectlyInBrowser: false, sourceFile: 'dist/tracified-nft-composer-frontend/**', storageClass: 'STANDARD', uploadFromSlave: false, useServerSideEncryption: false]], pluginFailureResultConstraint: 'FAILURE', profileName: 'tracified-admin-frontend-jenkins-deployer', userMetadata: []
 
