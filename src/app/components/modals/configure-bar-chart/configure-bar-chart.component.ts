@@ -530,7 +530,8 @@ export class ConfigureBarChartComponent implements OnInit {
       },
     });
 
-    this.compressImage(this.myChart.toBase64Image());
+    //this.compressImage(this.myChart.toBase64Image());
+    this.chartImage = this.myChart.toBase64Image();
   }
 
   //Compress chart image
