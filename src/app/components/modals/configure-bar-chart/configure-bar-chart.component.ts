@@ -53,7 +53,7 @@ export class ConfigureBarChartComponent implements OnInit {
 
   //data that are being displayed in the bar chart
   barChartData: Data[] = [];
-  chartImage: string;
+  chartImage: string | any;
 
   barColors: any[] = []; //bar colors
   domain: number[] = [0, 1000]; //domain of the bar chart
@@ -505,10 +505,10 @@ export class ConfigureBarChartComponent implements OnInit {
               color: this.fontColor,
             },
             ticks: {
-              font:{
-                size:13
-              }
-            }
+              font: {
+                size: 13,
+              },
+            },
           },
           y: {
             display: true,
@@ -521,20 +521,128 @@ export class ConfigureBarChartComponent implements OnInit {
               color: this.fontColor,
             },
             ticks: {
-              font:{
-                size:13
-              }
-            }
+              font: {
+                size: 13,
+              },
+            },
           },
         },
       },
     });
 
+    //this.compressImage(this.myChart.toBase64Image());
     this.chartImage = this.myChart.toBase64Image();
   }
 
-  increment(){
-    this.fontSize+=1;
+  //Compress chart image
+  private compressImage(base64: string) {
+    const blob = this.b64toBlob(base64, base64.split(';')[0].split('/')[1]);
+
+    const img = new Image();
+    img.src = URL.createObjectURL(blob);
+
+    img.onload = async () => {
+      this.resize(img, 'jpeg').then((blob) => {
+        var reader = new FileReader();
+        reader.readAsDataURL(blob);
+
+        reader.onloadend = () => {
+          var base64data = reader.result;
+
+          this.chartImage = base64data;
+        };
+      });
+    };
+  }
+
+  //Used for converting base6 images to blob
+  private b64toBlob(b64Data: any, contentType = '', sliceSize = 512) {
+    const byteCharacters = atob(
+      b64Data.replace(/^data:image\/(png|jpeg|jpg);base64,/, '')
+    );
+    const byteArrays: any = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+
+    const blob = new Blob(byteArrays, { type: contentType });
+    return blob;
+  }
+
+  //Used for compressing images
+  private async resize(img: any, type = 'jpeg') {
+    const MAX_WIDTH = 500;
+    const MAX_HEIGHT = 500;
+    const MAX_SIZE = 8760;
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+
+    ctx!.drawImage(img, 0, 0);
+
+    let width = img.width;
+    let height = img.height;
+    let start = 0;
+    let end = 1;
+    let last: any, accepted: any, blob: any;
+
+    // keep portration
+    if (width > height) {
+      if (width > MAX_WIDTH) {
+        height *= MAX_WIDTH / width;
+        width = MAX_WIDTH;
+      }
+    } else {
+      if (height > MAX_HEIGHT) {
+        width *= MAX_HEIGHT / height;
+        height = MAX_HEIGHT;
+      }
+    }
+    canvas.width = width;
+    canvas.height = height;
+
+    ctx!.fillStyle = '#ffffff';
+    ctx!.fillRect(0, 0, width, height);
+
+    ctx!.drawImage(img, 0, 0, width, height);
+
+    accepted = blob = await new Promise((rs) =>
+      canvas.toBlob(rs, 'image/' + type, 1)
+    );
+
+    if (blob.size < MAX_SIZE) {
+      return blob;
+    }
+
+    // Binary search for the right size
+    while (true) {
+      const mid = Math.round(((start + end) / 2) * 100) / 100;
+      if (mid === last) break;
+      last = mid;
+      blob = await new Promise((rs) => canvas.toBlob(rs, 'image/' + type, mid));
+
+      if (blob.size > MAX_SIZE) {
+        end = mid;
+      }
+      if (blob.size < MAX_SIZE) {
+        start = mid;
+        accepted = blob;
+      }
+    }
+
+    return accepted;
+  }
+
+  increment() {
+    this.fontSize += 1;
   }
   public fontSizeInput(e: any) {
     e.preventDefault();
