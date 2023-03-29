@@ -19,11 +19,6 @@ export const addPieChart = createAction(
   props<{ chart: Chart }>()
 );
 
-export const addBubbleChart = createAction(
-  '[add nft-html] Add BubbleChart',
-  props<{ chart: Chart }>()
-);
-
 export const addNFTImage = createAction(
   '[add nft-html] Add NFT Image',
   props<{ image: Image }>()
@@ -64,11 +59,6 @@ export const updatePieChart = createAction(
   props<{ chart: Chart }>()
 );
 
-export const updateBubbleChart = createAction(
-  '[update nft-html] Update Bubble Chart',
-  props<{ chart: Chart }>()
-);
-
 export const updateTimeline = createAction(
   '[update nft-html] Update Timeline',
   props<{ timeline: Timeline }>()
@@ -96,11 +86,6 @@ export const deleteBarChart = createAction(
 
 export const deletePieChart = createAction(
   '[delete nft-html] Delete Pie Chart',
-  props<{ chart: Chart }>()
-);
-
-export const deleteBubbleChart = createAction(
-  '[delete nft-html] Delete Bubble Chart',
   props<{ chart: Chart }>()
 );
 

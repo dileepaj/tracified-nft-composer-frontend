@@ -109,7 +109,7 @@ export class NftProofbotComponent implements OnInit {
   public deleteWidget() {
     const dialogRef = this.dialog.open(DeleteWidgetComponent, {
       data: {
-        widgetType: 'Proofbot',
+        widgetType: 'Proof Bot',
         widgetId: this.id,
       },
     });
@@ -184,17 +184,23 @@ export class NftProofbotComponent implements OnInit {
   public saveTitle() {
     this.onClickInput();
     if (this.newTitle !== '') {
-      this.proofbot = {
-        ...this.proofbot,
-        Title: this.newTitle,
-      };
+      if (this.newTitle.match(/[^a-zA-Z0-9 ]/gm)) {
+        this.popupMsgService.openSnackBar(
+          'Please remove special characters from widget title'
+        );
+      } else {
+        this.proofbot = {
+          ...this.proofbot,
+          Title: this.newTitle,
+        };
 
-      if (this.service.getSavedStatus(this.proofbot.WidgetId)) {
-        this.updateInDB();
+        if (this.service.getSavedStatus(this.proofbot.WidgetId)) {
+          this.updateInDB();
+        }
+
+        this.store.dispatch(updateProofBot({ proofBot: this.proofbot }));
+        this.isEditing = false;
       }
-
-      this.store.dispatch(updateProofBot({ proofBot: this.proofbot }));
-      this.isEditing = false;
     } else {
       this.popupMsgService.openSnackBar('Widget title can not be empty');
     }
@@ -208,6 +214,17 @@ export class NftProofbotComponent implements OnInit {
   public cancel() {
     this.isEditing = false;
     this.newTitle = this.proofbot.Title!;
+  }
+
+  //check whether the widget title exceeds the character limit or not
+  public characterLimitValidator(event: any) {
+    const val = event.target.value;
+    const id = event.target.id;
+    const key = event.keyCode || event.charCode;
+
+    if (val.length === 15 && key >= 48 && key <= 90) {
+      this.popupMsgService.showOnce('Widget title is limited to 15 characters');
+    }
   }
 
   //triggered when useer clicks on anywhere in the document

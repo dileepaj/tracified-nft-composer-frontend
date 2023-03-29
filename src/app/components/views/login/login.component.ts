@@ -13,6 +13,7 @@ import { UserserviceService } from 'src/app/services/userservice.service';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.state';
 import { addUsername } from 'src/app/store/user-state-store/user.action';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -35,8 +36,8 @@ export class LoginComponent implements OnInit {
     private jwt: JwtserviceService,
     private snackBar: PopupMessageService,
     private mediaObserver: MediaObserver,
-    private userService: UserserviceService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private auth: AuthService,
   ) {}
 
   //for create responsive Ui
@@ -44,7 +45,12 @@ export class LoginComponent implements OnInit {
   deviceXs: boolean;
 
   ngOnInit(): void {
-    this.jwt.destroyToken();
+console.log('this.jwt.isEmpty() && this.expService.checkExpire()', this.jwt.isEmpty(),this.auth.isValidToken() )
+let userID: any = this.jwt.getUser().UserID
+    if (!this.jwt.isEmpty() && this.jwt.isEmpty(),this.auth.isValidToken()&& userID) {
+      console.log('first', !this.jwt.isEmpty() && this.jwt.isEmpty(),this.auth.isValidToken()&& userID)
+      this.router.navigate([`/layout/projects/${userID}`]);
+    }
     //for create responsive Ui
     this.mediaSub = this.mediaObserver.media$.subscribe(
       (result: MediaChange) => {
@@ -71,6 +77,7 @@ export class LoginComponent implements OnInit {
   }
 
   public onSubmit() {
+    this.jwt.destroyToken();
     this.loading = true;
     const user: UserLogin = new UserLogin();
     if (this.loginForm.status == 'VALID') {
@@ -94,10 +101,9 @@ export class LoginComponent implements OnInit {
         next: (data) => {
           this.jwt.saveToken(data);
           let decoded: any = jwt_decode(data.Token, { header: false });
-          let username = JSON.parse(sessionStorage.getItem('User') || '')
-            .UserName!;
+          let username = this.jwt.getUser().UserName
           this.store.dispatch(addUsername({ username: username }));
-          if (!!decoded.userID)
+          if (this.jwt.getUser().UserID)
             this.router.navigate([`/layout/projects/${decoded.userID}`]);
         },
         error: (err) => {

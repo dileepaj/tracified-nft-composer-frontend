@@ -29,7 +29,6 @@ import { SelectBatchComponent } from './components/modals/select-batch/select-ba
 import { MatDialogModule } from '@angular/material/dialog';
 import { ConfigureBarChartComponent } from './components/modals/configure-bar-chart/configure-bar-chart.component';
 import { WidgetContentComponent } from './components/modals/widget-content/widget-content.component';
-import { BubbleChartWidgetComponent } from './components/widgets/bubble-chart-widget/bubble-chart-widget.component';
 import { BarChartWidgetComponent } from './components/widgets/bar-chart-widget/bar-chart-widget.component';
 import { PieChartWidgetComponent } from './components/widgets/pie-chart-widget/pie-chart-widget.component';
 import { BarChartComponent } from './components/charts/bar-chart/bar-chart.component';
@@ -49,7 +48,6 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { ConfigurePieChartComponent } from './components/modals/configure-pie-chart/configure-pie-chart.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { LdaleditorComponent } from './components/editor/ldaleditor/ldaleditor.component';
-import { ConfigureBubbleChartComponent } from './components/modals/configure-bubble-chart/configure-bubble-chart.component';
 import { TableComponent } from './components/widgets/table/table.component';
 import { ConfigureTableComponent } from './components/modals/configure-table/configure-table.component';
 import { MatBadgeModule } from '@angular/material/badge';
@@ -85,6 +83,7 @@ import { CloseProjectComponent } from './components/modals/close-project/close-p
 import { ImagePreviewComponent } from './components/modals/image-preview/image-preview.component';
 import { DeleteWidgetComponent } from './components/modals/delete-widget/delete-widget.component';
 import { FocusElementDirective } from './directives/focus-element.directive';
+import { LayoutModule } from '@angular/cdk/layout';
 
 const appRoutes: Routes = [];
 
@@ -105,13 +104,11 @@ const appRoutes: Routes = [];
     SelectBatchComponent,
     ConfigureBarChartComponent,
     WidgetContentComponent,
-    BubbleChartWidgetComponent,
     BarChartWidgetComponent,
     PieChartWidgetComponent,
     BarChartComponent,
     ConfigurePieChartComponent,
     LdaleditorComponent,
-    ConfigureBubbleChartComponent,
     TableComponent,
     ConfigureTableComponent,
     TestViewComponent,
@@ -173,6 +170,7 @@ const appRoutes: Routes = [];
     StoreModule.forRoot({ nft: nftReducer, user: userReducer }),
     HighlightModule,
     MatChipsModule,
+    LayoutModule,
   ],
   providers: [
     CookieService,

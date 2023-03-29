@@ -1,25 +1,26 @@
+<div id="wrapper">
 <div fxLayout="80" fxLayoutAlign="center center" fxFill>
-  <mat-card fxFlex="55" fxLayout.xs="column" fxLayout.sm="column" class="mat-elevation-z0 outline"
-    fxLayoutAlign="center center">
+  <mat-card fxFlex="56" fxLayout.xs="column" fxLayout.sm="column" class="mat-elevation-z0 outline"
+    fxLayoutAlign="center center" style="height:68%;">
     <div fxLayout.xs="column" fxFlex.xs="100" fxFlex.sm="100" class="login-cards" fxHide.xs="false" fxHide.sm="false"
       fxHide.md="true" fxHide.lg="true" fxHide.xl="true" fxLayoutAlign="center center" style="padding: 0%;">
-      <mat-card fxLayout.xs="column" fxLayout.sm="column" fxFlex.xs="80" fxFlex.sm="80" fxFlex.lg="80" fxFlex.md="80"
+      <mat-card fxLayout.xs="column" fxLayout.sm="column"
         class="mat-elevation-z0" fxLayoutAlign="center center">
         <img  class="logo-mobile" mat-card-image src="assets\images\composer-logo.png" alt="tracified-logo" />
       </mat-card>
     </div>
-    <div fxFlex="100" fxFill class="login-cards" fxLayoutAlign="center center">
+    <div fxFill class="login-cards" fxLayoutAlign="center center">
       <mat-card fxFlex.gt-xs="100" fxFlex.gt-sm="100" fxFlex.gt-md="100" fxFlex.lg="50" fxFlex.md="50"
-       class="mat-elevation-z0" fxLayoutAlign="center center" style="background-color: #00C853;" fxFlexFill>
-        <form fxFlex.gt-sm="100" fxFill fxLayoutAlign="stretch" fxLayout="column" [formGroup]="loginForm"
-          (ngSubmit)="onSubmit()">
+       class="mat-elevation-z0 form-crd" fxLayoutAlign="center center"  fxFlexFill>
+        <form fxFill fxLayoutAlign="stretch" fxLayout="column" [formGroup]="loginForm"
+          (ngSubmit)="onSubmit()" class="form-grp">
           <mat-form-field appearance="standard" [hideRequiredMarker]="true" class="alignment">
-            <input matInput placeholder="Email Address" name="email" formControlName="username" readonly onfocus="this.removeAttribute('readonly')">
+            <input matInput placeholder="Email or Username" name="email" formControlName="username" readonly onfocus="this.removeAttribute('readonly')">
           </mat-form-field>
 
           <mat-form-field appearance="standard" [hideRequiredMarker]="true" class="alignment">
             <input matInput placeholder="Password" type="password" [type]="hide ? 'password' : 'text'"  name="password" formControlName="password">
-            <mat-icon matSuffix style="color: white;" matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <mat-icon class="view-icon" matSuffix matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
           </mat-form-field>
 
           <div class="login-button-container">
@@ -30,12 +31,12 @@
           </div>
           
 
-          <div fxFlexAlign="center" class="sign-up">
+          <!--<div fxFlexAlign="center" class="sign-up">
             <a href="https://qa.admin.tracified.com/signup" class="sign-up-link">Don't have an account</a>
-          </div>
+          </div>-->
 
           <div fxFlexAlign="center" class="password-reset">
-            <p class="md-body-2" style="color: white;">
+            <p class="md-body-2 pw-rest">
               Forgot your credentials?
               <a href="https://qa.admin.tracified.com/reset-password" class="get-help-link">Get help</a>
             </p>
@@ -45,9 +46,10 @@
       <mat-card style="margin: 5px;" fxFlex="50" fxHide.xs="true" fxHide.sm="true" fxHide.md="false" fxHide.lg="false"
         fxHide.xl="false" fxFlex.gt-xs="100" fxFlex.gt-sm="50" fxFlex.gt-md="100" fxFlex.lg="50" fxFlex.md="50"
         fxLayout="column" class="mat-elevation-z0" fxLayoutAlign="start center">
-        <img class="logo" mat-card-image src="assets\images\composer-logo.png" alt="tracified-logo" />
+        <img class="logo"  mat-card-image src="assets\images\composer-logo.png" alt="tracified-logo" />
       </mat-card>
     </div>
 
   </mat-card>
+</div>
 </div>

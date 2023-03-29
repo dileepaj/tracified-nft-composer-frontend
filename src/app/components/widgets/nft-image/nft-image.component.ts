@@ -44,7 +44,7 @@ export class NftImageComponent implements OnInit {
   file: File;
   shortLink: string = '';
   loading: boolean = false;
-  base64: string = '';
+  base64: string | any = '';
   img: any = '';
   projectId: string;
   src: string = '';
@@ -94,14 +94,15 @@ export class NftImageComponent implements OnInit {
 
   //called when file input change event is emitted
   public onChange(event: any) {
+    this.loading = true;
     this.file = event.target.files[0];
-    this.uploadImage(event);
+    this.compressImage(() => {
+      this.uploadImage();
+    });
   }
 
   //called when user uploads an image
-  public uploadImage(event: Event) {
-    this.loading = !this.loading;
-
+  public uploadImage() {
     const reader = new FileReader();
     reader.readAsDataURL(this.file);
     reader.onload = this._handleReaderLoaded.bind(this);
@@ -204,12 +205,14 @@ export class NftImageComponent implements OnInit {
 
   //called when user updates the image
   public onUpdateChange(event: any) {
+    this.loading = true;
     this.file = event.target.files[0];
-    this.uploadUpdatedImage(event);
+    this.compressImage(() => {
+      this.uploadUpdatedImage();
+    });
   }
 
-  public uploadUpdatedImage(event: Event) {
-    this.loading = !this.loading;
+  public uploadUpdatedImage() {
     const reader = new FileReader();
     reader.readAsDataURL(this.file);
     reader.onload = this._updateHadleRederLoaded.bind(this);
@@ -261,7 +264,9 @@ export class NftImageComponent implements OnInit {
       data: {
         image: this.base64,
       },
-      autoFocus:false
+      width: '80vw',
+      maxWidth: '800px',
+      autoFocus: false,
     });
   }
 
@@ -279,21 +284,33 @@ export class NftImageComponent implements OnInit {
     }
   }
 
+  //called when user edits widget title
+  public onTitleChange(event: any) {
+    let trimedvalue = event.target.value.replace(/[^a-zA-Z0-9 ]/gm, '');
+    this.newTitle = trimedvalue;
+  }
+
   //save new ttile
   public saveTitle() {
     this.onClickInput();
     if (this.newTitle !== '') {
-      this.image = {
-        ...this.image,
-        Title: this.newTitle,
-      };
+      if (this.newTitle.match(/[^a-zA-Z0-9 ]/gm)) {
+        this.popupMsgService.openSnackBar(
+          'Please remove special characters from widget title'
+        );
+      } else {
+        this.image = {
+          ...this.image,
+          Title: this.newTitle,
+        };
 
-      if (this.service.getSavedStatus(this.image.WidgetId)) {
-        this.updateImageInDB();
+        if (this.service.getSavedStatus(this.image.WidgetId)) {
+          this.updateImageInDB();
+        }
+
+        this.store.dispatch(updateNFTImage({ image: this.image }));
+        this.isEditing = false;
       }
-
-      this.store.dispatch(updateNFTImage({ image: this.image }));
-      this.isEditing = false;
     } else {
       this.popupMsgService.openSnackBar('Widget title can not be empty');
     }
@@ -307,6 +324,93 @@ export class NftImageComponent implements OnInit {
   public cancel() {
     this.isEditing = false;
     this.newTitle = this.image.Title!;
+  }
+
+  //check whether the widget title exceeds the character limit or not
+  public characterLimitValidator(event: any) {
+    const val = event.target.value;
+    const id = event.target.id;
+    const key = event.keyCode || event.charCode;
+
+    if (val.length === 15 && key >= 48 && key <= 90) {
+      this.popupMsgService.showOnce('Widget title is limited to 15 characters');
+    }
+  }
+
+  //Compress uploaded image
+  private compressImage(callback: any) {
+    const img = new Image();
+    img.src = URL.createObjectURL(this.file);
+
+    img.onload = async () => {
+      this.resize(img, 'jpeg').then((blob) => {
+        this.file = blob;
+        callback();
+      });
+    };
+  }
+
+  //Used for compressing images
+  private async resize(img: any, type = 'jpeg') {
+    const MAX_WIDTH = 500;
+    const MAX_HEIGHT = 500;
+    const MAX_SIZE = 36500;
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+
+    ctx!.drawImage(img, 0, 0);
+
+    let width = img.width;
+    let height = img.height;
+    let start = 0;
+    let end = 1;
+    let last: any, accepted: any, blob: any;
+
+    // keep portration
+    if (width > height) {
+      if (width > MAX_WIDTH) {
+        height *= MAX_WIDTH / width;
+        width = MAX_WIDTH;
+      }
+    } else {
+      if (height > MAX_HEIGHT) {
+        width *= MAX_HEIGHT / height;
+        height = MAX_HEIGHT;
+      }
+    }
+    canvas.width = width;
+    canvas.height = height;
+
+    ctx!.fillStyle = '#ffffff';
+    ctx!.fillRect(0, 0, width, height);
+
+    ctx!.drawImage(img, 0, 0, width, height);
+
+    accepted = blob = await new Promise((rs) =>
+      canvas.toBlob(rs, 'image/' + type, 1)
+    );
+
+    if (blob.size < MAX_SIZE) {
+      return blob;
+    }
+
+    // Binary search for the right size
+    while (true) {
+      const mid = Math.round(((start + end) / 2) * 100) / 100;
+      if (mid === last) break;
+      last = mid;
+      blob = await new Promise((rs) => canvas.toBlob(rs, 'image/' + type, mid));
+
+      if (blob.size > MAX_SIZE) {
+        end = mid;
+      }
+      if (blob.size < MAX_SIZE) {
+        start = mid;
+        accepted = blob;
+      }
+    }
+
+    return accepted;
   }
 
   //triggered when useer clicks on anywhere in the document

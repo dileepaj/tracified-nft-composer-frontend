@@ -19,6 +19,10 @@ import { HtmlCodebehindComponent } from '../../modals/html-codebehind/html-codeb
 import { Router } from '@angular/router';
 import { ProjectLoaderService } from 'src/app/services/project-loader.service';
 import { ComposerUser } from 'src/models/user';
+import { MatDrawerMode } from '@angular/material/sidenav';
+import { SidenavService } from 'src/app/services/sidenav.service';
+import { CloseProjectComponent } from '../../modals/close-project/close-project.component';
+import { UserserviceService } from 'src/app/services/userservice.service';
 
 @Component({
   selector: 'app-nft-html',
@@ -37,6 +41,11 @@ export class NftHtmlComponent implements OnInit {
   projLoading: boolean = false;
   newProj: boolean;
   codeLoaded: boolean = false;
+  sideNavMode: MatDrawerMode = 'side';
+  isClicked: boolean = false;
+  opened = true;
+  title = 'project_name';
+  projId: string = '';
 
   @ViewChild('iframe', { static: false }) iframe: ElementRef;
 
@@ -45,17 +54,42 @@ export class NftHtmlComponent implements OnInit {
     private store: Store<AppState>,
     public dialog: MatDialog,
     private router: Router,
-    private projectLoader: ProjectLoaderService
-  ) {}
+    private projectLoader: ProjectLoaderService,
+    private sidebarService: SidenavService,
+    private userService: UserserviceService
+  ) {
+    this.sidebarService.getStatus().subscribe((val) => {
+      this.sidenav = val;
+    });
+    const subscription = this.store
+      .select(selectNFTContent)
+      .subscribe((nft) => {
+        this.title = nft.ProjectName;
+        this.projId = nft.ProjectId;
+      });
+  }
 
   ngOnInit(): void {
     this.getNftContent();
+    this.user = this.userService.getCurrentUser();
     this.store.select(selectProjectSavedState).subscribe((status) => {
       this.projectSaved = status;
     });
     this.store.select(selectProjectStatus).subscribe((status) => {
       this.newProj = status;
     });
+
+    if (window.innerWidth < 960) {
+      this.sidebarService.close();
+      this.sideNavMode = 'over';
+      this.opened = false;
+      this.isClicked = true;
+    } else {
+      this.sidebarService.open();
+      this.sideNavMode = 'side';
+      this.opened = true;
+      this.isClicked = false;
+    }
   }
 
   ngOnDestroy() {
@@ -109,6 +143,7 @@ export class NftHtmlComponent implements OnInit {
     setTimeout(() => {
       this.dialog.open(HtmlCodebehindComponent, {
         data: { htmlCode: this.htmlStr },
+        autoFocus: false,
       });
       this.codeLoaded = false;
     }, 100);
@@ -151,6 +186,34 @@ export class NftHtmlComponent implements OnInit {
       }
     } else {
       this.router.navigate(['/layout/projects/' + this.user.TenentId]);
+    }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    if (event.target.innerWidth < 960) {
+      this.opened = false;
+      this.sideNavMode = 'over';
+      this.isClicked = true;
+      this.sidebarService.close();
+    } else {
+      this.opened = true;
+      this.sideNavMode = 'side';
+      this.isClicked = false;
+      this.sidebarService.open();
+    }
+  }
+
+  public closeProject() {
+    //check whether all the changes are already saved or not
+    if (!this.projectSaved) {
+      this.dialog.open(CloseProjectComponent, {
+        data: {
+          user: this.user,
+        },
+      });
+    } else {
+      this.router.navigate(['/layout/projects/' + this.user.UserID]);
     }
   }
 }

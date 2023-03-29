@@ -1,14 +1,16 @@
 <h2 mat-dialog-title>New Project</h2>
-<mat-dialog-content class="mat-typography">
+<mat-dialog-content class="mat-typography modal-content-new">
   <div class="container">
     <mat-form-field appearance="outline">
       <mat-label>Project Name</mat-label>
       <input
         matInput
+        id="projectName"
         placeholder="Type project name here..."
         maxlength="10"
         [formControl]="projectNameControl"
         [(ngModel)]="projectName"
+        (keydown)="characterLimitValidator($event)"
       />
       <mat-error *ngIf="projectNameControl.hasError('required')">
         Project name is <strong>required</strong>
@@ -16,15 +18,20 @@
       <mat-error *ngIf="projectNameControl.errors?.['forbiddenName']"
         >Project name must be <strong>unique</strong></mat-error
       >
+      <mat-error *ngIf="projectNameControl.errors?.['exceeds']"
+        >This field is limited to 10 characters</mat-error
+      >
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>NFT Name</mat-label>
       <input
         matInput
+        id="nftName"
         placeholder="Type NFT name here..."
         maxlength="10"
         [formControl]="nftNameControl"
         [(ngModel)]="nftName"
+        (keydown)="characterLimitValidator($event)"
       />
       <mat-error *ngIf="nftNameControl.hasError('required')">
         NFT name is <strong>required</strong>
@@ -35,8 +42,10 @@
       <textarea
         matInput
         placeholder="Write a description..."
+        id="description"
         [formControl]="descriptionControl"
         [(ngModel)]="description"
+        (keydown)="descriptionLimitValidator($event)"
         maxlength="80"
         class="input-description"
       ></textarea>

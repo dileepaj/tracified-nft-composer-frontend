@@ -1,7 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import {
   addBarChart,
-  addBubbleChart,
   addCarbonFootprint,
   addCardtStatus,
   addNFTImage,
@@ -12,7 +11,6 @@ import {
   addTimeline,
   addToOrderArray,
   deleteBarChart,
-  deleteBubbleChart,
   deleteCarbonFootprint,
   deleteNFTImage,
   deletePieChart,
@@ -32,7 +30,6 @@ import {
   setWidgetCount,
   setWidgetOrder,
   updateBarChart,
-  updateBubbleChart,
   updateCarbonFootprint,
   updateNFTImage,
   updatePieChart,
@@ -71,7 +68,6 @@ export const initialNft: NFTState = {
     NFTContent: {
       BarCharts: [],
       PieCharts: [],
-      BubbleCharts: [],
       ProofBot: [],
       Timeline: [],
       Stats: [],
@@ -86,7 +82,6 @@ export const initialNft: NFTState = {
   widgetCount: {
     BarCharts: 0,
     PieCharts: 0,
-    BubbleCharts: 0,
     Tables: 0,
     Images: 0,
     Timelines: 0,
@@ -216,27 +211,6 @@ export const nftReducer = createReducer(
     },
   })),
 
-  on(addBubbleChart, (nft, { chart }) => ({
-    ...nft,
-    nftContent: {
-      ...nft.nftContent,
-      NFTContent: {
-        ...nft.nftContent.NFTContent,
-        BubbleCharts: [
-          ...nft.nftContent.NFTContent.BubbleCharts,
-          {
-            ...chart,
-            ChartTitle: 'Bubble Chart ' + (nft.widgetCount.BubbleCharts + 1),
-          },
-        ],
-      },
-    },
-    widgetCount: {
-      ...nft.widgetCount,
-      BubbleCharts: nft.widgetCount.BubbleCharts + 1,
-    },
-  })),
-
   on(addTimeline, (nft, { timeline }) => ({
     ...nft,
     nftContent: {
@@ -363,19 +337,6 @@ export const nftReducer = createReducer(
     return nftClone;
   }),
 
-  on(updateBubbleChart, (nft, { chart }) => {
-    const nftClone: NFTState = JSON.parse(JSON.stringify(nft));
-    let i = 0;
-    nftClone.nftContent.NFTContent.BubbleCharts.map((data) => {
-      if (data.WidgetId === chart.WidgetId) {
-        i = nftClone.nftContent.NFTContent.BubbleCharts.indexOf(data);
-      }
-      return data;
-    });
-    nftClone.nftContent.NFTContent.BubbleCharts[i] = chart;
-    return nftClone;
-  }),
-
   on(updateCarbonFootprint, (nft, { carbonFootprint }) => {
     const nftClone: NFTState = JSON.parse(JSON.stringify(nft));
     let i = 0;
@@ -456,16 +417,6 @@ export const nftReducer = createReducer(
     let i = 0;
     nftClone.nftContent.NFTContent.PieCharts =
       nftClone.nftContent.NFTContent.PieCharts.filter(
-        (data) => data.WidgetId !== chart.WidgetId
-      );
-    return nftClone;
-  }),
-
-  on(deleteBubbleChart, (nft, { chart }) => {
-    const nftClone: NFTState = JSON.parse(JSON.stringify(nft));
-    let i = 0;
-    nftClone.nftContent.NFTContent.BubbleCharts =
-      nftClone.nftContent.NFTContent.BubbleCharts.filter(
         (data) => data.WidgetId !== chart.WidgetId
       );
     return nftClone;

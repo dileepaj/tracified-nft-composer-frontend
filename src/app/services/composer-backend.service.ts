@@ -63,7 +63,7 @@ export class ComposerBackendService {
   /**
    * @function saveChart - save chart that resulted after running the query
    * @param - chart
-   * @component - configure-bar-chart, configure-bubble-chart and configure-pie-chart modals
+   * @component - configure-bar-chart, and configure-pie-chart modals
    */
   public saveChart(chart: Chart): Observable<Chart> {
     return this.http.post<Chart>(`${this.apiUrl}/html/chart`, chart, {
@@ -177,7 +177,7 @@ export class ComposerBackendService {
   /**
    * @function updateChart - update chart that resulted after running the query
    * @param - chart
-   * @component - configure-bar-chart, configure-bubble-chart and configure-pie-chart modals
+   * @component - configure-bar-chart and configure-pie-chart modals
    */
   public updateChart(chart: Chart): Observable<Chart> {
     return this.http.put<Chart>(`${this.apiUrl}/html/chart`, chart, {
@@ -238,7 +238,7 @@ export class ComposerBackendService {
   /**
    * @function deleteChart - delete chart
    * @param - widgetId
-   * @component - bar-chart-widget, bubble-chart-widget, pie-chart-widget
+   * @component - bar-chart-widget, pie-chart-widget
    */
   public deleteChart(widgetId: string): Observable<Chart> {
     return this.http.delete<Chart>(`${this.apiUrl}/html/chart/${widgetId}`, {

@@ -4,6 +4,7 @@
   height: $headerHeight;
   background-color: $background;
   color: white;
+  padding: 0px 15px 0px 15px;
 }
 
 #title {
@@ -16,29 +17,46 @@ logo {
 }
 
 .menu-item {
-  font-size: $fontSize;
+  font-weight: 500;
+  font-family: "Inter";
+  font-size: 15px;
 }
 
 .menu-icon {
+  color: #006d2d;
   transform: scale(0.8);
 }
 
 .menu {
   vertical-align: middle;
-
+  /* margin-left: -2px; */
   cursor: pointer;
 }
 
-#userName{
-   font-size: medium;
-   padding-right: 0.25rem;
+#userName {
+  font-weight: 500;
+  font-family: "Inter";
+  font-size: 15px;
+  padding-right: 0.25rem;
 }
 
-.account-username:hover{
-background-color:transparent !important;
-cursor: default;
+.account-username:hover {
+  background-color: transparent !important;
+  cursor: default;
 }
 
-.user-det{
+.user-det {
   padding-left: 2rem;
+}
+
+::ng-deep.customize {
+  margin-top: 10px;
+  padding: 1px 9px 1px 9px !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+  border: 1px solid rgba($color: #000000, $alpha: 0.15) !important;
+}
+
+.rounded-circle {
+  margin-right: -10px;
 }

@@ -1,89 +1,46 @@
-<div
-  class="widget-div"
-  [ngStyle]="{ border: highlight ? 'solid 3px #00D6A0' : 'solid 1px #ccc;' }"
-  [id]="proofbot.WidgetId"
->
+<div class="widget-div" [ngStyle]="{ border: highlight ? 'solid 3px #006D2D' : 'solid 1px #ccc;' }"
+  [id]="proofbot.WidgetId">
   <div fxLayoutAlign="space-between center">
     <div class="title-div" *ngIf="!isEditing">
-      <label
-        class="widget-title"
-        [ngStyle]="{ color: highlight ? '#00D6A0' : 'black' }"
-        >{{ proofbot.Title }}</label
-      >
-      <img
-        src="../../../../assets/images/edit-iconpng.png"
-        class="edit-icon material-symbols-outlined"
-        matTooltip="Edit title"
-        matRipple
-        (click)="enableEditing()"
-      />
+      <label class="widget-title" [ngStyle]="{ color: highlight ? '#006D2D' : 'black' }">{{ proofbot.Title }}</label>
+      <img src="../../../../assets/images/edit-iconpng.png" class="edit-icon material-symbols-outlined"
+        matTooltip="Edit Title" matRipple (click)="enableEditing()" />
     </div>
 
     <div class="input-edit-title" *ngIf="isEditing">
-      <input
-        type="text"
-        [value]="newTitle"
-        [(ngModel)]="newTitle"
-        (keyup.enter)="saveTitle()"
-        (click)="onClickInput()"
-        maxlength="15"
-        minlength="1"
-        placeholder="Enter Name Here"
-        class="input-title"
-        [appFocusElement]="isEditing"
-      />
-      <img
-        src="../../../../assets/images/save-icon.png"
-        class="save"
-        (click)="saveTitle()"
-        matTooltip="Save"
-      />
-      <img
-        src="../../../../assets/images/cancel-icon.png"
-        class="cancel"
-        matTooltip="Cancel"
-        (click)="cancel()"
-      />
+      <input type="text" [value]="newTitle" [(ngModel)]="newTitle" (keyup.enter)="saveTitle()" (click)="onClickInput()"
+        maxlength="15" minlength="1" placeholder="Enter Name Here" class="input-title" [appFocusElement]="isEditing" />
+      <img src="../../../../assets/images/save-icon.png" class="save" (click)="saveTitle()" matTooltip="Save" />
+      <img src="../../../../assets/images/cancel-icon.png" class="cancel" matTooltip="Cancel" (click)="cancel()" />
     </div>
 
-    <mat-icon
-      [matMenuTriggerFor]="menu"
-      class="material-symbols-outlined menu-icon"
-      matRipple
-      >more_vert</mat-icon
-    >
+    <mat-icon [matMenuTriggerFor]="menu" class="material-symbols-outlined menu-icon" matRipple>more_vert</mat-icon>
+
     <mat-menu #menu="matMenu" class="menu">
       <button mat-menu-item class="menu-btn" (click)="deleteWidget()">
         <span class="menu-text">Remove Widget</span>
       </button>
     </mat-menu>
   </div>
-  <div class="content-div">
-    <img class="widget-card-icon" *ngIf="!otpAdded" [src]="icon" />
 
+  <div class="pb-img-div" *ngIf="!otpAdded">
+    <img class="widget-card-icon" [src]="icon" />
+  </div>
+  <div class="content-div">
     <div class="proofbot-content" *ngIf="otpAdded">
       <div class="proof-card" *ngFor="let data of proofbot.Data!">
-        <label class="proofbot-data-field"
-          >Product Name: <b>{{ proofbot.ProductName }}</b></label
-        >
-        <label class="proofbot-data-field"
-          >Batch ID: <b>{{ data.BatchId }}</b></label
-        >
-        <label class="proofbot-data-field"
-          >Transaction ID: <b>{{ data.TxnHash }}</b></label
-        >
+        <label class="proofbot-data-field">Product Name: <b>{{ proofbot.ProductName }}</b></label>
+        <label class="proofbot-data-field">Batch ID: <b>{{ data.BatchId }}</b></label>
+        <label class="proofbot-data-field">Timestamp: <b>{{ data.Timestamp}}</b></label>
+        <label class="proofbot-data-field">Transaction ID: <b>{{ data.TxnHash }}</b></label>
         <div class="available-proofs-div">
           <label class="proofbot-data-field">Available Proofs: </label>
           <div *ngFor="let url of data.Urls" class="proof-chip">
-            <section
-              style="
+            <section style="
                 display: flex;
                 justify-content: center;
                 align-items: center;
-              "
-              (click)="openProofLink(url.Url)"
-              matRipple
-            >
+              " (click)="openProofLink(url.Url)" matRipple>
               {{ getProofName(url.Type) }} <mat-icon>launch</mat-icon>
             </section>
           </div>
@@ -105,25 +62,13 @@
     </div>
   </div>
   <div class="widget-footer">
-    <button
-      mat-flat-button
-      fxFlex="50%"
-      class="customize-btn"
-      style="float: right"
-      *ngIf="otpAdded"
-      (click)="openProofBotView()"
-    >
+    <button mat-flat-button fxFlex="50%" class="customize-btn" style="float: right" *ngIf="otpAdded"
+      (click)="openProofBotView()">
       <mat-icon class="material-symbols-outlined"> build </mat-icon>
       Customize
     </button>
-    <button
-      mat-flat-button
-      fxFlex="50%"
-      class="add-data-btn"
-      style="float: right"
-      (click)="openAddData()"
-    >
-      <mat-icon>add_circle</mat-icon>
+    <button mat-flat-button fxFlex="50%" class="add-data-btn" style="float: right" (click)="openAddData()">
+      <mat-icon>{{ !otpAdded ? "add_circle" : "edit" }}</mat-icon>
       {{ !otpAdded ? "Add Data" : "Modify Data" }}
     </button>
   </div>

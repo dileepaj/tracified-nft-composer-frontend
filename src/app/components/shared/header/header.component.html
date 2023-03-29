@@ -28,23 +28,33 @@
           src="../../../../assets/images/tracified-header.png"
           style="flex-basis: 40%"
           width="130px"
+          ngStyle.xs="width: 100px"
         />
       </button>
-      <span style="padding: 43px"></span>
+      <span style="padding: 43px" ngStyle.xs="padding: 27px"></span>
       <label>
         <span
           id="title"
-          style="font-size: 20px; padding-left: 10px; font-weight: 200"
+          ngStyle.xs="font-size : 15px"
+          style="
+            font-family: 'Inter';
+            font-size: 20px;
+            padding-left: 10px;
+            font-weight: 300;
+          "
         >
           | NFT Composer</span
         >
       </label>
     </span>
   </div>
-  <div class="user-det"
+
+  <div
+    class="user-det"
+    fxFlex.xl="20"
     fxFlex.lg="20"
     fxFlex.md="20"
-    fxFlex.sm="30"
+    fxFlex.sm="20"
     fxFlex.xs="10"
     fxLayoutAlign="end center"
   >
@@ -55,12 +65,14 @@
       fxHide.sm="false"
       fxHide.lg="false"
       fxHide.xl="false"
-      fxFlex="20"
       fxLayoutAlign="end center"
     >
-      <label id="userName" *ngIf="user!==undefined">{{ user.Company }}</label>
-    </div>
-    <div fxFlex="20" fxLayoutAlign="start center">
+      <label
+        style="font-weight: 400 !important; margin-right: -5px"
+        id="userName"
+        *ngIf="user !== undefined"
+        >{{ user.Company }}</label
+      >
       <button mat-icon-button [matMenuTriggerFor]="menu">
         <img
           src="../../../../assets/images/default-user.png"
@@ -69,28 +81,56 @@
           class="rounded-circle"
         />
       </button>
-      <mat-menu #menu="matMenu" xPosition="before">
-        <label
-          style="color: #00c853"
+      <mat-menu #menu="matMenu" xPosition="before" class="customize">
+        <!-- <label
+          style="color: #006D2D"
           class="account-username"
           mat-menu-item
           id="userName"
           *ngIf="user!==undefined"
           >{{ user.UserName }}</label
+        > -->
+        <button
+          style="color: #003a18; font-weight: 500; font-size: 15px"
+          mat-menu-item
         >
-        <button style="color: #00c853" mat-menu-item>
           <mat-icon class="menu-icon">help</mat-icon>
           <span class="menu-item">Help</span>
         </button>
-        <button style="color: #00c853" mat-menu-item>
+        <button
+          style="color: #003a18; font-weight: 500; font-size: 15px"
+          mat-menu-item
+        >
           <mat-icon class="menu-icon">lightbulb_circle</mat-icon>
           <span class="menu-item">FAQ</span>
         </button>
-        <button style="color: red" mat-menu-item (click)="logout()">
-          <mat-icon class="menu-icon">logout</mat-icon>
+        <button
+          style="color: #bd2130; font-weight: 500; font-size: 15px"
+          mat-menu-item
+          (click)="logout()"
+        >
+          <mat-icon class="menu-icon" style="color: #bd2130 !important"
+            >logout</mat-icon
+          >
           <span class="menu-item">Log Out</span>
         </button>
       </mat-menu>
     </div>
   </div>
+  <button
+    mat-icon-button
+    [matMenuTriggerFor]="menu"
+    fxHide.xs="false"
+    fxHide.md="true"
+    fxHide.sm="true"
+    fxHide.lg="true"
+    fxHide.xl="true"
+    fxLayoutAlign="end center"
+  >
+    <img
+      src="../../../../assets/images/default-user.png"
+      width="30px"
+      height="30px"
+    />
+  </button>
 </mat-toolbar>

@@ -1,19 +1,19 @@
 <div
   class="widget-div"
-  [ngStyle]="{ border: highlight ? 'solid 3px #00D6A0' : 'solid 1px #ccc;' }"
+  [ngStyle]="{ border: highlight ? 'solid 3px #006D2D' : 'solid 1px #ccc;' }"
   [id]="table.WidgetId"
 >
   <div fxLayoutAlign="space-between center">
     <div class="title-div" *ngIf="!isEditing">
       <label
         class="widget-title"
-        [ngStyle]="{ color: highlight ? '#00D6A0' : 'black' }"
+        [ngStyle]="{ color: highlight ? '#006D2D' : 'black' }"
         >{{ table.TableTitle }}</label
       >
       <img
         src="../../../../assets/images/edit-iconpng.png"
         class="edit-icon material-symbols-outlined"
-        matTooltip="Edit title"
+        matTooltip="Edit Title"
         matRipple
         (click)="enableEditing()"
       />
@@ -25,6 +25,8 @@
         [value]="newTitle"
         [(ngModel)]="newTitle"
         (keyup.enter)="saveTitle()"
+        (keyup.escape)="cancel()"
+        (keydown)="characterLimitValidator($event)"
         (click)="onClickInput()"
         maxlength="15"
         minlength="1"
@@ -49,6 +51,7 @@
     <mat-icon
       [matMenuTriggerFor]="menu"
       class="material-symbols-outlined menu-icon"
+      matTooltip="Widget Options"
       matRipple
       >more_vert</mat-icon
     >
@@ -80,7 +83,7 @@
       style="float: right"
       (click)="openAddData()"
     >
-      <mat-icon>add_circle</mat-icon>
+      <mat-icon>{{ !otpAdded() ? "add_circle" : "edit" }}</mat-icon>
       {{ !otpAdded() ? "Add Data" : "Modify Data" }}
     </button>
   </div>

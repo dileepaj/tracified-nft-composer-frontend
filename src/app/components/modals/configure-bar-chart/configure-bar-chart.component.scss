@@ -7,6 +7,7 @@
 .btn {
   @include btn-primary;
 }
+
 ::ng-deep .mat-focused .mat-form-field-label {
   /*change color of label*/
   color: $green !important;
@@ -43,7 +44,7 @@
 }
 
 .bar-chart {
-  height: 500px;
+  height: 100vh;
   width: 100%;
   overflow: auto;
   display: flex;
@@ -53,18 +54,25 @@
 }
 
 .bar-chart-canvas {
-  margin: 50px;
+  margin: -200px;
+  min-width: 300px;
+  min-height: 300px;
+ // margin: 50px;
+}
+.bar-chart-canvas1{
+  min-width: 300px;
+  min-height: 300px;
 }
 
 .mat-form-field + .mat-form-field {
-  margin-left: 8px;
+  margin-left: 3px;
 }
 
 .mat-form-field {
   transform: scale(0.95);
 }
 
-.example-container .mat-form-field + .mat-form-field {
+.example-container {
   margin-left: 8px;
 }
 
@@ -74,9 +82,21 @@
 
 .field {
   margin-top: 10px;
-  margin-left: 10px;
-  margin-right: 10px;
 }
+
+.field-card {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  height: fit-content;
+  justify-content: space-between;
+}
+
+.field-card-mobile{
+  display:inline-block;
+}
+
 .field mat-form-field {
   width: 120px !important;
 }
@@ -86,11 +106,17 @@
 }
 
 .colorbox {
-  margin-top: 2px;
   height: 50px;
   width: 50px;
   cursor: pointer;
-  margin-left: 20px;
+}
+
+.colorbox-font {
+  margin-top: 1.4px;
+  height: 49.46px;
+  width: 49.46px;
+  cursor: pointer;
+  margin-left: 10px;
 }
 
 .field-set {
@@ -109,6 +135,12 @@
   margin-right: 5px;
 }
 
+.title-icon-configure {
+  vertical-align: middle;
+  margin-right: 5px;
+  margin-left: 6px;
+}
+
 .fields-header {
   display: flex;
   flex-direction: row;
@@ -123,13 +155,10 @@
 .field mat-card {
   display: flex;
   flex-direction: row;
-}
-
-.field .colorbox {
-  position: absolute;
-  right: 1.5px;
-  top: 1.5px;
-  bottom: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1px 1px 1px 15px !important;
 }
 
 .bar-chart-fields {
@@ -137,12 +166,15 @@
   background: #ccc;
   padding: 10px 10px 15px 10px;
   border-radius: 5px;
+  margin-left: 5px;
 }
 
 .mat-tab-group.mat-primary .mat-ink-bar {
   background-color: $background !important;
 }
-
+.mat-tab-body-content{
+  overflow: hidden;
+}
 @keyframes spinner {
   to {
     transform: rotate(360deg);
@@ -161,14 +193,13 @@
   margin-left: -10px;
   border-radius: 50%;
   border: 2px solid #ffffff;
-  border-top-color: #000000;
+  border-top-color: #006d2d;
   animation: spinner 0.8s linear infinite;
 }
 
-
-
 .field-name-input input[type="text"] {
   border-bottom: 1px solid #cdcdcd;
+  
 }
 
 .field-name-input input[type="text"]:focus {
@@ -191,4 +222,228 @@
 .btn:disabled {
   background-color: whitesmoke;
   color: #ccc !important;
+}
+
+.mat-tab-label .mat-tab-label-content {
+  font-family: "Inter" !important;
+}
+
+h2,
+h3,
+label {
+  font-family: "Inter" !important;
+}
+
+.form-div {
+  font-family: "Inter" !important;
+}
+
+.mat-form-field,
+.field-name-input {
+  font-family: "Inter" !important;
+}
+
+.modal-footer {
+  width: 70vw;
+}
+
+.bar-chart1-canvas{
+  margin-top: -200px;
+}
+
+@media only screen and (max-width: 3000px) {
+  .modal-content {
+    width: 70vw;
+  }
+  .modal-footer {
+    padding-bottom: 20px;
+    width: 70vw;
+  }
+}
+
+@media only screen and (max-width: 2000px) {
+  .modal-content {
+    width: 75vw;
+  }
+  .modal-footer {
+    width: 70vw;
+    padding-bottom: 20px;
+  }
+}
+
+@media only screen and (max-width: 1375px) {
+  .bar-chart-canvas {
+    //margin: 20px;
+    min-width: 200px;
+    min-height: 200px;
+  }
+  .modal-content {
+    width: 70vw;
+  }
+  .modal-footer {
+    padding-bottom: 20px;
+    width: 70vw;
+  }
+}
+
+@media only screen and (max-width: 880px) {
+  .bar-chart-canvas {
+    margin: -100px;
+    min-width: 200px;
+    min-height: 200px;
+  }
+  .modal-content {
+    width: 72vw;
+  }
+  .modal-footer {
+    width: 70vw;
+    padding-bottom: 20px;
+  }
+  .bar-chart1-canvas1{
+    margin-top: 0;
+  }
+}
+
+@media only screen and (max-width: 729px) {
+  .bar-chart-canvas {
+    margin: 0;
+    min-width: 1300px;
+    min-height: 130px;
+  }
+  .modal-content {
+    width: 70vw;
+  }
+  .modal-footer {
+    padding-bottom: 20px;
+  }
+  
+}
+
+@media only screen and (max-width: 550px) {
+  .bar-chart-canvas {
+    min-width: 100px;
+    min-height: 100px;
+  }
+  .modal-content {
+    padding: 0px 9px;
+    width: 70vw;
+  }
+  .modal-footer {
+    width: 60vw;
+    padding-bottom: 20px;
+  }
+}
+
+@media only screen and (max-width: 414px) {
+  .bar-chart-canvas {
+    //margin: 20px;
+    min-width: 100px;
+    min-height: 100px;
+  }
+  .modal-content {
+    padding: 0px 9px;
+    width: 312px;
+  }
+  .modal-footer {
+    width: 60vw;
+    padding-bottom: 20px;
+  }
+  .field mat-card {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 1px 1px 1px 5px !important;
+  }
+}
+@media only screen and (max-width: 393px) {
+  .bar-chart-canvas {
+    //margin: 20px;
+    min-width: 100px;
+    min-height: 100px;
+  }
+  .bar-chart-view{
+    width: 78vw;
+  }
+}
+
+@media only screen and (max-width: 390px) {
+  .bar-chart-canvas {
+    //margin: 20px;
+    min-width: 100px;
+    min-height: 100px;
+  }
+
+  .modal-content {
+    padding: 0px 0px;
+    width: 310px;
+  }
+
+  .bar-chart {
+    height: 100vh;
+    width: 100%;
+    overflow: auto;
+    display: flex;
+    align-items: center;
+  }
+  .modal-footer {
+    width: 60vw;
+    padding-bottom: 20px;
+  }
+  .bar-chart-view{
+    width: 77vw;
+  }
+}
+
+@media only screen and (max-width: 376px) {
+  .bar-chart-canvas {
+    //margin: 20px;
+    min-width: 100px;
+    min-height: 100px;
+  }
+  .modal-content {
+    padding: 0px 0px;
+    width: 292px;
+  }
+  .modal-footer {
+    width: 60vw;
+    padding-bottom: 20px;
+  }
+  .bar-chart-view{
+    width: 78vw;
+  }
+  .colorbox {
+    height: 50px;
+    width: 50px;
+    cursor: pointer;
+    padding-top: 8px;
+
+  }
+  .field mat-card {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 1px 1px 1px 5px !important;
+  }
+  
+}
+
+.input-set {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content:start;
+}
+
+.input-set-mobile {
+  align-items: center;
+  display: initial;
+}
+
+/* ensures the increment/decrement arrows always display */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {
+  opacity: 1;
 }

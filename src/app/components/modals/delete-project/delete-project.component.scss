@@ -4,3 +4,10 @@
 .btn {
   @include btn-primary;
 }
+
+h2{
+  font-family: 'Inter' !important;
+}
+.delete-project{
+  word-break: break-word;
+}

@@ -1,6 +1,6 @@
 pipeline {
-  agent { label 'linux-slave' }
-  tools {nodejs "nodejs-12.20.1"}
+  agent any
+  tools {nodejs "nodejs-12"}
   stages {
     stage('Build') {
       steps {
@@ -8,7 +8,7 @@ pipeline {
         sh 'npm --version'
         sh 'npm install'
         script {
-          if (env.BRANCH_NAME == "release") {
+          if (env.BRANCH_NAME == "master") {
             sh 'npm run build-prod'
           } else if(env.BRANCH_NAME == "qa") {
             sh 'npm run build-qa'
@@ -33,21 +33,87 @@ pipeline {
     stage('Deploy to Staging') {
       when { branch 'staging' }
       steps {
-        s3Upload consoleLogLevel: 'INFO', dontWaitForConcurrentBuildCompletion: false, entries: [[bucket: 'staging.tracified-nft-composer-frontend.com', excludedFile: '', flatten: false, gzipFiles: false, keepForever: false, managedArtifacts: false, noUploadOnFailure: true, selectedRegion: 'ap-south-1', showDirectlyInBrowser: false, sourceFile: 'dist/tracified-nft-composer-frontend/**', storageClass: 'STANDARD', uploadFromSlave: false, useServerSideEncryption: false]], pluginFailureResultConstraint: 'FAILURE', profileName: 'tracified-admin-frontend-jenkins-deployer', userMetadata: []
+
+        s3Upload(
+          consoleLogLevel: 'INFO',
+          dontWaitForConcurrentBuildCompletion: false,
+          entries: [[
+            bucket: 'staging.nftcomposer.tracified.com',
+            excludedFile: '',
+            flatten: false,
+            gzipFiles: false,
+            keepForever: false,
+            managedArtifacts: false,
+            noUploadOnFailure: true,
+            selectedRegion: 'ap-south-1',
+            showDirectlyInBrowser: false,
+            sourceFile: 'dist/tracified-nft-composer-frontend/**',
+            storageClass: 'STANDARD',
+            uploadFromSlave: false,
+            useServerSideEncryption: false
+          ]],
+          pluginFailureResultConstraint: 'FAILURE',
+          profileName: 'tracified-admin-frontend-jenkins-deployer',
+          userMetadata: [],
+          dontSetBuildResultOnFailure: false
+        )
 
       }
     }
      stage('Deploy to QA') {
       when { branch 'qa' }
       steps {
-        s3Upload consoleLogLevel: 'INFO', dontWaitForConcurrentBuildCompletion: false, entries: [[bucket: 'qa.tracified-nft-composer-frontend.com', excludedFile: '', flatten: false, gzipFiles: false, keepForever: false, managedArtifacts: false, noUploadOnFailure: true, selectedRegion: 'ap-south-1', showDirectlyInBrowser: false, sourceFile: 'dist/tracified-nft-composer-frontend/**', storageClass: 'STANDARD', uploadFromSlave: false, useServerSideEncryption: false]], pluginFailureResultConstraint: 'FAILURE', profileName: 'tracified-admin-frontend-jenkins-deployer', userMetadata: []
+        s3Upload(
+          consoleLogLevel: 'INFO',
+          dontWaitForConcurrentBuildCompletion: false,
+          entries: [[
+            bucket: 'qa.nftcomposer.tracified.com',
+            excludedFile: '',
+            flatten: false,
+            gzipFiles: false,
+            keepForever: false,
+            managedArtifacts: false,
+            noUploadOnFailure: true,
+            selectedRegion: 'ap-south-1',
+            showDirectlyInBrowser: false,
+            sourceFile: 'dist/tracified-nft-composer-frontend/**',
+            storageClass: 'STANDARD',
+            uploadFromSlave: false,
+            useServerSideEncryption: false
+          ]],
+          pluginFailureResultConstraint: 'FAILURE',
+          profileName: 'tracified-admin-frontend-jenkins-deployer',
+          userMetadata: [],
+          dontSetBuildResultOnFailure: false
+        )
       }
     }
     stage('Deploy to Production') {
-      when { branch 'release' }
+      when { branch 'master' }
       steps {
-        s3Upload consoleLogLevel: 'INFO', dontWaitForConcurrentBuildCompletion: false, entries: [[bucket: 'tracified-nft-composer-frontend.com', excludedFile: '', flatten: false, gzipFiles: false, keepForever: false, managedArtifacts: false, noUploadOnFailure: true, selectedRegion: 'ap-south-1', showDirectlyInBrowser: false, sourceFile: 'dist/tracified-nft-composer-frontend/**', storageClass: 'STANDARD', uploadFromSlave: false, useServerSideEncryption: false]], pluginFailureResultConstraint: 'FAILURE', profileName: 'tracified-admin-frontend-jenkins-deployer', userMetadata: []
-
+        s3Upload(
+          consoleLogLevel: 'INFO',
+          dontWaitForConcurrentBuildCompletion: false,
+          entries: [[
+            bucket: 'nftcomposer.tracified.com',
+            excludedFile: '',
+            flatten: false,
+            gzipFiles: false,
+            keepForever: false,
+            managedArtifacts: false,
+            noUploadOnFailure: true,
+            selectedRegion: 'ap-south-1',
+            showDirectlyInBrowser: false,
+            sourceFile: 'dist/tracified-nft-composer-frontend/**',
+            storageClass: 'STANDARD',
+            uploadFromSlave: false,
+            useServerSideEncryption: false
+          ]],
+          pluginFailureResultConstraint: 'FAILURE',
+          profileName: 'tracified-admin-frontend-jenkins-deployer',
+          userMetadata: [],
+          dontSetBuildResultOnFailure: false
+        )
       }
     }
   }

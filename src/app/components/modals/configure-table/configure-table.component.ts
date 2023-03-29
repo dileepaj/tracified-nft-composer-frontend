@@ -23,6 +23,7 @@ import { DndServiceService } from 'src/app/services/dnd-service.service';
 
 import { Data } from '@angular/router';
 import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-configure-table',
@@ -46,6 +47,10 @@ export class ConfigureTableComponent implements OnInit {
   saving: boolean = false;
   querySuccess: boolean = false;
   prevResults: string = '';
+  rowHeight: string = '550px';
+  rowHeightMobile: boolean = false;
+  colspan1: string;
+  rowHeightEditor: string = '550px';
 
   constructor(
     private store: Store<AppState>,
@@ -53,7 +58,8 @@ export class ConfigureTableComponent implements OnInit {
     public dialog: MatDialog,
     private composerService: ComposerBackendService,
     private dndService: DndServiceService,
-    private popupMsgService: PopupMessageService
+    private popupMsgService: PopupMessageService,
+    private breakpointObserver: BreakpointObserver
   ) {
     this.nft$ = this.store.select(selectNFTContent);
     this.store.select(selectProjectStatus).subscribe((status) => {
@@ -69,6 +75,23 @@ export class ConfigureTableComponent implements OnInit {
       this.querySuccess = true;
     }
     this.assignValues();
+    this.detectBreakpoint();
+  }
+
+  //detect width
+  private detectBreakpoint(): void {
+    this.breakpointObserver
+      .observe(['(max-width: 1375px)'])
+      .subscribe((result) => {
+        this.rowHeight = result.matches ? '350px' : '550px';
+        this.rowHeightMobile = result.matches;
+        this.colspan1 = result.matches ? '5' : '3';
+      });
+    this.breakpointObserver
+      .observe(['(max-width: 376px)'])
+      .subscribe((result) => {
+        this.rowHeightEditor = result.matches ? '400px' : '500px';
+      });
   }
 
   private showChart() {}

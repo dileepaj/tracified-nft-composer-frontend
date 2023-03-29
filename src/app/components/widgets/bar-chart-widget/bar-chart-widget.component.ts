@@ -204,17 +204,23 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
   public saveTitle() {
     this.onClickInput();
     if (this.newTitle !== '') {
-      this.barChart = {
-        ...this.barChart,
-        ChartTitle: this.newTitle,
-      };
+      if (this.newTitle.match(/[^a-zA-Z0-9 ]/gm)) {
+        this.popupMsgService.openSnackBar(
+          'Please remove special characters from widget title'
+        );
+      } else {
+        this.barChart = {
+          ...this.barChart,
+          ChartTitle: this.newTitle,
+        };
 
-      if (this.service.getSavedStatus(this.barChart.WidgetId)) {
-        this.updateInDB();
+        if (this.service.getSavedStatus(this.barChart.WidgetId)) {
+          this.updateInDB();
+        }
+
+        this.store.dispatch(updateBarChart({ chart: this.barChart }));
+        this.isEditing = false;
       }
-
-      this.store.dispatch(updateBarChart({ chart: this.barChart }));
-      this.isEditing = false;
     } else {
       this.popupMsgService.openSnackBar('Widget title can not be empty');
     }
@@ -228,6 +234,17 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
   public cancel() {
     this.isEditing = false;
     this.newTitle = this.barChart.ChartTitle!;
+  }
+
+  //check whether the widget title exceeds the character limit or not
+  public characterLimitValidator(event: any) {
+    const val = event.target.value;
+    const id = event.target.id;
+    const key = event.keyCode || event.charCode;
+
+    if (val.length === 15 && key >= 48 && key <= 90) {
+      this.popupMsgService.showOnce('Widget title is limited to 15 characters');
+    }
   }
 
   //triggered when useer clicks on anywhere in the document

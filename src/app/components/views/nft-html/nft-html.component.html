@@ -1,10 +1,49 @@
 <mat-drawer-container class="sidebar-container">
-  <mat-drawer class="side-nav" mode="side" position="start" [opened]="sidenav">
+  <mat-drawer
+    class="side-nav"
+    mode="side"
+    position="start"
+    [opened]="sidenav"
+    [mode]="sideNavMode"
+  >
     <app-sidebar></app-sidebar>
   </mat-drawer>
-  <mat-drawer-content>
-    <div class="container">
-      <div class="content">
+  <mat-drawer-content class="content-wrapper">
+    <div
+      style="margin: 0px -10px -10px 0px"
+      fxHide.lt-md="false"
+      fxHide.md="true"
+      fxHide.gt-md="true"
+    >
+      <div
+        id="project-title"
+        fxHide.lt-md="false"
+        fxHide.md="true"
+        fxHide.gt-md="true"
+        mat-list-item
+      >
+        <div
+          class="title-icon"
+          matTooltip="Back To Projects"
+          (click)="closeProject()"
+        >
+          <mat-icon mat-list-icon> chevron_left </mat-icon>
+        </div>
+        <div class="title-text">
+          <label>{{ title }}</label>
+        </div>
+      </div>
+    </div>
+    <div
+      ngClass.md="container"
+      ngClass.gt-md="container"
+      ngClass.lt-md="container-mobile"
+    >
+      <div
+        ngClass.md="content"
+        ngClass.gt-md="content"
+        ngClass.lt-md="content-mobile"
+      >
         <mat-progress-bar
           mode="indeterminate"
           *ngIf="loaded"
@@ -19,7 +58,11 @@
       </div>
     </div>
 
-    <div class="btn-container">
+    <div
+      ngClass.md="btn-container"
+      ngClass.gt-md="btn-container"
+      ngClass.lt-md="btn-container-mobile"
+    >
       <button
         class="btn"
         (click)="openCodebehindPopup()"

@@ -71,21 +71,6 @@ export class DeleteWidgetComponent implements OnInit {
           },
         });
         break;
-      case 'Bubble Chart':
-        this.composerService.deleteChart(this.widgetId).subscribe({
-          next: (res) => {},
-          error: (err) => {
-            this.popupMsgService.openSnackBar(
-              'An unexpected error occured. Please try again later'
-            );
-          },
-          complete: () => {
-            this.popupMsgService.openSnackBar('Bubble chart deleted');
-            this.store.dispatch(projectUnsaved());
-            this.dialogRef.close(true);
-          },
-        });
-        break;
       case 'Table':
         this.composerService.deleteTable(this.widgetId).subscribe({
           next: (res) => {},
@@ -116,7 +101,7 @@ export class DeleteWidgetComponent implements OnInit {
           },
         });
         break;
-      case 'Proofbot':
+      case 'Proof Bot':
         this.composerService.deleteProofbot(this.widgetId).subscribe({
           next: (res) => {},
           error: (err) => {

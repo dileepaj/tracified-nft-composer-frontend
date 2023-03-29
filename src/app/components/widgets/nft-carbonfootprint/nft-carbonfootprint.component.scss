@@ -145,3 +145,17 @@ h2 button {
   /* or 23px */
   color: #525252;
 }
+
+.mat-menu-item{
+  line-height: 30px;
+  height: 30px;
+}
+
+::ng-deep.mat-menu-content:not(:empty) {
+  padding-top: 1px !important;
+  padding-bottom: 1px !important;
+}
+
+::ng-deep.mat-menu-panel {
+  min-height: 10px !important;
+}

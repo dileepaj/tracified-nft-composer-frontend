@@ -17,18 +17,14 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatStepper } from '@angular/material/stepper';
-import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngrx/store';
-import { Items } from 'src/app/entity/batch';
 import { BatchesService } from 'src/app/services/batches.service';
 import { AppState } from 'src/app/store/app.state';
 import {
   addCardtStatus,
   projectUnsaved,
   updateBarChart,
-  updateBubbleChart,
   updateCarbonFootprint,
   updatePieChart,
   updateProofBot,
@@ -40,7 +36,6 @@ import * as MomentAll from 'moment';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 import {
   barchart,
-  bubblechart,
   carbonFp,
   piechart,
   proofbot,
@@ -55,6 +50,7 @@ import { ProofBot, ProofData, ProofURL } from 'src/models/nft-content/proofbot';
 import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
 import { MatInput } from '@angular/material/input';
 import { MatDateRangePicker } from '@angular/material/datepicker';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-select-batch',
@@ -234,10 +230,6 @@ export class SelectBatchComponent implements OnInit {
             this.store.dispatch(updatePieChart({ chart: this.widget }));
             this.saveWidget();
             break;
-          case bubblechart:
-            this.store.dispatch(updateBubbleChart({ chart: this.widget }));
-            this.saveWidget();
-            break;
           case proofbot:
             this.getProofbotData();
             break;
@@ -265,6 +257,16 @@ export class SelectBatchComponent implements OnInit {
     }
   }
 
+  public checkType(x:any) {
+    if (typeof x === 'object' && JSON.stringify(x).startsWith('{')) {
+        return 'object';
+    } else if (Array.isArray(x)) {
+        return 'array';
+    } else {
+        return typeof x;
+    }
+}
+
   /**
    * @function openWidgetContent - open widget content
    */
@@ -274,6 +276,7 @@ export class SelectBatchComponent implements OnInit {
         id: this.id,
         widget: this.widget,
       },
+      autoFocus: false,
     });
 
     this.dialogRef.close();
@@ -547,19 +550,19 @@ export class SelectBatchComponent implements OnInit {
         let Title = '';
         let children: Children[] = [];
         let images: string[] = [];
-        let Timestamp = '';
-        let CurrentTimestamp = '';
+        let split = true;
 
         if (this.workflow.stages[i].stageId === data.stageID) {
           Title = this.workflow.stages[i].name;
           data.traceabilityDataPackets.map((tdp: any) => {
+            split = true;
+
             tdp.traceabilityData.map((d: any) => {
-              Timestamp = tdp.timestamp;
               if (d.type === 3) {
-                if (CurrentTimestamp == Timestamp) {
+                if (!split) {
                   children.push({
                     NewTDP: false,
-                    Timestamp: tdp.timestamp,
+                    Timestamp: this.convertDate(tdp.timestamp),
                     Key: this.CamelcaseToWord(d.key),
                     Value: this.convertDate(d.val),
                   });
@@ -567,12 +570,12 @@ export class SelectBatchComponent implements OnInit {
                 } else {
                   children.push({
                     NewTDP: true,
-                    Timestamp: tdp.timestamp,
+                    Timestamp: this.convertDate(tdp.timestamp),
                     Key: this.CamelcaseToWord(d.key),
                     Value: this.convertDate(d.val),
                   });
                   count++;
-                  CurrentTimestamp = Timestamp;
+                  split = false;
                 }
               } else if (d.type === 4) {
                 d.val.map((img: any) => {
@@ -677,6 +680,7 @@ export class SelectBatchComponent implements OnInit {
               TxnHash: data[i].Txnhash,
               AvailableProofs: data[i].AvailableProof,
               Urls: urls,
+              Timestamp: moment(data[i].Timestamp).toString(),
             });
           }
 

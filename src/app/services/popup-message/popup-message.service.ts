@@ -36,4 +36,11 @@ export class PopupMessageService {
       }
     });
   }
+
+  public showOnce(msg: string) {
+    if (this.msgQueue.length === 0) {
+      this.msgQueue.push(msg);
+      this.showSnackBar();
+    }
+  }
 }

@@ -25,7 +25,6 @@ import { WidgetContentComponent } from '../../modals/widget-content/widget-conte
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   barchart,
-  bubblechart,
   carbonFp,
   nftimage,
   piechart,
@@ -54,6 +53,9 @@ import { WidgethighlightingService } from 'src/app/services/widgethighlighting.s
 import { ProjectLoaderService } from 'src/app/services/project-loader.service';
 import { UserserviceService } from 'src/app/services/userservice.service';
 import { ComposerUser } from 'src/models/user';
+import { MatDrawerMode } from '@angular/material/sidenav';
+import { CloseProjectComponent } from '../../modals/close-project/close-project.component';
+import { JwtserviceService } from 'src/app/services/jwtservice.service';
 
 export interface Widget {
   type: string;
@@ -84,6 +86,11 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   user: ComposerUser;
   projLoading: boolean = false;
   newProj: boolean;
+  isClicked: boolean = false;
+  sideNavMode: MatDrawerMode = 'side';
+  title = 'project_name';
+  projId: string = '';
+  nft$: Observable<NFTContent>;
 
   widgetTypes: any = {
     timeline: timeline,
@@ -91,7 +98,6 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     carbon: carbonFp,
     bar: barchart,
     pie: piechart,
-    bubble: bubblechart,
     table: table,
     image: nftimage,
   };
@@ -148,14 +154,6 @@ export class ComposerComponent implements OnInit, AfterViewInit {
       icon: 'pie_chart',
     },
     {
-      type: this.widgetTypes.bubble,
-      used: false,
-      saved: false,
-      batch: false,
-      name: 'Bubble Chart',
-      icon: 'bubble_chart',
-    },
-    {
       type: this.widgetTypes.table,
       used: false,
       saved: false,
@@ -177,15 +175,24 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     private highlightService: WidgethighlightingService,
     private router: Router,
     private projectLoader: ProjectLoaderService,
-    private userService: UserserviceService
+    private userService: UserserviceService,
+    private jwt:JwtserviceService,
   ) {
     //this.openAddData();
     this.sidebarService.getStatus().subscribe((val) => {
       this.sidenav = val;
     });
+    const subscription = this.store
+      .select(selectNFTContent)
+      .subscribe((nft) => {
+        this.title = nft.ProjectName;
+        this.projId = nft.ProjectId;
+      });
   }
 
   ngOnInit(): void {
+
+
     this.store.select(selectProjectStatus).subscribe((status) => {
       this.newProj = status;
     });
@@ -194,11 +201,23 @@ export class ComposerComponent implements OnInit, AfterViewInit {
 
     this.usedWidgets = this.stateService.getWidgets();
 
-    this.user = this.userService.getCurrentUser();
+    this.user = this.jwt.getUser()
     //read the router paramter assign it to id
     this.sub = this.route.params.subscribe((params) => {
       this.id = params['id'];
     });
+    if (!sessionStorage.getItem('composerProjectId')){
+      if (!!this.id) {
+        this.projectLoader.loadExistingProject(this.id, (projectId:any) => {
+          if(projectId==undefined){
+            this.router.navigate(['/layout/projects/' + this.user.UserID]);
+          }
+          this.usedWidgets = this.stateService.getWidgets();
+          sessionStorage.setItem('composerRefreshed', '0');
+          this.projLoading = false;
+        });
+      }
+    }
     if (!!this.id) {
       this.loadExistingProjectdata(this.id);
     }
@@ -214,9 +233,22 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     this.store.select(selectProjectSavedState).subscribe((status) => {
       this.projectSaved = status;
     });
+
+    if (window.innerWidth < 960) {
+      this.sidebarService.close();
+      this.sideNavMode = 'over';
+      this.opened = false;
+      this.isClicked = true;
+    } else {
+      this.sidebarService.open();
+      this.sideNavMode = 'side';
+      this.opened = true;
+      this.isClicked = false;
+    }
   }
 
   private checkRefreshed() {
+    this.user = this.jwt.getUser()
     //check whether page was refreshed or not
     if (parseInt(sessionStorage.getItem('composerRefreshed') || '0') === 1) {
       const projectId = sessionStorage.getItem('composerProjectId') || '';
@@ -230,7 +262,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
               sessionStorage.setItem('composerRefreshed', '0');
               this.projLoading = false;
             } else {
-              this.router.navigate(['/layout/projects/' + this.user.TenentId]);
+              this.router.navigate(['/layout/projects/' + this.user.UserID]);
               sessionStorage.setItem('composerRefreshed', '0');
               this.projLoading = false;
             }
@@ -243,7 +275,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
           });
         }
       } else {
-        this.router.navigate(['/layout/projects/' + this.user.TenentId]);
+        this.router.navigate(['/layout/projects/' + this.user.UserID]);
       }
     }
   }
@@ -525,5 +557,41 @@ export class ComposerComponent implements OnInit, AfterViewInit {
         })
         .join('')
     );
+  }
+
+  executeOpposite() {
+    if (this.isClicked == true) {
+      this.isClicked = false;
+    } else {
+      this.isClicked = true;
+    }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    if (event.target.innerWidth < 960) {
+      this.opened = false;
+      this.sideNavMode = 'over';
+      this.isClicked = true;
+      this.sidebarService.close();
+    } else {
+      this.opened = true;
+      this.sideNavMode = 'side';
+      this.isClicked = false;
+      this.sidebarService.open();
+    }
+  }
+
+  public closeProject() {
+    //check whether all the changes are already saved or not
+    if (!this.projectSaved) {
+      this.dialog.open(CloseProjectComponent, {
+        data: {
+          user: this.user,
+        },
+      });
+    } else {
+      this.router.navigate(['/layout/projects/' + this.user.UserID]);
+    }
   }
 }

@@ -1,19 +1,28 @@
 <h2 mat-dialog-title>{{ onLogout ? "Log Out" : "Close Project" }}</h2>
-<mat-dialog-content class="mat-typography">
+<mat-dialog-content class="mat-typography"  style="padding: 0 24px;">
   <div>
     Do you want to save the changes made to the project
     <b>"{{ nftContent.ProjectName }}"</b>
     {{ onLogout ? "before logging out?" : "?" }}
   </div>
+  <div style="display: flex; flex-direction: row; background-color: red"></div>
 </mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close class="btn-cancel" (click)="cancel()">
+
+<mat-dialog-actions align="end"
+  ><button
+    mat-button
+    mat-dialog-close
+    class="btn-cancel"
+    ngClass.lt-md="btn-small"
+    (click)="cancel()"
+  >
     Cancel
   </button>
   <button
     mat-button
     mat-dialog-close
     class="btn-dont-save"
+    ngClass.lt-md="btn-small"
     (click)="dontSave()"
   >
     Don't Save
@@ -22,9 +31,11 @@
     mat-button
     cdkFocusInitial
     class="btn"
+    ngClass.lt-md="btn-small"
     [disabled]="saving"
     (click)="save()"
   >
-    <mat-icon>save</mat-icon> <span [class.spinner]="saving"> </span>Save
+    <mat-icon class="save-icon">save</mat-icon>
+    <span [class.spinner]="saving"> </span>Save
   </button>
 </mat-dialog-actions>

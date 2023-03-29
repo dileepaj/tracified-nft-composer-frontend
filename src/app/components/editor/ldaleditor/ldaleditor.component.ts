@@ -8,31 +8,17 @@ import {
   ViewEncapsulation,
   EventEmitter,
   Output,
+  HostListener,
 } from '@angular/core';
 import * as ace from 'ace-builds';
 import { ComposerBackendService } from 'src/app/services/composer-backend.service';
 import { Store } from '@ngrx/store';
 import {
-  addQueryResult,
-  deleteQueryResult,
-  updateBarChart,
-  updateBubbleChart,
-  updatePieChart,
-  updateTable,
-} from 'src/app/store/nft-state-store/nft.actions';
+  addQueryResult} from 'src/app/store/nft-state-store/nft.actions';
 import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
-import {
-  selectNFT,
-  selectNFTContent,
-  selectQueryResult,
-} from 'src/app/store/nft-state-store/nft.selector';
+import {selectQueryResult} from 'src/app/store/nft-state-store/nft.selector';
 import { AppState } from 'src/app/store/app.state';
-import {
-  barchart,
-  bubblechart,
-  piechart,
-  table,
-} from 'src/models/nft-content/widgetTypes';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-ldaleditor',
@@ -228,11 +214,13 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
     'GetLatestDate',
     'AddPeriod',
   ];
+  rowHeightMobile: boolean;
 
   constructor(
     private apiService: ComposerBackendService,
     private popupMsgService: PopupMessageService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private breakpointObserver: BreakpointObserver
   ) {}
 
   ngAfterViewInit(): void {
@@ -241,6 +229,16 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.setWordCompleter(this.keyWordList, this.keyWordList2);
+    this.detectBreakpoint();
+  }
+
+  //detect width
+  private detectBreakpoint(): void {
+    this.breakpointObserver
+      .observe(['(max-width: 739px)'])
+      .subscribe((result) => {
+        this.rowHeightMobile = result.matches;
+      });
   }
 
   /**
@@ -259,12 +257,25 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
       enableBasicAutocompletion: true,
       enableLiveAutocompletion: true,
       enableSnippets: true,
-      fontSize: '15px',
+      fontSize: this.rowHeightMobile ? '10px' : '15px',
     });
     this.aceEditor.session.setValue(this.query);
     this.aceEditor.on('change', () => {
       this.query = this.aceEditor.getValue();
     });
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    if (event.target.innerWidth < 739) {
+      this.aceEditor.setOptions({
+        fontSize: '10px',
+      });
+    } else {
+      this.aceEditor.setOptions({
+        fontSize: '15px',
+      });
+    }
   }
 
   /**
@@ -406,33 +417,6 @@ export class LdaleditorComponent implements OnInit, AfterViewInit {
         result.val['ChartData'].length > 0 &&
         Object.keys(result.val['ChartData'][0]).includes('Name') &&
         Object.keys(result.val['ChartData'][0]).includes('Value')
-      ) {
-        this.onQueryResult.emit({
-          data: result.val['ChartData'],
-          query: this.query,
-          prevResults: this.prevResults,
-          success: true,
-        });
-        this.saveExecuter();
-      } else {
-        this.onQueryResult.emit({
-          query: this.query,
-          prevResults: this.prevResults,
-          success: false,
-        });
-        this.popupMsgService.openSnackBar(
-          'Invalid query output. Please check the query.'
-        );
-      }
-    } else if (this.type === 'bubble') {
-      if (
-        result['val'] !== undefined &&
-        result.val['ChartData'] !== undefined &&
-        result.val['ChartData'].length > 0 &&
-        Object.keys(result.val['ChartData'][0]).includes('Name') &&
-        Object.keys(result.val['ChartData'][0]).includes('Value') &&
-        Object.keys(result.val['ChartData'][0]).includes('X') &&
-        Object.keys(result.val['ChartData'][0]).includes('Y')
       ) {
         this.onQueryResult.emit({
           data: result.val['ChartData'],

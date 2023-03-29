@@ -1,24 +1,13 @@
 <div class="content">
   <div
-    fxLayout="row"
+    fxLayout="row wrap"
     fxLayoutAlign="space-between center"
-    style="min-height: 100px; margin-bottom: 15px"
+    class="header-class"
   >
     <div class="projects-left-div">
       <div class="mat-typography">
         <label
-          class="mat-h2"
-          style="
-            font-family: 'Inter';
-            font-style: normal;
-            font-weight: 400;
-            font-size: 24px;
-            line-height: 29px;
-            /* identical to box height */
-
-            color: #464646;
-          "
-          >Projects</label
+          class="mat-h2 project-header">Projects</label
         >
       </div>
       <div>
@@ -38,7 +27,11 @@
       <div class="button-container">
         <!--sort-->
         <div class="btn-sort" matTooltip="Sort By Date" matRipple>
-          <mat-icon class="material-symbols-outlined" (click)="toggleSort()">
+          <mat-icon
+            class="material-symbols-outlined"
+            (click)="toggleSort()"
+            style="font-size: 20px; height: 20px; width: 17px"
+          >
             swap_vert
           </mat-icon>
         </div>
@@ -67,7 +60,7 @@
             class="material-symbols-outlined"
             [class.btn-list-active]="listView"
           >
-            format_list_bulleted
+            list
           </mat-icon>
         </div>
         <div class="search-input-group">
@@ -96,8 +89,8 @@
       <div
         class="project-card-div"
         [fxFlex]="100 / gridColumns + '%'"
-        fxFlex.xl="20%"
-        fxFlex.lg="25%"
+        fxFlex.xl="25%"
+        fxFlex.lg="33.3%"
         fxFlex.xs="100%"
         fxFlex.sm="50%"
         fxFlex.md="33%"
@@ -147,7 +140,10 @@
                 <label class="proj-name cursor">{{
                   project.ProjectName
                 }}</label>
-                <div fxLayout="row" fxAlign="center ">
+                <label class="proj-description cursor">
+                  {{ project.Description }}
+                </label>
+                <div class="timestamp-div" fxLayout="row" fxAlign="center ">
                   <mat-icon class="material-icons-outlined time-icon cursor"
                     >schedule</mat-icon
                   >
@@ -200,8 +196,10 @@
           [ngStyle]="{ 'background-color': i % 2 !== 0 ? '#F8F8F8' : 'white' }"
         >
           <!--thumbnail-->
-          <div>
+          <div fxFlex.sm="25%" fxFlex.xs="25%">
             <div
+              fxFlex.sm="100%"
+              fxFlex.xs="100%"
               class="list-icon-div cursor"
               [ngStyle]="{
                 backgroundColor: getBgColor(project.ProjectId)
@@ -222,8 +220,89 @@
             </div>
           </div>
 
-          <!--proj name and timestamp and menu-->
-          <div class="list-item-content" fxLayoutAlign="space-between center">
+          <!--proj name and timestamp and menu (sm and xs screens)-->
+          <div
+            fxFlex.sm="75%"
+            fxFlex.xs="75%"
+            fxHide.md="true"
+            fxHide.lg="true"
+            fxHide.xl="true"
+            fxLayout="row"
+            style="margin: 4px"
+          >
+            <div
+              style="
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+              "
+              fxFlex="25%"
+              (click)="openExistingProject(project.ProjectId)"
+            >
+              <label
+                class="proj-title"
+                style="width: 100%; word-wrap: break-word"
+                ngStyle.sm="margin-left : 2%"
+                ngStyle.xs="margin-left : 0px"
+                ngStyle.md="margin-left : 0px"
+                ngStyle.lg="margin-left : 0px"
+                ngStyle.xl="margin-left : 0px"
+              >
+                <b>{{ project.ProjectName }}</b>
+              </label>
+            </div>
+            <div
+              style="
+                padding: 1px 1px 1px 1px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+              "
+              fxFlex="65%"
+              (click)="openExistingProject(project.ProjectId)"
+            >
+              <label class="proj-description cursor">
+                {{ project.Description }}
+              </label>
+              <div style="margin-left: -4px">
+                <mat-icon
+                  class="material-icons-outlined list-view-time-icon cursor"
+                  style="transform: scale(0.7)"
+                  >schedule</mat-icon
+                >
+                <label class="timestamp cursor" style="margin-left: -4px">
+                  {{ convertDate(project.Timestamp) }}</label
+                >
+              </div>
+            </div>
+            <div
+              style="
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+              "
+              fxFlex="10%"
+            >
+              <mat-icon
+                class="material-symbols-outlined menu-icon"
+                style="transform: scale(0.7) rotate(90deg)"
+                matRipple
+                [matMenuTriggerFor]="menu"
+              >
+                more_vert
+              </mat-icon>
+            </div>
+          </div>
+
+          <!--proj name and timestamp and menu (gt-sm screens)-->
+          <div
+            class="list-item-content"
+            fxLayoutAlign="space-between center"
+            fxHide.sm="true"
+            fxHide.xs="true"
+          >
             <!--proj name and timestamp-->
             <div
               fxLayoutAlign="space-between center"
@@ -243,20 +322,19 @@
                 </label>
               </div>
               <div
-                fxFlex.gt-md="80%"
+                fxFlex.gt-md="75%"
                 fxFlex.md="70%"
                 fxFlex.sm="100%"
                 fxFlex.xs="100%"
-                fxHide.sm="true"
-                fxHide.xs="true"
                 style="display: inline-block"
               >
                 <label class="proj-description cursor">
                   {{ project.Description }}
                 </label>
               </div>
-              <div fxFlex.gt-md="10%" fxFlex.md="20%">
-                <mat-icon class="material-icons-outlined time-icon cursor"
+              <div fxFlex.gt-md="15%" fxFlex.md="20%">
+                <mat-icon
+                  class="material-icons-outlined list-view-time-icon cursor"
                   >schedule</mat-icon
                 >
                 <label class="timestamp cursor">
@@ -297,6 +375,39 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+    <div
+      class="md-margin no-projects"
+      *ngIf="!loading && !isSearching && projects.length === 0"
+      ngStyle.lt-sm="row-gap: 10px"
+    >
+      <img
+        id="no-project-img"
+        src="../../../../assets/images/no_projects.png"
+        ngStyle.lt-sm="transform:scale(0.6)"
+        ngStyle.lt-xs="transform:scale(0.3)"
+      />
+      <button mat-button cdkFocusInitial class="btn" (click)="openNewProject()">
+        Create your first project
+      </button>
+    </div>
+    <div
+      class="md-margin no-results"
+      *ngIf="isSearching && filteredProjects.length === 0"
+      ngStyle.lt-sm="row-gap: 10px"
+    >
+      <img
+        id="no-results-img"
+        src="../../../../assets/images/no_results.png"
+        ngStyle.lt-sm="transform:scale(0.6)"
+        ngStyle.lt-xs="transform:scale(0.3)"
+      />
+      <div class="search-msg-div">
+        <label class="search-msg-1">Sorry! We couldn’t find any results</label>
+        <label class="search-msg-2"
+          >There weren't any projects matching your search.</label
+        >
       </div>
     </div>
   </div>

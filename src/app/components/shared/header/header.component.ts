@@ -31,12 +31,11 @@ export class HeaderComponent implements OnInit {
     private router: Router,
     private sidenav: SidenavService,
     private userServices: UserserviceService,
-    private jwtServices: JwtserviceService,
+    private jwt: JwtserviceService,
     public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
-    console.log('this.user', this.user == undefined);
     this.user = this.userServices.getCurrentUser();
     this.setLink();
     this.store.select(selectProjectSavedState).subscribe((status) => {
@@ -49,10 +48,9 @@ export class HeaderComponent implements OnInit {
    */
   public logout() {
     if (
-      !!sessionStorage.getItem('User') &&
+      !!this.jwt.getUser().UserID &&
       this.router.url !==
-        `/layout/projects/${JSON.parse(sessionStorage.getItem('User') || '')
-          .UserID!}` &&
+        `/layout/projects/${this.jwt.getUser().UserID}` &&
       !this.projectSaved
     ) {
       this.dialog.open(CloseProjectComponent, {
@@ -62,6 +60,7 @@ export class HeaderComponent implements OnInit {
         },
       });
     } else {
+      this.jwt.destroyToken();
       this.router.navigate(['/login']);
     }
   }
@@ -79,10 +78,9 @@ export class HeaderComponent implements OnInit {
    */
   public isProjectsView() {
     if (
-      !!sessionStorage.getItem('User') &&
+      !!this.jwt.getUser().UserID &&
       this.router.url ===
-        `/layout/projects/${JSON.parse(sessionStorage.getItem('User') || '')
-          .TenentId!}`
+        `/layout/projects/${this.jwt.getUser().UserID}`
     ) {
       return true;
     } else {
@@ -94,8 +92,8 @@ export class HeaderComponent implements OnInit {
    * @function setLink - set the project view link
    */
   public setLink() {
-    if (!!sessionStorage.getItem('User')) {
-      let tenentId = JSON.parse(sessionStorage.getItem('User') || '').UserID!;
+    if (!!this.jwt.getUser()) {
+      let tenentId = this.jwt.getUser().UserID;
       this.routerProjectLink = `/layout/projects/${tenentId}`;
     } else {
       this.router.navigate(['/login']);
@@ -104,10 +102,9 @@ export class HeaderComponent implements OnInit {
 
   public goToProjects() {
     if (
-      !!sessionStorage.getItem('User') &&
+      !!this.jwt.getUser().UserID &&
       this.router.url !==
-        `/layout/projects/${JSON.parse(sessionStorage.getItem('User') || '')
-          .UserID!}` &&
+        `/layout/projects/${this.jwt.getUser().UserID}` &&
       !this.projectSaved
     ) {
       this.dialog.open(CloseProjectComponent, {

@@ -4,50 +4,33 @@
     <div class="proofbot-content">
       <div class="proof-card" *ngFor="let data of proofbot.Data!">
         <div class="close-action-div">
-          <mat-icon class="close-icon" (click)="removeProofData(data)"
-            >close</mat-icon
-          >
+          <mat-icon class="close-icon" (click)="removeProofData(data)">close</mat-icon>
         </div>
-        <label class="proofbot-data-field"
-          >Product Name: <b>{{ proofbot.ProductName }}</b></label
-        >
-        <label class="proofbot-data-field"
-          >Batch ID: <b>{{ data.BatchId }}</b></label
-        >
-        <label class="proofbot-data-field"
-          >Transaction ID: <b>{{ data.TxnHash }}</b></label
-        >
+        <label class="proofbot-data-field">Product Name: <b>{{ proofbot.ProductName }}</b></label>
+        <label class="proofbot-data-field">Batch ID: <b>{{ data.BatchId }}</b></label>
+        <label class="proofbot-data-field">Timestamp: <b>{{ data.Timestamp}}</b></label>
+        <label class="proofbot-data-field">Transaction ID: <b>{{ data.TxnHash}}</b></label>
         <div class="available-proofs-div">
-          <label class="proofbot-data-field">Available Proofs: </label>
-          <div *ngFor="let url of data.Urls" class="proof-chip">
-            <mat-icon (click)="removeProofLink(data, url)" matRipple
-              >close</mat-icon
-            >
-            <section
-              style="
+        <label class="proofbot-data-field">Available Proofs: </label>
+        <div *ngFor="let url of data.Urls">
+          <div  *ngIf="url.Type=='poe'||url.Type=='pog'"  class="proof-chip">
+            <mat-icon (click)="removeProofLink(data, url)" matRipple>close</mat-icon>
+            <section style="
                 display: flex;
                 justify-content: center;
                 align-items: center;
-              "
-              (click)="openProofLink(url.Url)"
-              matRipple
-            >
+              " (click)="openProofLink(url.Url)" matRipple>
               {{ getProofName(url.Type) }} <mat-icon>launch</mat-icon>
             </section>
           </div>
+        </div>
         </div>
       </div>
     </div>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close class="btn-cancel">Cancel</button>
-    <button
-      mat-button
-      [disabled]="saving"
-      class="btn"
-      (click)="save()"
-      cdkFocusInitial
-    >
+    <button mat-button [disabled]="saving" class="btn" (click)="save()" cdkFocusInitial>
       <mat-icon>save</mat-icon>
       <span [class.spinner]="saving"> </span>
       Save

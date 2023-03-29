@@ -1,6 +1,12 @@
 <div>
   <div>
-    <div id="project-title" mat-list-item>
+    <div
+      id="project-title"
+      mat-list-item
+      fxHide.lt-md="true"
+      fxHide.md="false"
+      fxHide.gt-md="false"
+    >
       <div
         class="title-icon"
         matTooltip="Back To Projects"
@@ -82,12 +88,6 @@
                 class="icon"
                 *ngIf="item.Type === pieChartType"
                 >pie_chart</mat-icon
-              >
-              <mat-icon
-                mat-list-icon
-                class="icon"
-                *ngIf="item.Type === bubbleChartType"
-                >bubble_chart</mat-icon
               >
               <mat-icon
                 mat-list-icon

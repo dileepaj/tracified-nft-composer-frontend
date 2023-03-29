@@ -1,22 +1,196 @@
 @import "../../../../scss/variables";
 @import "../../../../scss/mixins";
 
-.container {
-  display: flex;
-  flex-direction: column;
-  width: 500px;
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  h2,mat-label,input, mat-error,strong{
+    font-size: 12px !important;
+  }
+
+  mat-error,strong{
+    font-size: 12px !important;
+  }
+
+  .input-description{
+    font-size: 12px !important;
+  }
+
+  .modal-content-new {
+    width: calc(100vw - 33vw);
+    max-width: 500px;
+  }
+
+  .btn-cancel{
+    font-size: 12px !important;
+  }
+
+  .btn {
+    @include btn-primary;
+    font-size: 12px !important;
+  }
 }
 
-.btn {
-  @include btn-primary;
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  h2,mat-label,input{
+    font-size: 15px !important;
+  }
+
+  mat-error,strong{
+    font-size: 12px !important;
+  }
+
+  .input-description{
+    font-size: 15px !important;
+  }
+
+  .btn-cancel{
+    font-size: 15px !important;
+  }
+
+  .btn {
+    @include btn-primary;
+    font-size: 15px !important;
+  }
+
+  .modal-content-new {
+    width: calc(100vw - 33vw);
+    max-width: 500px;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  h2,mat-label,input{
+    font-size: 14px !important;
+  }
+
+  mat-error,strong{
+    font-size: 12px !important;
+  }
+
+  .input-description{
+    font-size: 14px !important;
+  }
+
+  .modal-content-new {
+    width: calc(100vw - 40vw);
+    max-width: 500px;
+  }
+
+  .btn {
+    @include btn-primary;
+    font-size: 14px !important;
+  }
+
+  .btn-cancel{
+    font-size: 14px !important;
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  h2,mat-label,input{
+    font-size: 14px !important;
+  }
+
+  mat-error,strong{
+    font-size: 12px !important;
+  }
+
+  .input-description{
+    font-size: 14px !important;
+  }
+
+  .btn-cancel{
+    font-size: 14px !important;
+  }
+
+  .btn {
+    @include btn-primary;
+    font-size: 14px !important;
+  }
+
+  .modal-content-new {
+    width: calc(100vw - 40vw);
+    max-width: 500px;
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  h2,mat-label,input{
+    font-size: 16px !important;
+  }
+
+  mat-error,strong{
+    font-size: 12px !important;
+  }
+
+  .btn-cancel{
+    font-size: 14px !important;
+  }
+
+  .btn {
+    @include btn-primary;
+    font-size: 14px !important;
+  }
+
+  .input-description{
+    font-size: 16px !important;
+  }
+
+  .modal-content-new {
+    width: calc(100vw - 50vw);
+    max-width: 500px;
+  }
 }
 
 .input-description {
   resize: none;
-  height: 70px;
+  font-family: "Inter" !important;
 }
 
 /* ::ng-deep .mat-focused .mat-form-field-label {
 
   color: unset !important;
 } */
+
+h2,
+mat-label,
+input,
+mat-error,
+strong {
+  font-family: "Inter" !important;
+}
+

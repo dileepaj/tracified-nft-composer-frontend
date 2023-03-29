@@ -6,6 +6,9 @@
 }
 
 .btn-dont-save {
+  font-family: "Inter" !important;
+  font-weight: 400 !important;
+  font-size: 1rem !important;
 }
 
 .btn:disabled {
@@ -16,6 +19,17 @@
 @keyframes spinner {
   to {
     transform: rotate(360deg);
+  }
+}
+
+.btn-small {
+  font-size: 13px !important;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+  mat-icon {
+    transform: scale(0.8);
+    margin-right: 0px;
+    margin-left: -4px;
   }
 }
 
@@ -31,6 +45,14 @@
   margin-left: -10px;
   border-radius: 50%;
   border: 2px solid #ffffff;
-  border-top-color: #000000;
+  border-top-color: #006d2d;
   animation: spinner 0.8s linear infinite;
+}
+
+h2 {
+  font-family: "Inter" !important;
+}
+
+.save-icon {
+  margin-right: 5px;
 }

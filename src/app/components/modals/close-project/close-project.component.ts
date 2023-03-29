@@ -11,6 +11,7 @@ import {
 } from 'src/app/store/nft-state-store/nft.selector';
 import { NFTContent } from 'src/models/nft-content/nft.content';
 import { Router } from '@angular/router';
+import { JwtserviceService } from 'src/app/services/jwtservice.service';
 
 @Component({
   selector: 'app-close-project',
@@ -29,6 +30,7 @@ export class CloseProjectComponent implements OnInit {
     private composerService: ComposerBackendService,
     private popupMsgService: PopupMessageService,
     private router: Router,
+    private jwt: JwtserviceService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
@@ -48,6 +50,7 @@ export class CloseProjectComponent implements OnInit {
   //close project without saving
   public dontSave() {
     if (this.onLogout) {
+      this.jwt.destroyToken();
       this.router.navigate(['/login']);
       sessionStorage.setItem('Token', '');
     } else {
@@ -92,6 +95,7 @@ export class CloseProjectComponent implements OnInit {
           this.store.dispatch(projectStatus({ status: false }));
           this.saving = false;
           if (this.onLogout) {
+            this.jwt.destroyToken();
             this.router.navigate(['/login']);
             sessionStorage.setItem('Token', '');
           } else {
@@ -114,6 +118,7 @@ export class CloseProjectComponent implements OnInit {
           this.store.dispatch(projectStatus({ status: false }));
           this.saving = false;
           if (this.onLogout) {
+            this.jwt.destroyToken();
             this.router.navigate(['/login']);
             sessionStorage.setItem('Token', '');
           } else {
