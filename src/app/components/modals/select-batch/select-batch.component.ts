@@ -51,6 +51,7 @@ import { PopupMessageService } from 'src/app/services/popup-message/popup-messag
 import { MatInput } from '@angular/material/input';
 import { MatDateRangePicker } from '@angular/material/datepicker';
 import * as moment from 'moment';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-select-batch',
@@ -669,7 +670,7 @@ export class SelectBatchComponent implements OnInit {
             data[i].AvailableProof.map((proof: string) => {
               urls.push({
                 Type: proof,
-                Url: `http://qa.proofbot.tillit.world?type=${proof}&txn=${data[i].Txnhash}`,
+                Url: `${environment.proofbot}?type=${proof}&txn=${data[i].Txnhash}`,
               });
             });
 
