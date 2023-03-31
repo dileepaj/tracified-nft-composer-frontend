@@ -10,6 +10,7 @@ export const environment = {
   composerBackend: 'https://qa.api.nft.tracified.com',
   gateway: 'https://qa.gateway.tracified.com',
   domain: 'localhost',
+  proofbot:'https://qa.proofbot.tillit.world'
 };
 
 /*
