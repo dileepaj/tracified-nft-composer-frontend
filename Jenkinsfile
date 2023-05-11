@@ -7,17 +7,6 @@ pipeline {
         sh 'node --version'
         sh 'npm --version'
         sh 'npm install'
-        script {
-          if (env.BRANCH_NAME == "master") {
-            sh 'npm run build-prod'
-          } else if(env.BRANCH_NAME == "qa") {
-            sh 'npm run build-qa'
-          } else if (env.BRANCH_NAME == "staging") {
-            sh 'npm run build-staging'
-          } else {
-            sh 'npm run build'
-          }
-        }
       }
     }
     stage('Test') {
@@ -31,9 +20,9 @@ pipeline {
       }
     }
     stage('Deploy to Staging') {
-      when { branch 'staging' }
+      when { branch 'master' }
       steps {
-
+        sh 'npm run build-staging'
         s3Upload(
           consoleLogLevel: 'INFO',
           dontWaitForConcurrentBuildCompletion: false,
@@ -61,8 +50,9 @@ pipeline {
       }
     }
      stage('Deploy to QA') {
-      when { branch 'qa' }
+      when { branch 'master' }
       steps {
+        sh 'npm run build-qa'
         s3Upload(
           consoleLogLevel: 'INFO',
           dontWaitForConcurrentBuildCompletion: false,
@@ -120,6 +110,14 @@ pipeline {
   post {
     always {
       echo 'Process finished'
+      discordSend(
+        description: "Tracified NFT Composer frontend - ${currentBuild.currentResult}",
+        footer: "#${env.BUILD_ID} ${currentBuild.getBuildCauses()[0].shortDescription}",
+        link: env.BUILD_URL,
+        result: currentBuild.currentResult,
+        title: JOB_NAME,
+        webhookURL: env.DISCORD_BUILD
+      )
       deleteDir()
     }
   }
