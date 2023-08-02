@@ -7,6 +7,9 @@ pipeline {
         sh 'node --version'
         sh 'npm --version'
         sh 'npm install'
+        script {
+          scriptModule = load 'scripts/Upload.Groovy'
+        }
       }
     }
     stage('Test') {
@@ -23,29 +26,9 @@ pipeline {
       when { branch 'master' }
       steps {
         sh 'npm run build-staging'
-        s3Upload(
-          consoleLogLevel: 'INFO',
-          dontWaitForConcurrentBuildCompletion: false,
-          entries: [[
-            bucket: 'staging.nftcomposer.tracified.com',
-            excludedFile: '',
-            flatten: false,
-            gzipFiles: false,
-            keepForever: false,
-            managedArtifacts: false,
-            noUploadOnFailure: true,
-            selectedRegion: 'ap-south-1',
-            showDirectlyInBrowser: false,
-            sourceFile: 'dist/tracified-nft-composer-frontend/**',
-            storageClass: 'STANDARD',
-            uploadFromSlave: false,
-            useServerSideEncryption: false
-          ]],
-          pluginFailureResultConstraint: 'FAILURE',
-          profileName: 'tracified-admin-frontend-jenkins-deployer',
-          userMetadata: [],
-          dontSetBuildResultOnFailure: false
-        )
+        script {
+          scriptModule.uploadToGCB('gs://staging.nftcomposer.tracified.com')
+        }
 
       }
     }
@@ -53,29 +36,9 @@ pipeline {
       when { branch 'master' }
       steps {
         sh 'npm run build-qa'
-        s3Upload(
-          consoleLogLevel: 'INFO',
-          dontWaitForConcurrentBuildCompletion: false,
-          entries: [[
-            bucket: 'qa.nftcomposer.tracified.com',
-            excludedFile: '',
-            flatten: false,
-            gzipFiles: false,
-            keepForever: false,
-            managedArtifacts: false,
-            noUploadOnFailure: true,
-            selectedRegion: 'ap-south-1',
-            showDirectlyInBrowser: false,
-            sourceFile: 'dist/tracified-nft-composer-frontend/**',
-            storageClass: 'STANDARD',
-            uploadFromSlave: false,
-            useServerSideEncryption: false
-          ]],
-          pluginFailureResultConstraint: 'FAILURE',
-          profileName: 'tracified-admin-frontend-jenkins-deployer',
-          userMetadata: [],
-          dontSetBuildResultOnFailure: false
-        )
+        script {
+          scriptModule.uploadToGCB('gs://qa.nftcomposer.tracified.com')
+        }
       }
     }
   }
