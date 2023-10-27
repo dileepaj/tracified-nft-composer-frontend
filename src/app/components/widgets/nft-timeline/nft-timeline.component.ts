@@ -21,6 +21,7 @@ import {
   selectCarbonFP,
   selectCardStatus,
   selectNFTContent,
+  selectTDPData,
   selectTimeline,
 } from 'src/app/store/nft-state-store/nft.selector';
 import { NFTContent } from 'src/models/nft-content/nft.content';
@@ -66,6 +67,8 @@ export class NftTimelineComponent implements OnInit {
   public newTitle: string = '';
   private clickedInsideInput: boolean = false;
   public inputId: string = '';
+  tdpData: any[] | undefined = [];
+  stageIcon = "https://s3.ap-south-1.amazonaws.com/tracified-image-storage/mobile/stage-icons/Harvesting+stage.png"
 
   constructor(
     private store: Store<AppState>,
@@ -87,11 +90,13 @@ export class NftTimelineComponent implements OnInit {
       this.addTimelineToStore();
     }
     this.store.select(selectTimeline).subscribe((timelines) => {
+      console.log('timelines', timelines)
       timelines.map((timeline) => {
         if (timeline.WidgetId === this.id) {
           this.timeline = timeline;
-          if (timeline.TimelineData !== undefined) {
+          if (timeline.TimelineData !== undefined && timeline.TimeLineTDPData !== undefined) {
             this.childrenOne = timeline.TimelineData!;
+            this.tdpData = timeline.TimeLineTDPData;
             this.viewBtn = true;
           }
         }
@@ -104,6 +109,12 @@ export class NftTimelineComponent implements OnInit {
         this.highlight = false;
       }
     });
+    // console.log('tdpData-- 1 ')
+    // this.store.select(selectTDPData).subscribe((tdpData) => {
+    //   console.log('tdpData--  ', tdpData)
+    //   this.tdpData = tdpData
+    // });
+    console.log('tdpData--  3',this.tdpData)
   }
 
   public otpAdded(): boolean {
@@ -169,6 +180,7 @@ export class NftTimelineComponent implements OnInit {
         id: this.id,
         widget: this.timeline,
         timelineData: this.childrenOne,
+        timeLineTDPData: this.tdpData,
       },
       width: '80vw',
       maxWidth: '500px',

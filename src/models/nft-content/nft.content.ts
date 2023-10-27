@@ -25,5 +25,6 @@ export interface NFTContent {
     ProofBot: ProofBot[];
     Timeline: Timeline[];
     CarbonFootprint: CarbonFootprint[];
+    TDPData: any[]
   };
 }

@@ -34,7 +34,7 @@ export class ProjectLoaderService {
     private router: Router,
     private dndService: DndServiceService,
     private popupMsgService: PopupMessageService
-  ) {}
+  ) { }
 
   public loadExistingProject(projectId: string, _callback?: any) {
     this.composerService.openExistingProject(projectId).subscribe({
@@ -53,6 +53,7 @@ export class ProjectLoaderService {
         let images: Image[] = [];
         let timeline: Timeline[] = [];
         let proofbot: ProofBot[] = [];
+        let TDPData: any[] = [];
 
         //get project content order
         proj.Project.ContentOrderData.map((widget: any) => {
@@ -159,6 +160,16 @@ export class ProjectLoaderService {
           });
         }
 
+        //get tdpdata
+        if (proj.TDPData) {
+          proj.TDPData.map((tl: any) => {
+            if (widgetsInOrderArr.includes(tl.WidgetId)) {
+              TDPData.push(tl);
+              widgetsNotNull.push(tl.WidgetId);
+            }
+          });
+        }
+
         //get proofbot
         if (proj.ProofBot) {
           proj.ProofBot.map((pb: any) => {
@@ -195,6 +206,7 @@ export class ProjectLoaderService {
             ProofBot: proofbot,
             Stats: [],
             CarbonFootprint: [],
+            TDPData: TDPData
           },
         };
 

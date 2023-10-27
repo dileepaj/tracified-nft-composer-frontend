@@ -61,16 +61,16 @@
       </button>
     </mat-menu>
   </div>
-  <div class="icon-container">
+  <!-- <div class="icon-container">
     <img
       class="widget-card-icon"
       [src]="icon"
       *ngIf="childrenOne.length === 0"
     />
-  </div>
-  <div class="inner-widge-div" *ngIf="childrenOne.length > 0">
+  </div> -->
+  <div class="inner-widge-div" *ngIf="!! tdpData && tdpData.length > 0">
     <div class="content-div">
-      <div class="timeline-card" *ngIf="childrenOne.length > 0">
+      <div class="timeline-card" *ngIf="tdpData.length > 0">
         <div class="timeline-heading">
           <label class="timeline-product"
             ><b>Product Name : </b>{{ timeline.ProductName }}</label
@@ -79,10 +79,10 @@
             ><b>Batch ID : </b>{{ timeline.BatchId }}</label
           >
         </div>
-        <div *ngFor="let childrenOne of childrenOne">
+        <div *ngFor="let childrenOne of tdpData">
           <div class="header">
             <div class="left">
-              <img width="100%" [src]="childrenOne.Icon" alt="icon" />
+              <img width="100%" [src]="stageIcon" alt="icon" />
             </div>
             <div class="right">
               <h3 class="title">
@@ -93,7 +93,7 @@
           <div class="body timeline-item">
             <mat-card class="timeline-card card card-md card-border">
               <mat-card-content class="card-content card-content-md">
-                <div
+                <!-- <div
                   class="timeline-text"
                   *ngIf="childrenOne.Children.length === 0"
                 >
@@ -103,35 +103,47 @@
                       No date available
                     </h4>
                   </div>
-                </div>
+                </div> -->
                 <div
-                  *ngFor="let childrenTwo of childrenOne.Children"
+                  *ngFor="let tdps of childrenOne.traceabilityDataPackets"
                   class="timeline-text"
                 >
-                  <div>
-                    <div *ngIf="childrenTwo.NewTDP; then thenBlock"></div>
-                    <ng-template #thenBlock>
+                  <!-- <div>     
                       <div class="tdp-added-date">
-                        <label>Added : {{ childrenTwo.Timestamp }}</label>
+                        <label>Added : {{ convertDate(tdps.timestamp) }}</label>
                       </div>
-                    </ng-template>
-                  </div>
-                  <div *ngIf="childrenTwo.Key !== null">
-                    <h4 class="secondary-font">
-                      {{ childrenTwo.Key }}
+    
+                  </div> -->
+                  <div
+                  *ngFor="let tdp of tdps.traceabilityData"
+                  class="timeline-text timeline-keys-values"
+                >
+                  <div *ngIf="tdp.key !== null && (tdp.type == 1 || tdp.type == 3 || tdp.type == 5)">
+                    <h4 class="secondary-font-tl">
+                      {{ tdp.key }}
                     </h4>
                   </div>
-                  <div *ngIf="childrenTwo.Value !== null">
-                    <h4 class="primary-font">
-                      {{ childrenTwo.Value }}
+                  <div *ngIf="tdp.val !== null && (tdp.type == 1 || tdp.type == 3 || tdp.type == 5)">
+                    <h4 class="primary-font-tl">
+                     {{ tdp.type === 3 ? convertDate(tdp.val) : tdp.val }} 
                     </h4>
                   </div>
-                </div>
-                <div *ngIf="childrenOne.Images.length > 0">
-                  <div *ngFor="let images of childrenOne.Images">
-                    <img width="100%" [src]="images" alt="image" />
+                  <div *ngIf="tdp.type == 4">
+                    <div *ngFor="let img of tdp.val">
+                      <h4 class="secondary-font">
+                        {{ convertDate(img.timestamp)}}
+                      </h4>
+                      <h4 class="secondary-font">
+                        {{ img.description}}
+                      </h4>
+                      <div class="timeline-images">
+                      <img width="100%" [src]="img.image" alt="image" />
+                    </div>
+                    </div>
+                  </div>
                   </div>
                 </div>
+
               </mat-card-content>
             </mat-card>
           </div>

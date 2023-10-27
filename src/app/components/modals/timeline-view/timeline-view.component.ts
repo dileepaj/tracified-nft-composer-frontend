@@ -16,6 +16,8 @@ export class TimelineViewComponent implements OnInit {
   key: any;
   value: any;
   timeline: Timeline;
+  tdpData: any[];stageIcon = "https://s3.ap-south-1.amazonaws.com/tracified-image-storage/mobile/stage-icons/Harvesting+stage.png"
+
 
   constructor(
     private _batchService: BatchesService,
@@ -25,7 +27,11 @@ export class TimelineViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.childrenOne = this.data.timelineData;
+    this.tdpData = this.data.timeLineTDPData;
     this.timeline = this.data.widget;
+    console.log('first', this.data.timelineTDPData)
+    
+    console.log('first', this.data)
   }
 
   /**

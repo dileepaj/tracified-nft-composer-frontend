@@ -29,6 +29,11 @@ export const addTimeline = createAction(
   props<{ timeline: Timeline }>()
 );
 
+export const addTDPData = createAction(
+  '[add nft-html] Add TDPData',
+  props<{ TDPData: any[] }>()
+);
+
 export const addCarbonFootprint = createAction(
   '[add nft-html] Add Carbon Footprint',
   props<{ carbonFootprint: CarbonFootprint }>()

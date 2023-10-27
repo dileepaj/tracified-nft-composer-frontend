@@ -7,6 +7,7 @@ import {
   addPieChart,
   addProofBot,
   addQueryResult,
+  addTDPData,
   addTable,
   addTimeline,
   addToOrderArray,
@@ -74,6 +75,7 @@ export const initialNft: NFTState = {
       Tables: [],
       Images: [],
       CarbonFootprint: [],
+      TDPData: [],
     },
   },
   newProj: true,
@@ -226,6 +228,19 @@ export const nftReducer = createReducer(
     widgetCount: {
       ...nft.widgetCount,
       Timelines: nft.widgetCount.Timelines + 1,
+    },
+  })),
+
+  on(addTDPData, (nft, { TDPData }) => ({
+    ...nft,
+    nftContent: {
+      ...nft.nftContent,
+      NFTContent: {
+        ...nft.nftContent.NFTContent,
+        TDPData: [
+          ...nft.nftContent.NFTContent.TDPData, TDPData
+        ],
+      },
     },
   })),
 

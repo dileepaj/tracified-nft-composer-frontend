@@ -93,6 +93,7 @@ export class NewProjectComponent implements OnInit {
             ProofBot: [],
             Stats: [],
             CarbonFootprint: [],
+            TDPData: [],
           },
         };
         sessionStorage.setItem('NFTCom', JSON.stringify(project));

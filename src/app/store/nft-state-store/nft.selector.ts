@@ -48,6 +48,11 @@ export const selectTimeline = createSelector(
   (state: NFTState) => state.nftContent.NFTContent.Timeline
 );
 
+export const selectTDPData = createSelector(
+  selectNFT,
+  (state: NFTState) => state.nftContent.NFTContent.TDPData
+);
+
 export const selectNoOfTimelines = createSelector(
   selectNFT,
   (state: NFTState) => state.nftContent.NFTContent.Timeline.length

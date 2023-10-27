@@ -23,6 +23,7 @@ import { BatchesService } from 'src/app/services/batches.service';
 import { AppState } from 'src/app/store/app.state';
 import {
   addCardtStatus,
+  addTDPData,
   projectUnsaved,
   updateBarChart,
   updateCarbonFootprint,
@@ -123,7 +124,7 @@ export class SelectBatchComponent implements OnInit {
     private popupMsgService: PopupMessageService,
     private user: UserserviceService,
     public dialogRef: MatDialogRef<SelectBatchComponent>
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.id = this.data.id;
@@ -258,15 +259,15 @@ export class SelectBatchComponent implements OnInit {
     }
   }
 
-  public checkType(x:any) {
+  public checkType(x: any) {
     if (typeof x === 'object' && JSON.stringify(x).startsWith('{')) {
-        return 'object';
+      return 'object';
     } else if (Array.isArray(x)) {
-        return 'array';
+      return 'array';
     } else {
-        return typeof x;
+      return typeof x;
     }
-}
+  }
 
   /**
    * @function openWidgetContent - open widget content
@@ -471,7 +472,7 @@ export class SelectBatchComponent implements OnInit {
     let status = this.dndService.getBatchStatus(widget.WidgetId);
     if (status === false) {
       this.composerService.saveWidget(widget).subscribe({
-        next: (res) => {},
+        next: (res) => { },
         error: (err) => {
           this.saving = false;
           this.popupMsgService.openSnackBar(
@@ -500,7 +501,7 @@ export class SelectBatchComponent implements OnInit {
       });
     } else {
       this.composerService.updateWidget(widget).subscribe({
-        next: (res) => {},
+        next: (res) => { },
         error: (err) => {
           this.saving = false;
           this.popupMsgService.openSnackBar(
@@ -545,6 +546,9 @@ export class SelectBatchComponent implements OnInit {
   private getTimelineData() {
     let timelineData: TimelineData[] = [];
     let count = 0;
+
+
+
 
     for (let i = 0; i < this.workflow.stages.length; i++) {
       this.traceabilityDataPackets.map((data) => {
@@ -598,12 +602,25 @@ export class SelectBatchComponent implements OnInit {
       });
     }
 
+    let traceabilityDataPacketsWithStageName = this.traceabilityDataPackets
+    
+      for (let i = 0; i < traceabilityDataPacketsWithStageName.length; i++) {
+        for (let j = 0; j < this.workflow.stages.length; j++) {
+          if (traceabilityDataPacketsWithStageName[i].stageID == this.workflow.stages[j].stageId ){
+            traceabilityDataPacketsWithStageName[i].Title = this.workflow.stages[i].name;
+          }
+        }
+      }
+
+    // this.store.dispatch(addTDPData({ TDPData: this.traceabilityDataPackets }));
+
     if (count > 0) {
       //add timeline data to widget object
       this.widget = {
         ...this.widget,
         TimelineData: timelineData,
         Timestamp: new Date().toISOString(),
+        TimeLineTDPData: traceabilityDataPacketsWithStageName
       };
 
       //Update timeline redux state
@@ -613,7 +630,7 @@ export class SelectBatchComponent implements OnInit {
       //check whether timeline is already saved or not
       if (status === false) {
         this.composerService.saveTimeline(this.widget).subscribe({
-          next: (res) => {},
+          next: (res) => { },
           error: (err) => {
             this.popupMsgService.openSnackBar(
               'An unexpected error occured. Please try again later'
@@ -632,7 +649,7 @@ export class SelectBatchComponent implements OnInit {
         });
       } else {
         this.composerService.updateTimeline(this.widget).subscribe({
-          next: (res) => {},
+          next: (res) => { },
           error: (err) => {
             this.popupMsgService.openSnackBar(
               'An unexpected error occured. Please try again later'

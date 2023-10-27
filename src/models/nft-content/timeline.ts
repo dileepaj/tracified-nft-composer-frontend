@@ -12,6 +12,7 @@ export interface Timeline {
   OTPType?: string;
   WidgetType?: string;
   TimelineData?: TimelineData[];
+  TimeLineTDPData?: any[];
 }
 
 export interface TimelineData {
