@@ -611,10 +611,9 @@ export class SelectBatchComponent implements OnInit {
           }
         }
       }
-
     // this.store.dispatch(addTDPData({ TDPData: this.traceabilityDataPackets }));
 
-    if (count > 0) {
+    if (this.traceabilityDataPackets.length > 0) {
       //add timeline data to widget object
       this.widget = {
         ...this.widget,
