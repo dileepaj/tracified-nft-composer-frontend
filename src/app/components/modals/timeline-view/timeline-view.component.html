@@ -40,7 +40,6 @@
                           *ngIf="childrenOne.Children.length === 0"
                         >
                           <div>
-                            <h4 class="secondary-font">දිනය/தேதி</h4>
                             <h4 class="primary-font">No date available</h4>
                           </div>
                         </div>
@@ -74,11 +73,19 @@
                         </div>
                         <div *ngIf="childrenOne.Images.length > 0">
                           <div *ngFor="let images of childrenOne.Images">
+                            <div style="margin-bottom: 10px">
+                              <label class="secondary-font">
+                                {{ images.timestamp }} </label
+                              ><br />
+                              <label class="primary-font">
+                                {{ images.description }}
+                              </label>
+                            </div>
                             <img
                               width="68px"
                               height="68px"
                               style="padding-left: 20% !important"
-                              [src]="images"
+                              [src]="images.image"
                               alt="image"
                             />
                           </div>

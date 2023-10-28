@@ -97,12 +97,6 @@
                   class="timeline-text"
                   *ngIf="childrenOne.Children.length === 0"
                 >
-                  <div>
-                    <h4 class="secondary-font">දිනය/தேதி</h4>
-                    <h4 class="primary-font" style="font-size: 12px !important">
-                      No date available
-                    </h4>
-                  </div>
                 </div>
                 <div
                   *ngFor="let childrenTwo of childrenOne.Children"
@@ -129,7 +123,21 @@
                 </div>
                 <div *ngIf="childrenOne.Images.length > 0">
                   <div *ngFor="let images of childrenOne.Images">
-                    <img width="100%" [src]="images" alt="image" />
+                    <div style="margin-bottom: 10px">
+                      <label class="secondary-font">
+                        {{ images.timestamp }} </label
+                      ><br />
+                      <label class="primary-font">
+                        {{ images.description }}
+                      </label>
+                    </div>
+                    <img
+                      width="68px"
+                      height="68px"
+                      style="padding-left: 20% !important"
+                      [src]="images.image"
+                      alt="image"
+                    />
                   </div>
                 </div>
               </mat-card-content>
