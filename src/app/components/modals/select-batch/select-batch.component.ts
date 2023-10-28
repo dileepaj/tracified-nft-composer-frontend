@@ -123,7 +123,7 @@ export class SelectBatchComponent implements OnInit {
     private popupMsgService: PopupMessageService,
     private user: UserserviceService,
     public dialogRef: MatDialogRef<SelectBatchComponent>
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.id = this.data.id;
@@ -258,15 +258,15 @@ export class SelectBatchComponent implements OnInit {
     }
   }
 
-  public checkType(x:any) {
+  public checkType(x: any) {
     if (typeof x === 'object' && JSON.stringify(x).startsWith('{')) {
-        return 'object';
+      return 'object';
     } else if (Array.isArray(x)) {
-        return 'array';
+      return 'array';
     } else {
-        return typeof x;
+      return typeof x;
     }
-}
+  }
 
   /**
    * @function openWidgetContent - open widget content
@@ -471,7 +471,7 @@ export class SelectBatchComponent implements OnInit {
     let status = this.dndService.getBatchStatus(widget.WidgetId);
     if (status === false) {
       this.composerService.saveWidget(widget).subscribe({
-        next: (res) => {},
+        next: (res) => { },
         error: (err) => {
           this.saving = false;
           this.popupMsgService.openSnackBar(
@@ -500,7 +500,7 @@ export class SelectBatchComponent implements OnInit {
       });
     } else {
       this.composerService.updateWidget(widget).subscribe({
-        next: (res) => {},
+        next: (res) => { },
         error: (err) => {
           this.saving = false;
           this.popupMsgService.openSnackBar(
@@ -550,7 +550,7 @@ export class SelectBatchComponent implements OnInit {
       this.traceabilityDataPackets.map((data) => {
         let Title = '';
         let children: Children[] = [];
-        let images: string[] = [];
+        let images: any[] = [];
         let split = true;
 
         if (this.workflow.stages[i].stageId === data.stageID) {
@@ -580,7 +580,12 @@ export class SelectBatchComponent implements OnInit {
                 }
               } else if (d.type === 4) {
                 d.val.map((img: any) => {
-                  images.push(img.image);
+                  let im = {
+                    image: img.image,
+                    description: img.description,
+                    timestamp: img.timestamp
+                  }
+                  images.push(im);
                 });
                 count++;
               }
@@ -613,7 +618,7 @@ export class SelectBatchComponent implements OnInit {
       //check whether timeline is already saved or not
       if (status === false) {
         this.composerService.saveTimeline(this.widget).subscribe({
-          next: (res) => {},
+          next: (res) => { },
           error: (err) => {
             this.popupMsgService.openSnackBar(
               'An unexpected error occured. Please try again later'
@@ -632,7 +637,7 @@ export class SelectBatchComponent implements OnInit {
         });
       } else {
         this.composerService.updateTimeline(this.widget).subscribe({
-          next: (res) => {},
+          next: (res) => { },
           error: (err) => {
             this.popupMsgService.openSnackBar(
               'An unexpected error occured. Please try again later'
