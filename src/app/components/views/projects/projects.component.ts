@@ -110,6 +110,9 @@ export class ProjectsComponent implements OnInit {
           this.projects = result.Response;
           this.filteredProjects = this.projects;
           this.generateColors();
+          
+          //save tenet ID in the local storage
+          localStorage.setItem('tenentId', result.Response[0].TenentId)
         }
       }
       this.loading = false;
