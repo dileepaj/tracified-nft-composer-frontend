@@ -113,12 +113,16 @@ export class NftImageComponent implements OnInit {
 
   //adds image to redux store
   private addImageToStore() {
+    //get the tenet ID from local storage
+    const storedTenentId = localStorage.getItem('tenentId') ?? '';
+
     this.image = {
       WidgetId: this.id,
       ProjectId: this.projectId,
       Title: 'NFT Image',
       Type: '',
       Base64Image: '',
+      TenetId: storedTenentId
     };
 
     this.clickedInsideInput = true;
@@ -131,12 +135,15 @@ export class NftImageComponent implements OnInit {
 
   //update redux state
   private updateImage() {
+    //get the tenet ID from local storage
+    const storedTenentId = localStorage.getItem('tenentId') ?? '';
+
     this.image = {
       ...this.image,
       Type: this.file.type,
       Base64Image: this.base64,
+      TenetId: storedTenentId
     };
-
     this.saveImage();
     this.store.dispatch(updateNFTImage({ image: this.image }));
   }

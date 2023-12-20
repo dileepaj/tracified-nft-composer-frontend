@@ -4,4 +4,5 @@ export interface Image {
   Title?: string;
   Type: string;
   Base64Image: string;
+  TenetId: string;
 }
