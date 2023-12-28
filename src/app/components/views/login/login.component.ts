@@ -103,8 +103,10 @@ let userID: any = this.jwt.getUser().UserID
           let decoded: any = jwt_decode(data.Token, { header: false });
           let username = this.jwt.getUser().UserName
           this.store.dispatch(addUsername({ username: username }));
-          if (this.jwt.getUser().UserID)
+          if (this.jwt.getUser().UserID){
+            sessionStorage.setItem('tenentId', decoded.userID)
             this.router.navigate([`/layout/projects/${decoded.userID}`]);
+          }
         },
         error: (err) => {
           this.loading = false;

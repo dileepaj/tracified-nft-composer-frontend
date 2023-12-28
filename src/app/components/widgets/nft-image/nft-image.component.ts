@@ -113,8 +113,8 @@ export class NftImageComponent implements OnInit {
 
   //adds image to redux store
   private addImageToStore() {
-    //get the tenet ID from local storage
-    const storedTenentId = localStorage.getItem('tenentId') ?? '';
+    //get the tenet ID from session storage
+    const storedTenentId = sessionStorage.getItem('tenentId') ?? '';
 
     this.image = {
       WidgetId: this.id,
@@ -135,8 +135,8 @@ export class NftImageComponent implements OnInit {
 
   //update redux state
   private updateImage() {
-    //get the tenet ID from local storage
-    const storedTenentId = localStorage.getItem('tenentId') ?? '';
+    //get the tenet ID from session storage
+    const storedTenentId = sessionStorage.getItem('tenentId') ?? '';
 
     this.image = {
       ...this.image,
