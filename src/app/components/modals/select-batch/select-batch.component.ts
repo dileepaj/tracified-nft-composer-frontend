@@ -598,7 +598,7 @@ export class SelectBatchComponent implements OnInit {
       });
     }
 
-    if (count > 0) {
+    if (!!count) {
       //add timeline data to widget object
       this.widget = {
         ...this.widget,
