@@ -122,7 +122,8 @@ export class NftImageComponent implements OnInit {
       Title: 'NFT Image',
       Type: '',
       Base64Image: '',
-      TenetId: storedTenentId
+      TenetId: storedTenentId,
+      Cid: ''
     };
 
     this.clickedInsideInput = true;
