@@ -94,6 +94,7 @@ export class NewProjectComponent implements OnInit {
             Stats: [],
             CarbonFootprint: [],
           },
+          DownloadRequest: false,
         };
         sessionStorage.setItem('NFTCom', JSON.stringify(project));
         sessionStorage.setItem('composerNewProject', '1');

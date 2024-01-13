@@ -75,6 +75,7 @@ export const initialNft: NFTState = {
       Images: [],
       CarbonFootprint: [],
     },
+    DownloadRequest: false,
   },
   newProj: true,
   cardStatus: [],

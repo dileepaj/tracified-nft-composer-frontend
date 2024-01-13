@@ -196,6 +196,7 @@ export class ProjectLoaderService {
             Stats: [],
             CarbonFootprint: [],
           },
+          DownloadRequest: false
         };
 
         //save project in redux store
