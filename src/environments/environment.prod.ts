@@ -7,5 +7,5 @@ export const environment = {
   gateway: 'https://gateway.tracified.com',
   domain: '.tracified.com',
   proofbot:'https://proofbot.tillit.world',
-  tenantList:["2b466320-0e80-11ee-aba9-1b85573f66d7"]
+  tenantList:["ce6f4da0-ed79-11ed-954b-0d531d5a4984"]
 };
