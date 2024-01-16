@@ -122,7 +122,8 @@ export class NftImageComponent implements OnInit {
       Title: 'NFT Image',
       Type: '',
       Base64Image: '',
-      TenetId: storedTenentId
+      TenetId: storedTenentId,
+      Cid: ''
     };
 
     this.clickedInsideInput = true;
@@ -236,10 +237,12 @@ export class NftImageComponent implements OnInit {
 
   //update the redux state on update image
   private updateNewImage() {
+    const storedTenentId = sessionStorage.getItem('tenentId') ?? '';
     this.image = {
       ...this.image,
       Type: this.file.type,
       Base64Image: this.base64,
+      TenetId : storedTenentId,
     };
 
     this.updateImageInDB();

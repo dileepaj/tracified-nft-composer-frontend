@@ -26,4 +26,5 @@ export interface NFTContent {
     Timeline: Timeline[];
     CarbonFootprint: CarbonFootprint[];
   };
+  DownloadRequest: boolean;
 }

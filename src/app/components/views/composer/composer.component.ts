@@ -484,11 +484,13 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   public generateSVG() {
     this.svgGenerated = true;
     this.getNftContent();
-    this.composerService.generateSVG(this.nftContent).subscribe({
+    // Create a new object with updating download request variable
+    const updatedNftContent = { ...this.nftContent, DownloadRequest: true };
+    this.composerService.generateSVG(updatedNftContent).subscribe({
       next: (data: any) => {
         this.svgGenerated = false;
         const decodedRes = this.b64DecodeUnicode(data.Response);
-        this.downloadFile(decodedRes, this.nftContent.NFTName, 'svg');
+        this.downloadFile(decodedRes, updatedNftContent.NFTName, 'svg');
       },
       error: (err) => {
         this.svgGenerated = false;
