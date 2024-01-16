@@ -10,7 +10,8 @@ export const environment = {
   composerBackend: 'https://qa.api.nft.tracified.com',
   gateway: 'https://qa.gateway.tracified.com',
   domain: 'localhost',
-  proofbot:'https://qa.proofbot.tillit.world'
+  proofbot:'https://qa.proofbot.tillit.world',
+  tenantList:["00a6bf90-c86a-11ed-9b35-31696bbd3148","2b466320-0e80-11ee-aba9-1b85573f66d7"]
 };
 
 /*

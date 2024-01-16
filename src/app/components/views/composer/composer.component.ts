@@ -56,6 +56,7 @@ import { ComposerUser } from 'src/models/user';
 import { MatDrawerMode } from '@angular/material/sidenav';
 import { CloseProjectComponent } from '../../modals/close-project/close-project.component';
 import { JwtserviceService } from 'src/app/services/jwtservice.service';
+import { environment } from 'src/environments/environment';
 
 export interface Widget {
   type: string;
@@ -104,7 +105,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
 
   @ViewChild('nftcontent') myDiv: ElementRef;
 
-  ngAfterViewInit() {}
+  ngAfterViewInit() { }
 
   availableWidgets: Widget[] = [
     {
@@ -176,7 +177,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     private router: Router,
     private projectLoader: ProjectLoaderService,
     private userService: UserserviceService,
-    private jwt:JwtserviceService,
+    private jwt: JwtserviceService,
   ) {
     //this.openAddData();
     this.sidebarService.getStatus().subscribe((val) => {
@@ -200,16 +201,16 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     this.checkRefreshed();
 
     this.usedWidgets = this.stateService.getWidgets();
-
+    console.log('this.usedWidgets', this.usedWidgets)
     this.user = this.jwt.getUser()
     //read the router paramter assign it to id
     this.sub = this.route.params.subscribe((params) => {
       this.id = params['id'];
     });
-    if (!sessionStorage.getItem('composerProjectId')){
+    if (!sessionStorage.getItem('composerProjectId')) {
       if (!!this.id) {
-        this.projectLoader.loadExistingProject(this.id, (projectId:any) => {
-          if(projectId==undefined){
+        this.projectLoader.loadExistingProject(this.id, (projectId: any) => {
+          if (projectId == undefined) {
             this.router.navigate(['/layout/projects/' + this.user.UserID]);
           }
           this.usedWidgets = this.stateService.getWidgets();
@@ -281,7 +282,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   }
 
   //load the recentproject base on nft id
-  loadExistingProjectdata(id: string) {}
+  loadExistingProjectdata(id: string) { }
 
   //listen to page refresh event
   @HostListener('window:beforeunload', ['$event']) openConfirmation(e: any) {
@@ -304,37 +305,80 @@ export class ComposerComponent implements OnInit, AfterViewInit {
    * @param event
    */
   public drop(event: any) {
-    if (event.previousContainer === event.container) {
-      if (event.container.data === this.usedWidgets) {
-        moveItemInArray(
-          event.container.data,
-          event.previousIndex,
-          event.currentIndex
-        );
-        this.stateService.rewriteWidgetArr(this.usedWidgets);
-      }
-    } else {
-      if (!(event.currentIndex <= this.usedWidgets.length - 1)) {
-        this.usedWidgets[event.currentIndex] = {
-          ...event.previousContainer.data[event.previousIndex],
-          _Id: Date.now().toString(),
-          used: false,
-        };
+    this.usedWidgets = this.stateService.getWidgets();
+    const timelineNameToCheck = "Timeline";
+    const isTimelineExists = this.isTimelineAlreadyExists(this.usedWidgets, timelineNameToCheck);
+    if (!environment.tenantList.includes(this.userService.getCurrentUser().TenentId)) {
+      if (event.previousContainer === event.container) {
+        if (event.container.data === this.usedWidgets) {
+          moveItemInArray(
+            event.container.data,
+            event.previousIndex,
+            event.currentIndex
+          );
+          this.stateService.rewriteWidgetArr(this.usedWidgets);
+        }
       } else {
-        this.rearrangeArray(
-          {
+        if (!(event.currentIndex <= this.usedWidgets.length - 1)) {
+          this.usedWidgets[event.currentIndex] = {
             ...event.previousContainer.data[event.previousIndex],
             _Id: Date.now().toString(),
             used: false,
-          },
-          event.currentIndex
-        );
+          };
+        } else {
+          this.rearrangeArray(
+            {
+              ...event.previousContainer.data[event.previousIndex],
+              _Id: Date.now().toString(),
+              used: false,
+            },
+            event.currentIndex
+          );
+        }
+        this.stateService.rewriteWidgetArr(this.usedWidgets);
+        this.store.dispatch(projectUnsaved());
       }
-      this.stateService.rewriteWidgetArr(this.usedWidgets);
-      this.store.dispatch(projectUnsaved());
+    } else if (!isTimelineExists && environment.tenantList.includes(this.userService.getCurrentUser().TenentId)) {
+      if (event.previousContainer === event.container) {
+        if (event.container.data === this.usedWidgets) {
+          moveItemInArray(
+            event.container.data,
+            event.previousIndex,
+            event.currentIndex
+          );
+          this.stateService.rewriteWidgetArr(this.usedWidgets);
+        }
+      } else {
+        if (!(event.currentIndex <= this.usedWidgets.length - 1)) {
+          this.usedWidgets[event.currentIndex] = {
+            ...event.previousContainer.data[event.previousIndex],
+            _Id: Date.now().toString(),
+            used: false,
+          };
+        } else {
+          this.rearrangeArray(
+            {
+              ...event.previousContainer.data[event.previousIndex],
+              _Id: Date.now().toString(),
+              used: false,
+            },
+            event.currentIndex
+          );
+        }
+        this.stateService.rewriteWidgetArr(this.usedWidgets);
+        this.store.dispatch(projectUnsaved());
+      }
+    } else {
+      this.popupMsgService.openSnackBar(
+        'This tenant can have only one timeline per nft'
+      );
     }
+
   }
 
+  public isTimelineAlreadyExists(dataArray: any[], timelineName: string): boolean {
+    return dataArray.some(item => item.name === timelineName);
+  }
   public scrollToElement(id: string) {
     const element = document.getElementById(id)!;
     element.scrollIntoView();
@@ -479,7 +523,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     };
 
     this.composerService.saveProject(project).subscribe({
-      next: (res) => {},
+      next: (res) => { },
       error: (err) => {
         this.popupMsgService.openSnackBar(
           'An unexpected error occured. Please try again later'
@@ -516,7 +560,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     };
 
     this.composerService.updateProject(project).subscribe({
-      next: (res) => {},
+      next: (res) => { },
       error: (err) => {
         this.popupMsgService.openSnackBar(
           'An unexpected error occured. Please try again later'
