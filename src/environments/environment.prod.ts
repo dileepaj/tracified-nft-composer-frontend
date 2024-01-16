@@ -6,5 +6,6 @@ export const environment = {
   composerBackend: 'https://api.nft.tracified.com',
   gateway: 'https://gateway.tracified.com',
   domain: '.tracified.com',
-  proofbot:'https://proofbot.tillit.world'
+  proofbot:'https://proofbot.tillit.world',
+  tenantList:["2b466320-0e80-11ee-aba9-1b85573f66d7"]
 };
