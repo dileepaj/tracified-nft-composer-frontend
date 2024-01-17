@@ -307,7 +307,8 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   public drop(event: any) {
     this.usedWidgets = this.stateService.getWidgets();
     const timelineNameToCheck = "Timeline";
-    const isTimelineExists = this.isTimelineAlreadyExists(this.usedWidgets, timelineNameToCheck);
+    const isTimelineExists = this.isWidgetAlreadyExists(this.usedWidgets, timelineNameToCheck);
+    const isTimelineCount = this.countWidgetOccurrences(this.usedWidgets, timelineNameToCheck);
     if (!environment.tenantList.includes(this.userService.getCurrentUser().TenentId)) {
       if (event.previousContainer === event.container) {
         if (event.container.data === this.usedWidgets) {
@@ -338,7 +339,8 @@ export class ComposerComponent implements OnInit, AfterViewInit {
         this.stateService.rewriteWidgetArr(this.usedWidgets);
         this.store.dispatch(projectUnsaved());
       }
-    } else if (!isTimelineExists && environment.tenantList.includes(this.userService.getCurrentUser().TenentId)) {
+    } else if (isTimelineCount <= 1 && environment.tenantList.includes(this.userService.getCurrentUser().TenentId) ||
+    !isTimelineExists && environment.tenantList.includes(this.userService.getCurrentUser().TenentId)) {
       if (event.previousContainer === event.container) {
         if (event.container.data === this.usedWidgets) {
           moveItemInArray(
@@ -376,9 +378,16 @@ export class ComposerComponent implements OnInit, AfterViewInit {
 
   }
 
-  public isTimelineAlreadyExists(dataArray: any[], timelineName: string): boolean {
+  public isWidgetAlreadyExists(dataArray: any[], timelineName: string): boolean {
     return dataArray.some(item => item.name === timelineName);
   }
+
+  public countWidgetOccurrences(dataArray: any[], timelineName: string): number {
+    return dataArray.reduce((count, item) => {
+      return count + (item.name === timelineName ? 1 : 0);
+    }, 0);
+  }
+
   public scrollToElement(id: string) {
     const element = document.getElementById(id)!;
     element.scrollIntoView();
@@ -638,4 +647,21 @@ export class ComposerComponent implements OnInit, AfterViewInit {
       this.router.navigate(['/layout/projects/' + this.user.UserID]);
     }
   }
+
+  public countObjectType(arr:any, targetType:string) {
+    // Initialize count variable
+    let count = 0;
+  
+    // Loop through the array of objects
+    for (const obj of arr) {
+      // Check if the type property of the current object matches the targetType
+      if (obj.type === targetType) {
+        count++;
+      }
+    }
+  
+    // Return the count
+    return count;
+  }
 }
+
