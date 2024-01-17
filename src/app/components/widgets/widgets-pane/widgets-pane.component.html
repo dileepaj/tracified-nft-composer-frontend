@@ -1,8 +1,14 @@
 <div class="available-widget-list">
   <div class="inner-div">
-    <div class="available-widget-box" *ngFor="let widget of widgets" cdkDrag>
+    <div class="available-widget-box"
+         *ngFor="let widget of widgets"
+         cdkDrag [cdkDragDisabled]="!!widget.disabled"
+         matTooltip="This Tenant can have only one timeline per NFT"
+         matTooltipPosition="right"
+         [matTooltipDisabled]="!widget.disabled"
+    >
       <mat-icon aria-hidden="false" class="icon">{{ widget.icon }}</mat-icon>
       <label>{{ widget.name }}</label>
     </div>
-  </div> 
+  </div>
 </div>
