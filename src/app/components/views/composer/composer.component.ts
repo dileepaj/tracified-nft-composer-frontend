@@ -382,6 +382,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     }
 
     this.usedWidgets.push(item);
+    this.disableWidgetOnConditions();
   }
 
   /**
@@ -399,6 +400,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
 
     this.stateService.rewriteWidgetArr(this.usedWidgets);
     this.saveOrUpdateProject(true);
+    this.disableWidgetOnConditions();
   }
 
   /**
