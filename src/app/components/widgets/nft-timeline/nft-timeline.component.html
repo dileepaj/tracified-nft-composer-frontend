@@ -65,10 +65,10 @@
     <img
       class="widget-card-icon"
       [src]="icon"
-      *ngIf="childrenOne.length === 0"
+      *ngIf="childrenOne.length === 0 || isUpdatableTimelineEnable"
     />
   </div>
-  <div class="inner-widge-div" *ngIf="childrenOne.length > 0">
+  <div class="inner-widge-div" *ngIf="childrenOne.length > 0 && !isUpdatableTimelineEnable">
     <div class="content-div">
       <div class="timeline-card" *ngIf="childrenOne.length > 0">
         <div class="timeline-heading">
@@ -153,7 +153,7 @@
       fxFlex="50%"
       class="customize-btn"
       style="float: right"
-      *ngIf="viewBtn"
+      *ngIf="viewBtn && !isUpdatableTimelineEnable"
       (click)="openDialog()"
     >
       <mat-icon class="material-symbols-outlined"> visibility </mat-icon>

@@ -66,6 +66,7 @@ export interface Widget {
   batch: boolean;
   name?: string;
   icon?: string;
+  disabled?: boolean;
 }
 
 @Component({
@@ -201,7 +202,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
     this.checkRefreshed();
 
     this.usedWidgets = this.stateService.getWidgets();
-    console.log('this.usedWidgets', this.usedWidgets)
+    this.disableWidgetOnConditions();
     this.user = this.jwt.getUser()
     //read the router paramter assign it to id
     this.sub = this.route.params.subscribe((params) => {
@@ -214,6 +215,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
             this.router.navigate(['/layout/projects/' + this.user.UserID]);
           }
           this.usedWidgets = this.stateService.getWidgets();
+          this.disableWidgetOnConditions();
           sessionStorage.setItem('composerRefreshed', '0');
           this.projLoading = false;
         });
@@ -260,6 +262,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
           this.projectLoader.loadNewProject((success: boolean) => {
             if (success) {
               this.usedWidgets = this.stateService.getWidgets();
+              this.disableWidgetOnConditions();
               sessionStorage.setItem('composerRefreshed', '0');
               this.projLoading = false;
             } else {
@@ -271,6 +274,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
         } else {
           this.projectLoader.loadExistingProject(projectId, () => {
             this.usedWidgets = this.stateService.getWidgets();
+            this.disableWidgetOnConditions();
             sessionStorage.setItem('composerRefreshed', '0');
             this.projLoading = false;
           });
@@ -305,80 +309,54 @@ export class ComposerComponent implements OnInit, AfterViewInit {
    * @param event
    */
   public drop(event: any) {
-    this.usedWidgets = this.stateService.getWidgets();
-    const timelineNameToCheck = "Timeline";
-    const isTimelineExists = this.isTimelineAlreadyExists(this.usedWidgets, timelineNameToCheck);
-    if (!environment.tenantList.includes(this.userService.getCurrentUser().TenentId)) {
-      if (event.previousContainer === event.container) {
-        if (event.container.data === this.usedWidgets) {
-          moveItemInArray(
-            event.container.data,
-            event.previousIndex,
-            event.currentIndex
-          );
-          this.stateService.rewriteWidgetArr(this.usedWidgets);
-        }
-      } else {
-        if (!(event.currentIndex <= this.usedWidgets.length - 1)) {
-          this.usedWidgets[event.currentIndex] = {
-            ...event.previousContainer.data[event.previousIndex],
-            _Id: Date.now().toString(),
-            used: false,
-          };
-        } else {
-          this.rearrangeArray(
-            {
-              ...event.previousContainer.data[event.previousIndex],
-              _Id: Date.now().toString(),
-              used: false,
-            },
-            event.currentIndex
-          );
-        }
+    if (event.previousContainer === event.container) {
+      if (event.container.data === this.usedWidgets) {
+        console.log('H2');
+        moveItemInArray(
+          event.container.data,
+          event.previousIndex,
+          event.currentIndex
+        );
         this.stateService.rewriteWidgetArr(this.usedWidgets);
-        this.store.dispatch(projectUnsaved());
-      }
-    } else if (!isTimelineExists && environment.tenantList.includes(this.userService.getCurrentUser().TenentId)) {
-      if (event.previousContainer === event.container) {
-        if (event.container.data === this.usedWidgets) {
-          moveItemInArray(
-            event.container.data,
-            event.previousIndex,
-            event.currentIndex
-          );
-          this.stateService.rewriteWidgetArr(this.usedWidgets);
-        }
-      } else {
-        if (!(event.currentIndex <= this.usedWidgets.length - 1)) {
-          this.usedWidgets[event.currentIndex] = {
-            ...event.previousContainer.data[event.previousIndex],
-            _Id: Date.now().toString(),
-            used: false,
-          };
-        } else {
-          this.rearrangeArray(
-            {
-              ...event.previousContainer.data[event.previousIndex],
-              _Id: Date.now().toString(),
-              used: false,
-            },
-            event.currentIndex
-          );
-        }
-        this.stateService.rewriteWidgetArr(this.usedWidgets);
-        this.store.dispatch(projectUnsaved());
       }
     } else {
-      this.popupMsgService.openSnackBar(
-        'This tenant can have only one timeline per nft'
-      );
+      if (!(event.currentIndex <= this.usedWidgets.length - 1)) {
+        this.usedWidgets[event.currentIndex] = {
+          ...event.previousContainer.data[event.previousIndex],
+          _Id: Date.now().toString(),
+          used: false,
+        };
+      } else {
+        this.rearrangeArray(
+          {
+            ...event.previousContainer.data[event.previousIndex],
+            _Id: Date.now().toString(),
+            used: false,
+          },
+          event.currentIndex
+        );
+      }
+      this.stateService.rewriteWidgetArr(this.usedWidgets);
+      this.store.dispatch(projectUnsaved());
     }
 
+    this.disableWidgetOnConditions();
+
   }
 
-  public isTimelineAlreadyExists(dataArray: any[], timelineName: string): boolean {
-    return dataArray.some(item => item.name === timelineName);
+  public disableWidgetOnConditions() {
+    if (
+      environment.tenantList.includes(this.userService.getCurrentUser().TenentId) &&
+      this.usedWidgets.some((widget) => widget.type === this.widgetTypes.timeline)
+    ) {
+      this.disableWidget(this.widgetTypes.timeline)
+    }
   }
+
+  public disableWidget(type: string) {
+    this.availableWidgets[this.availableWidgets.findIndex((widget: any) => widget.type === type)].disabled = true;
+  }
+
   public scrollToElement(id: string) {
     const element = document.getElementById(id)!;
     element.scrollIntoView();
@@ -640,4 +618,21 @@ export class ComposerComponent implements OnInit, AfterViewInit {
       this.router.navigate(['/layout/projects/' + this.user.UserID]);
     }
   }
+
+  public countObjectType(arr:any, targetType:string) {
+    // Initialize count variable
+    let count = 0;
+
+    // Loop through the array of objects
+    for (const obj of arr) {
+      // Check if the type property of the current object matches the targetType
+      if (obj.type === targetType) {
+        count++;
+      }
+    }
+
+    // Return the count
+    return count;
+  }
 }
+
