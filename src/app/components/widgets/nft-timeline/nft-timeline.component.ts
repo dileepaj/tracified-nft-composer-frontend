@@ -35,6 +35,8 @@ import { PopupMessageService } from 'src/app/services/popup-message/popup-messag
 import { WidgethighlightingService } from 'src/app/services/widgethighlighting.service';
 import { DeleteWidgetComponent } from '../../modals/delete-widget/delete-widget.component';
 import * as MomentAll from 'moment';
+import { UserserviceService } from 'src/app/services/userservice.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-nft-timeline',
@@ -66,6 +68,7 @@ export class NftTimelineComponent implements OnInit {
   public newTitle: string = '';
   private clickedInsideInput: boolean = false;
   public inputId: string = '';
+  public isUpdatableTimelineEnable = true
 
   constructor(
     private store: Store<AppState>,
@@ -74,7 +77,8 @@ export class NftTimelineComponent implements OnInit {
     private _batchService: BatchesService,
     private composerService: ComposerBackendService,
     private popupMsgService: PopupMessageService,
-    private highlightService: WidgethighlightingService
+    private highlightService: WidgethighlightingService,
+    private userService: UserserviceService
   ) {
     this.store.select(selectNFTContent).subscribe((content) => {
       this.nftContent = content;
@@ -82,6 +86,7 @@ export class NftTimelineComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isUpdatableTimelineEnable = this.isUpdatableTimeline()
     //check if the widget is already in the redux store
     if (!this.service.widgetExists(this.id)) {
       this.addTimelineToStore();
@@ -193,7 +198,7 @@ export class NftTimelineComponent implements OnInit {
   //update database
   public updateInDB() {
     this.composerService.updateTimeline(this.timeline).subscribe({
-      next: (res) => {},
+      next: (res) => { },
       error: (err) => {
         this.popupMsgService.openSnackBar(
           'An unexpected error occured. Please try again later'
@@ -276,5 +281,9 @@ export class NftTimelineComponent implements OnInit {
       this.newTitle = this.timeline.Title!;
     }
     this.clickedInsideInput = false;
+  }
+
+  public isUpdatableTimeline(): boolean {
+    return environment.tenantList.includes(this.userService.getCurrentUser().TenentId)
   }
 }
