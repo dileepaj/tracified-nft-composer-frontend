@@ -345,16 +345,18 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   }
 
   public disableWidgetOnConditions() {
-    if (
-      environment.tenantList.includes(this.userService.getCurrentUser().TenentId) &&
-      this.usedWidgets.some((widget) => widget.type === this.widgetTypes.timeline)
-    ) {
-      this.disableWidget(this.widgetTypes.timeline)
-    }
+
+    this.changeWidgetState(
+      this.widgetTypes.timeline,
+      (
+        environment.tenantList.includes(this.userService.getCurrentUser().TenentId) &&
+        this.usedWidgets.some((widget) => widget.type === this.widgetTypes.timeline)
+      )
+    );
   }
 
-  public disableWidget(type: string) {
-    this.availableWidgets[this.availableWidgets.findIndex((widget: any) => widget.type === type)].disabled = true;
+  public changeWidgetState(type: string, disabled = true) {
+    this.availableWidgets[this.availableWidgets.findIndex((widget: any) => widget.type === type)].disabled = disabled;
   }
 
   public scrollToElement(id: string) {
