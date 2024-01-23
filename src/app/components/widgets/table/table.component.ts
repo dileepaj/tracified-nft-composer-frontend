@@ -31,6 +31,7 @@ import { table } from 'src/models/nft-content/widgetTypes';
 import { ConfigureTableComponent } from '../../modals/configure-table/configure-table.component';
 import { WidgetContentComponent } from '../../modals/widget-content/widget-content.component';
 import { DeleteWidgetComponent } from '../../modals/delete-widget/delete-widget.component';
+import { SelectBatchComponent } from '../../modals/select-batch/select-batch.component';
 
 @Component({
   selector: 'app-table',
@@ -146,7 +147,7 @@ export class TableComponent implements OnInit {
 
   //open batch selection popup
   public openAddData() {
-    const dialogRef = this.dialog.open(WidgetContentComponent, {
+    const dialogRef = this.dialog.open(SelectBatchComponent, {
       data: {
         id: this.id,
         userId: this.nftContent.UserId,

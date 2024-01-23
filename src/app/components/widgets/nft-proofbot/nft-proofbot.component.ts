@@ -30,6 +30,8 @@ import { proofbot } from 'src/models/nft-content/widgetTypes';
 import { ProofbotViewComponent } from '../../modals/proofbot-view/proofbot-view.component';
 import { WidgetContentComponent } from '../../modals/widget-content/widget-content.component';
 import { DeleteWidgetComponent } from '../../modals/delete-widget/delete-widget.component';
+import { SelectBatchComponent } from '../../modals/select-batch/select-batch.component';
+import { UserserviceService } from 'src/app/services/userservice.service';
 
 @Component({
   selector: 'app-nft-proofbot',
@@ -54,7 +56,8 @@ export class NftProofbotComponent implements OnInit {
     private composerService: ComposerBackendService,
     public dialog: MatDialog,
     private popupMsgService: PopupMessageService,
-    private highlightService: WidgethighlightingService
+    private highlightService: WidgethighlightingService,
+    private userService: UserserviceService
   ) {
     this.store.select(selectNFTContent).subscribe((nft) => {
       this.projectId = nft.ProjectId;
@@ -122,9 +125,10 @@ export class NftProofbotComponent implements OnInit {
   }
 
   public openAddData() {
-    const dialogRef = this.dialog.open(WidgetContentComponent, {
+    const dialogRef = this.dialog.open(SelectBatchComponent, {
       data: {
         id: this.id,
+        userId: this.userService.getCurrentUser().UserID,
         widget: this.proofbot,
       },
     });

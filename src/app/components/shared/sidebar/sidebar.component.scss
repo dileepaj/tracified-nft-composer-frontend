@@ -26,7 +26,6 @@
 }
 
 .title-icon {
-  background-color: #ccc;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -53,7 +52,7 @@
   padding-left: 10px;
   label {
     font-size: small;
-    font-weight: 600;
+    font-weight: 500;
     font-family: 'Inter';
   }
 }
@@ -137,4 +136,8 @@ mat-list-item:hover {
 #sidebar-widgets {
   max-height: 300px;
   overflow-y: auto;
+}
+
+.project-name {
+  font-weight: 700;
 }

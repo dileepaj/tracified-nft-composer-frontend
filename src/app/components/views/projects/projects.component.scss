@@ -42,6 +42,38 @@ mat-toolbar {
   background-color: rgba(176, 221, 176, 0.199);
 }
 
+.btn-new-project{
+  background-color:#006d2d; 
+  color: white;
+  font-weight: 550;
+  mat-icon {
+    background-color:#006d2d; 
+    transform: scale(0.9);
+  }
+}
+
+.btn-new-project {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 11px;
+  font-size: 16px;
+  font-weight: 550;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+}
+
+.btn-new-project mat-icon {
+  margin-right: 5px; /* Adjust the spacing between icon and text */
+}
+
+.btn-new-project:hover {
+  background-color: rgb(32, 136, 32);
+}
+
 .title-div {
   height: 70px;
   display: flex;
@@ -291,6 +323,23 @@ mat-toolbar {
   margin-bottom: -130px !important;
 }
 
+.btn-sort {
+  margin-right: 5px;
+  background-color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  height: 25px;
+  mat-icon {
+    transform: scale(1.2);
+  }
+}
+
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
   .proj-description {
@@ -353,36 +402,17 @@ mat-toolbar {
     color: #464646;
   }
 
-  .btn-new {
-    width: 15px;
-    height: 15px;
-    background: #006d2d;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    filter: drop-shadow(0px 3px 2px rgba(0, 0, 0, 0.15));
-
-    mat-icon {
-      color: #fff;
-      margin-top: -2px;
-      margin-left: -0.5px;
-      transform: scale(0.5);
-    }
-  }
-
   .btn-sort {
     margin-right: 5px;
+    background-color: white;
     cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 1px;
     height: 25px;
 
     mat-icon {
-      transform: scale(1);
+      transform: scale(0.8);
     }
   }
 
@@ -438,6 +468,19 @@ mat-toolbar {
     height: 29px !important;
     border-left: none;
     color: #868686;
+  }
+
+  .btn-new-project {
+    padding: 1px 8px;
+    font-size: 11px;
+    border-radius: 6px;
+    mat-icon {
+      transform: scale(0.6);
+    }
+  }
+  
+  .btn-new-project mat-icon {
+    margin-right: 2px; /* Adjust the spacing between icon and text */
   }
 }
 
@@ -522,20 +565,6 @@ mat-toolbar {
     }
   }
 
-  .btn-sort {
-    margin-right: 3px;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 5px;
-    height: 25px;
-
-    mat-icon {
-      transform: scale(1);
-    }
-  }
 
   .btn-view-option {
     margin-right: 5px;
@@ -674,17 +703,16 @@ mat-toolbar {
   }
 
   .btn-sort {
-    margin-right: 3px;
+    margin-right: 5px;
+    background-color: white;
     cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    border-radius: 5px;
+    border: 1px solid #ccc;
     padding: 5px;
     height: 25px;
 
     mat-icon {
-      transform: scale(1.6);
+      transform: scale(0.8);
     }
   }
 
@@ -826,16 +854,15 @@ mat-toolbar {
 
   .btn-sort {
     margin-right: 5px;
+    background-color: white;
     cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    border-radius: 5px;
+    border: 1px solid #ccc;
     padding: 5px;
     height: 25px;
 
     mat-icon {
-      transform: scale(1.6);
+      transform: scale(0.8);
     }
   }
 
@@ -977,16 +1004,15 @@ mat-toolbar {
 
   .btn-sort {
     margin-right: 5px;
+    background-color: white;
     cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    border-radius: 5px;
+    border: 1px solid #ccc;
     padding: 5px;
     height: 25px;
 
     mat-icon {
-      transform: scale(1.6);
+      transform: scale(0.8);
     }
   }
 

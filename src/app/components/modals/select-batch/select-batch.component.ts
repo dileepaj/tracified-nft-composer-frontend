@@ -146,6 +146,7 @@ export class SelectBatchComponent implements OnInit {
     this.getBatches(this.page, this.searchKey, '', '');
     this.productIsSelected = true;
     this.goForward();
+   
   }
 
   /**
@@ -153,6 +154,7 @@ export class SelectBatchComponent implements OnInit {
    * @param row
    */
   public selectBatch(row: any) {
+
     this.selectedBatch = row;
     this.batchIsSelected = true;
     this.tdpStep = 0;
@@ -166,6 +168,8 @@ export class SelectBatchComponent implements OnInit {
         this.createTdpArray(data.reverse());
         this.goForward();
       });
+
+      console.log('first', this.selectedBatch )
   }
   /**
    * @function createTdpArray - creates an array of tdp which is used to display traceability data

@@ -11,28 +11,21 @@
         >
       </div>
       <div>
-        <button
-          mat-icon-button
-          class="btn-new"
-          aria-label="new project"
-          matTooltip="New Project"
-          (click)="openNewProject()"
-        >
-          <mat-icon>add</mat-icon>
-        </button>
+        <button class="btn-new-project"  (click)="openNewProject()"> <mat-icon>add_circle_outline</mat-icon> <span class="new-project-text">Create New</span></button>
       </div>
     </div>
 
     <div class="projects-header-container">
       <div class="button-container">
         <!--sort-->
+        
         <div class="btn-sort" matTooltip="Sort By Date" matRipple>
+          <div>sort by date</div>
           <mat-icon
-            class="material-symbols-outlined"
             (click)="toggleSort()"
             style="font-size: 20px; height: 20px; width: 17px"
           >
-            swap_vert
+            swap_vert_outlined
           </mat-icon>
         </div>
 

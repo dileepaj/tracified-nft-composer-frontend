@@ -7,7 +7,12 @@
             arrow_back </mat-icon>Back
         </a>
       </h2>
+
     </div>
+    <div> <div class="selected-item"><span>Produc Name: {{!!selectedProduct?selectedProduct.itemName:'-'}} </span> </div>
+      <div class="selected-item"> <span>Batch Name:  {{!!this.selectedBatch?this.selectedBatch.identifier.identifier:'-'}}</span>  </div>
+    </div>
+   
   </div>
   <mat-dialog-content class="mat-typography modal-content-select">
     <div class="content">
