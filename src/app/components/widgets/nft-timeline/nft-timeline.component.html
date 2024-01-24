@@ -64,7 +64,7 @@
   <div class="icon-container">
     <img
       class="widget-card-icon"
-      [src]="icon"
+      [src]="childrenOne.length === 0?iconGray:icon"
       *ngIf="childrenOne.length === 0 || isUpdatableTimelineEnable"
     />
   </div>

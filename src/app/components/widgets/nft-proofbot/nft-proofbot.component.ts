@@ -44,7 +44,7 @@ export class NftProofbotComponent implements OnInit {
   proofbot: ProofBot;
   otpAdded: boolean = false;
   projectId: string;
-  icon: any = '../../../../assets/images/widget-icons/Proofbot.png';
+  icon: any = '../../../../assets/images/widget-icons/proofbot-gray.svg';
   public highlight = false;
   public isEditing: boolean = false;
   public newTitle: string = '';

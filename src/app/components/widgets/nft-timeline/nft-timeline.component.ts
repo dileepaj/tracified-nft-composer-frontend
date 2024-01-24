@@ -60,6 +60,7 @@ export class NftTimelineComponent implements OnInit {
   value: any;
   viewBtn: boolean = false;
   icon: any = '../../../../assets/images/widget-icons/timeline.png';
+  iconGray: any = '../../../../assets/images/widget-icons/timeline-gray.svg'
   public highlight = false;
   currentTimestamp: any;
   elements: any;

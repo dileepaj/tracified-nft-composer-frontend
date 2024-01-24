@@ -47,7 +47,7 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
   barChart: Chart;
   nftContent: NFTContent;
   @Input() widget: Widget;
-  icon: any = '../../../../assets/images/widget-icons/Bar-chart.png';
+  icon: any = '../../../../assets/images/widget-icons/bar-chart-gray.svg';
   public highlight = false;
   public isEditing: boolean = false;
   public newTitle: string = '';

@@ -49,7 +49,7 @@ export class NftImageComponent implements OnInit {
   projectId: string;
   src: string = '';
   saving: boolean = false;
-  icon: any = '../../../../assets/images/widget-icons/Image-upload.png';
+  icon: any = '../../../../assets/images/widget-icons/image-upload-gray.svg';
   public highlight = false;
   public isEditing = false;
   public newTitle: string = '';

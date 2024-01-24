@@ -41,7 +41,7 @@ export class PieChartWidgetComponent implements OnInit {
   @Output() onDeleteWidget: EventEmitter<any> = new EventEmitter();
   pieChart: Chart;
   nftContent: NFTContent;
-  icon: any = '../../../../assets/images/widget-icons/Pie-chart.png';
+  icon: any = '../../../../assets/images/widget-icons/pie-chart-gray.svg';
   public highlight = false;
   public isEditing: boolean = false;
   public newTitle: string = '';
