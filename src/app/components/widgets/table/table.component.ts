@@ -45,7 +45,7 @@ export class TableComponent implements OnInit {
   table: Table;
   projectName: string;
   nftContent: NFTContent;
-  icon: any = '../../../../assets/images/widget-icons/Table.png';
+  icon: any = '../../../../assets/images/widget-icons/table-gray.svg';
   public highlight = false;
   public isEditing: boolean = false;
   public newTitle: string = '';
