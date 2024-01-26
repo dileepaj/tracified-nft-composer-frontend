@@ -12,13 +12,13 @@
         matTooltip="Back To Projects"
         (click)="closeProject()"
       >
-        <mat-icon mat-list-icon> chevron_left </mat-icon>
-      </div>
-      <div class="title-text">
-        <label>{{ title }}</label>
+      <div class="back-to-project"><mat-icon>arrow_back</mat-icon><span>Back</span></div>
       </div>
     </div>
-    <mat-nav-list [routerLink]="layoutLink">
+    <mat-nav-list [routerLink]="layoutLink" >
+      <div class="title-text">
+        <label><span class="project-name">Project : </span><span class="project-name-title">{{ title }}</span></label>
+      </div>
       <mat-list-item
         id="layouts"
         [routerLinkActive]="['is-active']"
@@ -27,7 +27,7 @@
         <div id="layoutsDiv">
           <div fxLayout="row" fxLayoutAlign="space-between center">
             <div>
-              <mat-icon mat-list-icon class="icon">notes</mat-icon>
+              <mat-icon mat-list-icon fontSet="material-icons-outlined" class="icon">widgets</mat-icon>
               <label
                 style="font-size: small; font-weight: 700"
                 class="nav-title"
@@ -133,7 +133,7 @@
               class="nav-title"
               [routerLink]="['/layout/nft-svg']"
               routerLinkActive="router-link-active"
-              >NFT SVG</label
+              >SVG Preview</label
             >
           </div>
         </div>

@@ -37,6 +37,7 @@ import { DeleteWidgetComponent } from '../../modals/delete-widget/delete-widget.
 import * as MomentAll from 'moment';
 import { UserserviceService } from 'src/app/services/userservice.service';
 import { environment } from 'src/environments/environment';
+import { SelectBatchComponent } from '../../modals/select-batch/select-batch.component';
 
 @Component({
   selector: 'app-nft-timeline',
@@ -58,7 +59,8 @@ export class NftTimelineComponent implements OnInit {
   key: any;
   value: any;
   viewBtn: boolean = false;
-  icon: any = '../../../../assets/images/widget-icons/timeline.png';
+  icon: any = '../../../../assets/images/widget-icons/timeline.svg';
+  iconGray: any = '../../../../assets/images/widget-icons/timeline-gray.svg'
   public highlight = false;
   currentTimestamp: any;
   elements: any;
@@ -157,7 +159,7 @@ export class NftTimelineComponent implements OnInit {
 
   //batch selection popup
   public openAddData() {
-    const dialogRef = this.dialog.open(WidgetContentComponent, {
+    const dialogRef = this.dialog.open(SelectBatchComponent, {
       data: {
         id: this.id,
         userId: this.nftContent.UserId,

@@ -349,10 +349,61 @@ mat-list-item {
   }
 }
 
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 300px) {
+  .nft-content-area1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .center-empty-content {
+    margin-top: 30vh;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+    color: #929292;
+  }
+  
+  .empty-canva-text {
+    word-wrap: break-word;
+  }
+  
+  .empty-canva-icon{
+    width: 70px;
+    margin-bottom: 15px;
+  }
+}
 
+@media only screen and (min-width: 430px) {
+
+  .center-empty-content {
+    margin-top: 20vh;
+  }
+  
+}
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
+
+  .nft-content-area1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .center-empty-content {
+    margin-top: 20vh;
+    font-size: 16px;
+  }
+  
+  .empty-canva-icon{
+    width: 80px;
+    margin-bottom: 15px;
+  }
+
   .drap-and-drop-area {
     margin: 20px;
     // margin-right: -5px !important;
@@ -382,6 +433,15 @@ mat-list-item {
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
+  .center-empty-content {
+    font-size: 16px;
+  }
+  
+  .empty-canva-icon{
+    width: 100px;
+    margin-bottom: 20px;
+  }
+
   .drap-and-drop-area {
     margin: 20px;
     position: absolute;
@@ -412,6 +472,16 @@ mat-list-item {
 
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
+
+  .center-empty-content {
+    margin-top: 30vh;
+  }
+  
+  .empty-canva-icon{
+    width: 110px;
+    margin-bottom: 20px;
+  }
+
   .drap-and-drop-area {
     margin: 20px;
     position: absolute;
@@ -439,7 +509,25 @@ mat-list-item {
 }
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: 1241px) {
+
+  .nft-content-area1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .center-empty-content {
+    margin-top: 20vh;
+    font-size: 18px;
+  }
+  
+  .empty-canva-icon{
+    width: 130px;
+    margin-bottom: 30px;
+  }
+
   .drap-and-drop-area {
     margin: 20px;
     position: absolute;
@@ -466,6 +554,28 @@ mat-list-item {
   }
 }
 
+/* Extra large devices (large laptops and desktops, 1600px and up) */
+@media only screen and (min-width: 1601px) {
+
+  .nft-content-area1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .center-empty-content {
+    margin-top: 30vh;
+    font-size: 22px;
+  }
+
+  .empty-canva-icon{
+    width: 170px;
+    margin-bottom: 30px;
+  }
+
+}
+
 #project-title {
   background: whitesmoke;
   height: 45px;
@@ -474,6 +584,7 @@ mat-list-item {
   flex-direction: row;
   font-family: "Inter";
 }
+
 .title-icon {
   background-color: #ccc;
   display: flex;
@@ -505,4 +616,12 @@ mat-list-item {
     font-weight: 600;
     font-family: "Inter";
   }
+}
+
+
+.nft-content-area1 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

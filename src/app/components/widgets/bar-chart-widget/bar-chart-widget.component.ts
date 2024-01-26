@@ -34,6 +34,7 @@ import { ComposerBackendService } from 'src/app/services/composer-backend.servic
 import { PopupMessageService } from 'src/app/services/popup-message/popup-message.service';
 import { WidgethighlightingService } from 'src/app/services/widgethighlighting.service';
 import { DeleteWidgetComponent } from '../../modals/delete-widget/delete-widget.component';
+import { SelectBatchComponent } from '../../modals/select-batch/select-batch.component';
 
 @Component({
   selector: 'app-bar-chart-widget',
@@ -46,7 +47,7 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
   barChart: Chart;
   nftContent: NFTContent;
   @Input() widget: Widget;
-  icon: any = '../../../../assets/images/widget-icons/Bar-chart.png';
+  icon: any = '../../../../assets/images/widget-icons/bar-chart-gray.svg';
   public highlight = false;
   public isEditing: boolean = false;
   public newTitle: string = '';
@@ -160,7 +161,7 @@ export class BarChartWidgetComponent implements OnInit, AfterViewInit {
 
   //open batch selection popup
   public openAddData() {
-    const dialogRef = this.dialog.open(WidgetContentComponent, {
+    const dialogRef = this.dialog.open(SelectBatchComponent, {
       data: {
         id: this.id,
         userId: this.nftContent.UserId,

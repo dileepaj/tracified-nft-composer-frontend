@@ -93,6 +93,7 @@ export class ComposerComponent implements OnInit, AfterViewInit {
   title = 'project_name';
   projId: string = '';
   nft$: Observable<NFTContent>;
+  noItemIcon: string = '../../../../assets/images/nowidgets.svg'
 
   widgetTypes: any = {
     timeline: timeline,

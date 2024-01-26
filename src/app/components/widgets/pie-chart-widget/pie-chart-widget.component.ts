@@ -29,6 +29,7 @@ import { piechart } from 'src/models/nft-content/widgetTypes';
 import { ConfigurePieChartComponent } from '../../modals/configure-pie-chart/configure-pie-chart.component';
 import { WidgetContentComponent } from '../../modals/widget-content/widget-content.component';
 import { DeleteWidgetComponent } from '../../modals/delete-widget/delete-widget.component';
+import { SelectBatchComponent } from '../../modals/select-batch/select-batch.component';
 
 @Component({
   selector: 'app-pie-chart-widget',
@@ -40,7 +41,7 @@ export class PieChartWidgetComponent implements OnInit {
   @Output() onDeleteWidget: EventEmitter<any> = new EventEmitter();
   pieChart: Chart;
   nftContent: NFTContent;
-  icon: any = '../../../../assets/images/widget-icons/Pie-chart.png';
+  icon: any = '../../../../assets/images/widget-icons/pie-chart-gray.svg';
   public highlight = false;
   public isEditing: boolean = false;
   public newTitle: string = '';
@@ -151,7 +152,7 @@ export class PieChartWidgetComponent implements OnInit {
 
   //open batch selection popup
   public openAddData() {
-    const dialogRef = this.dialog.open(WidgetContentComponent, {
+    const dialogRef = this.dialog.open(SelectBatchComponent, {
       data: {
         id: this.id,
         userId: this.nftContent.UserId,
