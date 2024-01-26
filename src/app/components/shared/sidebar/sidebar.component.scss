@@ -139,6 +139,7 @@ mat-list-item:hover {
 }
 
 .project-name {
+  font-size: 16px;
   font-weight: 700;
 }
 
@@ -151,11 +152,15 @@ mat-list-item:hover {
 
 .back-to-project > span {
   margin-left: 10px;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 800;
   color: #929292;
 }
 
 .mat-nav-list {
   margin-top: 0px!important;
+}
+
+.project-name-title {
+  font-size: 16px;
 }
