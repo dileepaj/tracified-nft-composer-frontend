@@ -49,12 +49,23 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-left: 10px;
   label {
     font-size: small;
     font-weight: 500;
     font-family: 'Inter';
   }
+}
+
+.title-project-text-label {
+  padding-bottom: 10px;
+  padding-top: 6px;
+}
+
+.sidebar-widget-list {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 
 mat-list-item {
@@ -126,6 +137,7 @@ mat-list-item:hover {
 }
 
 .back-to-project {
+  margin-left: 5px;
   padding-top: 10px;
   padding-bottom: 10px;
   border-radius: 30px;
