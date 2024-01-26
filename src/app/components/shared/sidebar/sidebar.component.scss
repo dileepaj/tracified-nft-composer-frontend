@@ -141,3 +141,21 @@ mat-list-item:hover {
 .project-name {
   font-weight: 700;
 }
+
+.back-to-project {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.back-to-project > span {
+  margin-left: 10px;
+  font-size: 16px;
+  font-weight: 800;
+  color: #929292;
+}
+
+.mat-nav-list {
+  margin-top: 0px!important;
+}
