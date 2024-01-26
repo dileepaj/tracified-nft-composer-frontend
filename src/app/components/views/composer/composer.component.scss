@@ -358,7 +358,8 @@ mat-list-item {
     align-items: center;
   }
   
-  .center-content {
+  .center-empty-content {
+    margin-top: 30vh;
     text-align: center;
     font-size: 15px;
     font-weight: bold;
@@ -375,11 +376,26 @@ mat-list-item {
   }
 }
 
+@media only screen and (min-width: 430px) {
+
+  .center-empty-content {
+    margin-top: 20vh;
+  }
+  
+}
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
 
-  .center-content {
+  .nft-content-area1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .center-empty-content {
+    margin-top: 20vh;
     font-size: 16px;
   }
   
@@ -417,7 +433,7 @@ mat-list-item {
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
-  .center-content {
+  .center-empty-content {
     font-size: 16px;
   }
   
@@ -457,8 +473,8 @@ mat-list-item {
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
 
-  .center-content {
-    font-size: 16px;
+  .center-empty-content {
+    margin-top: 30vh;
   }
   
   .empty-canva-icon{
@@ -502,7 +518,8 @@ mat-list-item {
     align-items: center;
   }
   
-  .center-content {
+  .center-empty-content {
+    margin-top: 20vh;
     font-size: 20px;
   }
   
@@ -547,7 +564,8 @@ mat-list-item {
     align-items: center;
   }
   
-  .center-content {
+  .center-empty-content {
+    margin-top: 30vh;
     font-size: 24px;
   }
 

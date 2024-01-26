@@ -57,10 +57,10 @@
         <div
           cdkDropList
           [cdkDropListData]="usedWidgets"
-          [ngClass]="{'drap-and-drop-area': usedWidgets.length>0, 'drap-and-drop-area nft-content-area1': usedWidgets.length==0}"
+          ngClass='drap-and-drop-area'
           (cdkDropListDropped)="drop($event)"
         >
-        <div *ngIf="usedWidgets.length==0" class="center-content">
+        <div *ngIf="usedWidgets.length==0" class="center-empty-content">
           <img class="empty-canva-icon" [src]="noItemIcon" alt="icon" />
           <p class="empty-canva-text">No widgets yet.</p>
           <p class="empty-canva-text"> Drag and drop any widget from the right to populate your NFT.</p>
