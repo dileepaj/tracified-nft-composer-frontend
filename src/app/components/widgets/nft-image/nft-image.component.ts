@@ -94,6 +94,7 @@ export class NftImageComponent implements OnInit {
 
   //called when file input change event is emitted
   public onChange(event: any) {
+    this.saving =  true;
     this.loading = true;
     this.file = event.target.files[0];
     this.compressImage(() => {
